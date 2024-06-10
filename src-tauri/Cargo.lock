@@ -1556,6 +1556,7 @@ version = "0.0.0"
 dependencies = [
  "serde",
  "serde_json",
+ "seuif97",
  "tauri",
  "tauri-build",
 ]
@@ -2514,6 +2515,12 @@ dependencies = [
  "nodrop",
  "stable_deref_trait",
 ]
+
+[[package]]
+name = "seuif97"
+version = "1.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "679d5e7f64fc242f235731e05ad8c040d9e26164fa400086cb8704ca08168413"
 
 [[package]]
 name = "sha2"
