@@ -60,6 +60,13 @@ const drawerItems: DrawerStyle[] = [
 
 export default function ClippedDrawer() {
   const [appNo, setAppNo] = useState(1);
+
+  // steam component states
+  const [steamState, setSteamState] = useState(0);
+  const [temp, setTemp] = useState("0");
+  const [pres, setPres] = useState("0");
+  const [calState, setCalState] = useState(false);
+
   const theme = createTheme({
     typography: {
       fontSize: 14,
@@ -125,7 +132,18 @@ export default function ClippedDrawer() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
-          {appNo === 1 && <Steam />}
+          {appNo === 1 && (
+            <Steam
+              steamState={steamState}
+              setSteamState={setSteamState}
+              temp={temp}
+              setTemp={setTemp}
+              pres={pres}
+              setPres={setPres}
+              calState={calState}
+              setCalState={setCalState}
+            />
+          )}
           {appNo === 2 && <Single />}
           {appNo === 3 && <TwoPhase />}
           {appNo === 4 && <Thermo />}

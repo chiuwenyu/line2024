@@ -63,12 +63,19 @@ const Conv = (value: number, deci: number) => {
   }
 };
 
-export const Steam = () => {
-  const [temp, setTemp] = useState("0");
+export const Steam = (props: any) => {
+  const {
+    steamState,
+    setSteamState,
+    temp,
+    setTemp,
+    pres,
+    setPres,
+    calState,
+    setCalState,
+  } = props;
+
   const [error, setError] = useState(false);
-  const [pres, setPres] = useState("0");
-  const [steamState, setSteamState] = useState(0);
-  const [calState, setCalState] = useState(false);
 
   const pcolor = deepPurple[500];
 
