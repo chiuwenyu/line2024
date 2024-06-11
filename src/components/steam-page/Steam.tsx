@@ -16,7 +16,7 @@ import {
   FormControl,
   Link,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // declare the result type
 type Result = {
@@ -234,7 +234,7 @@ export const Steam = () => {
               </Button>
             )}
 
-            {/* {steamState != 0 && (
+            {steamState != 0 && (
               <Button
                 style={{ marginLeft: "auto", marginRight: "20px" }}
                 size="medium"
@@ -249,7 +249,7 @@ export const Steam = () => {
               >
                 Copy params
               </Button>
-            )} */}
+            )}
           </CardActions>
         </Card>
       </Grid>
