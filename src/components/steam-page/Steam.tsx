@@ -256,8 +256,11 @@ export const Steam = () => {
 
       {/* 輸出結果 */}
       {calState && (
-        <Grid item xs={6} sx={{ ml: 4 }}>
-          <Card sx={{ maxWidth: 600 }}>
+        <Grid item xs={6} sx={{ ml: 2 }}>
+          <Card
+            style={{ backgroundColor: "green", color: "white" }}
+            sx={{ maxWidth: 500 }}
+          >
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 Calculated Property
@@ -265,39 +268,39 @@ export const Steam = () => {
               {steamState != 0 && (
                 <Typography
                   variant="body1"
-                  color="text.secondary"
+                  color="white"
                   style={{ lineHeight: 2 }}
                 >
                   {steamState === 10
-                    ? `在溫度 ${temp} °C 下的 Saturated Steam 性質:`
+                    ? `Saturated Steam properties @${temp} °C :`
                     : undefined}
                   {steamState === 20
-                    ? `在壓力 ${pres} MPa 下的 Saturated Steam 性質:`
+                    ? `Saturated Steam properties @${pres} MPa :`
                     : undefined}
                   {steamState === 30
-                    ? `在溫度 ${temp} °C 下的 Saturated Water 性質:`
+                    ? `Saturated Water properties @${temp} °C :`
                     : undefined}
                   {steamState === 40
-                    ? `在壓力 ${pres} MPa 下的 Saturated Water 性質:`
+                    ? `Saturated Water properties @${pres} MPa:`
                     : undefined}
                   {steamState === 50
-                    ? `在溫度 ${temp} °C, 壓力 ${pres} MPa 下的 Superheated Steam 性質:`
+                    ? `Superheated Steam properties @${temp} °C and ${pres} MPa :`
                     : undefined}
                   {steamState === 60
-                    ? `在溫度 ${temp} °C, 壓力 ${pres} MPa 下的 Subcool water 性質:`
+                    ? `Subcool water properties @${temp} °C and ${pres} MPa :`
                     : undefined}
                   <br />
                   {steamState === 10
-                    ? `飽和壓力 p = ${Conv(res.p, 4)} MPa`
+                    ? `Sat. Pressure p = ${Conv(res.p, 4)} MPa`
                     : undefined}
                   {steamState === 20
-                    ? `飽和溫度 t = ${Conv(res.t, 4)} °C`
+                    ? `Sat. Temp. t = ${Conv(res.t, 4)} °C`
                     : undefined}
                   {steamState === 30
-                    ? `飽和壓力 p = ${Conv(res.p, 4)} MPa`
+                    ? `Sat. Pressure p = ${Conv(res.p, 4)} MPa`
                     : undefined}
                   {steamState === 40
-                    ? `飽和溫度 t = ${Conv(res.t, 4)} °C`
+                    ? `Sat. Temp. t = ${Conv(res.t, 4)} °C`
                     : undefined}
                   {steamState === 10 ||
                   steamState === 20 ||
@@ -305,29 +308,29 @@ export const Steam = () => {
                   steamState === 40 ? (
                     <br />
                   ) : undefined}
-                  密度 d = {Conv(res.d, 4)} kg/m³
+                  Density, d = {Conv(res.d, 4)} kg/m³
                   <br />
-                  比容 v = {Conv(res.v, 6)} m³/kg
+                  Specific Volume, v = {Conv(res.v, 6)} m³/kg
                   <br />
-                  比焓 h = {Conv(res.h, 4)} kJ/kg
+                  pecific enthalpy, h = {Conv(res.h, 4)} kJ/kg
                   <br />
-                  比熵 s = {Conv(res.s, 4)} kJ/(kg·K)
+                  Specific entropy, s = {Conv(res.s, 4)} kJ/(kg·K)
                   <br />
-                  比內能 u = {Conv(res.u, 4)} kJ/kg
+                  Specific internal energy, u = {Conv(res.u, 4)} kJ/kg
                   <br />
-                  蒸汽品質 x = {Conv(res.x, 2)}
+                  Steam quality, x = {Conv(res.x, 2)}
                   <br />
-                  靜黏度 dv = {Conv(res.dv * 1000.0, 4)} cP
+                  Dynamic viscosity, dv = {Conv(res.dv * 1000.0, 4)} cP
                   <br />
-                  動黏度 kv = {Conv(res.kv, 8)} m²/s
+                  Kinematic viscosity, kv = {Conv(res.kv, 8)} m²/s
                   <br />
-                  熱傳導率 k = {Conv(res.k, 8)} W/(m·K)
+                  Thermal conductivity, k = {Conv(res.k, 8)} W/(m·K)
                   <br />
-                  熱擴散係數 td = {Conv(res.td, 8)} m²/s
+                  Thermal diffusivity, td = {Conv(res.td, 8)} m²/s
                   <br />
-                  表面張力 st = {Conv(res.st, 4)} N/m
+                  Surface tension, st = {Conv(res.st, 4)} N/m
                   <br />
-                  潛熱 lat = {Conv(res.lat, 4)} kJ/kg
+                  Latent Hea, lat = {Conv(res.lat, 4)} kJ/kg
                 </Typography>
               )}
             </CardContent>
