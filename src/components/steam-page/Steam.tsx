@@ -16,7 +16,8 @@ import {
   FormControl,
   Link,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { deepPurple } from "@mui/material/colors";
 
 // declare the result type
 type Result = {
@@ -68,6 +69,8 @@ export const Steam = () => {
   const [pres, setPres] = useState("0");
   const [steamState, setSteamState] = useState(0);
   const [calState, setCalState] = useState(false);
+
+  const pcolor = deepPurple[500];
 
   async function rust_satTemp() {
     await invoke<Result>("invoke_seuif", {
@@ -258,7 +261,7 @@ export const Steam = () => {
       {calState && (
         <Grid item xs={6} sx={{ ml: 2 }}>
           <Card
-            style={{ backgroundColor: "green", color: "white" }}
+            style={{ backgroundColor: pcolor, color: "white" }}
             sx={{ maxWidth: 500 }}
           >
             <CardContent>
