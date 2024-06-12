@@ -267,6 +267,7 @@ export const Single = () => {
                 />
               </Box>
             </CustomTabPanel>
+
             {/* options page */}
             <CustomTabPanel value={value} index={1}>
               <Box
