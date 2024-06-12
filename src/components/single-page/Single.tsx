@@ -306,19 +306,38 @@ export const Single = () => {
                         sx={{ ml: 4, mt: 2, minWidth: 130 }}
                         size="medium"
                       >
-                        <InputLabel id="demo-simple-select-standard-label">
+                        <InputLabel id="lowID-select-standard-label">
                           Left ID
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
+                          labelId="lowID-select-standard-label"
+                          id="lowID-select-standard"
                           value={lowID}
                           onChange={(e) => setLowID(e.target.value)}
                           label="Low ID"
                         >
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          <MenuItem value={1}>10</MenuItem>
+                          <MenuItem value={2}>20</MenuItem>
+                          <MenuItem value={3}>30</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <FormControl
+                        sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                        size="medium"
+                      >
+                        <InputLabel id="highID-select-standard-label">
+                          Left ID
+                        </InputLabel>
+                        <Select
+                          labelId="highID-select-standard-label"
+                          id="highID-select-standard"
+                          value={highID}
+                          onChange={(e) => setHighID(e.target.value)}
+                          label="High ID"
+                        >
+                          <MenuItem value={4}>40</MenuItem>
+                          <MenuItem value={6}>60</MenuItem>
+                          <MenuItem value={8}>80</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -360,7 +379,7 @@ export const Single = () => {
                           setHighPres(e.target.value);
                           validateInput(e.target.value);
                         }}
-                        sx={{ ml: 2 }}
+                        sx={{ ml: 4 }}
                       />
                     </Grid>
                   </RadioGroup>
