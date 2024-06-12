@@ -8,10 +8,14 @@ import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import {
   Button,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
   IconButton,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
   Typography,
@@ -54,6 +58,11 @@ export const Single = () => {
   const [viscosity, setViscosity] = useState("0.054");
   const [roughness, setRoughness] = useState("0.046");
   const [safeFactor, setSafeFactor] = useState("1.0");
+
+  // Options
+  const [designCriteria, setDesignCriteria] = useState("1");
+  const [lowDia, setLowDia] = useState("0.01");
+  const [highDia, setHighDia] = useState("1.00");
 
   // // Project Info
   // const [projNo, setProjectNo] = useState("");
@@ -155,11 +164,13 @@ export const Single = () => {
                 aria-label="basic tabs"
               >
                 <Tab label="Process" {...a11yProps(0)} />
+                <Tab label="Options" {...a11yProps(1)} />
                 {/* <Tab label="Project Info" {...a11yProps(1)} />
                 <Tab label="Line Tag" {...a11yProps(2)} />
                 <Tab label="Pipe Sch." {...a11yProps(3)} /> */}
               </Tabs>
             </Box>
+            {/* process data input page */}
             <CustomTabPanel value={value} index={0}>
               <Box
                 component="form"
@@ -240,6 +251,7 @@ export const Single = () => {
                     validateInput(e.target.value);
                   }}
                 />
+
                 <TextField
                   id="outlined-basic"
                   label="Safe Factor (-)"
@@ -255,6 +267,80 @@ export const Single = () => {
                 />
               </Box>
             </CustomTabPanel>
+            {/* options page */}
+            <CustomTabPanel value={value} index={1}>
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                sx={{
+                  "& .MuiTextField-root": { mt: 2, width: "16ch" },
+                }}
+              >
+                <FormControl>
+                  <FormLabel id="radio-buttons-group-label">
+                    Design Criteria :
+                  </FormLabel>
+                  <RadioGroup
+                    aria-labelledby="radio-buttons-group-label"
+                    defaultValue="1"
+                    name="radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="1"
+                      control={<Radio />}
+                      label="all diameters"
+                    />
+                    <FormControlLabel
+                      value="2"
+                      control={<Radio />}
+                      label="by Diameter range"
+                    />
+
+                    <FormControlLabel
+                      value="3"
+                      control={<Radio />}
+                      label="by Pressure Drop (Kg/cm^2/100m) range"
+                    />
+                    <Grid
+                      alignItems="center"
+                      display="flex"
+                      flexDirection="row"
+                    >
+                      <TextField
+                        id="outlined-basic"
+                        label="Low limit"
+                        variant="outlined"
+                        value={lowDia}
+                        color="secondary"
+                        error={error}
+                        helperText={error ? "Please input correct number" : ""}
+                        onChange={(e) => {
+                          setLowDia(e.target.value);
+                          validateInput(e.target.value);
+                        }}
+                        sx={{ ml: 4 }}
+                      />
+                      <TextField
+                        id="outlined-basic"
+                        label="High limit"
+                        variant="outlined"
+                        value={highDia}
+                        color="secondary"
+                        error={error}
+                        helperText={error ? "Please input correct number" : ""}
+                        onChange={(e) => {
+                          setHighDia(e.target.value);
+                          validateInput(e.target.value);
+                        }}
+                        sx={{ ml: 2 }}
+                      />
+                    </Grid>
+                  </RadioGroup>
+                </FormControl>
+              </Box>
+            </CustomTabPanel>
+
             {/* <CustomTabPanel value={value} index={1}>
               <Box
                 component="form"
