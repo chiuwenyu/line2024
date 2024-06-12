@@ -4,10 +4,12 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+
 import {
   Button,
   FormControl,
   Grid,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -136,7 +138,7 @@ export const Single = () => {
         gap={6}
         sx={{
           bgcolor: "background.default",
-          minHeight: "100vh",
+          minHeight: "80vh",
         }}
       >
         <Grid item xs={4} sx={{ ml: 1 }}>
