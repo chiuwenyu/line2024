@@ -322,7 +322,7 @@ export const Steam = (props: any) => {
                   <br />
                   Specific Volume, v = {Conv(res.v, 6)} m³/kg
                   <br />
-                  pecific enthalpy, h = {Conv(res.h, 4)} kJ/kg
+                  Specific enthalpy, h = {Conv(res.h, 4)} kJ/kg
                   <br />
                   Specific entropy, s = {Conv(res.s, 4)} kJ/(kg·K)
                   <br />
