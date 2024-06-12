@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+import pipeData from "../../assets/PipeStd.json";
 
 import {
   Button,
@@ -11,7 +12,6 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
-  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -61,8 +61,10 @@ export const Single = () => {
 
   // Options
   const [designCriteria, setDesignCriteria] = useState("1");
-  const [lowDia, setLowDia] = useState("0.01");
-  const [highDia, setHighDia] = useState("1.00");
+  const [lowPres, setLowPres] = useState("0.01");
+  const [highPres, setHighPres] = useState("1.00");
+  const [lowID, setLowID] = useState("1");
+  const [highID, setHighID] = useState("6");
 
   // // Project Info
   // const [projNo, setProjectNo] = useState("");
@@ -296,12 +298,32 @@ export const Single = () => {
                       value="2"
                       control={<Radio />}
                       label="by Diameter range"
+                      sx={{ mt: 2 }}
                     />
+                    <Grid>
+                      <FormControl sx={{ ml: 4, minWidth: 140 }}>
+                        <InputLabel id="demo-simple-select-standard-label">
+                          Left ID
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={lowID}
+                          onChange={(e) => setLowID(e.target.value)}
+                          label="Low ID"
+                        >
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
 
                     <FormControlLabel
                       value="3"
                       control={<Radio />}
                       label="by Pressure Drop (Kg/cm^2/100m) range"
+                      sx={{ mt: 2 }}
                     />
                     <Grid
                       alignItems="center"
@@ -312,12 +334,12 @@ export const Single = () => {
                         id="outlined-basic"
                         label="Low limit"
                         variant="outlined"
-                        value={lowDia}
+                        value={lowPres}
                         color="secondary"
                         error={error}
                         helperText={error ? "Please input correct number" : ""}
                         onChange={(e) => {
-                          setLowDia(e.target.value);
+                          setLowPres(e.target.value);
                           validateInput(e.target.value);
                         }}
                         sx={{ ml: 4 }}
@@ -326,12 +348,12 @@ export const Single = () => {
                         id="outlined-basic"
                         label="High limit"
                         variant="outlined"
-                        value={highDia}
+                        value={highPres}
                         color="secondary"
                         error={error}
                         helperText={error ? "Please input correct number" : ""}
                         onChange={(e) => {
-                          setHighDia(e.target.value);
+                          setHighPres(e.target.value);
                           validateInput(e.target.value);
                         }}
                         sx={{ ml: 2 }}
