@@ -293,6 +293,7 @@ export const Single = () => {
                       value="1"
                       control={<Radio />}
                       label="all diameters"
+                      sx={{ mt: 2 }}
                     />
                     <FormControlLabel
                       value="2"
@@ -301,7 +302,10 @@ export const Single = () => {
                       sx={{ mt: 2 }}
                     />
                     <Grid>
-                      <FormControl sx={{ ml: 4, minWidth: 140 }}>
+                      <FormControl
+                        sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                        size="medium"
+                      >
                         <InputLabel id="demo-simple-select-standard-label">
                           Left ID
                         </InputLabel>
