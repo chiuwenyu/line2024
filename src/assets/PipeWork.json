@@ -1,0 +1,152 @@
+[
+  {
+    "SIZE": "1/4",
+    "SCHEDULE": "40STD",
+    "ID": 0.364
+  },
+  {
+    "SIZE": "3/8",
+    "SCHEDULE": "40STD",
+    "ID": 0.493
+  },
+  {
+    "SIZE": "1/2",
+    "SCHEDULE": "40STD",
+    "ID": 0.622
+  },
+  {
+    "SIZE": "3/4",
+    "SCHEDULE": "40STD",
+    "ID": 0.824
+  },
+  {
+    "SIZE": "1",
+    "SCHEDULE": "40STD",
+    "ID": 1.049
+  },
+  {
+    "SIZE": "1 1/4",
+    "SCHEDULE": "40STD",
+    "ID": 1.38
+  },
+  {
+    "SIZE": "1 1/2",
+    "SCHEDULE": "40STD",
+    "ID": 1.61
+  },
+  {
+    "SIZE": "2",
+    "SCHEDULE": "40STD",
+    "ID": 2.067
+  },
+  {
+    "SIZE": "2 1/2",
+    "SCHEDULE": "40STD",
+    "ID": 2.469
+  },
+  {
+    "SIZE": "3",
+    "SCHEDULE": "40STD",
+    "ID": 3.068
+  },
+  {
+    "SIZE": "4",
+    "SCHEDULE": "40STD",
+    "ID": 4.026
+  },
+  {
+    "SIZE": "5",
+    "SCHEDULE": "40STD",
+    "ID": 5.047
+  },
+  {
+    "SIZE": "6",
+    "SCHEDULE": "40STD",
+    "ID": 6.065
+  },
+  {
+    "SIZE": "8",
+    "SCHEDULE": "40STD",
+    "ID": 7.981
+  },
+  {
+    "SIZE": "10",
+    "SCHEDULE": "40STD",
+    "ID": 10.02
+  },
+  {
+    "SIZE": "12",
+    "SCHEDULE": "STD",
+    "ID": 12.0
+  },
+  {
+    "SIZE": "14",
+    "SCHEDULE": "STD",
+    "ID": 13.25
+  },
+  {
+    "SIZE": "16",
+    "SCHEDULE": "STD",
+    "ID": 15.25
+  },
+  {
+    "SIZE": "18",
+    "SCHEDULE": "STD",
+    "ID": 17.25
+  },
+  {
+    "SIZE": "20",
+    "SCHEDULE": "STD",
+    "ID": 19.25
+  },
+  {
+    "SIZE": "22",
+    "SCHEDULE": "STD",
+    "ID": 21.25
+  },
+  {
+    "SIZE": "24",
+    "SCHEDULE": "STD",
+    "ID": 23.25
+  },
+  {
+    "SIZE": "26",
+    "SCHEDULE": "STD",
+    "ID": 25.25
+  },
+  {
+    "SIZE": "28",
+    "SCHEDULE": "STD",
+    "ID": 27.25
+  },
+  {
+    "SIZE": "30",
+    "SCHEDULE": "STD",
+    "ID": 29.25
+  },
+  {
+    "SIZE": "32",
+    "SCHEDULE": "STD",
+    "ID": 31.25
+  },
+  {
+    "SIZE": "34",
+    "SCHEDULE": "STD",
+    "ID": 33.25
+  },
+  {
+    "SIZE": "36",
+    "SCHEDULE": "STD",
+    "ID": 35.25
+  },
+  {
+    "SIZE": "42",
+    "SCHEDULE": "STD",
+    "ID": 41.25
+  },
+  {
+    "SIZE": "48",
+    "SCHEDULE": "STD",
+    "ID": 47.25
+  }
+]

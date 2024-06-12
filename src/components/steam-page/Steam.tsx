@@ -301,16 +301,16 @@ export const Steam = (props: any) => {
                     : undefined}
                   <br />
                   {steamState === 10
-                    ? `Sat. Pressure p = ${Conv(res.p, 4)} MPa`
+                    ? `Sat. Pressure, p = ${Conv(res.p, 4)} MPa`
                     : undefined}
                   {steamState === 20
-                    ? `Sat. Temp. t = ${Conv(res.t, 4)} °C`
+                    ? `Sat. Temp., t = ${Conv(res.t, 4)} °C`
                     : undefined}
                   {steamState === 30
-                    ? `Sat. Pressure p = ${Conv(res.p, 4)} MPa`
+                    ? `Sat. Pressure, p = ${Conv(res.p, 4)} MPa`
                     : undefined}
                   {steamState === 40
-                    ? `Sat. Temp. t = ${Conv(res.t, 4)} °C`
+                    ? `Sat. Temp., t = ${Conv(res.t, 4)} °C`
                     : undefined}
                   {steamState === 10 ||
                   steamState === 20 ||

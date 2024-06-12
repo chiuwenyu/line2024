@@ -1,0 +1,762 @@
+[
+  {
+    "NID": "3/8",
+    "AID": 0.545,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "3/8",
+    "AID": 0.493,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "3/8",
+    "AID": 0.423,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "1/2",
+    "AID": 0.674,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "1/2",
+    "AID": 0.622,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "1/2",
+    "AID": 0.546,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "1/2",
+    "AID": 0.466,
+    "Schedules": "160"
+  },
+  {
+    "NID": "1/2",
+    "AID": 0.252,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "3/4",
+    "AID": 0.884,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "3/4",
+    "AID": 0.824,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "3/4",
+    "AID": 0.742,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "3/4",
+    "AID": 0.614,
+    "Schedules": "160"
+  },
+  {
+    "NID": "3/4",
+    "AID": 0.434,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "1",
+    "AID": 1.097,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "1",
+    "AID": 1.049,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "1",
+    "AID": 0.957,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "1",
+    "AID": 0.815,
+    "Schedules": "160"
+  },
+  {
+    "NID": "1",
+    "AID": 0.599,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "1 1/2",
+    "AID": 1.682,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "1 1/2",
+    "AID": 1.61,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "1 1/2",
+    "AID": 1.5,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "1 1/2",
+    "AID": 1.337,
+    "Schedules": "160"
+  },
+  {
+    "NID": "1 1/2",
+    "AID": 1.1,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "2",
+    "AID": 2.157,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "2",
+    "AID": 2.067,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "2",
+    "AID": 1.939,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "2",
+    "AID": 1.687,
+    "Schedules": "160"
+  },
+  {
+    "NID": "2",
+    "AID": 1.503,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "3",
+    "AID": 3.26,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "3",
+    "AID": 3.068,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "3",
+    "AID": 2.9,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "3",
+    "AID": 2.624,
+    "Schedules": "160"
+  },
+  {
+    "NID": "3",
+    "AID": 2.3,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "4",
+    "AID": 4.26,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "4",
+    "AID": 4.026,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "4",
+    "AID": 3.826,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "4",
+    "AID": 3.624,
+    "Schedules": "120"
+  },
+  {
+    "NID": "4",
+    "AID": 3.438,
+    "Schedules": "160"
+  },
+  {
+    "NID": "4",
+    "AID": 3.152,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "5",
+    "AID": 5.295,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "5",
+    "AID": 5.047,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "5",
+    "AID": 4.813,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "5",
+    "AID": 4.563,
+    "Schedules": "120"
+  },
+  {
+    "NID": "5",
+    "AID": 4.313,
+    "Schedules": "160"
+  },
+  {
+    "NID": "5",
+    "AID": 4.063,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "6",
+    "AID": 6.357,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "6",
+    "AID": 6.065,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "6",
+    "AID": 5.761,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "6",
+    "AID": 5.501,
+    "Schedules": "120"
+  },
+  {
+    "NID": "6",
+    "AID": 5.189,
+    "Schedules": "160"
+  },
+  {
+    "NID": "6",
+    "AID": 4.897,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "8",
+    "AID": 8.329,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "8",
+    "AID": 8.125,
+    "Schedules": "20"
+  },
+  {
+    "NID": "8",
+    "AID": 8.071,
+    "Schedules": "30"
+  },
+  {
+    "NID": "8",
+    "AID": 7.981,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "8",
+    "AID": 7.813,
+    "Schedules": "60"
+  },
+  {
+    "NID": "8",
+    "AID": 7.625,
+    "Schedules": "#80#XS#80S"
+  },
+  {
+    "NID": "8",
+    "AID": 7.439,
+    "Schedules": "100"
+  },
+  {
+    "NID": "8",
+    "AID": 7.189,
+    "Schedules": "120"
+  },
+  {
+    "NID": "8",
+    "AID": 7.001,
+    "Schedules": "140"
+  },
+  {
+    "NID": "8",
+    "AID": 6.813,
+    "Schedules": "160"
+  },
+  {
+    "NID": "8",
+    "AID": 6.875,
+    "Schedules": "XX"
+  },
+  {
+    "NID": "10",
+    "AID": 10.42,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "10",
+    "AID": 10.25,
+    "Schedules": "20"
+  },
+  {
+    "NID": "10",
+    "AID": 10.136,
+    "Schedules": "30"
+  },
+  {
+    "NID": "10",
+    "AID": 10.02,
+    "Schedules": "#40#STD#40S"
+  },
+  {
+    "NID": "10",
+    "AID": 9.75,
+    "Schedules": "#60#XS#80S"
+  },
+  {
+    "NID": "10",
+    "AID": 9.564,
+    "Schedules": "80"
+  },
+  {
+    "NID": "10",
+    "AID": 9.314,
+    "Schedules": "100"
+  },
+  {
+    "NID": "10",
+    "AID": 9.064,
+    "Schedules": "120"
+  },
+  {
+    "NID": "10",
+    "AID": 8.75,
+    "Schedules": "#140#XX"
+  },
+  {
+    "NID": "10",
+    "AID": 8.5,
+    "Schedules": "160"
+  },
+  {
+    "NID": "12",
+    "AID": 12.39,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "12",
+    "AID": 12.25,
+    "Schedules": "20"
+  },
+  {
+    "NID": "12",
+    "AID": 12.09,
+    "Schedules": "30"
+  },
+  {
+    "NID": "12",
+    "AID": 12,
+    "Schedules": "#STD#40S"
+  },
+  {
+    "NID": "12",
+    "AID": 11.938,
+    "Schedules": "40"
+  },
+  {
+    "NID": "12",
+    "AID": 11.75,
+    "Schedules": "#XS#80S"
+  },
+  {
+    "NID": "12",
+    "AID": 11.626,
+    "Schedules": "60"
+  },
+  {
+    "NID": "12",
+    "AID": 11.376,
+    "Schedules": "80"
+  },
+  {
+    "NID": "12",
+    "AID": 11.064,
+    "Schedules": "100"
+  },
+  {
+    "NID": "12",
+    "AID": 10.75,
+    "Schedules": "#120#XX"
+  },
+  {
+    "NID": "12",
+    "AID": 10.5,
+    "Schedules": "140"
+  },
+  {
+    "NID": "12",
+    "AID": 10.126,
+    "Schedules": "160"
+  },
+  {
+    "NID": "14",
+    "AID": 13.624,
+    "Schedules": "10S"
+  },
+  {
+    "NID": "14",
+    "AID": 13.5,
+    "Schedules": "10"
+  },
+  {
+    "NID": "14",
+    "AID": 13.375,
+    "Schedules": "20"
+  },
+  {
+    "NID": "14",
+    "AID": 13.25,
+    "Schedules": "#30#STD#40S"
+  },
+  {
+    "NID": "14",
+    "AID": 13.124,
+    "Schedules": "40"
+  },
+  {
+    "NID": "14",
+    "AID": 13,
+    "Schedules": "#XS#80S"
+  },
+  {
+    "NID": "14",
+    "AID": 12.814,
+    "Schedules": "60"
+  },
+  {
+    "NID": "14",
+    "AID": 12.5,
+    "Schedules": "80"
+  },
+  {
+    "NID": "14",
+    "AID": 12.124,
+    "Schedules": "100"
+  },
+  {
+    "NID": "14",
+    "AID": 11.814,
+    "Schedules": "120"
+  },
+  {
+    "NID": "14",
+    "AID": 11.5,
+    "Schedules": "140"
+  },
+  {
+    "NID": "14",
+    "AID": 11.188,
+    "Schedules": "160"
+  },
+  {
+    "NID": "16",
+    "AID": 15.624,
+    "Schedules": "10S"
+  },
+  {
+    "NID": "16",
+    "AID": 15.5,
+    "Schedules": "10"
+  },
+  {
+    "NID": "16",
+    "AID": 15.375,
+    "Schedules": "20"
+  },
+  {
+    "NID": "16",
+    "AID": 15.25,
+    "Schedules": "#30#STD#40S"
+  },
+  {
+    "NID": "16",
+    "AID": 15,
+    "Schedules": "#40#XS#80S"
+  },
+  {
+    "NID": "16",
+    "AID": 14.688,
+    "Schedules": "60"
+  },
+  {
+    "NID": "16",
+    "AID": 14.314,
+    "Schedules": "80"
+  },
+  {
+    "NID": "16",
+    "AID": 13.938,
+    "Schedules": "100"
+  },
+  {
+    "NID": "16",
+    "AID": 13.564,
+    "Schedules": "120"
+  },
+  {
+    "NID": "16",
+    "AID": 13.124,
+    "Schedules": "140"
+  },
+  {
+    "NID": "16",
+    "AID": 12.814,
+    "Schedules": "160"
+  },
+  {
+    "NID": "18",
+    "AID": 17.624,
+    "Schedules": "10S"
+  },
+  {
+    "NID": "18",
+    "AID": 17.5,
+    "Schedules": "10"
+  },
+  {
+    "NID": "18",
+    "AID": 17.375,
+    "Schedules": "20"
+  },
+  {
+    "NID": "18",
+    "AID": 17.25,
+    "Schedules": "#STD#40S"
+  },
+  {
+    "NID": "18",
+    "AID": 17.124,
+    "Schedules": "30"
+  },
+  {
+    "NID": "18",
+    "AID": 17,
+    "Schedules": "#XS#80S"
+  },
+  {
+    "NID": "18",
+    "AID": 16.876,
+    "Schedules": "40"
+  },
+  {
+    "NID": "18",
+    "AID": 16.5,
+    "Schedules": "60"
+  },
+  {
+    "NID": "18",
+    "AID": 16.126,
+    "Schedules": "80"
+  },
+  {
+    "NID": "18",
+    "AID": 15.688,
+    "Schedules": "100"
+  },
+  {
+    "NID": "18",
+    "AID": 15.25,
+    "Schedules": "120"
+  },
+  {
+    "NID": "18",
+    "AID": 14.876,
+    "Schedules": "140"
+  },
+  {
+    "NID": "18",
+    "AID": 14.438,
+    "Schedules": "160"
+  },
+  {
+    "NID": "20",
+    "AID": 19.564,
+    "Schedules": "10S"
+  },
+  {
+    "NID": "20",
+    "AID": 19.5,
+    "Schedules": "10"
+  },
+  {
+    "NID": "20",
+    "AID": 19.25,
+    "Schedules": "#20#STD#40S"
+  },
+  {
+    "NID": "20",
+    "AID": 19,
+    "Schedules": "#30#XS#80S"
+  },
+  {
+    "NID": "20",
+    "AID": 18.812,
+    "Schedules": "40"
+  },
+  {
+    "NID": "20",
+    "AID": 18.376,
+    "Schedules": "60"
+  },
+  {
+    "NID": "20",
+    "AID": 17.938,
+    "Schedules": "80"
+  },
+  {
+    "NID": "20",
+    "AID": 17.438,
+    "Schedules": "100"
+  },
+  {
+    "NID": "20",
+    "AID": 17,
+    "Schedules": "120"
+  },
+  {
+    "NID": "20",
+    "AID": 16.5,
+    "Schedules": "140"
+  },
+  {
+    "NID": "20",
+    "AID": 16.064,
+    "Schedules": "160"
+  },
+  {
+    "NID": "24",
+    "AID": 23.5,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "24",
+    "AID": 23.25,
+    "Schedules": "#20#STD#40S"
+  },
+  {
+    "NID": "24",
+    "AID": 23,
+    "Schedules": "#XS#80S"
+  },
+  {
+    "NID": "24",
+    "AID": 22.876,
+    "Schedules": "30"
+  },
+  {
+    "NID": "24",
+    "AID": 22.626,
+    "Schedules": "40"
+  },
+  {
+    "NID": "24",
+    "AID": 22.064,
+    "Schedules": "60"
+  },
+  {
+    "NID": "24",
+    "AID": 21.564,
+    "Schedules": "80"
+  },
+  {
+    "NID": "24",
+    "AID": 20.938,
+    "Schedules": "100"
+  },
+  {
+    "NID": "24",
+    "AID": 20.376,
+    "Schedules": "120"
+  },
+  {
+    "NID": "24",
+    "AID": 19.876,
+    "Schedules": "140"
+  },
+  {
+    "NID": "24",
+    "AID": 19.314,
+    "Schedules": "160"
+  },
+  {
+    "NID": "30",
+    "AID": 29.376,
+    "Schedules": "#10#10S"
+  },
+  {
+    "NID": "30",
+    "AID": 29.25,
+    "Schedules": "#STD#40S"
+  },
+  {
+    "NID": "30",
+    "AID": 29,
+    "Schedules": "#20#XS#80S"
+  },
+  {
+    "NID": "30",
+    "AID": 28.75,
+    "Schedules": "30"
+  },
+  {
+    "NID": "36",
+    "AID": 35.376,
+    "Schedules": "10"
+  },
+  {
+    "NID": "36",
+    "AID": 35.25,
+    "Schedules": "#STD#40S"
+  },
+  {
+    "NID": "36",
+    "AID": 35,
+    "Schedules": "#XS#80S"
+  },
+  {
+    "NID": "36",
+    "AID": 34.75,
+    "Schedules": "30"
+  },
+  {
+    "NID": "48",
+    "AID": 47.25,
+    "Schedules": "#STD#40S"
+  },
+  {
+    "NID": "48",
+    "AID": 47,
+    "Schedules": "#XS#80S"
+  }
+]
