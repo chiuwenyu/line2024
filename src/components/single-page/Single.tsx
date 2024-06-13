@@ -65,6 +65,9 @@ export const Single = () => {
   const [highPres, setHighPres] = useState("1.00");
   const [lowID, setLowID] = useState("1");
   const [highID, setHighID] = useState("6");
+  const [allFlag, setAllFlag] = useState(true);
+  const [idFlag, setIDFlag] = useState(false);
+  const [presFlag, setPresFlag] = useState(false);
 
   // // Project Info
   // const [projNo, setProjectNo] = useState("");
@@ -80,6 +83,15 @@ export const Single = () => {
   // Error handling
   const [error, setError] = useState(false);
   const [value, setValue] = useState(0);
+
+  // handle ID select
+  const nids = pipeData.map((item) => {
+    return (
+      <MenuItem key={item.VALUE} value={item.SIZE}>
+        {item.SIZE}
+      </MenuItem>
+    );
+  });
 
   // Calculated Result
   // const [resData, setResData] = useState<SizingData[]>([]);
@@ -307,7 +319,7 @@ export const Single = () => {
                         size="medium"
                       >
                         <InputLabel id="lowID-select-standard-label">
-                          Left ID
+                          Lower ID
                         </InputLabel>
                         <Select
                           labelId="lowID-select-standard-label"
@@ -316,9 +328,7 @@ export const Single = () => {
                           onChange={(e) => setLowID(e.target.value)}
                           label="Low ID"
                         >
-                          <MenuItem value={1}>10</MenuItem>
-                          <MenuItem value={2}>20</MenuItem>
-                          <MenuItem value={3}>30</MenuItem>
+                          {nids}
                         </Select>
                       </FormControl>
                       <FormControl
@@ -326,7 +336,7 @@ export const Single = () => {
                         size="medium"
                       >
                         <InputLabel id="highID-select-standard-label">
-                          Left ID
+                          Higher ID
                         </InputLabel>
                         <Select
                           labelId="highID-select-standard-label"
@@ -335,9 +345,7 @@ export const Single = () => {
                           onChange={(e) => setHighID(e.target.value)}
                           label="High ID"
                         >
-                          <MenuItem value={4}>40</MenuItem>
-                          <MenuItem value={6}>60</MenuItem>
-                          <MenuItem value={8}>80</MenuItem>
+                          {nids}
                         </Select>
                       </FormControl>
                     </Grid>
