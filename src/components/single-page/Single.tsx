@@ -73,10 +73,10 @@ export const Single = () => {
   const [projDesc, setProjectDesc] = useState("");
 
   // // Line Tag
-  // const [lineNo, setLineNo] = useState("");
-  // const [lineFrom, setLineFrom] = useState("");
-  // const [lineTo, setLineTo] = useState("");
-  // const [note, setNote] = useState("");
+  const [lineNo, setLineNo] = useState("");
+  const [lineFrom, setLineFrom] = useState("");
+  const [lineTo, setLineTo] = useState("");
+  const [note, setNote] = useState("");
 
   // Error handling
   const [error, setError] = useState(false);
@@ -178,9 +178,7 @@ export const Single = () => {
                 <Tab label="Process" {...a11yProps(0)} />
                 <Tab label="Options" {...a11yProps(1)} />
                 <Tab label="Project" {...a11yProps(2)} />
-                {/* 
-                <Tab label="Line Tag" {...a11yProps(2)} />
-                <Tab label="Pipe Sch." {...a11yProps(3)} /> */}
+                <Tab label="Line Tag" {...a11yProps(3)} />
               </Tabs>
             </Box>
             {/* process data input page */}
@@ -456,8 +454,8 @@ export const Single = () => {
               </Box>
             </CustomTabPanel>
 
-            {/*
-            <CustomTabPanel value={value} index={2}>
+            {/* Line tag page */}
+            <CustomTabPanel value={value} index={3}>
               <Box
                 component="form"
                 display="flex"
@@ -509,7 +507,7 @@ export const Single = () => {
                   }}
                 />
               </Box>
-            </CustomTabPanel> */}
+            </CustomTabPanel>
           </Box>
           <Button
             variant="contained"
