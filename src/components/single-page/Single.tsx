@@ -67,10 +67,10 @@ export const Single = () => {
   const [highID, setHighID] = useState("6");
   const [optValue, setOptValue] = useState("1");
 
-  // // Project Info
-  // const [projNo, setProjectNo] = useState("");
-  // const [projName, setProjectName] = useState("");
-  // const [projDesc, setProjectDesc] = useState("");
+  // Project Info
+  const [projNo, setProjectNo] = useState("");
+  const [projName, setProjectName] = useState("");
+  const [projDesc, setProjectDesc] = useState("");
 
   // // Line Tag
   // const [lineNo, setLineNo] = useState("");
@@ -177,7 +177,8 @@ export const Single = () => {
               >
                 <Tab label="Process" {...a11yProps(0)} />
                 <Tab label="Options" {...a11yProps(1)} />
-                {/* <Tab label="Project Info" {...a11yProps(1)} />
+                <Tab label="Project" {...a11yProps(2)} />
+                {/* 
                 <Tab label="Line Tag" {...a11yProps(2)} />
                 <Tab label="Pipe Sch." {...a11yProps(3)} /> */}
               </Tabs>
@@ -408,7 +409,8 @@ export const Single = () => {
               </Box>
             </CustomTabPanel>
 
-            {/* <CustomTabPanel value={value} index={1}>
+            {/* project info page */}
+            <CustomTabPanel value={value} index={2}>
               <Box
                 component="form"
                 display="flex"
@@ -453,6 +455,8 @@ export const Single = () => {
                 />
               </Box>
             </CustomTabPanel>
+
+            {/*
             <CustomTabPanel value={value} index={2}>
               <Box
                 component="form"
