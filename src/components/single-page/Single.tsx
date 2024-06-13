@@ -294,106 +294,116 @@ export const Single = () => {
                   <FormLabel id="radio-buttons-group-label">
                     Design Criteria :
                   </FormLabel>
-                  <RadioGroup
-                    aria-labelledby="radio-buttons-group-label"
-                    name="radio-buttons-group"
-                    value={optValue}
-                    onChange={(e) => setOptValue(e.target.value)}
+                  <Box
+                    height="42ch"
+                    boxShadow={1}
+                    sx={{ border: "1px solid grey", mt: 1, pl: 2 }}
                   >
-                    <FormControlLabel
-                      value="1"
-                      control={<Radio />}
-                      label="all diameters"
-                      sx={{ mt: 2 }}
-                    />
-                    <FormControlLabel
-                      value="2"
-                      control={<Radio />}
-                      label="by Diameter range"
-                      sx={{ mt: 2 }}
-                    />
-                    <Grid>
-                      <FormControl
-                        sx={{ ml: 4, mt: 2, minWidth: 130 }}
-                        size="medium"
-                        disabled={optValue !== "2"}
-                      >
-                        <InputLabel id="lowID-select-standard-label">
-                          Lower ID
-                        </InputLabel>
-                        <Select
-                          labelId="lowID-select-standard-label"
-                          id="lowID-select-standard"
-                          value={lowID}
-                          onChange={(e) => setLowID(e.target.value)}
-                          label="Low ID"
-                        >
-                          {nids}
-                        </Select>
-                      </FormControl>
-                      <FormControl
-                        sx={{ ml: 4, mt: 2, minWidth: 130 }}
-                        size="medium"
-                        disabled={optValue !== "2"}
-                      >
-                        <InputLabel id="highID-select-standard-label">
-                          Higher ID
-                        </InputLabel>
-                        <Select
-                          labelId="highID-select-standard-label"
-                          id="highID-select-standard"
-                          value={highID}
-                          onChange={(e) => setHighID(e.target.value)}
-                          label="High ID"
-                        >
-                          {nids}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
-                    <FormControlLabel
-                      value="3"
-                      control={<Radio />}
-                      label="by Pressure Drop (Kg/cm^2/100m) range"
-                      sx={{ mt: 2 }}
-                    />
-                    <Grid
-                      alignItems="center"
-                      display="flex"
-                      flexDirection="row"
+                    <RadioGroup
+                      aria-labelledby="radio-buttons-group-label"
+                      name="radio-buttons-group"
+                      value={optValue}
+                      onChange={(e) => setOptValue(e.target.value)}
                     >
-                      <TextField
-                        id="outlined-basic"
-                        label="Low limit"
-                        variant="outlined"
-                        value={lowPres}
-                        color="secondary"
-                        error={error}
-                        helperText={error ? "Please input correct number" : ""}
-                        onChange={(e) => {
-                          setLowPres(e.target.value);
-                          validateInput(e.target.value);
-                        }}
-                        sx={{ ml: 4 }}
-                        disabled={optValue !== "3"}
+                      <FormControlLabel
+                        value="1"
+                        control={<Radio />}
+                        label="all diameters"
+                        sx={{ mt: 2 }}
                       />
-                      <TextField
-                        id="outlined-basic"
-                        label="High limit"
-                        variant="outlined"
-                        value={highPres}
-                        color="secondary"
-                        error={error}
-                        helperText={error ? "Please input correct number" : ""}
-                        onChange={(e) => {
-                          setHighPres(e.target.value);
-                          validateInput(e.target.value);
-                        }}
-                        sx={{ ml: 4 }}
-                        disabled={optValue !== "3"}
+                      <FormControlLabel
+                        value="2"
+                        control={<Radio />}
+                        label="by Diameter range"
+                        sx={{ mt: 2 }}
                       />
-                    </Grid>
-                  </RadioGroup>
+                      <Grid>
+                        <FormControl
+                          sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                          size="medium"
+                          disabled={optValue !== "2"}
+                        >
+                          <InputLabel id="lowID-select-standard-label">
+                            Lower ID
+                          </InputLabel>
+                          <Select
+                            labelId="lowID-select-standard-label"
+                            id="lowID-select-standard"
+                            value={lowID}
+                            onChange={(e) => setLowID(e.target.value)}
+                            label="Low ID"
+                          >
+                            {nids}
+                          </Select>
+                        </FormControl>
+                        <FormControl
+                          sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                          size="medium"
+                          disabled={optValue !== "2"}
+                        >
+                          <InputLabel id="highID-select-standard-label">
+                            Higher ID
+                          </InputLabel>
+                          <Select
+                            labelId="highID-select-standard-label"
+                            id="highID-select-standard"
+                            value={highID}
+                            onChange={(e) => setHighID(e.target.value)}
+                            label="High ID"
+                          >
+                            {nids}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+
+                      <FormControlLabel
+                        value="3"
+                        control={<Radio />}
+                        label="by Pressure Drop (Kg/cm^2/100m) range"
+                        sx={{ mt: 2 }}
+                      />
+                      <Grid
+                        alignItems="center"
+                        display="flex"
+                        flexDirection="row"
+                      >
+                        <TextField
+                          id="outlined-basic"
+                          label="Low limit"
+                          variant="outlined"
+                          value={lowPres}
+                          color="secondary"
+                          error={error}
+                          helperText={
+                            error ? "Please input correct number" : ""
+                          }
+                          onChange={(e) => {
+                            setLowPres(e.target.value);
+                            validateInput(e.target.value);
+                          }}
+                          sx={{ ml: 4 }}
+                          disabled={optValue !== "3"}
+                        />
+                        <TextField
+                          id="outlined-basic"
+                          label="High limit"
+                          variant="outlined"
+                          value={highPres}
+                          color="secondary"
+                          error={error}
+                          helperText={
+                            error ? "Please input correct number" : ""
+                          }
+                          onChange={(e) => {
+                            setHighPres(e.target.value);
+                            validateInput(e.target.value);
+                          }}
+                          sx={{ ml: 4 }}
+                          disabled={optValue !== "3"}
+                        />
+                      </Grid>
+                    </RadioGroup>
+                  </Box>
                 </FormControl>
               </Box>
             </CustomTabPanel>
