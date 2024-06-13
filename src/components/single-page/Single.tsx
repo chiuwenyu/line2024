@@ -65,9 +65,7 @@ export const Single = () => {
   const [highPres, setHighPres] = useState("1.00");
   const [lowID, setLowID] = useState("1");
   const [highID, setHighID] = useState("6");
-  const [allFlag, setAllFlag] = useState(true);
-  const [idFlag, setIDFlag] = useState(false);
-  const [presFlag, setPresFlag] = useState(false);
+  const [optValue, setOptValue] = useState("1");
 
   // // Project Info
   // const [projNo, setProjectNo] = useState("");
@@ -298,8 +296,9 @@ export const Single = () => {
                   </FormLabel>
                   <RadioGroup
                     aria-labelledby="radio-buttons-group-label"
-                    defaultValue="1"
                     name="radio-buttons-group"
+                    value={optValue}
+                    onChange={(e) => setOptValue(e.target.value)}
                   >
                     <FormControlLabel
                       value="1"
@@ -317,6 +316,7 @@ export const Single = () => {
                       <FormControl
                         sx={{ ml: 4, mt: 2, minWidth: 130 }}
                         size="medium"
+                        disabled={optValue !== "2"}
                       >
                         <InputLabel id="lowID-select-standard-label">
                           Lower ID
@@ -334,6 +334,7 @@ export const Single = () => {
                       <FormControl
                         sx={{ ml: 4, mt: 2, minWidth: 130 }}
                         size="medium"
+                        disabled={optValue !== "2"}
                       >
                         <InputLabel id="highID-select-standard-label">
                           Higher ID
@@ -374,6 +375,7 @@ export const Single = () => {
                           validateInput(e.target.value);
                         }}
                         sx={{ ml: 4 }}
+                        disabled={optValue !== "3"}
                       />
                       <TextField
                         id="outlined-basic"
@@ -388,6 +390,7 @@ export const Single = () => {
                           validateInput(e.target.value);
                         }}
                         sx={{ ml: 4 }}
+                        disabled={optValue !== "3"}
                       />
                     </Grid>
                   </RadioGroup>
