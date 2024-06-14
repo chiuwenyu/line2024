@@ -3,7 +3,6 @@ import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import pipeData from "../../assets/PipeStd.json";
 
 import {
@@ -20,6 +19,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import PasteDialog from "./PrintDialog";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -510,14 +510,14 @@ export const Single = () => {
             </CustomTabPanel>
           </Box>
           <Button
-            variant="contained"
+            variant="text"
             color="success"
-            startIcon={<CalculateOutlinedIcon />}
             onClick={handleExecuteButtonClick}
           >
             {" "}
             Execute{" "}
           </Button>
+          <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
         </Grid>
       </Grid>
     </>

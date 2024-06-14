@@ -340,7 +340,7 @@ export const Steam = (props: any) => {
                   <br />
                   Surface tension, st = {Conv(res.st, 4)} N/m
                   <br />
-                  Latent Hea, lat = {Conv(res.lat, 4)} kJ/kg
+                  Latent Hea, lat = {Conv(res.lat / 4.1868, 4)} kJ/kg
                 </Typography>
               )}
             </CardContent>
