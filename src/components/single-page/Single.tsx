@@ -60,7 +60,6 @@ export const Single = () => {
   const [safeFactor, setSafeFactor] = useState("1.0");
 
   // Options
-  const [designCriteria, setDesignCriteria] = useState("1");
   const [lowPres, setLowPres] = useState("0.01");
   const [highPres, setHighPres] = useState("1.00");
   const [lowID, setLowID] = useState("1");
