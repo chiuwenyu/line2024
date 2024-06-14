@@ -295,7 +295,7 @@ export const Single = () => {
                   <Box
                     height="42ch"
                     boxShadow={1}
-                    sx={{ border: "1px solid grey", mt: 1, pl: 2 }}
+                    sx={{ border: "1px solid lightgrey", mt: 1, pl: 2 }}
                   >
                     <RadioGroup
                       aria-labelledby="radio-buttons-group-label"
