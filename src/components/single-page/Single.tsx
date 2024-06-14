@@ -1,9 +1,14 @@
+import { invoke } from "@tauri-apps/api/tauri";
+
 import React from "react";
 import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import DataGridSingle from "./DataGridSingle";
+import { SizingData } from "./DataGridSingle";
 import pipeData from "../../assets/PipeStd.json";
+import workID from "../../assets/PipeWork.json";
 
 import {
   Button,
@@ -20,6 +25,56 @@ import {
   Typography,
 } from "@mui/material";
 import PasteDialog from "./PrintDialog";
+
+type Result = {
+  w: number; // fluid flow rate [kg/hr]
+  rho: number; // fluid density [kg/m^3]
+  mu: number; // fluid viscosity [N-sec/m^2] = [Kg/m3/sec]
+  id: number; // pipe inside diameter [m]
+  e: number; // pipe roughness [m]
+  sf: number; // safety factor [-]
+  // output fields
+  v: number; // fluid flow velocity [m/s]
+  nre: number; // Reynold number [-]
+  fdarcy: number; // Darcy Friction Factor [-]
+  dp100: number; // pressure drop per 100m
+  vh: number; // velocity head vh = rho * v^2
+};
+
+let res: Result = {
+  w: 0.0,
+  rho: 0.0,
+  mu: 0.0,
+  id: 0.0,
+  e: 0.046,
+  sf: 1.2,
+  v: -999.0,
+  nre: -999.0,
+  fdarcy: -999.0,
+  dp100: -999.0,
+  vh: -999.0,
+};
+
+// 將 num 輸出格式化的 scientific format to 1.23E+002
+function fmt_f64(
+  num: number,
+  width: number,
+  precision: number,
+  exp_pad: number
+): string {
+  let numStr: string = num.toExponential(precision);
+  let eIndex: number = numStr.indexOf("e");
+  let exp: string = numStr.slice(eIndex + 1);
+  numStr = numStr.slice(0, eIndex);
+  let sign: string = exp.startsWith("-") ? "-" : "+";
+  if (sign === "-") {
+    exp = exp.slice(1);
+  } else {
+    exp = exp.slice(1);
+  }
+  numStr += "E" + sign + exp.padStart(exp_pad, "0");
+  return numStr.padStart(width);
+}
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -91,7 +146,7 @@ export const Single = () => {
   });
 
   // Calculated Result
-  // const [resData, setResData] = useState<SizingData[]>([]);
+  const [resData, setResData] = useState<SizingData[]>([]);
   const [calState, setCalState] = useState(false);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -111,44 +166,44 @@ export const Single = () => {
   };
 
   const handleExecuteButtonClick = () => {
-    // const newResData: SizingData[] = workID.map((item) => {
-    //   return {
-    //     id: item.SIZE,
-    //     actID: item.ID.toString(),
-    //     vel: "",
-    //     presDrop: "",
-    //     vh: "",
-    //     reynoldNo: "",
-    //   };
-    // });
-    // newResData.map((item) => {
-    //   rust_single_phase_hydraulic(item);
-    // });
-    // setResData(newResData);
-    // setCalState(true);
+    const newResData: SizingData[] = workID.map((item) => {
+      return {
+        id: item.SIZE,
+        actID: item.ID.toString(),
+        vel: "",
+        presDrop: "",
+        vh: "",
+        reynoldNo: "",
+      };
+    });
+    newResData.map((item) => {
+      rust_single_phase_hydraulic(item);
+    });
+    setResData(newResData);
+    setCalState(true);
   };
 
   // call Rust function
-  // async function rust_single_phase_hydraulic(item: SizingData) {
-  //   await invoke<Result>("invoke_hydraulic", {
-  //     w: parseFloat(massFlowRate),
-  //     rho: parseFloat(density),
-  //     mu: parseFloat(viscosity),
-  //     id: parseFloat(item.actID),
-  //     e: parseFloat(roughness),
-  //     sf: parseFloat(safeFactor),
-  //   })
-  //     .then((result) => {
-  //       res = result as Result;
-  //       item.vel = res.v.toFixed(4);
-  //       item.presDrop = res.dp100.toFixed(6);
-  //       item.vh = res.vh.toFixed(4);
-  //       item.reynoldNo = fmt_f64(res.nre, 20, 4, 3);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // }
+  async function rust_single_phase_hydraulic(item: SizingData) {
+    await invoke<Result>("invoke_hydraulic", {
+      w: parseFloat(massFlowRate),
+      rho: parseFloat(density),
+      mu: parseFloat(viscosity),
+      id: parseFloat(item.actID),
+      e: parseFloat(roughness),
+      sf: parseFloat(safeFactor),
+    })
+      .then((result) => {
+        res = result as Result;
+        item.vel = res.v.toFixed(4);
+        item.presDrop = res.dp100.toFixed(6);
+        item.vh = res.vh.toFixed(4);
+        item.reynoldNo = fmt_f64(res.nre, 20, 4, 3);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
 
   return (
     <>
@@ -187,7 +242,7 @@ export const Single = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "30ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "25ch" },
                 }}
               >
                 <FormControl sx={{ mt: 2 }}>
@@ -517,6 +572,9 @@ export const Single = () => {
             Execute{" "}
           </Button>
           <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
+        </Grid>
+        <Grid item xs={4} sx={{ mt: 1, pt: 10, width: "200%" }}>
+          {calState && <DataGridSingle rows={resData} />}
         </Grid>
       </Grid>
     </>

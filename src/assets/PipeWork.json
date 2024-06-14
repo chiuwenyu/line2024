@@ -1,150 +1,180 @@
 [
   {
+    "VALUE": "1",
     "SIZE": "1/4",
     "SCHEDULE": "40STD",
     "ID": 0.364
   },
   {
+    "VALUE": "2",
     "SIZE": "3/8",
     "SCHEDULE": "40STD",
     "ID": 0.493
   },
   {
+    "VALUE": "3",
     "SIZE": "1/2",
     "SCHEDULE": "40STD",
     "ID": 0.622
   },
   {
+    "VALUE": "4",
     "SIZE": "3/4",
     "SCHEDULE": "40STD",
     "ID": 0.824
   },
   {
+    "VALUE": "5",
     "SIZE": "1",
     "SCHEDULE": "40STD",
     "ID": 1.049
   },
   {
+    "VALUE": "6",
     "SIZE": "1 1/4",
     "SCHEDULE": "40STD",
     "ID": 1.38
   },
   {
+    "VALUE": "7",
     "SIZE": "1 1/2",
     "SCHEDULE": "40STD",
     "ID": 1.61
   },
   {
+    "VALUE": "8",
     "SIZE": "2",
     "SCHEDULE": "40STD",
     "ID": 2.067
   },
   {
+    "VALUE": "9",
     "SIZE": "2 1/2",
     "SCHEDULE": "40STD",
     "ID": 2.469
   },
   {
+    "VALUE": "10",
     "SIZE": "3",
     "SCHEDULE": "40STD",
     "ID": 3.068
   },
   {
+    "VALUE": "11",
     "SIZE": "4",
     "SCHEDULE": "40STD",
     "ID": 4.026
   },
   {
+    "VALUE": "12",
     "SIZE": "5",
     "SCHEDULE": "40STD",
     "ID": 5.047
   },
   {
+    "VALUE": "13",
     "SIZE": "6",
     "SCHEDULE": "40STD",
     "ID": 6.065
   },
   {
+    "VALUE": "14",
     "SIZE": "8",
     "SCHEDULE": "40STD",
     "ID": 7.981
   },
   {
+    "VALUE": "15",
     "SIZE": "10",
     "SCHEDULE": "40STD",
     "ID": 10.02
   },
   {
+    "VALUE": "16",
     "SIZE": "12",
     "SCHEDULE": "STD",
     "ID": 12.0
   },
   {
+    "VALUE": "17",
     "SIZE": "14",
     "SCHEDULE": "STD",
     "ID": 13.25
   },
   {
+    "VALUE": "18",
     "SIZE": "16",
     "SCHEDULE": "STD",
     "ID": 15.25
   },
   {
+    "VALUE": "19",
     "SIZE": "18",
     "SCHEDULE": "STD",
     "ID": 17.25
   },
   {
+    "VALUE": "20",
     "SIZE": "20",
     "SCHEDULE": "STD",
     "ID": 19.25
   },
   {
+    "VALUE": "21",
     "SIZE": "22",
     "SCHEDULE": "STD",
     "ID": 21.25
   },
   {
+    "VALUE": "22",
     "SIZE": "24",
     "SCHEDULE": "STD",
     "ID": 23.25
   },
   {
+    "VALUE": "23",
     "SIZE": "26",
     "SCHEDULE": "STD",
     "ID": 25.25
   },
   {
+    "VALUE": "24",
     "SIZE": "28",
     "SCHEDULE": "STD",
     "ID": 27.25
   },
   {
+    "VALUE": "25",
     "SIZE": "30",
     "SCHEDULE": "STD",
     "ID": 29.25
   },
   {
+    "VALUE": "26",
     "SIZE": "32",
     "SCHEDULE": "STD",
     "ID": 31.25
   },
   {
+    "VALUE": "27",
     "SIZE": "34",
     "SCHEDULE": "STD",
     "ID": 33.25
   },
   {
+    "VALUE": "28",
     "SIZE": "36",
     "SCHEDULE": "STD",
     "ID": 35.25
   },
   {
+    "VALUE": "29",
     "SIZE": "42",
     "SCHEDULE": "STD",
     "ID": 41.25
   },
   {
+    "VALUE": "30",
     "SIZE": "48",
     "SCHEDULE": "STD",
     "ID": 47.25
