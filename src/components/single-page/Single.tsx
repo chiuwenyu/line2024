@@ -573,7 +573,7 @@ export const Single = () => {
           </Button>
           <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
         </Grid>
-        <Grid item xs={4} sx={{ mt: 1, pt: 10, width: "200%" }}>
+        <Grid item xs={4} sx={{ width: "100%" }}>
           {calState && <DataGridSingle rows={resData} />}
         </Grid>
       </Grid>

@@ -1,8 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, Stack, Typography } from "@mui/material";
-import BlurLinearOutlinedIcon from "@mui/icons-material/BlurLinearOutlined";
-import RotateLeftIcon from "@mui/icons-material/RotateLeft";
+import { Stack, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 export interface SizingData {
   id: string;
@@ -58,33 +57,16 @@ const columns: GridColDef<SizingData>[] = [
 ];
 
 export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
+  const headcolor = grey[700];
+
   return (
-    <Box sx={{ width: "885px", height: "400px" }}>
+    <Box sx={{ minWidth: "812px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
         <span>
-          <Typography gutterBottom variant="h6" component="span">
-            Single Phase Line Sizing
+          <Typography gutterBottom variant="h5" component="span">
+            Sizing Result
           </Typography>
-          <Box sx={{ float: "right" }}>
-            <Button
-              variant="contained"
-              startIcon={<BlurLinearOutlinedIcon />}
-              size="small"
-              color="success"
-            >
-              Filter
-            </Button>
-            <Button
-              variant="contained"
-              startIcon={<RotateLeftIcon />}
-              size="small"
-              color="success"
-              sx={{ ml: 2 }}
-            >
-              {" "}
-              Reset
-            </Button>
-          </Box>
+          <Box sx={{ float: "right" }}></Box>
         </span>
       </Stack>
       <DataGrid
@@ -92,7 +74,8 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
         columns={columns as GridColDef<SizingData>[]}
         sx={{
           "& .MuiDataGrid-columnHeader": {
-            color: "primary.main",
+            backgroundColor: headcolor,
+            color: "white",
             fontWeight: "bold",
           },
           mt: 2,
@@ -105,8 +88,6 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
           },
         }}
         pageSizeOptions={[5, 6, 7, 8, 9, 10]}
-        // checkboxSelection
-        // disableRowSelectionOnClick
       />
     </Box>
   );
