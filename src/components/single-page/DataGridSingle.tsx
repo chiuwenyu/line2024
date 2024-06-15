@@ -16,37 +16,47 @@ export interface SizingData {
 const columns: GridColDef<SizingData>[] = [
   {
     field: "id",
-    headerName: "Norm. ID\n(in)",
-    width: 110,
+    headerName: "Norm. ID\n     (in)",
+    width: 90,
     resizable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "actID",
-    headerName: "Act. ID (in)",
-    width: 110,
+    headerName: "Act. ID\n   (in)",
+    width: 90,
     editable: false,
     resizable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "vel",
-    headerName: "Velocity (m/s)",
-    width: 120,
+    headerName: "VelocityID\n    (m/s)",
+    width: 100,
     resizable: false,
     editable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "presDrop",
-    headerName: "Pres. Drop (kg/cm^2/100m)",
-    width: 200,
+    headerName: "  Pres. DropID\n(kg/cm^2/100m)",
+    width: 150,
     resizable: false,
     editable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "vh",
-    headerName: "1.0 V.H (kg/m/s^2)",
+    headerName: " 1.0 V.HID\n(kg/m/s^2)",
     width: 140,
     resizable: false,
     editable: false,
+    headerAlign: "center",
+    align: "center",
   },
   {
     field: "reynoldNo",
@@ -63,16 +73,18 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
   const headcolor = grey[700];
 
   return (
-    <Box sx={{ minWidth: "812px" }}>
+    <Box sx={{ minWidth: "702px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
         <span>
           <Typography
             gutterBottom
             variant="h5"
             component="span"
-            sx={{ fontWeight: "medium" }}
+            sx={{
+              fontWeight: "medium",
+            }}
           >
-            Sizing Result
+            Sizing Result :
           </Typography>
           <Box sx={{ float: "right" }}></Box>
         </span>
@@ -96,13 +108,22 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
             color: "white",
             fontWeight: "bold",
             fontSize: "0.8rem",
+            height: "60",
           },
-          mt: 2,
+          "& .MuiDataGrid-columnHeaderTitle": {
+            whiteSpace: "pre-wrap",
+            // lineHeight: "normal",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            maxHeight: "168px !important",
+          },
+
+          mt: 1,
         }}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 10,
             },
           },
         }}

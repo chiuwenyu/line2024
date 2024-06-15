@@ -20,7 +20,7 @@
     "windows": [
       {
         "title": "TransEnergy App",
-        "width": 1600,
+        "width": 1500,
         "height": 800,
         "resizable": true,
         "center": true
