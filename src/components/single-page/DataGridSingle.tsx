@@ -71,6 +71,7 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
       </Stack>
       <DataGrid
         rows={rows}
+        autoHeight={true}
         columns={columns as GridColDef<SizingData>[]}
         sx={{
           "& .MuiDataGrid-columnHeader": {
