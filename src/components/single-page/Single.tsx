@@ -217,7 +217,12 @@ export const Single = () => {
         }}
       >
         <Grid item xs={4} sx={{ ml: 1 }}>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ fontWeight: "medium" }}
+          >
             Single Phase Line Sizing App
           </Typography>
           <Box sx={{ width: "100%", height: "550px" }}>

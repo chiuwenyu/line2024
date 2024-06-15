@@ -64,7 +64,12 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
     <Box sx={{ minWidth: "812px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
         <span>
-          <Typography gutterBottom variant="h5" component="span">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="span"
+            sx={{ fontWeight: "medium" }}
+          >
             Sizing Result
           </Typography>
           <Box sx={{ float: "right" }}></Box>
