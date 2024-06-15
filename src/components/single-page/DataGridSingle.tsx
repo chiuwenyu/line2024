@@ -58,6 +58,8 @@ const columns: GridColDef<SizingData>[] = [
 ];
 
 export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
+  const [selectId, setSelectId] = useState<string>("");
+
   const headcolor = grey[700];
 
   return (
@@ -78,13 +80,22 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
       <DataGrid
         rows={rows}
         autoHeight={true}
-        hideFooterSelectedRowCount
+        // hideFooterSelectedRowCount
+        localeText={{
+          footerRowSelected: (count) => `You select the ${selectId}\" pipe`,
+        }}
         columns={columns as GridColDef<SizingData>[]}
         sx={{
+          "& .MuiDataGrid-footerContainer": {
+            fontWeight: "bold", // 變更 footer font weight
+            color: "primary.main", // 變更 footer font color
+            fontSize: "0.9rem", // 變更 footer font size
+          },
           "& .MuiDataGrid-columnHeader": {
             backgroundColor: headcolor,
             color: "white",
             fontWeight: "bold",
+            fontSize: "0.8rem",
           },
           mt: 2,
         }}
@@ -96,6 +107,9 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
           },
         }}
         pageSizeOptions={[5, 6, 7, 8, 9, 10]}
+        onRowSelectionModelChange={(newSelection) => {
+          setSelectId(newSelection[0] as string);
+        }}
       />
     </Box>
   );
