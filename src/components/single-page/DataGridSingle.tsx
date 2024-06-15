@@ -94,7 +94,7 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
         autoHeight={true}
         // hideFooterSelectedRowCount
         localeText={{
-          footerRowSelected: (count) => `You select the ${selectId}\" pipe`,
+          footerRowSelected: () => `You select the ${selectId}\" pipe`,
         }}
         columns={columns as GridColDef<SizingData>[]}
         sx={{
