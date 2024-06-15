@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useState } from "react";
 
 export interface SizingData {
   id: string;
@@ -72,6 +73,7 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
       <DataGrid
         rows={rows}
         autoHeight={true}
+        hideFooterSelectedRowCount
         columns={columns as GridColDef<SizingData>[]}
         sx={{
           "& .MuiDataGrid-columnHeader": {
