@@ -41,20 +41,6 @@ type Result = {
   vh: number; // velocity head vh = rho * v^2
 };
 
-// let res: Result = {
-//   w: 0.0,
-//   rho: 0.0,
-//   mu: 0.0,
-//   id: 0.0,
-//   e: 0.046,
-//   sf: 1.2,
-//   v: -999.0,
-//   nre: -999.0,
-//   fdarcy: -999.0,
-//   dp100: -999.0,
-//   vh: -999.0,
-// };
-
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
   num: number,
@@ -245,28 +231,6 @@ export const Single = () => {
       setCalState(true);
     }
   };
-
-  // call Rust function
-  // async function rust_single_phase_hydraulic(item: SizingData) {
-  //   await invoke<Result>("invoke_hydraulic", {
-  //     w: parseFloat(massFlowRate),
-  //     rho: parseFloat(density),
-  //     mu: parseFloat(viscosity),
-  //     id: parseFloat(item.actID),
-  //     e: parseFloat(roughness),
-  //     sf: parseFloat(safeFactor),
-  //   })
-  //     .then((result) => {
-  //       res = result as Result;
-  //       item.vel = res.v.toFixed(4);
-  //       item.presDrop = res.dp100.toFixed(6);
-  //       item.vh = res.vh.toFixed(4);
-  //       item.reynoldNo = fmt_f64(res.nre, 20, 4, 3);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // }
 
   async function rust_single_phase_hydraulic_byid(
     actID: number
