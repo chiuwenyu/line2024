@@ -165,7 +165,7 @@ export const Single = () => {
     }
   };
 
-  const handleExecuteButtonClick = () => {
+  const handleExecuteButtonClick = async () => {
     if (optValue === "1") {
       const newResData: SizingData[] = workID.map((item) => {
         return {
@@ -204,36 +204,37 @@ export const Single = () => {
 
       setResData(
         newResData.filter((item) => {
-          if (lowActID !== undefined || highActID !== undefined) {
-            return (
-              parseFloat(item.actID) >= lowActID &&
-              parseFloat(item.actID) <= highActID
-            );
-          }
+          return (
+            parseFloat(item.actID) >= lowActID &&
+            parseFloat(item.actID) <= highActID
+          );
         })
       );
       setCalState(true);
     }
     if (optValue === "3") {
-      const newData: SizingData[] = workID.map((item) => {
-        return {
-          id: item.SIZE,
-          actID: item.ID.toString(),
-          vel: "",
-          presDrop: "",
-          vh: "",
-          reynoldNo: "",
-        };
-      });
-      newData.map((item) => {
-        rust_single_phase_hydraulic(item);
-      });
-      // judge the pressure drop range here
       let lowDP = parseFloat(lowPres);
       let highDP = parseFloat(highPres);
-      console.log(newData);
 
-      setResData(newData);
+      const newResData: SizingData[] = [];
+      await Promise.all(
+        workID.map(async (item) => {
+          let [a, b, c, d] = await rust_single_phase_hydraulic_byid(item.ID);
+          if (parseFloat(b) > lowDP && parseFloat(b) < highDP) {
+            newResData.push({
+              id: item.SIZE,
+              actID: item.ID.toString(),
+              vel: a,
+              presDrop: b,
+              vh: c,
+              reynoldNo: d,
+            });
+          }
+        })
+      );
+
+      // judge the pressure drop range here
+      setResData(newResData);
       setCalState(true);
     }
   };
@@ -258,6 +259,31 @@ export const Single = () => {
       .catch((e) => {
         console.error(e);
       });
+  }
+
+  async function rust_single_phase_hydraulic_byid(
+    actID: number
+  ): Promise<[string, string, string, string]> {
+    try {
+      const result = await invoke<Result>("invoke_hydraulic", {
+        w: parseFloat(massFlowRate),
+        rho: parseFloat(density),
+        mu: parseFloat(viscosity),
+        id: actID,
+        e: parseFloat(roughness),
+        sf: parseFloat(safeFactor),
+      });
+      const res = result as Result;
+      return [
+        res.v.toFixed(4),
+        res.dp100.toFixed(6),
+        res.vh.toFixed(4),
+        fmt_f64(res.nre, 20, 4, 3),
+      ];
+    } catch (e) {
+      console.error(e);
+      return ["", "", "", ""];
+    }
   }
 
   return (
