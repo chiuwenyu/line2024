@@ -166,21 +166,75 @@ export const Single = () => {
   };
 
   const handleExecuteButtonClick = () => {
-    const newResData: SizingData[] = workID.map((item) => {
-      return {
-        id: item.SIZE,
-        actID: item.ID.toString(),
-        vel: "",
-        presDrop: "",
-        vh: "",
-        reynoldNo: "",
-      };
-    });
-    newResData.map((item) => {
-      rust_single_phase_hydraulic(item);
-    });
-    setResData(newResData);
-    setCalState(true);
+    if (optValue === "1") {
+      const newResData: SizingData[] = workID.map((item) => {
+        return {
+          id: item.SIZE,
+          actID: item.ID.toString(),
+          vel: "",
+          presDrop: "",
+          vh: "",
+          reynoldNo: "",
+        };
+      });
+      newResData.map((item) => {
+        rust_single_phase_hydraulic(item);
+      });
+      console.log(newResData);
+      setResData(newResData);
+      setCalState(true);
+    }
+    if (optValue === "2") {
+      const newResData: SizingData[] = workID
+        .filter((item) => {
+          return item.ID >= parseInt(lowID) && item.ID <= parseInt(highID);
+        })
+        .map((item) => {
+          return {
+            id: item.SIZE,
+            actID: item.ID.toString(),
+            vel: "",
+            presDrop: "",
+            vh: "",
+            reynoldNo: "",
+          };
+        });
+      newResData.map((item) => {
+        rust_single_phase_hydraulic(item);
+      });
+      let lowActID = workID.find((item) => item.SIZE === lowID)?.ID;
+      let highActID = workID.find((item) => item.SIZE === highID)?.ID;
+
+      console.log(lowActID, highActID);
+      setResData(newResData);
+      setCalState(true);
+    }
+    if (optValue === "3") {
+      const newResData: SizingData[] = workID
+        .filter((item) => {
+          return item.ID >= parseInt(lowID) && item.ID <= parseInt(highID);
+        })
+        .map((item) => {
+          return {
+            id: item.SIZE,
+            actID: item.ID.toString(),
+            vel: "",
+            presDrop: "",
+            vh: "",
+            reynoldNo: "",
+          };
+        });
+      newResData.map((item) => {
+        rust_single_phase_hydraulic(item);
+      });
+
+      // judge the pressure drop range here
+      let lowDP = parseFloat(lowPres);
+      let highDP = parseFloat(highPres);
+
+      setResData(newResData);
+      setCalState(true);
+    }
   };
 
   // call Rust function
