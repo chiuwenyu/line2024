@@ -180,36 +180,33 @@ export const Single = () => {
       newResData.map((item) => {
         rust_single_phase_hydraulic(item);
       });
-      console.log(newResData);
       setResData(newResData);
       setCalState(true);
     }
     if (optValue === "2") {
-      const newResData: SizingData[] = workID.map((item) => {
-        return {
-          id: item.SIZE,
-          actID: item.ID.toString(),
-          vel: "",
-          presDrop: "",
-          vh: "",
-          reynoldNo: "",
-        };
-      });
-      newResData.map((item) => {
-        rust_single_phase_hydraulic(item);
-      });
-
       let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
       let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
 
-      setResData(
-        newResData.filter((item) => {
-          return (
-            parseFloat(item.actID) >= lowActID &&
-            parseFloat(item.actID) <= highActID
+      const newResData: SizingData[] = [];
+      await Promise.all(
+        workID.map(async (item) => {
+          let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
+            item.ID
           );
+          if (item.ID >= lowActID && item.ID <= highActID) {
+            newResData.push({
+              id: item.SIZE,
+              actID: item.ID.toString(),
+              vel: v,
+              presDrop: dp,
+              vh: vhead,
+              reynoldNo: nre,
+            });
+          }
         })
       );
+
+      setResData(newResData);
       setCalState(true);
     }
     if (optValue === "3") {
