@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Stack, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { cyan } from "@mui/material/colors";
 import { useState } from "react";
 
 export interface SizingData {
@@ -70,7 +70,7 @@ const columns: GridColDef<SizingData>[] = [
 export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
   const [selectId, setSelectId] = useState<string>("");
 
-  const headcolor = grey[700];
+  const headcolor = cyan[700];
 
   return (
     <Box sx={{ minWidth: "702px" }}>
