@@ -202,10 +202,14 @@ export const Single = () => {
       newResData.map((item) => {
         rust_single_phase_hydraulic(item);
       });
-      let lowActID = workID.find((item) => item.SIZE === lowID)?.ID;
-      let highActID = workID.find((item) => item.SIZE === highID)?.ID;
 
-      console.log(lowActID, highActID);
+      newResData.filter((item) => {
+        return (
+          parseFloat(item.presDrop) >= parseFloat(lowPres) &&
+          parseFloat(item.presDrop) <= parseFloat(highPres)
+        );
+      });
+
       setResData(newResData);
       setCalState(true);
     }
@@ -231,6 +235,7 @@ export const Single = () => {
       // judge the pressure drop range here
       let lowDP = parseFloat(lowPres);
       let highDP = parseFloat(highPres);
+      console.log(newResData);
 
       setResData(newResData);
       setCalState(true);
