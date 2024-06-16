@@ -219,15 +219,17 @@ export const Single = () => {
       const newResData: SizingData[] = [];
       await Promise.all(
         workID.map(async (item) => {
-          let [a, b, c, d] = await rust_single_phase_hydraulic_byid(item.ID);
-          if (parseFloat(b) > lowDP && parseFloat(b) < highDP) {
+          let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
+            item.ID
+          );
+          if (parseFloat(dp) > lowDP && parseFloat(dp) < highDP) {
             newResData.push({
               id: item.SIZE,
               actID: item.ID.toString(),
-              vel: a,
-              presDrop: b,
-              vh: c,
-              reynoldNo: d,
+              vel: v,
+              presDrop: dp,
+              vh: vhead,
+              reynoldNo: nre,
             });
           }
         })
