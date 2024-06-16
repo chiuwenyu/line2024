@@ -41,19 +41,19 @@ type Result = {
   vh: number; // velocity head vh = rho * v^2
 };
 
-let res: Result = {
-  w: 0.0,
-  rho: 0.0,
-  mu: 0.0,
-  id: 0.0,
-  e: 0.046,
-  sf: 1.2,
-  v: -999.0,
-  nre: -999.0,
-  fdarcy: -999.0,
-  dp100: -999.0,
-  vh: -999.0,
-};
+// let res: Result = {
+//   w: 0.0,
+//   rho: 0.0,
+//   mu: 0.0,
+//   id: 0.0,
+//   e: 0.046,
+//   sf: 1.2,
+//   v: -999.0,
+//   nre: -999.0,
+//   fdarcy: -999.0,
+//   dp100: -999.0,
+//   vh: -999.0,
+// };
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -167,23 +167,30 @@ export const Single = () => {
 
   const handleExecuteButtonClick = async () => {
     if (optValue === "1") {
-      const newResData: SizingData[] = workID.map((item) => {
-        return {
-          id: item.SIZE,
-          actID: item.ID.toString(),
-          vel: "",
-          presDrop: "",
-          vh: "",
-          reynoldNo: "",
-        };
-      });
-      newResData.map((item) => {
-        rust_single_phase_hydraulic(item);
-      });
+      // implement by all dia.
+      const newResData: SizingData[] = [];
+      await Promise.all(
+        workID.map(async (item) => {
+          let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
+            item.ID
+          );
+          newResData.push({
+            id: item.SIZE,
+            actID: item.ID.toString(),
+            vel: v,
+            presDrop: dp,
+            vh: vhead,
+            reynoldNo: nre,
+          });
+        })
+      );
+
       setResData(newResData);
       setCalState(true);
     }
+
     if (optValue === "2") {
+      // optValue = 2, implement by Dia range
       let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
       let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
 
@@ -210,6 +217,7 @@ export const Single = () => {
       setCalState(true);
     }
     if (optValue === "3") {
+      // implement by pressure drop range
       let lowDP = parseFloat(lowPres);
       let highDP = parseFloat(highPres);
 
@@ -239,26 +247,26 @@ export const Single = () => {
   };
 
   // call Rust function
-  async function rust_single_phase_hydraulic(item: SizingData) {
-    await invoke<Result>("invoke_hydraulic", {
-      w: parseFloat(massFlowRate),
-      rho: parseFloat(density),
-      mu: parseFloat(viscosity),
-      id: parseFloat(item.actID),
-      e: parseFloat(roughness),
-      sf: parseFloat(safeFactor),
-    })
-      .then((result) => {
-        res = result as Result;
-        item.vel = res.v.toFixed(4);
-        item.presDrop = res.dp100.toFixed(6);
-        item.vh = res.vh.toFixed(4);
-        item.reynoldNo = fmt_f64(res.nre, 20, 4, 3);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  }
+  // async function rust_single_phase_hydraulic(item: SizingData) {
+  //   await invoke<Result>("invoke_hydraulic", {
+  //     w: parseFloat(massFlowRate),
+  //     rho: parseFloat(density),
+  //     mu: parseFloat(viscosity),
+  //     id: parseFloat(item.actID),
+  //     e: parseFloat(roughness),
+  //     sf: parseFloat(safeFactor),
+  //   })
+  //     .then((result) => {
+  //       res = result as Result;
+  //       item.vel = res.v.toFixed(4);
+  //       item.presDrop = res.dp100.toFixed(6);
+  //       item.vh = res.vh.toFixed(4);
+  //       item.reynoldNo = fmt_f64(res.nre, 20, 4, 3);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //     });
+  // }
 
   async function rust_single_phase_hydraulic_byid(
     actID: number
