@@ -12,11 +12,6 @@ import workID from "../../assets/PipeWork.json";
 
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -30,6 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import PasteDialog from "./PasteDialog";
+import { OptDiaErrorDialog } from "./OptErrorDialog";
 
 type Result = {
   w: number; // fluid flow rate [kg/hr]
@@ -639,34 +635,10 @@ export const Single = () => {
             Execute{" "}
           </Button>
           <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
-          // implement option diameter range error dialog
-          <Dialog
-            open={optErrOpen}
-            aria-labelledby="opt-dialog-title"
-            aria-describedby="opt-dialog-description"
-          >
-            <DialogTitle id="opt-dialog-title">
-              {"Option Diameter Range Error"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="opt-dialog-description">
-                The IDs you selected is not allowed because Lower ID is greater
-                than Higher ID. <br />
-                Please select the correct value again.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                onClick={() => {
-                  setOptErrOpen(false);
-                }}
-                autoFocus
-              >
-                OK
-              </Button>
-            </DialogActions>
-          </Dialog>
-          // implement option pressure drop range error dialog
+          <OptDiaErrorDialog
+            optErrOpen={optErrOpen}
+            setOptErrOpen={setOptErrOpen}
+          />
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
           {calState && <DataGridSingle rows={resData} />}
