@@ -12,6 +12,11 @@ import workID from "../../assets/PipeWork.json";
 
 import {
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -24,7 +29,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import PasteDialog from "./PrintDialog";
+import PasteDialog from "./PasteDialog";
 
 type Result = {
   w: number; // fluid flow rate [kg/hr]
@@ -106,6 +111,7 @@ export const Single = () => {
   const [lowID, setLowID] = useState("1");
   const [highID, setHighID] = useState("6");
   const [optValue, setOptValue] = useState("1");
+  const [optErrOpen, setOptErrOpen] = useState(false);
 
   // Project Info
   const [projNo, setProjectNo] = useState("");
@@ -179,6 +185,10 @@ export const Single = () => {
       // optValue = 2, implement by Dia range
       let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
       let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
+      if (lowActID >= highActID) {
+        setOptErrOpen(true);
+        return;
+      }
 
       const newResData: SizingData[] = [];
       await Promise.all(
@@ -629,6 +639,34 @@ export const Single = () => {
             Execute{" "}
           </Button>
           <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
+          // implement option diameter range error dialog
+          <Dialog
+            open={optErrOpen}
+            aria-labelledby="opt-dialog-title"
+            aria-describedby="opt-dialog-description"
+          >
+            <DialogTitle id="opt-dialog-title">
+              {"Option Diameter Range Error"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="opt-dialog-description">
+                The IDs you selected is not allowed because Lower ID is greater
+                than Higher ID. <br />
+                Please select the correct value again.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  setOptErrOpen(false);
+                }}
+                autoFocus
+              >
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
+          // implement option pressure drop range error dialog
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
           {calState && <DataGridSingle rows={resData} />}

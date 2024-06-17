@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 export default function PasteDialog(props: any) {
   const { setDensity, setViscosity } = props;
-  
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -20,23 +20,25 @@ export default function PasteDialog(props: any) {
   };
 
   const handleAgree = () => {
-      setOpen(false);
-      const value1 = localStorage.getItem("density");
-      console.log(value1);
-      if (typeof value1 === 'string') {
-        setDensity(JSON.parse(parseFloat(value1).toFixed(6))); // 正常
-      }
-      const value2 = localStorage.getItem("viscosity");
-      console.log(value2);
-      if (typeof value2 === 'string') {
-        setViscosity(JSON.parse(parseFloat(value2).toFixed(6))); // 正常
-      }
+    setOpen(false);
+    const value1 = localStorage.getItem("density");
+    if (typeof value1 === "string") {
+      setDensity(JSON.parse(parseFloat(value1).toFixed(6))); // 正常
+    }
+    const value2 = localStorage.getItem("viscosity");
+    if (typeof value2 === "string") {
+      setViscosity(JSON.parse(parseFloat(value2).toFixed(6))); // 正常
+    }
     localStorage.clear();
-  } 
+  };
 
   return (
     <React.Fragment>
-      <Button variant="text" onClick={handleClickOpen} style={{ marginLeft: "25px", marginRight: "20px" }}>
+      <Button
+        variant="text"
+        onClick={handleClickOpen}
+        style={{ marginLeft: "25px", marginRight: "20px" }}
+      >
         Paste props
       </Button>
       <Dialog
