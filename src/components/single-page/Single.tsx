@@ -25,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import PasteDialog from "./PasteDialog";
-import { OptDiaErrorDialog } from "./OptErrorDialog";
+import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 
 type Result = {
   w: number; // fluid flow rate [kg/hr]
@@ -107,7 +107,8 @@ export const Single = () => {
   const [lowID, setLowID] = useState("1");
   const [highID, setHighID] = useState("6");
   const [optValue, setOptValue] = useState("1");
-  const [optErrOpen, setOptErrOpen] = useState(false);
+  const [optDiaErrOpen, setOptDiaErrOpen] = useState(false);
+  const [optPresErrOpen, setOptPresErrOpen] = useState(false);
 
   // Project Info
   const [projNo, setProjectNo] = useState("");
@@ -182,7 +183,7 @@ export const Single = () => {
       let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
       let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
       if (lowActID >= highActID) {
-        setOptErrOpen(true);
+        setOptDiaErrOpen(true);
         return;
       }
 
@@ -212,6 +213,10 @@ export const Single = () => {
       // implement by pressure drop range
       let lowDP = parseFloat(lowPres);
       let highDP = parseFloat(highPres);
+      if (lowDP >= highDP) {
+        setOptPresErrOpen(true);
+        return;
+      }
 
       const newResData: SizingData[] = [];
       await Promise.all(
@@ -636,8 +641,12 @@ export const Single = () => {
           </Button>
           <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
           <OptDiaErrorDialog
-            optErrOpen={optErrOpen}
-            setOptErrOpen={setOptErrOpen}
+            optErrOpen={optDiaErrOpen}
+            setOptErrOpen={setOptDiaErrOpen}
+          />
+          <OptPresErrorDialog
+            optErrOpen={optPresErrOpen}
+            setOptErrOpen={setOptPresErrOpen}
           />
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
