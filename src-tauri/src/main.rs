@@ -25,21 +25,21 @@ fn invoke_hydraulic(w: f64, rho: f64, mu: f64, id: f64, e: f64, sf: f64) -> Sing
 }
 
 fn main() {
-    let file_menu = Submenu::new(
-        "File",
-        Menu::new()
-            .add_item(CustomMenuItem::new("open", "Open..."))
-            .add_item(CustomMenuItem::new("save", "Save"))
-            .add_item(CustomMenuItem::new("export", "Export to HTML"))
-            .add_item(CustomMenuItem::new("exit", "Exit")),
-    );
+    // let file_menu = Submenu::new(
+    //     "File",
+    //     Menu::new()
+    //         .add_item(CustomMenuItem::new("open", "Open..."))
+    //         .add_item(CustomMenuItem::new("save", "Save"))
+    //         .add_item(CustomMenuItem::new("export", "Export to HTML"))
+    //         .add_item(CustomMenuItem::new("exit", "Exit")),
+    // );
 
-    let menu = Menu::new().add_submenu(file_menu);
+    // let menu = Menu::new().add_submenu(file_menu);
 
-    tauri::Builder::default()
-        .menu(menu)
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+    // tauri::Builder::default()
+    //     .menu(menu)
+    //     .run(tauri::generate_context!())
+    //     .expect("error while running tauri application");
 
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![invoke_seuif, invoke_hydraulic])
