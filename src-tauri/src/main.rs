@@ -2,9 +2,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod single_phase;
-use tauri::CustomMenuItem;
-use tauri::Menu;
-use tauri::Submenu;
+// use tauri::CustomMenuItem;
+// use tauri::Menu;
+// use tauri::Submenu;
 
 use crate::single_phase::SingleFx;
 

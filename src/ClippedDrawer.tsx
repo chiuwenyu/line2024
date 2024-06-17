@@ -39,7 +39,7 @@ interface DrawerStyle {
   Index: number;
 }
 
-const drawerItems: DrawerStyle[] = [
+const drawerItems1: DrawerStyle[] = [
   { Text: "Steam", Icon: <DeviceThermostatIcon />, Index: 1 },
   {
     Text: "Single Phase",
@@ -104,7 +104,7 @@ export default function ClippedDrawer() {
           <Box display="flex" flexDirection="column" height="100%">
             <Box flexGrow={1}>
               <List>
-                {drawerItems.map((item) => (
+                {drawerItems1.map((item) => (
                   <ListItem key={item.Index} disablePadding>
                     <ListItemButton onClick={() => setAppNo(item.Index)}>
                       <ListItemIcon sx={{ color: "white", mr: -1 }}>
