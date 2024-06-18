@@ -22,6 +22,10 @@ import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import RepeatIcon from "@mui/icons-material/Repeat";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import { GiRollingEnergy } from "react-icons/gi";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import SaveIcon from "@mui/icons-material/Save";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
+import OutputIcon from "@mui/icons-material/Output";
 
 // import my components
 import Steam from "./components/steam-page/Steam";
@@ -30,6 +34,7 @@ import TwoPhase from "./components/two-page/TwoPhase";
 import Thermo from "./components/hydraulic-page/Thermo";
 import Setup from "./components/setup-page/Setup";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { yellow } from "@mui/material/colors";
 
 const drawerWidth = 200;
 
@@ -57,6 +62,28 @@ const drawerItems1: DrawerStyle[] = [
     Index: 4,
   },
 ];
+
+const drawerItems2: DrawerStyle[] = [
+  { Text: "Open...", Icon: <FolderOpenIcon />, Index: 5 },
+  {
+    Text: "Save",
+    Icon: <SaveIcon />,
+    Index: 6,
+  },
+  {
+    Text: "Save As...",
+    Icon: <SaveAsIcon />,
+    Index: 7,
+  },
+  {
+    Text: "Export result",
+    Icon: <OutputIcon />,
+    Index: 8,
+  },
+];
+
+const SetupIndex = 9;
+const menuColor = yellow[300];
 
 export default function ClippedDrawer() {
   const [appNo, setAppNo] = useState(2);
@@ -107,6 +134,22 @@ export default function ClippedDrawer() {
                 {drawerItems1.map((item) => (
                   <ListItem key={item.Index} disablePadding>
                     <ListItemButton onClick={() => setAppNo(item.Index)}>
+                      <ListItemIcon sx={{ color: menuColor, mr: -1 }}>
+                        {item.Icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        sx={{ color: menuColor }}
+                        primary={item.Text}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+              <Divider />
+              <List>
+                {drawerItems2.map((item) => (
+                  <ListItem key={item.Index} disablePadding>
+                    <ListItemButton onClick={() => setAppNo(item.Index)}>
                       <ListItemIcon sx={{ color: "white", mr: -1 }}>
                         {item.Icon}
                       </ListItemIcon>
@@ -121,7 +164,7 @@ export default function ClippedDrawer() {
               <Divider />
             </Box>
             <Box sx={{ mb: 1 }}>
-              <ListItemButton onClick={() => setAppNo(5)}>
+              <ListItemButton onClick={() => setAppNo(SetupIndex)}>
                 <ListItemIcon sx={{ color: "white", mr: -1 }}>
                   <SettingsIcon />
                 </ListItemIcon>
@@ -147,7 +190,7 @@ export default function ClippedDrawer() {
           {appNo === 2 && <Single />}
           {appNo === 3 && <TwoPhase />}
           {appNo === 4 && <Thermo />}
-          {appNo === 5 && <Setup />}
+          {appNo === SetupIndex && <Setup />}
         </Box>
       </Box>
     </ThemeProvider>
