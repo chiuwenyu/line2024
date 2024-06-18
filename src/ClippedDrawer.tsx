@@ -82,7 +82,7 @@ const drawerItems2: DrawerStyle[] = [
   },
 ];
 
-const SetupIndex = 9;
+const SetupIndex = drawerItems2[drawerItems2.length - 1].Index + 1;
 const menuColor = yellow[300];
 
 export default function ClippedDrawer() {
