@@ -271,10 +271,12 @@ export const Single = () => {
 
   return (
     <>
-      <Button variant="text" sx={{ mb: 2 }}>
-        {" "}
-        Files{" "}
-      </Button>
+      <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
+        <Button variant="text">Open</Button>
+        <Button variant="text">Save</Button>
+        <Button variant="text">Save As</Button>
+        <Button variant="text">Export Result</Button>
+      </Stack>
       <Grid
         container
         // alignItems="center"
