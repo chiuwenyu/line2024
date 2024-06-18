@@ -30,6 +30,7 @@ fn main() {
     //     Menu::new()
     //         .add_item(CustomMenuItem::new("open", "Open..."))
     //         .add_item(CustomMenuItem::new("save", "Save"))
+    //         .add_item(CustomMenuItem::new("save-as", "Save As..."))
     //         .add_item(CustomMenuItem::new("export", "Export to HTML"))
     //         .add_item(CustomMenuItem::new("exit", "Exit")),
     // );
