@@ -11,6 +11,9 @@
   },
   "tauri": {
     "allowlist": {
+      "dialog": {
+        "open": true
+      },
       "fs": {
         "all": true,
         "readFile": true,
@@ -23,7 +26,7 @@
         "renameFile": true,
         "exists": true
       },
-      "all": false,
+
       "shell": {
         "all": false,
         "open": true
@@ -32,10 +35,8 @@
     "windows": [
       {
         "title": "TransEnergy App",
-        "width": 1500,
-        "height": 800,
-        "resizable": true,
-        "center": true
+
+        "maximized": true
       }
     ],
     "security": {

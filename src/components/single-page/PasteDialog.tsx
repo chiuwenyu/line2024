@@ -35,7 +35,8 @@ export default function PasteDialog(props: any) {
   return (
     <React.Fragment>
       <Button
-        variant="text"
+        variant="contained"
+        color="success"
         onClick={handleClickOpen}
         style={{ marginLeft: "25px", marginRight: "20px" }}
       >

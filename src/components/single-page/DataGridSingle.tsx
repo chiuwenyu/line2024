@@ -70,8 +70,6 @@ const columns: GridColDef<SizingData>[] = [
 export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
   const [selectId, setSelectId] = useState<string>("");
 
-  const headcolor = cyan[700];
-
   return (
     <Box sx={{ minWidth: "702px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
@@ -104,7 +102,7 @@ export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
             fontSize: "0.9rem", // 變更 footer font size
           },
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: headcolor,
+            backgroundColor: "success.main",
             color: "white",
             fontWeight: "bold",
             fontSize: "0.8rem",

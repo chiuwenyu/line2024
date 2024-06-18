@@ -271,6 +271,10 @@ export const Single = () => {
 
   return (
     <>
+      <Button variant="text" sx={{ mb: 2 }}>
+        {" "}
+        Files{" "}
+      </Button>
       <Grid
         container
         // alignItems="center"
@@ -278,6 +282,7 @@ export const Single = () => {
         sx={{
           bgcolor: "background.default",
           minHeight: "80vh",
+          marginLeft: "20px",
         }}
       >
         <Grid item xs={4} sx={{ ml: 1 }}>
@@ -633,7 +638,7 @@ export const Single = () => {
             </CustomTabPanel>
           </Box>
           <Button
-            variant="text"
+            variant="contained"
             color="success"
             onClick={handleExecuteButtonClick}
           >
