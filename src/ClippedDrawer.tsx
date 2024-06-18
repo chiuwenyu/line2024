@@ -149,7 +149,13 @@ export default function ClippedDrawer() {
               <List>
                 {drawerItems2.map((item) => (
                   <ListItem key={item.Index} disablePadding>
-                    <ListItemButton onClick={() => setAppNo(item.Index)}>
+                    <ListItemButton
+                      onClick={() => {
+                        setAppNo(item.Index);
+                        if (item.Index === 7) {
+                        }
+                      }}
+                    >
                       <ListItemIcon sx={{ color: "white", mr: -1 }}>
                         {item.Icon}
                       </ListItemIcon>
