@@ -272,10 +272,30 @@ export const Single = () => {
   return (
     <>
       <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
-        <Button variant="text">Open</Button>
-        <Button variant="text">Save</Button>
-        <Button variant="text">Save As</Button>
-        <Button variant="text">Export Result</Button>
+        <Button
+          variant="text"
+          sx={{ color: "grey", textDecoration: "underline" }}
+        >
+          Open
+        </Button>
+        <Button
+          variant="text"
+          sx={{ color: "grey", textDecoration: "underline" }}
+        >
+          Save
+        </Button>
+        <Button
+          variant="text"
+          sx={{ color: "grey", textDecoration: "underline" }}
+        >
+          Save As
+        </Button>
+        <Button
+          variant="text"
+          sx={{ color: "grey", textDecoration: "underline" }}
+        >
+          Export Result
+        </Button>
       </Stack>
       <Grid
         container
@@ -284,7 +304,7 @@ export const Single = () => {
         sx={{
           bgcolor: "background.default",
           minHeight: "80vh",
-          marginLeft: "20px",
+          marginLeft: "8px",
         }}
       >
         <Grid item xs={4} sx={{ ml: 1 }}>
