@@ -9,6 +9,8 @@ import DataGridSingle from "./DataGridSingle";
 import { SizingData } from "./DataGridSingle";
 import pipeData from "../../assets/PipeStd.json";
 import workID from "../../assets/PipeWork.json";
+import { open } from "@tauri-apps/api/dialog";
+import { path } from "@tauri-apps/api";
 
 import {
   Button,
@@ -269,6 +271,22 @@ export const Single = () => {
     }
   }
 
+  const onSaveAsButtonClick = async () => {
+    try {
+      const selectedPath = (await open({
+        multiple: false,
+      })) as string;
+      if (!selectedPath) return;
+      // 使用 path 模組來分解檔案路徑和檔案名稱
+      const dirname = path.dirname(selectedPath);
+      const filename = path.basename(selectedPath);
+      console.log("Directory:", dirname);
+      console.log("Filename:", filename);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
@@ -286,6 +304,7 @@ export const Single = () => {
         </Button>
         <Button
           variant="text"
+          onClick={onSaveAsButtonClick}
           sx={{ color: "grey", textDecoration: "underline" }}
         >
           Save As
