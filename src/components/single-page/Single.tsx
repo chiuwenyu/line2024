@@ -9,8 +9,8 @@ import DataGridSingle from "./DataGridSingle";
 import { SizingData } from "./DataGridSingle";
 import pipeData from "../../assets/PipeStd.json";
 import workID from "../../assets/PipeWork.json";
-import { open } from "@tauri-apps/api/dialog";
-import { path } from "@tauri-apps/api";
+import { dialog } from "@tauri-apps/api";
+import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 
 import {
   Button,
@@ -272,19 +272,27 @@ export const Single = () => {
   }
 
   const onSaveAsButtonClick = async () => {
-    try {
-      const selectedPath = (await open({
-        multiple: false,
-      })) as string;
-      if (!selectedPath) return;
-      // 使用 path 模組來分解檔案路徑和檔案名稱
-      const dirname = path.dirname(selectedPath);
-      const filename = path.basename(selectedPath);
-      console.log("Directory:", dirname);
-      console.log("Filename:", filename);
-    } catch (err) {
-      console.error(err);
-    }
+    const myText = "Hello, Tauri!";
+    dialog
+      .save({
+        defaultPath: "my_data.txt", // 預設檔案名稱
+        filters: [{ name: "Text Files", extensions: ["txt"] }], // 檔案類型過濾器
+      })
+      .then(async (result) => {
+        if (result !== null) {
+          // 將文字字符串轉換為字節流
+          const data = myText;
+
+          // 使用 fs 模組將字節流寫入檔案
+          await writeTextFile(result, data, { dir: BaseDirectory.AppConfig });
+          console.log(`Data saved to ${result}`);
+        } else {
+          console.log("Cancelled by user.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error.message);
+      });
   };
 
   return (
