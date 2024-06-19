@@ -126,6 +126,8 @@ export const Single = () => {
 
   // Error handling
   const [error, setError] = useState(false);
+
+  // Tab value
   const [value, setValue] = useState(0);
 
   // handle ID select
@@ -275,8 +277,9 @@ export const Single = () => {
     const myText = "Hello, Tauri!";
     dialog
       .save({
-        defaultPath: "my_data.txt", // 預設檔案名稱
-        filters: [{ name: "Text Files", extensions: ["txt"] }], // 檔案類型過濾器
+        defaultPath: "data1.lns", // 預設檔案名稱
+        filters: [{ name: "Line Sizing Files", extensions: ["lns"] }], // 檔案類型過濾器
+        title: "Save File As",
       })
       .then(async (result) => {
         if (result !== null) {
