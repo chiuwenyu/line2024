@@ -95,6 +95,11 @@ function a11yProps(index: number) {
   };
 }
 
+type SingleFileType = {
+  Single_FluidType: string;
+  Single_MassFlowRate: string;
+};
+
 export const Single = () => {
   // Process Data
   const [fluid, setFluid] = useState(10);
@@ -277,17 +282,23 @@ export const Single = () => {
     const myText = "Hello, Tauri!";
     dialog
       .save({
-        defaultPath: "data1.lns", // 預設檔案名稱
-        filters: [{ name: "Line Sizing Files", extensions: ["lns"] }], // 檔案類型過濾器
+        defaultPath: "data1.json", // 預設檔案名稱
+        filters: [{ name: "Line Sizing Files", extensions: ["json"] }], // 檔案類型過濾器
         title: "Save File As",
       })
       .then(async (result) => {
         if (result !== null) {
           // 將文字字符串轉換為字節流
-          const data = myText;
+          const data: SingleFileType = {
+            Single_FluidType: fluid.toString(),
+            Single_MassFlowRate: massFlowRate,
+          };
+          const jsonData = JSON.stringify(data);
 
           // 使用 fs 模組將字節流寫入檔案
-          await writeTextFile(result, data, { dir: BaseDirectory.AppConfig });
+          await writeTextFile(result, jsonData, {
+            dir: BaseDirectory.AppConfig,
+          });
           console.log(`Data saved to ${result}`);
         } else {
           console.log("Cancelled by user.");
