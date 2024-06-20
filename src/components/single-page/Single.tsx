@@ -303,9 +303,7 @@ export const Single = () => {
           };
           const jsonData = JSON.stringify(data);
 
-          // 使用 fs 模組將字節流寫入檔案
           setFileName(result);
-          console.log(result);
           await writeTextFile(result, jsonData, {
             dir: BaseDirectory.AppConfig,
           });
@@ -316,6 +314,51 @@ export const Single = () => {
       .catch((error) => {
         console.error("Error saving data:", error.message);
       });
+  };
+
+  const onSaveButtonClick = async () => {
+    if (fileName !== "") {
+      try {
+        const data: SingleData = {
+          Single_ProcessData: {
+            Single_FluidType: fluid.toString(),
+            Single_MassFlowRate: massFlowRate,
+            Single_Density: density,
+            Single_Viscosity: viscosity,
+            Single_Roughness: roughness,
+            Single_SafeFactor: safeFactor,
+          },
+          Single_OptionData: {
+            Single_lowPres: lowPres,
+            Single_highPres: highPres,
+            Single_lowID: lowID,
+            Single_highID: highID,
+            Single_OptValue: optValue,
+          },
+          Single_ProjectData: {
+            Single_projNo: projNo,
+            Single_projName: projName,
+            Single_projDesc: projDesc,
+          },
+          Single_LineData: {
+            Single_lineNo: lineNo,
+            Single_lineFrom: lineFrom,
+            Single_lineTo: lineTo,
+            Single_note: note,
+          },
+        };
+        const jsonData = JSON.stringify(data);
+        const filePath = fileName;
+        setFileName(filePath);
+        await writeTextFile(filePath, jsonData, {
+          dir: BaseDirectory.AppConfig,
+        });
+      } catch (error: any) {
+        console.error("Error saving data:", error.message);
+      }
+    } else {
+      onSaveAsButtonClick();
+    }
   };
 
   return (
@@ -329,6 +372,7 @@ export const Single = () => {
         </Button>
         <Button
           variant="text"
+          onClick={onSaveButtonClick}
           sx={{ color: "grey", textDecoration: "underline" }}
         >
           Save
