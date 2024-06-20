@@ -362,6 +362,8 @@ export const Single = () => {
   };
 
   const onNewButtonClick = async () => {
+    // reset program data
+    setFileName("");
     // reset process data
     setFluid(10);
     setMassFlowRate("");
