@@ -362,7 +362,39 @@ export const Single = () => {
     }
   };
 
-  const onNewButtonClick = async () => {};
+  const onNewButtonClick = async () => {
+    // reset process data
+    setFluid(10);
+    setMassFlowRate("");
+    setDensity("");
+    setViscosity("");
+    setRoughness("");
+    setSafeFactor("1.0");
+
+    // reset options data
+    setLowPres("");
+    setHighPres("");
+    setLowID("");
+    setHighID("");
+    setOptValue("1");
+    setOptDiaErrOpen(false);
+    setOptPresErrOpen(false);
+
+    // reset project data
+    setProjectNo("");
+    setProjectName("");
+    setProjectDesc("");
+
+    // reset line data
+    setLineNo("");
+    setLineFrom("");
+    setLineTo("");
+    setNote("");
+    // rest error handling
+    setError(false);
+    // reset Tab value
+    setValue(0);
+  };
 
   const onOpenButtonClick = async () => {};
 
