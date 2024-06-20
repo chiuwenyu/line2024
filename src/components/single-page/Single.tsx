@@ -29,6 +29,7 @@ import {
 } from "@mui/material";
 import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
+import { SingleData } from "./SingleDataType";
 
 type Result = {
   w: number; // fluid flow rate [kg/hr]
@@ -94,11 +95,6 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-type SingleFileType = {
-  Single_FluidType: string;
-  Single_MassFlowRate: string;
-};
 
 export const Single = () => {
   // Process Data
@@ -288,10 +284,33 @@ export const Single = () => {
       })
       .then(async (result) => {
         if (result !== null) {
-          // 將文字字符串轉換為字節流
-          const data: SingleFileType = {
-            Single_FluidType: fluid.toString(),
-            Single_MassFlowRate: massFlowRate,
+          const data: SingleData = {
+            Single_ProcessData: {
+              Single_FluidType: fluid.toString(),
+              Single_MassFlowRate: massFlowRate,
+              Single_Density: density,
+              Single_Viscosity: viscosity,
+              Single_Roughness: roughness,
+              Single_SafeFactor: safeFactor,
+            },
+            Single_OptionData: {
+              Single_lowPres: lowPres,
+              Single_highPres: highPres,
+              Single_lowID: lowID,
+              Single_highID: highID,
+              Single_OptValue: optValue,
+            },
+            Single_ProjectData: {
+              Single_projNo: projNo,
+              Single_projName: projName,
+              Single_projDesc: projDesc,
+            },
+            Single_LineData: {
+              Single_lineNo: lineNo,
+              Single_lineFrom: lineFrom,
+              Single_lineTo: lineTo,
+              Single_note: note,
+            },
           };
           const jsonData = JSON.stringify(data);
 
@@ -299,7 +318,6 @@ export const Single = () => {
           await writeTextFile(result, jsonData, {
             dir: BaseDirectory.AppConfig,
           });
-          console.log(`Data saved to ${result}`);
         } else {
           console.log("Cancelled by user.");
         }
