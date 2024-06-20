@@ -34,3 +34,18 @@ export interface SingleLineData {
   Single_lineTo: string;
   Single_note: string;
 }
+
+export type Result = {
+  w: number; // fluid flow rate [kg/hr]
+  rho: number; // fluid density [kg/m^3]
+  mu: number; // fluid viscosity [N-sec/m^2] = [Kg/m3/sec]
+  id: number; // pipe inside diameter [m]
+  e: number; // pipe roughness [m]
+  sf: number; // safety factor [-]
+  // output fields
+  v: number; // fluid flow velocity [m/s]
+  nre: number; // Reynold number [-]
+  fdarcy: number; // Darcy Friction Factor [-]
+  dp100: number; // pressure drop per 100m
+  vh: number; // velocity head vh = rho * v^2
+};

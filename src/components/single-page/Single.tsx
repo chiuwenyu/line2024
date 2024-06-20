@@ -29,22 +29,7 @@ import {
 } from "@mui/material";
 import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
-import { SingleData } from "./SingleDataType";
-
-type Result = {
-  w: number; // fluid flow rate [kg/hr]
-  rho: number; // fluid density [kg/m^3]
-  mu: number; // fluid viscosity [N-sec/m^2] = [Kg/m3/sec]
-  id: number; // pipe inside diameter [m]
-  e: number; // pipe roughness [m]
-  sf: number; // safety factor [-]
-  // output fields
-  v: number; // fluid flow velocity [m/s]
-  nre: number; // Reynold number [-]
-  fdarcy: number; // Darcy Friction Factor [-]
-  dp100: number; // pressure drop per 100m
-  vh: number; // velocity head vh = rho * v^2
-};
+import { SingleData, Result } from "./SingleDataType";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -275,7 +260,6 @@ export const Single = () => {
   }
 
   const onSaveAsButtonClick = async () => {
-    const myText = "Hello, Tauri!";
     dialog
       .save({
         defaultPath: "data1.json", // 預設檔案名稱
