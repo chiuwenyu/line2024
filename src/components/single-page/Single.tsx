@@ -11,6 +11,7 @@ import pipeData from "../../assets/PipeStd.json";
 import workID from "../../assets/PipeWork.json";
 import { dialog } from "@tauri-apps/api";
 import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 
 import {
   Button,
@@ -30,6 +31,7 @@ import {
 import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
+import { TbSpacingHorizontal } from "react-icons/tb";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -82,6 +84,9 @@ function a11yProps(index: number) {
 }
 
 export const Single = () => {
+  // Program Data
+  const [fileName, setFileName] = useState("");
+
   // Process Data
   const [fluid, setFluid] = useState(10);
   const [massFlowRate, setMassFlowRate] = useState("150734");
@@ -299,6 +304,8 @@ export const Single = () => {
           const jsonData = JSON.stringify(data);
 
           // 使用 fs 模組將字節流寫入檔案
+          setFileName(result);
+          console.log(result);
           await writeTextFile(result, jsonData, {
             dir: BaseDirectory.AppConfig,
           });
@@ -339,6 +346,17 @@ export const Single = () => {
         >
           Export Result
         </Button>
+        {fileName !== "" && (
+          <Stack
+            direction={"row"}
+            spacing={1}
+            alignItems={"center"}
+            color={"primary.main"}
+          >
+            <FolderOpenIcon />
+            <Typography variant="body2">{fileName}</Typography>
+          </Stack>
+        )}
       </Stack>
       <Grid
         container
