@@ -31,7 +31,6 @@ import {
 import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
-import { TbSpacingHorizontal } from "react-icons/tb";
 import FileButton from "./FileButton";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
