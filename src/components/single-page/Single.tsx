@@ -32,6 +32,7 @@ import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
 import { TbSpacingHorizontal } from "react-icons/tb";
+import FileButton from "./FileButton";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -361,10 +362,24 @@ export const Single = () => {
     }
   };
 
+  const onNewButtonClick = async () => {};
+
+  const onOpenButtonClick = async () => {};
+
+  const onExportButtonClick = async () => {};
+
   return (
     <>
       <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
-        <Button
+        <FileButton
+          onNewButtonClick={onNewButtonClick}
+          onOpenButtonClick={onOpenButtonClick}
+          onSaveButtonClick={onSaveButtonClick}
+          onSaveAsButtonClick={onSaveAsButtonClick}
+          onExportButtonClick={onExportButtonClick}
+        />
+
+        {/* <Button
           variant="text"
           sx={{ color: "grey", textDecoration: "underline" }}
         >
@@ -389,7 +404,7 @@ export const Single = () => {
           sx={{ color: "grey", textDecoration: "underline" }}
         >
           Export Result
-        </Button>
+        </Button> */}
         {fileName !== "" && (
           <Stack
             direction={"row"}
@@ -768,6 +783,7 @@ export const Single = () => {
             variant="contained"
             color="success"
             onClick={handleExecuteButtonClick}
+            sx={{ borderRadius: "20px" }}
           >
             {" "}
             Execute{" "}

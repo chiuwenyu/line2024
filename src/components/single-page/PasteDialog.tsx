@@ -39,6 +39,7 @@ export default function PasteDialog(props: any) {
         color="success"
         onClick={handleClickOpen}
         style={{ marginLeft: "25px", marginRight: "20px" }}
+        sx={{ borderRadius: "20px" }}
       >
         Paste props
       </Button>
