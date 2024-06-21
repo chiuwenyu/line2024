@@ -121,6 +121,10 @@ export const Single = () => {
   // Tab value
   const [value, setValue] = useState(0);
 
+  // Calculated Result
+  const [resData, setResData] = useState<SizingData[]>([]);
+  const [calState, setCalState] = useState(false);
+
   // handle ID select
   const nids = pipeData.map((item) => {
     return (
@@ -129,10 +133,6 @@ export const Single = () => {
       </MenuItem>
     );
   });
-
-  // Calculated Result
-  const [resData, setResData] = useState<SizingData[]>([]);
-  const [calState, setCalState] = useState(false);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -364,6 +364,9 @@ export const Single = () => {
   const onNewButtonClick = async () => {
     // reset program data
     setFileName("");
+    setCalState(false);
+    setResData([]);
+
     // reset process data
     setFluid(10);
     setMassFlowRate("");
@@ -412,38 +415,6 @@ export const Single = () => {
           onExportButtonClick={onExportButtonClick}
         />
 
-        {/* <Button
-          variant="text"
-          sx={{ color: "grey", textDecoration: "underline" }}
-        >
-          New
-        </Button>
-        <Button
-          variant="text"
-          sx={{ color: "grey", textDecoration: "underline" }}
-        >
-          Open
-        </Button>
-        <Button
-          variant="text"
-          onClick={onSaveButtonClick}
-          sx={{ color: "grey", textDecoration: "underline" }}
-        >
-          Save
-        </Button>
-        <Button
-          variant="text"
-          onClick={onSaveAsButtonClick}
-          sx={{ color: "grey", textDecoration: "underline" }}
-        >
-          Save As
-        </Button>
-        <Button
-          variant="text"
-          sx={{ color: "grey", textDecoration: "underline" }}
-        >
-          Export Result
-        </Button> */}
         {fileName !== "" && (
           <Stack
             direction={"row"}
