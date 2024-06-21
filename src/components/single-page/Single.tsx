@@ -318,6 +318,12 @@ export const Single = () => {
           variant="text"
           sx={{ color: "grey", textDecoration: "underline" }}
         >
+          New
+        </Button>
+        <Button
+          variant="text"
+          sx={{ color: "grey", textDecoration: "underline" }}
+        >
           Open
         </Button>
         <Button
