@@ -11,6 +11,7 @@ import pipeData from "../../assets/PipeStd.json";
 import workID from "../../assets/PipeWork.json";
 import { dialog } from "@tauri-apps/api";
 import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 
 import {
   Button,
@@ -30,6 +31,7 @@ import {
 import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
+import FileButton from "./FileButton";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -82,6 +84,9 @@ function a11yProps(index: number) {
 }
 
 export const Single = () => {
+  // Program Data
+  const [fileName, setFileName] = useState("");
+
   // Process Data
   const [fluid, setFluid] = useState(10);
   const [massFlowRate, setMassFlowRate] = useState("150734");
@@ -298,7 +303,7 @@ export const Single = () => {
           };
           const jsonData = JSON.stringify(data);
 
-          // 使用 fs 模組將字節流寫入檔案
+          setFileName(result);
           await writeTextFile(result, jsonData, {
             dir: BaseDirectory.AppConfig,
           });
@@ -311,10 +316,103 @@ export const Single = () => {
       });
   };
 
+  const onSaveButtonClick = async () => {
+    if (fileName !== "") {
+      try {
+        const data: SingleData = {
+          Single_ProcessData: {
+            Single_FluidType: fluid.toString(),
+            Single_MassFlowRate: massFlowRate,
+            Single_Density: density,
+            Single_Viscosity: viscosity,
+            Single_Roughness: roughness,
+            Single_SafeFactor: safeFactor,
+          },
+          Single_OptionData: {
+            Single_lowPres: lowPres,
+            Single_highPres: highPres,
+            Single_lowID: lowID,
+            Single_highID: highID,
+            Single_OptValue: optValue,
+          },
+          Single_ProjectData: {
+            Single_projNo: projNo,
+            Single_projName: projName,
+            Single_projDesc: projDesc,
+          },
+          Single_LineData: {
+            Single_lineNo: lineNo,
+            Single_lineFrom: lineFrom,
+            Single_lineTo: lineTo,
+            Single_note: note,
+          },
+        };
+        const jsonData = JSON.stringify(data);
+        const filePath = fileName;
+        setFileName(filePath);
+        await writeTextFile(filePath, jsonData, {
+          dir: BaseDirectory.AppConfig,
+        });
+      } catch (error: any) {
+        console.error("Error saving data:", error.message);
+      }
+    } else {
+      onSaveAsButtonClick();
+    }
+  };
+
+  const onNewButtonClick = async () => {
+    // reset program data
+    setFileName("");
+    // reset process data
+    setFluid(10);
+    setMassFlowRate("");
+    setDensity("");
+    setViscosity("");
+    setRoughness("");
+    setSafeFactor("1.0");
+
+    // reset options data
+    setLowPres("");
+    setHighPres("");
+    setLowID("");
+    setHighID("");
+    setOptValue("1");
+    setOptDiaErrOpen(false);
+    setOptPresErrOpen(false);
+
+    // reset project data
+    setProjectNo("");
+    setProjectName("");
+    setProjectDesc("");
+
+    // reset line data
+    setLineNo("");
+    setLineFrom("");
+    setLineTo("");
+    setNote("");
+    // rest error handling
+    setError(false);
+    // reset Tab value
+    setValue(0);
+  };
+
+  const onOpenButtonClick = async () => {};
+
+  const onExportButtonClick = async () => {};
+
   return (
     <>
       <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
-        <Button
+        <FileButton
+          onNewButtonClick={onNewButtonClick}
+          onOpenButtonClick={onOpenButtonClick}
+          onSaveButtonClick={onSaveButtonClick}
+          onSaveAsButtonClick={onSaveAsButtonClick}
+          onExportButtonClick={onExportButtonClick}
+        />
+
+        {/* <Button
           variant="text"
           sx={{ color: "grey", textDecoration: "underline" }}
         >
@@ -328,6 +426,7 @@ export const Single = () => {
         </Button>
         <Button
           variant="text"
+          onClick={onSaveButtonClick}
           sx={{ color: "grey", textDecoration: "underline" }}
         >
           Save
@@ -344,7 +443,18 @@ export const Single = () => {
           sx={{ color: "grey", textDecoration: "underline" }}
         >
           Export Result
-        </Button>
+        </Button> */}
+        {fileName !== "" && (
+          <Stack
+            direction={"row"}
+            spacing={1}
+            alignItems={"center"}
+            color={"primary.main"}
+          >
+            <FolderOpenIcon />
+            <Typography variant="body2">{fileName}</Typography>
+          </Stack>
+        )}
       </Stack>
       <Grid
         container
@@ -712,6 +822,7 @@ export const Single = () => {
             variant="contained"
             color="success"
             onClick={handleExecuteButtonClick}
+            sx={{ borderRadius: "20px" }}
           >
             {" "}
             Execute{" "}
