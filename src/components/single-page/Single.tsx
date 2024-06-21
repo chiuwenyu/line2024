@@ -10,7 +10,7 @@ import { SizingData } from "./DataGridSingle";
 import pipeData from "../../assets/PipeStd.json";
 import workID from "../../assets/PipeWork.json";
 import { dialog } from "@tauri-apps/api";
-import { writeTextFile, BaseDirectory } from "@tauri-apps/api/fs";
+import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 
 import {
@@ -400,7 +400,51 @@ export const Single = () => {
     setValue(0);
   };
 
-  const onOpenButtonClick = async () => {};
+  const onOpenButtonClick = async () => {
+    dialog
+      .open({
+        filters: [{ name: "Line Sizing Files", extensions: ["json"] }], // 檔案類型過濾器
+        title: "Open File",
+      })
+      .then(async (result) => {
+        if (result !== null) {
+          setFileName(result as string);
+          await readTextFile(result as string, {
+            dir: BaseDirectory.AppConfig,
+          }).then((data) => {
+            const jsonData = data as string;
+            const objData = JSON.parse(jsonData);
+            // set process data
+            setFluid(parseInt(objData.Single_ProcessData.Single_FluidType));
+            setMassFlowRate(objData.Single_ProcessData.Single_MassFlowRate);
+            setDensity(objData.Single_ProcessData.Single_Density);
+            setViscosity(objData.Single_ProcessData.Single_Viscosity);
+            setRoughness(objData.Single_ProcessData.Single_Roughness);
+            setSafeFactor(objData.Single_ProcessData.Single_SafeFactor);
+            // set options data
+            setLowPres(objData.Single_OptionData.Single_lowPres);
+            setHighPres(objData.Single_OptionData.Single_highPres);
+            setLowID(objData.Single_OptionData.Single_lowID);
+            setHighID(objData.Single_OptionData.Single_highID);
+            setOptValue(objData.Single_OptionData.Single_OptValue);
+            // set project data
+            setProjectNo(objData.Single_ProjectData.Single_projNo);
+            setProjectName(objData.Single_ProjectData.Single_projName);
+            setProjectDesc(objData.Single_ProjectData.Single_projDesc);
+            // set line data
+            setLineNo(objData.Single_LineData.Single_lineNo);
+            setLineFrom(objData.Single_LineData.Single_lineFrom);
+            setLineTo(objData.Single_LineData.Single_lineTo);
+            setNote(objData.Single_LineData.Single_note);
+          });
+        } else {
+          console.log("Cancelled by user.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error reading data:", error.message);
+      });
+  };
 
   const onExportButtonClick = async () => {};
 
