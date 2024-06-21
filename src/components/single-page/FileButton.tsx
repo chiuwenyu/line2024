@@ -33,7 +33,17 @@ const FileButton = (props: any) => {
         {...bindTrigger(popupState)}
         size="small"
         endIcon={<KeyboardArrowDownIcon />}
-        sx={{ borderRadius: "25px", minWidth: "80px" }}
+        sx={{
+          borderRadius: "25px",
+          minWidth: "80px",
+          bgcolor: "#f7f7f7",
+          color: "#191919",
+          borderColor: "#757575",
+          "&:hover": {
+            bgcolor: "#e0e0e0",
+            borderColor: "lightgrey",
+          },
+        }}
       >
         File
       </Button>
