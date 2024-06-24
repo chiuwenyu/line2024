@@ -32,6 +32,9 @@ import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
 import FileButton from "./FileButton";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import download from "downloadjs";
+import { open } from "@tauri-apps/api/shell";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -446,7 +449,28 @@ export const Single = () => {
       });
   };
 
-  const onExportButtonClick = async () => {};
+  const onExportButtonClick = async () => {
+    const pdfDoc = await PDFDocument.create();
+    const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+
+    const page = pdfDoc.addPage();
+    const { width, height } = page.getSize();
+    console.log(width, height);
+    const fontSize = 30;
+    page.drawText("Creating PDFs in JavaScript is awesome!", {
+      x: 50,
+      y: height - 4 * fontSize,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0.53, 0.71),
+    });
+
+    const pdfBytes = await pdfDoc.save();
+    const pdfDataUrl = URL.createObjectURL(
+      new Blob([pdfBytes], { type: "application/pdf" })
+    );
+    window.open(pdfDataUrl);
+  };
 
   return (
     <>
