@@ -517,6 +517,8 @@ export const Single = () => {
       `Safe Factor : ${safeFactor}`,
       `    `,
       `>>>> CALCULATION RESULT  <<<<`,
+      `  Norm. ID         Act. ID        Velocity         Pressure Drop          1.0 V.H         Reynold No.`,
+      `   (inch)          (inch)          (m/s)           (Kg/cm^2/100m)        (Kg/m/s^2)           [-]`,
     ];
     dy = dy - 5;
     const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
