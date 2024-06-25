@@ -497,23 +497,54 @@ export const Single = () => {
       `From : ${lineFrom}`,
       `To : ${lineTo}`,
       `Note : ${note}`,
+      `    `,
+      `>>>> INPUT DATA <<<<`,
+      `Fluid Type : ${
+        fluid === 10
+          ? "Liquid"
+          : fluid === 20
+          ? "Gas"
+          : fluid === 30
+          ? "Steam"
+          : fluid === 40
+          ? "Water"
+          : ""
+      }`,
+      `Mass Flow Rate (Kg/hr): ${massFlowRate}`,
+      `Density (Kg/m^3): ${density} `,
+      `Viscosity (cP): ${viscosity} `,
+      `Pipe Roughness (mm): ${roughness} `,
+      `Safe Factor : ${safeFactor}`,
+      `    `,
+      `>>>> CALCULATION RESULT  <<<<`,
     ];
-    dy = dy - 2;
+    dy = dy - 5;
     const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
+    const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
     fontSize = 8;
     const lineSpacing = 2;
     const lineHeight = fontSize + lineSpacing;
     dx = widthMargine + 5;
 
     for (let i = 0; i < txtStrs.length; i++) {
-      dy = dy - lineHeight * 2;
-      page.drawText(txtStrs[i], {
-        x: dx,
-        y: dy,
-        size: fontSize,
-        font: courierFont,
-        color: rgb(0, 0, 0),
-      });
+      dy = dy - lineHeight * 1.5;
+      if (i === 8 || i === 16) {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
     }
 
     const pdfBytes = await pdfDoc.save();
