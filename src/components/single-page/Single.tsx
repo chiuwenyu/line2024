@@ -33,8 +33,6 @@ import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
 import FileButton from "./FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import download from "downloadjs";
-import { open } from "@tauri-apps/api/shell";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -455,15 +453,40 @@ export const Single = () => {
 
     const page = pdfDoc.addPage();
     const { width, height } = page.getSize();
-    console.log(width, height);
-    const fontSize = 30;
-    page.drawText("Creating PDFs in JavaScript is awesome!", {
-      x: 50,
-      y: height - 4 * fontSize,
+
+    // **** Print Header (Application Name) ****
+    let fontSize = 16;
+    let dy = height - 4 * fontSize;
+    let dx = 450;
+    let textStr = "Line2024";
+    let textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
+    page.drawText(textStr, {
+      x: dx,
+      y: dy,
       size: fontSize,
       font: timesRomanFont,
-      color: rgb(0, 0.53, 0.71),
+      color: rgb(0, 0, 0),
     });
+
+    fontSize = 6;
+    page.drawText("   Ver 1.0.0", {
+      x: dx + textWidth,
+      y: dy,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0, 0),
+    });
+
+    // draw a thick red line at the bottom of header
+    const widthMargine = 30;
+    page.drawLine({
+      start: { x: widthMargine, y: dy - 5 },
+      end: { x: width - widthMargine, y: dy - 5 },
+      thickness: 1,
+      color: rgb(1, 0, 0),
+    });
+
+    // **** Print Input Data ****
 
     const pdfBytes = await pdfDoc.save();
     const pdfDataUrl = URL.createObjectURL(
