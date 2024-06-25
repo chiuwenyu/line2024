@@ -493,6 +493,10 @@ export const Single = () => {
       `Project No. : ${projNo}`,
       `Project Name : ${projName}`,
       `Description : ${projDesc}`,
+      `Line No. : ${lineNo}`,
+      `From : ${lineFrom}`,
+      `To : ${lineTo}`,
+      `Note : ${note}`,
     ];
     dy = dy - 2;
     const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
