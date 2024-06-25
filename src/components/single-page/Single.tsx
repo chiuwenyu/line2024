@@ -33,6 +33,7 @@ import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
 import FileButton from "./FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -449,6 +450,7 @@ export const Single = () => {
 
   const onExportButtonClick = async () => {
     const pdfDoc = await PDFDocument.create();
+
     const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
 
     const page = pdfDoc.addPage();
@@ -487,6 +489,30 @@ export const Single = () => {
     });
 
     // **** Print Input Data ****
+    const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
+    fontSize = 8;
+    const lineSpacing = 2;
+    const lineHeight = fontSize + lineSpacing;
+    dx = widthMargine + 5;
+    dy = dy - 2 - lineHeight * 2;
+    textStr = "Project No. : " + projNo;
+    page.drawText(textStr, {
+      x: dx,
+      y: dy,
+      size: fontSize,
+      font: courierFont,
+      color: rgb(0, 0, 0),
+    });
+
+    dy = dy - lineHeight * 2;
+    textStr = "Project Name : " + projName;
+    page.drawText(textStr, {
+      x: dx,
+      y: dy,
+      size: fontSize,
+      font: courierFont,
+      color: rgb(0, 0, 0),
+    });
 
     const pdfBytes = await pdfDoc.save();
     const pdfDataUrl = URL.createObjectURL(
