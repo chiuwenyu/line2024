@@ -489,30 +489,28 @@ export const Single = () => {
     });
 
     // **** Print Input Data ****
+    let txtStrs: string[] = [
+      `Project No. : ${projNo}`,
+      `Project Name : ${projName}`,
+      `Description : ${projDesc}`,
+    ];
+    dy = dy - 2;
     const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
     fontSize = 8;
     const lineSpacing = 2;
     const lineHeight = fontSize + lineSpacing;
     dx = widthMargine + 5;
-    dy = dy - 2 - lineHeight * 2;
-    textStr = "Project No. : " + projNo;
-    page.drawText(textStr, {
-      x: dx,
-      y: dy,
-      size: fontSize,
-      font: courierFont,
-      color: rgb(0, 0, 0),
-    });
 
-    dy = dy - lineHeight * 2;
-    textStr = "Project Name : " + projName;
-    page.drawText(textStr, {
-      x: dx,
-      y: dy,
-      size: fontSize,
-      font: courierFont,
-      color: rgb(0, 0, 0),
-    });
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 2;
+      page.drawText(txtStrs[i], {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    }
 
     const pdfBytes = await pdfDoc.save();
     const pdfDataUrl = URL.createObjectURL(
