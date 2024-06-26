@@ -517,6 +517,7 @@ export const Single = () => {
       `Safe Factor : ${safeFactor}`,
       `    `,
       `>>>> CALCULATION RESULT  <<<<`,
+      `    `,
       `  Norm. ID         Act. ID        Velocity         Pressure Drop          1.0 V.H         Reynold No.`,
       `   (inch)          (inch)          (m/s)           (Kg/cm^2/100m)        (Kg/m/s^2)           [-]`,
     ];
@@ -548,6 +549,23 @@ export const Single = () => {
         });
       }
     }
+
+    // draw a thick black line at the top of head row
+    page.drawLine({
+      start: { x: widthMargine, y: dy + 30 },
+      end: { x: width - widthMargine * 1.5, y: dy + 30 },
+      thickness: 1,
+      color: rgb(0.25, 0.25, 0.25),
+    });
+
+    // draw a thick black line at the bottom of head row
+    dy = dy - 7;
+    page.drawLine({
+      start: { x: widthMargine, y: dy },
+      end: { x: width - widthMargine * 1.5, y: dy },
+      thickness: 1,
+      color: rgb(0.25, 0.25, 0.25),
+    });
 
     const pdfBytes = await pdfDoc.save();
     const pdfDataUrl = URL.createObjectURL(
