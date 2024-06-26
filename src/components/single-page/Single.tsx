@@ -33,7 +33,6 @@ import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
 import FileButton from "./FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import fontkit from "@pdf-lib/fontkit";
 
 // 將 num 輸出格式化的 scientific format to 1.23E+002
 function fmt_f64(
@@ -126,6 +125,7 @@ export const Single = () => {
   // Calculated Result
   const [resData, setResData] = useState<SizingData[]>([]);
   const [calState, setCalState] = useState(false);
+  const [selectId, setSelectId] = useState<string>("");
 
   // handle ID select
   const nids = pipeData.map((item) => {
@@ -458,7 +458,7 @@ export const Single = () => {
 
     // **** Print Header (Application Name) ****
     let fontSize = 16;
-    let dy = height - 4 * fontSize;
+    let dy = height - 3 * fontSize;
     let dx = 450;
     let textStr = "Line2024";
     let textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
@@ -497,7 +497,6 @@ export const Single = () => {
       `From : ${lineFrom}`,
       `To : ${lineTo}`,
       `Note : ${note}`,
-      `    `,
       `>>>> INPUT DATA <<<<`,
       `Fluid Type : ${
         fluid === 10
@@ -515,11 +514,10 @@ export const Single = () => {
       `Viscosity (cP): ${viscosity} `,
       `Pipe Roughness (mm): ${roughness} `,
       `Safe Factor : ${safeFactor}`,
-      `    `,
       `>>>> CALCULATION RESULT  <<<<`,
       `    `,
-      `  Norm. ID         Act. ID        Velocity         Pressure Drop          1.0 V.H         Reynold No.`,
-      `   (inch)          (inch)          (m/s)           (Kg/cm^2/100m)        (Kg/m/s^2)           [-]`,
+      `  Norm. ID         Act. ID        Velocity         Pressure Drop          1.0 V.H           Reynold No.`,
+      `   (inch)          (inch)          (m/s)           (Kg/cm^2/100m)        (Kg/m/s^2)             [-]`,
     ];
     dy = dy - 5;
     const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
@@ -531,7 +529,7 @@ export const Single = () => {
 
     for (let i = 0; i < txtStrs.length; i++) {
       dy = dy - lineHeight * 1.5;
-      if (i === 8 || i === 16) {
+      if (i === 7 || i === 14) {
         page.drawText(txtStrs[i], {
           x: dx,
           y: dy,
@@ -565,6 +563,77 @@ export const Single = () => {
       end: { x: width - widthMargine * 1.5, y: dy },
       thickness: 1,
       color: rgb(0.25, 0.25, 0.25),
+    });
+
+    // **** Print Result Data ****
+    if (resData.length === 0) {
+      dy = dy - 12;
+      page.drawText("No data available...", {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    } else {
+      let outStrs: string[] = [];
+      resData.forEach((item) => {
+        outStrs.push(
+          `${item.id.padStart(8)}${item.actID.padStart(17)}${item.vel.padStart(
+            17
+          )}${item.presDrop.padStart(22)}${item.vh.padStart(19)}${
+            item.reynoldNo
+          }`
+        );
+      });
+
+      dy = dy - 5;
+      for (let i = 0; i < outStrs.length; i++) {
+        dy = dy - lineHeight * 1.5;
+        if (selectId === resData[i].id) {
+          page.drawText(outStrs[i], {
+            x: dx,
+            y: dy,
+            size: fontSize,
+            font: courierBoldFont,
+            color: rgb(1, 0, 0),
+          });
+        } else {
+          page.drawText(outStrs[i], {
+            x: dx,
+            y: dy,
+            size: fontSize,
+            font: courierFont,
+            color: rgb(0, 0, 0),
+          });
+        }
+      }
+    }
+
+    // draw a thick black line at the bottom of data table
+    dy = dy - 8;
+    page.drawLine({
+      start: { x: widthMargine, y: dy },
+      end: { x: width - widthMargine * 1.5, y: dy },
+      thickness: 1,
+      color: rgb(0.25, 0.25, 0.25),
+    });
+
+    // **** Print Footer ****
+    let msg = "";
+    if (selectId === "") {
+      msg =
+        "Note: You did not select any pipe ID. Please select one on the result table!!";
+    } else {
+      msg = `Note: You select the ${selectId}\" pipe.`;
+    }
+    dy = dy - 14;
+    page.drawText(msg, {
+      x: dx + 10,
+      y: dy,
+      size: fontSize,
+      font: courierFont,
+      color: rgb(0, 0, 0),
     });
 
     const pdfBytes = await pdfDoc.save();
@@ -979,7 +1048,13 @@ export const Single = () => {
           />
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
-          {calState && <DataGridSingle rows={resData} />}
+          {calState && (
+            <DataGridSingle
+              rows={resData}
+              selectId={selectId}
+              setSelectId={setSelectId}
+            />
+          )}
         </Grid>
       </Grid>
     </>

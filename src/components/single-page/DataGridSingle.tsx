@@ -67,8 +67,8 @@ const columns: GridColDef<SizingData>[] = [
   },
 ];
 
-export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
-  const [selectId, setSelectId] = useState<string>("");
+export default function DataGridSingle(props: any) {
+  const { rows, selectId, setSelectId } = props;
 
   return (
     <Box sx={{ minWidth: "702px" }}>
