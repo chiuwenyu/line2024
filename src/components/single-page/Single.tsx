@@ -522,6 +522,7 @@ export const Single = () => {
     dy = dy - 5;
     const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
     const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
+
     fontSize = 8;
     const lineSpacing = 2;
     const lineHeight = fontSize + lineSpacing;
