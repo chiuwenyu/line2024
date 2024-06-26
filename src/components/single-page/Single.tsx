@@ -173,6 +173,7 @@ export const Single = () => {
     id === "202" && !isPositiveFloat.test(value)
       ? setError202(true)
       : setError202(false);
+    setCalState(false);
   };
 
   const handleExecuteButtonClick = async () => {
@@ -1040,16 +1041,18 @@ export const Single = () => {
               </Box>
             </CustomTabPanel>
           </Box>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={handleExecuteButtonClick}
-            sx={{ borderRadius: "20px" }}
-          >
-            {" "}
-            Execute{" "}
-          </Button>
-          <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
+          <Grid display={"flex"} flexDirection={"row"}>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleExecuteButtonClick}
+              sx={{ borderRadius: "20px", width: "120px", minWidth: "120px" }}
+            >
+              {" "}
+              Execute{" "}
+            </Button>
+            <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
+          </Grid>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}
             setOptErrOpen={setOptDiaErrOpen}
