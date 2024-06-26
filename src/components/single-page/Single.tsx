@@ -150,6 +150,8 @@ export const Single = () => {
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
 
+    // 101~ 105 is process data input validation
+    // 201, 202 is option pressure high-low input validation
     id === "101" && !isPositiveFloat.test(value)
       ? setError101(true)
       : setError101(false);
