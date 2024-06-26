@@ -269,8 +269,8 @@ export const Single = () => {
   const onSaveAsButtonClick = async () => {
     dialog
       .save({
-        defaultPath: "data1.json", // 預設檔案名稱
-        filters: [{ name: "Line Sizing Files", extensions: ["json"] }], // 檔案類型過濾器
+        defaultPath: "data1.lns", // 預設檔案名稱
+        filters: [{ name: "Line Sizing Files", extensions: ["lns"] }], // 檔案類型過濾器
         title: "Save File As",
       })
       .then(async (result) => {
@@ -405,7 +405,7 @@ export const Single = () => {
   const onOpenButtonClick = async () => {
     dialog
       .open({
-        filters: [{ name: "Line Sizing Files", extensions: ["json"] }], // 檔案類型過濾器
+        filters: [{ name: "Line Sizing Files", extensions: ["lns"] }], // 檔案類型過濾器
         title: "Open File",
       })
       .then(async (result) => {
