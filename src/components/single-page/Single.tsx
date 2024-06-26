@@ -90,11 +90,11 @@ export const Single = () => {
 
   // Process Data
   const [fluid, setFluid] = useState(10);
-  const [massFlowRate, setMassFlowRate] = useState("150734");
-  const [density, setDensity] = useState("380");
-  const [viscosity, setViscosity] = useState("0.054");
-  const [roughness, setRoughness] = useState("0.046");
-  const [safeFactor, setSafeFactor] = useState("1.0");
+  const [massFlowRate, setMassFlowRate] = useState("");
+  const [density, setDensity] = useState("");
+  const [viscosity, setViscosity] = useState("");
+  const [roughness, setRoughness] = useState("");
+  const [safeFactor, setSafeFactor] = useState("1.2");
 
   // Options
   const [lowPres, setLowPres] = useState("0.01");
