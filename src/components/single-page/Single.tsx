@@ -173,6 +173,12 @@ export const Single = () => {
     id === "202" && !isPositiveFloat.test(value)
       ? setError202(true)
       : setError202(false);
+
+    if (!isPositiveFloat.test(value)) {
+      setCalState(true);
+    } else {
+      setCalState(false);
+    }
   };
 
   const handleExecuteButtonClick = async () => {
