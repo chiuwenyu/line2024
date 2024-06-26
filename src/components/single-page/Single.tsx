@@ -117,7 +117,13 @@ export const Single = () => {
   const [note, setNote] = useState("");
 
   // Error handling
-  const [error, setError] = useState(false);
+  const [error101, setError101] = useState(false);
+  const [error102, setError102] = useState(false);
+  const [error103, setError103] = useState(false);
+  const [error104, setError104] = useState(false);
+  const [error105, setError105] = useState(false);
+  const [error201, setError201] = useState(false);
+  const [error202, setError202] = useState(false);
 
   // Tab value
   const [value, setValue] = useState(0);
@@ -140,16 +146,31 @@ export const Single = () => {
     setValue(newValue);
   };
 
-  const validateInput = (value: any) => {
+  const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
-    if (!isPositiveFloat.test(value)) {
-      setError(true);
-      // setCalState(true);
-    } else {
-      setError(false);
-      // setCalState(false);
-    }
+
+    id === "101" && !isPositiveFloat.test(value)
+      ? setError101(true)
+      : setError101(false);
+    id === "102" && !isPositiveFloat.test(value)
+      ? setError102(true)
+      : setError102(false);
+    id === "103" && !isPositiveFloat.test(value)
+      ? setError103(true)
+      : setError103(false);
+    id === "104" && !isPositiveFloat.test(value)
+      ? setError104(true)
+      : setError104(false);
+    id === "105" && !isPositiveFloat.test(value)
+      ? setError105(true)
+      : setError105(false);
+    id === "201" && !isPositiveFloat.test(value)
+      ? setError201(true)
+      : setError201(false);
+    id === "202" && !isPositiveFloat.test(value)
+      ? setError202(true)
+      : setError202(false);
   };
 
   const handleExecuteButtonClick = async () => {
@@ -397,7 +418,13 @@ export const Single = () => {
     setLineTo("");
     setNote("");
     // rest error handling
-    setError(false);
+    setError101(false);
+    setError102(false);
+    setError103(false);
+    setError104(false);
+    setError105(false);
+    setError201(false);
+    setError202(false);
     // reset Tab value
     setValue(0);
   };
@@ -736,16 +763,10 @@ export const Single = () => {
                   variant="outlined"
                   value={massFlowRate}
                   color="secondary"
-                  error={error}
-                  helperText={error ? "Please input correct number" : ""}
-                  onChange={(e) => {
-                    console.log(e.target);
-                    setMassFlowRate(e.target.value);
-                  }}
-                  onBlur={(e) => {
-                    setMassFlowRate(e.target.value);
-                    validateInput(e.target.value);
-                  }}
+                  error={error101}
+                  helperText={error101 ? "Please input correct number" : ""}
+                  onChange={(e) => setMassFlowRate(e.target.value)}
+                  onBlur={(e) => validateInput("101", e.target.value)}
                 />
                 <TextField
                   id="density"
@@ -753,12 +774,10 @@ export const Single = () => {
                   variant="outlined"
                   value={density}
                   color="secondary"
-                  error={error}
-                  helperText={error ? "Please input correct number" : ""}
-                  onChange={(e) => {
-                    setDensity(e.target.value);
-                    validateInput(e.target.value);
-                  }}
+                  error={error102}
+                  helperText={error102 ? "Please input correct number" : ""}
+                  onChange={(e) => setDensity(e.target.value)}
+                  onBlur={(e) => validateInput("102", e.target.value)}
                 />
                 <TextField
                   id="viscosity"
@@ -766,12 +785,10 @@ export const Single = () => {
                   variant="outlined"
                   value={viscosity}
                   color="secondary"
-                  error={error}
-                  helperText={error ? "Please input correct number" : ""}
-                  onChange={(e) => {
-                    setViscosity(e.target.value);
-                    validateInput(e.target.value);
-                  }}
+                  error={error103}
+                  helperText={error103 ? "Please input correct number" : ""}
+                  onChange={(e) => setViscosity(e.target.value)}
+                  onBlur={(e) => validateInput("103", e.target.value)}
                 />
                 <TextField
                   id="roughness"
@@ -779,12 +796,10 @@ export const Single = () => {
                   variant="outlined"
                   value={roughness}
                   color="secondary"
-                  error={error}
-                  helperText={error ? "Please input correct number" : ""}
-                  onChange={(e) => {
-                    setRoughness(e.target.value);
-                    validateInput(e.target.value);
-                  }}
+                  error={error104}
+                  helperText={error104 ? "Please input correct number" : ""}
+                  onChange={(e) => setRoughness(e.target.value)}
+                  onBlur={(e) => validateInput("104", e.target.value)}
                 />
 
                 <TextField
@@ -793,12 +808,10 @@ export const Single = () => {
                   variant="outlined"
                   value={safeFactor}
                   color="secondary"
-                  error={error}
-                  helperText={error ? "Please input correct number" : ""}
-                  onChange={(e) => {
-                    setSafeFactor(e.target.value);
-                    validateInput(e.target.value);
-                  }}
+                  error={error105}
+                  helperText={error105 ? "Please input correct number" : ""}
+                  onChange={(e) => setSafeFactor(e.target.value)}
+                  onBlur={(e) => validateInput("105", e.target.value)}
                 />
               </Box>
             </CustomTabPanel>
@@ -892,14 +905,12 @@ export const Single = () => {
                           variant="outlined"
                           value={lowPres}
                           color="secondary"
-                          error={error}
+                          // error={error}
                           helperText={
-                            error ? "Please input correct number" : ""
+                            error201 ? "Please input correct number" : ""
                           }
-                          onChange={(e) => {
-                            setLowPres(e.target.value);
-                            validateInput(e.target.value);
-                          }}
+                          onChange={(e) => setLowPres(e.target.value)}
+                          onBlur={(e) => validateInput("201", e.target.value)}
                           sx={{ ml: 4 }}
                           disabled={optValue !== "3"}
                         />
@@ -909,14 +920,12 @@ export const Single = () => {
                           variant="outlined"
                           value={highPres}
                           color="secondary"
-                          error={error}
+                          error={error202}
                           helperText={
-                            error ? "Please input correct number" : ""
+                            error202 ? "Please input correct number" : ""
                           }
-                          onChange={(e) => {
-                            setHighPres(e.target.value);
-                            validateInput(e.target.value);
-                          }}
+                          onChange={(e) => setHighPres(e.target.value)}
+                          onBlur={(e) => validateInput("202", e.target.value)}
                           sx={{ ml: 4 }}
                           disabled={optValue !== "3"}
                         />
