@@ -145,10 +145,10 @@ export const Single = () => {
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
     if (!isPositiveFloat.test(value)) {
       setError(true);
-      setCalState(true);
+      // setCalState(true);
     } else {
       setError(false);
-      setCalState(false);
+      // setCalState(false);
     }
   };
 
@@ -731,7 +731,7 @@ export const Single = () => {
                 </FormControl>
 
                 <TextField
-                  id="outlined-basic"
+                  id="mass-flow-rate"
                   label="Mass Flow Rate (Kg/hr)"
                   variant="outlined"
                   value={massFlowRate}
@@ -739,12 +739,16 @@ export const Single = () => {
                   error={error}
                   helperText={error ? "Please input correct number" : ""}
                   onChange={(e) => {
+                    console.log(e.target);
+                    setMassFlowRate(e.target.value);
+                  }}
+                  onBlur={(e) => {
                     setMassFlowRate(e.target.value);
                     validateInput(e.target.value);
                   }}
                 />
                 <TextField
-                  id="outlined-basic"
+                  id="density"
                   label="Density (Kg/m^3)"
                   variant="outlined"
                   value={density}
@@ -757,7 +761,7 @@ export const Single = () => {
                   }}
                 />
                 <TextField
-                  id="outlined-basic"
+                  id="viscosity"
                   label="Viscosity (cP)"
                   variant="outlined"
                   value={viscosity}
@@ -770,7 +774,7 @@ export const Single = () => {
                   }}
                 />
                 <TextField
-                  id="outlined-basic"
+                  id="roughness"
                   label="Pipe Roughness (mm)"
                   variant="outlined"
                   value={roughness}
@@ -784,7 +788,7 @@ export const Single = () => {
                 />
 
                 <TextField
-                  id="outlined-basic"
+                  id="safefactor"
                   label="Safe Factor (-)"
                   variant="outlined"
                   value={safeFactor}
@@ -842,12 +846,10 @@ export const Single = () => {
                           size="medium"
                           disabled={optValue !== "2"}
                         >
-                          <InputLabel id="lowID-select-standard-label">
-                            Lower ID
-                          </InputLabel>
+                          <InputLabel id="lowID">Lower ID</InputLabel>
                           <Select
-                            labelId="lowID-select-standard-label"
-                            id="lowID-select-standard"
+                            labelId="lowID"
+                            id="lowID"
                             value={lowID}
                             onChange={(e) => setLowID(e.target.value)}
                             label="Low ID"
@@ -860,12 +862,10 @@ export const Single = () => {
                           size="medium"
                           disabled={optValue !== "2"}
                         >
-                          <InputLabel id="highID-select-standard-label">
-                            Higher ID
-                          </InputLabel>
+                          <InputLabel id="highID">Higher ID</InputLabel>
                           <Select
-                            labelId="highID-select-standard-label"
-                            id="highID-select-standard"
+                            labelId="highID"
+                            id="highID"
                             value={highID}
                             onChange={(e) => setHighID(e.target.value)}
                             label="High ID"
@@ -887,7 +887,7 @@ export const Single = () => {
                         flexDirection="row"
                       >
                         <TextField
-                          id="outlined-basic"
+                          id="lowpres"
                           label="Low limit"
                           variant="outlined"
                           value={lowPres}
@@ -904,7 +904,7 @@ export const Single = () => {
                           disabled={optValue !== "3"}
                         />
                         <TextField
-                          id="outlined-basic"
+                          id="highpres"
                           label="High limit"
                           variant="outlined"
                           value={highPres}
