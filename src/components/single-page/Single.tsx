@@ -480,10 +480,10 @@ export const Single = () => {
     });
 
     // draw a thick red line at the bottom of header
-    const widthMargine = 30;
+    const widthMargin = 30;
     page.drawLine({
-      start: { x: widthMargine, y: dy - 5 },
-      end: { x: width - widthMargine, y: dy - 5 },
+      start: { x: widthMargin, y: dy - 5 },
+      end: { x: width - widthMargin, y: dy - 5 },
       thickness: 1,
       color: rgb(1, 0, 0),
     });
@@ -525,7 +525,7 @@ export const Single = () => {
     fontSize = 8;
     const lineSpacing = 2;
     const lineHeight = fontSize + lineSpacing;
-    dx = widthMargine + 5;
+    dx = widthMargin + 5;
 
     for (let i = 0; i < txtStrs.length; i++) {
       dy = dy - lineHeight * 1.5;
@@ -550,8 +550,8 @@ export const Single = () => {
 
     // draw a thick black line at the top of head row
     page.drawLine({
-      start: { x: widthMargine, y: dy + 30 },
-      end: { x: width - widthMargine * 1.5, y: dy + 30 },
+      start: { x: widthMargin, y: dy + 30 },
+      end: { x: width - widthMargin * 1.5, y: dy + 30 },
       thickness: 1,
       color: rgb(0.25, 0.25, 0.25),
     });
@@ -559,8 +559,8 @@ export const Single = () => {
     // draw a thick black line at the bottom of head row
     dy = dy - 7;
     page.drawLine({
-      start: { x: widthMargine, y: dy },
-      end: { x: width - widthMargine * 1.5, y: dy },
+      start: { x: widthMargin, y: dy },
+      end: { x: width - widthMargin * 1.5, y: dy },
       thickness: 1,
       color: rgb(0.25, 0.25, 0.25),
     });
@@ -613,8 +613,8 @@ export const Single = () => {
     // draw a thick black line at the bottom of data table
     dy = dy - 8;
     page.drawLine({
-      start: { x: widthMargine, y: dy },
-      end: { x: width - widthMargine * 1.5, y: dy },
+      start: { x: widthMargin, y: dy },
+      end: { x: width - widthMargin * 1.5, y: dy },
       thickness: 1,
       color: rgb(0.25, 0.25, 0.25),
     });
