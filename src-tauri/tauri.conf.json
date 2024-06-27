@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Transe-App",
+    "productName": "Line2024",
     "version": "0.0.0"
   },
   "tauri": {

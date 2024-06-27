@@ -30,7 +30,6 @@ import TwoPhase from "./components/two-page/TwoPhase";
 import Thermo from "./components/hydraulic-page/Thermo";
 import Setup from "./components/setup-page/Setup";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { yellow } from "@mui/material/colors";
 
 // import { open } from "@tauri-apps/api/dialog";
 

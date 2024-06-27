@@ -1,8 +1,6 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Stack, Typography } from "@mui/material";
-import { cyan } from "@mui/material/colors";
-import { useState } from "react";
 
 export interface SizingData {
   id: string;
