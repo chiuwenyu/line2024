@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 
+// 將 num 輸出格式化的 scientific format to 1.23E+002
 export function fmt_f64(
   num: number,
   width: number,

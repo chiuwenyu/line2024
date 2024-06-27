@@ -34,9 +34,9 @@ import { SingleData, Result } from "./SingleDataType";
 import FileButton from "./FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
-// 將 num 輸出格式化的 scientific format to 1.23E+002
 import { CustomTabPanel, a11yProps } from "../utils/utility";
 
+// Single Phase Line Sizing Component
 export const Single = () => {
   // Program Data
   const [fileName, setFileName] = useState("");
