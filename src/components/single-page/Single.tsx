@@ -35,35 +35,7 @@ import FileButton from "./FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
 // 將 num 輸出格式化的 scientific format to 1.23E+002
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import { CustomTabPanel, a11yProps } from "../utils/utility";
 
 export const Single = () => {
   // Program Data
