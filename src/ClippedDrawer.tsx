@@ -73,7 +73,7 @@ export default function ClippedDrawer() {
 
   const theme = createTheme({
     typography: {
-      fontSize: 13,
+      fontSize: 12,
     },
   });
 
