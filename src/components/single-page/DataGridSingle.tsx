@@ -127,6 +127,9 @@ export default function DataGridSingle(props: any) {
           "& .MuiDataGrid-columnHeaders": {
             maxHeight: "180px !important",
           },
+          "& .MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
 
           mt: 1,
         }}
