@@ -15,17 +15,21 @@ const columns: GridColDef<SizingData>[] = [
   {
     field: "id",
     headerName: "Norm. ID\n     (in)",
-    width: 90,
+    width: 100,
     resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
     headerAlign: "center",
     align: "center",
   },
   {
     field: "actID",
     headerName: "Act. ID\n   (in)",
-    width: 90,
+    width: 100,
     editable: false,
     resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
     headerAlign: "center",
     align: "center",
   },
@@ -34,6 +38,8 @@ const columns: GridColDef<SizingData>[] = [
     headerName: "VelocityID\n    (m/s)",
     width: 100,
     resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
     editable: false,
     headerAlign: "center",
     align: "center",
@@ -41,9 +47,11 @@ const columns: GridColDef<SizingData>[] = [
   {
     field: "presDrop",
     headerName: "  Pres. DropID\n(kg/cm^2/100m)",
-    width: 150,
+    width: 140,
     resizable: false,
     editable: false,
+    sortable: false,
+    disableColumnMenu: true,
     headerAlign: "center",
     align: "center",
   },
@@ -53,15 +61,22 @@ const columns: GridColDef<SizingData>[] = [
     width: 140,
     resizable: false,
     editable: false,
+    sortable: false,
+    disableColumnMenu: true,
     headerAlign: "center",
     align: "center",
   },
   {
     field: "reynoldNo",
-    headerName: "Reynold No. [-]",
-    width: 130,
+    headerName: "Reynold No.",
+    flex: 1,
+    // width: 140,
     resizable: false,
     editable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "center",
   },
 ];
 
@@ -95,8 +110,8 @@ export default function DataGridSingle(props: any) {
         sx={{
           "& .MuiDataGrid-footerContainer": {
             fontWeight: "bold", // 變更 footer font weight
-            backgroundColor: "success.main", // 變更 footer background color
-            color: "white", // 變更 footer font color
+            // backgroundColor: "success.main", // 變更 footer background color
+            color: "primary.main", // 變更 footer font color
             fontSize: "0.9rem", // 變更 footer font size
           },
           "& .MuiDataGrid-columnHeader": {
@@ -110,7 +125,7 @@ export default function DataGridSingle(props: any) {
             whiteSpace: "pre-wrap",
           },
           "& .MuiDataGrid-columnHeaders": {
-            maxHeight: "168px !important",
+            maxHeight: "180px !important",
           },
 
           mt: 1,
