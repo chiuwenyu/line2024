@@ -69,7 +69,7 @@ export default function DataGridSingle(props: any) {
   const { rows, selectId, setSelectId } = props;
 
   return (
-    <Box sx={{ minWidth: "702px" }}>
+    <Box sx={{ minWidth: "702px", height: "600px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
         <span>
           <Typography
@@ -87,16 +87,16 @@ export default function DataGridSingle(props: any) {
       </Stack>
       <DataGrid
         rows={rows}
-        autoHeight={true}
-        // hideFooterSelectedRowCount
+        autoHeight={false}
         localeText={{
-          footerRowSelected: () => `You select the ${selectId}" pipe`,
+          footerRowSelected: () => `Selected pipe size : ${selectId} in`,
         }}
         columns={columns as GridColDef<SizingData>[]}
         sx={{
           "& .MuiDataGrid-footerContainer": {
             fontWeight: "bold", // 變更 footer font weight
-            color: "primary.main", // 變更 footer font color
+            backgroundColor: "success.main", // 變更 footer background color
+            color: "white", // 變更 footer font color
             fontSize: "0.9rem", // 變更 footer font size
           },
           "& .MuiDataGrid-columnHeader": {
@@ -108,7 +108,6 @@ export default function DataGridSingle(props: any) {
           },
           "& .MuiDataGrid-columnHeaderTitle": {
             whiteSpace: "pre-wrap",
-            // lineHeight: "normal",
           },
           "& .MuiDataGrid-columnHeaders": {
             maxHeight: "168px !important",
@@ -116,14 +115,15 @@ export default function DataGridSingle(props: any) {
 
           mt: 1,
         }}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
-            },
-          },
-        }}
-        pageSizeOptions={[5, 6, 7, 8, 9, 10]}
+        // initialState={{
+        //   pagination: {
+        //     paginationModel: {
+        //       pageSize: 10,
+        //     },
+        //   },
+        // }}
+        pageSizeOptions={[]}
+        hideFooterPagination={true}
         onRowSelectionModelChange={(newSelection) => {
           setSelectId(newSelection[0] as string);
         }}
