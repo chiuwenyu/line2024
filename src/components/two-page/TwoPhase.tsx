@@ -43,10 +43,15 @@ const TwoPhase = () => {
   const [fileName, setFileName] = useState("");
 
   // Process Data
-  const [fluid, setFluid] = useState(10);
-  const [massFlowRate, setMassFlowRate] = useState("");
-  const [density, setDensity] = useState("");
-  const [viscosity, setViscosity] = useState("");
+  const [vaporFlowRate, setVaporFlowRate] = useState("");
+  const [liquidFlowRate, setLiquidFlowRate] = useState("");
+  const [vaporDensity, setVaporDensity] = useState("");
+  const [liquidDensity, setLiquidDensity] = useState("");
+  const [vaporViscosity, setVaporViscosity] = useState("");
+  const [liquidViscosity, setLiquidViscosity] = useState("");
+  const [surfaceTension, setSurfaceTension] = useState("");
+  const [insideDia, setInsideDia] = useState("");
+  const [slope, setSlope] = useState("");
   const [roughness, setRoughness] = useState("");
   const [safeFactor, setSafeFactor] = useState("1.2");
 
@@ -76,6 +81,9 @@ const TwoPhase = () => {
   const [error103, setError103] = useState(false);
   const [error104, setError104] = useState(false);
   const [error105, setError105] = useState(false);
+  const [error106, setError106] = useState(false);
+  const [error107, setError107] = useState(false);
+  const [error108, setError108] = useState(false);
   const [error201, setError201] = useState(false);
   const [error202, setError202] = useState(false);
 
@@ -131,214 +139,205 @@ const TwoPhase = () => {
   };
 
   const handleExecuteButtonClick = async () => {
-    if (optValue === "1") {
-      // implement by all dia.
-      const newResData: SizingData[] = [];
-      await Promise.all(
-        workID.map(async (item) => {
-          let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
-            item.ID
-          );
-          newResData.push({
-            id: item.SIZE,
-            actID: item.ID.toString(),
-            vel: v,
-            presDrop: dp,
-            vh: vhead,
-            reynoldNo: nre,
-          });
-        })
-      );
-
-      setResData(newResData);
-      setCalState(true);
-    }
-
-    if (optValue === "2") {
-      // optValue = 2, implement by Dia range
-      let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
-      let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
-      if (lowActID >= highActID) {
-        setOptDiaErrOpen(true);
-        return;
-      }
-
-      const newResData: SizingData[] = [];
-      await Promise.all(
-        workID.map(async (item) => {
-          let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
-            item.ID
-          );
-          if (item.ID >= lowActID && item.ID <= highActID) {
-            newResData.push({
-              id: item.SIZE,
-              actID: item.ID.toString(),
-              vel: v,
-              presDrop: dp,
-              vh: vhead,
-              reynoldNo: nre,
-            });
-          }
-        })
-      );
-
-      setResData(newResData);
-      setCalState(true);
-    }
-    if (optValue === "3") {
-      // implement by pressure drop range
-      let lowDP = parseFloat(lowPres);
-      let highDP = parseFloat(highPres);
-      if (lowDP >= highDP) {
-        setOptPresErrOpen(true);
-        return;
-      }
-
-      const newResData: SizingData[] = [];
-      await Promise.all(
-        workID.map(async (item) => {
-          let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
-            item.ID
-          );
-          if (parseFloat(dp) > lowDP && parseFloat(dp) < highDP) {
-            newResData.push({
-              id: item.SIZE,
-              actID: item.ID.toString(),
-              vel: v,
-              presDrop: dp,
-              vh: vhead,
-              reynoldNo: nre,
-            });
-          }
-        })
-      );
-
-      // judge the pressure drop range here
-      setResData(newResData);
-      setCalState(true);
-    }
+    // if (optValue === "1") {
+    //   // implement by all dia.
+    //   const newResData: SizingData[] = [];
+    //   await Promise.all(
+    //     workID.map(async (item) => {
+    //       let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
+    //         item.ID
+    //       );
+    //       newResData.push({
+    //         id: item.SIZE,
+    //         actID: item.ID.toString(),
+    //         vel: v,
+    //         presDrop: dp,
+    //         vh: vhead,
+    //         reynoldNo: nre,
+    //       });
+    //     })
+    //   );
+    //   setResData(newResData);
+    //   setCalState(true);
+    // }
+    // if (optValue === "2") {
+    //   // optValue = 2, implement by Dia range
+    //   let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
+    //   let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
+    //   if (lowActID >= highActID) {
+    //     setOptDiaErrOpen(true);
+    //     return;
+    //   }
+    //   const newResData: SizingData[] = [];
+    //   await Promise.all(
+    //     workID.map(async (item) => {
+    //       let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
+    //         item.ID
+    //       );
+    //       if (item.ID >= lowActID && item.ID <= highActID) {
+    //         newResData.push({
+    //           id: item.SIZE,
+    //           actID: item.ID.toString(),
+    //           vel: v,
+    //           presDrop: dp,
+    //           vh: vhead,
+    //           reynoldNo: nre,
+    //         });
+    //       }
+    //     })
+    //   );
+    //   setResData(newResData);
+    //   setCalState(true);
+    // }
+    // if (optValue === "3") {
+    //   // implement by pressure drop range
+    //   let lowDP = parseFloat(lowPres);
+    //   let highDP = parseFloat(highPres);
+    //   if (lowDP >= highDP) {
+    //     setOptPresErrOpen(true);
+    //     return;
+    //   }
+    //   const newResData: SizingData[] = [];
+    //   await Promise.all(
+    //     workID.map(async (item) => {
+    //       let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
+    //         item.ID
+    //       );
+    //       if (parseFloat(dp) > lowDP && parseFloat(dp) < highDP) {
+    //         newResData.push({
+    //           id: item.SIZE,
+    //           actID: item.ID.toString(),
+    //           vel: v,
+    //           presDrop: dp,
+    //           vh: vhead,
+    //           reynoldNo: nre,
+    //         });
+    //       }
+    //     })
+    //   );
+    //   // judge the pressure drop range here
+    //   setResData(newResData);
+    //   setCalState(true);
+    // }
   };
 
-  async function rust_single_phase_hydraulic_byid(
-    actID: number
-  ): Promise<[string, string, string, string]> {
-    try {
-      const result = await invoke<Result>("invoke_hydraulic", {
-        w: parseFloat(massFlowRate),
-        rho: parseFloat(density),
-        mu: parseFloat(viscosity),
-        id: actID,
-        e: parseFloat(roughness),
-        sf: parseFloat(safeFactor),
-      });
-      const res = result as Result;
-      return [
-        res.v.toFixed(4),
-        res.dp100.toFixed(6),
-        res.vh.toFixed(4),
-        fmt_f64(res.nre, 20, 4, 3),
-      ];
-    } catch (e) {
-      console.error(e);
-      return ["", "", "", ""];
-    }
-  }
+  // async function rust_single_phase_hydraulic_byid(
+  //   actID: number
+  // ): Promise<[string, string, string, string]> {
+  //   try {
+  //     const result = await invoke<Result>("invoke_hydraulic", {
+  //       w: parseFloat(massFlowRate),
+  //       rho: parseFloat(density),
+  //       mu: parseFloat(viscosity),
+  //       id: actID,
+  //       e: parseFloat(roughness),
+  //       sf: parseFloat(safeFactor),
+  //     });
+  //     const res = result as Result;
+  //     return [
+  //       res.v.toFixed(4),
+  //       res.dp100.toFixed(6),
+  //       res.vh.toFixed(4),
+  //       fmt_f64(res.nre, 20, 4, 3),
+  //     ];
+  //   } catch (e) {
+  //     console.error(e);
+  //     return ["", "", "", ""];
+  //   }
+  // }
 
   const onSaveAsButtonClick = async () => {
-    dialog
-      .save({
-        defaultPath: "data1.tps", // 預設檔案名稱
-        filters: [{ name: "Two Phase Sizing Files", extensions: ["tps"] }], // 檔案類型過濾器
-        title: "Save File As",
-      })
-      .then(async (result) => {
-        if (result !== null) {
-          const data: SingleData = {
-            Single_ProcessData: {
-              Single_FluidType: fluid.toString(),
-              Single_MassFlowRate: massFlowRate,
-              Single_Density: density,
-              Single_Viscosity: viscosity,
-              Single_Roughness: roughness,
-              Single_SafeFactor: safeFactor,
-            },
-            Single_OptionData: {
-              Single_lowPres: lowPres,
-              Single_highPres: highPres,
-              Single_lowID: lowID,
-              Single_highID: highID,
-              Single_OptValue: optValue,
-            },
-            Single_ProjectData: {
-              Single_projNo: projNo,
-              Single_projName: projName,
-              Single_projDesc: projDesc,
-            },
-            Single_LineData: {
-              Single_lineNo: lineNo,
-              Single_lineFrom: lineFrom,
-              Single_lineTo: lineTo,
-              Single_note: note,
-            },
-          };
-          const jsonData = JSON.stringify(data);
-
-          setFileName(result);
-          await writeTextFile(result, jsonData, {
-            dir: BaseDirectory.AppConfig,
-          });
-        } else {
-          console.log("Cancelled by user.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error saving data:", error.message);
-      });
+    // dialog
+    //   .save({
+    //     defaultPath: "data1.tps", // 預設檔案名稱
+    //     filters: [{ name: "Two Phase Sizing Files", extensions: ["tps"] }], // 檔案類型過濾器
+    //     title: "Save File As",
+    //   })
+    //   .then(async (result) => {
+    //     if (result !== null) {
+    // const data: SingleData = {
+    //   Single_ProcessData: {
+    //     Single_MassFlowRate: massFlowRate,
+    //     Single_Density: density,
+    //     Single_Viscosity: viscosity,
+    //     Single_Roughness: roughness,
+    //     Single_SafeFactor: safeFactor,
+    //   },
+    //   Single_OptionData: {
+    //     Single_lowPres: lowPres,
+    //     Single_highPres: highPres,
+    //     Single_lowID: lowID,
+    //     Single_highID: highID,
+    //     Single_OptValue: optValue,
+    //   },
+    //   Single_ProjectData: {
+    //     Single_projNo: projNo,
+    //     Single_projName: projName,
+    //     Single_projDesc: projDesc,
+    //   },
+    //   Single_LineData: {
+    //     Single_lineNo: lineNo,
+    //     Single_lineFrom: lineFrom,
+    //     Single_lineTo: lineTo,
+    //     Single_note: note,
+    //   },
+    // };
+    // const jsonData = JSON.stringify(data);
+    //   setFileName(result);
+    //   await writeTextFile(result, jsonData, {
+    //     dir: BaseDirectory.AppConfig,
+    //   });
+    // } else {
+    //   console.log("Cancelled by user.");
+    // }
+    // })
+    // .catch((error) => {
+    //   console.error("Error saving data:", error.message);
+    // });
   };
 
   const onSaveButtonClick = async () => {
-    if (fileName !== "") {
-      try {
-        const data: SingleData = {
-          Single_ProcessData: {
-            Single_FluidType: fluid.toString(),
-            Single_MassFlowRate: massFlowRate,
-            Single_Density: density,
-            Single_Viscosity: viscosity,
-            Single_Roughness: roughness,
-            Single_SafeFactor: safeFactor,
-          },
-          Single_OptionData: {
-            Single_lowPres: lowPres,
-            Single_highPres: highPres,
-            Single_lowID: lowID,
-            Single_highID: highID,
-            Single_OptValue: optValue,
-          },
-          Single_ProjectData: {
-            Single_projNo: projNo,
-            Single_projName: projName,
-            Single_projDesc: projDesc,
-          },
-          Single_LineData: {
-            Single_lineNo: lineNo,
-            Single_lineFrom: lineFrom,
-            Single_lineTo: lineTo,
-            Single_note: note,
-          },
-        };
-        const jsonData = JSON.stringify(data);
-        const filePath = fileName;
-        setFileName(filePath);
-        await writeTextFile(filePath, jsonData, {
-          dir: BaseDirectory.AppConfig,
-        });
-      } catch (error: any) {
-        console.error("Error saving data:", error.message);
-      }
-    } else {
-      onSaveAsButtonClick();
-    }
+    // if (fileName !== "") {
+    //   try {
+    //     const data: SingleData = {
+    //       // Single_ProcessData: {
+    //       //   Single_MassFlowRate: massFlowRate,
+    //       //   Single_Density: density,
+    //       //   Single_Viscosity: viscosity,
+    //       //   Single_Roughness: roughness,
+    //       //   Single_SafeFactor: safeFactor,
+    //       // },
+    //       Single_OptionData: {
+    //         Single_lowPres: lowPres,
+    //         Single_highPres: highPres,
+    //         Single_lowID: lowID,
+    //         Single_highID: highID,
+    //         Single_OptValue: optValue,
+    //       },
+    //       Single_ProjectData: {
+    //         Single_projNo: projNo,
+    //         Single_projName: projName,
+    //         Single_projDesc: projDesc,
+    //       },
+    //       Single_LineData: {
+    //         Single_lineNo: lineNo,
+    //         Single_lineFrom: lineFrom,
+    //         Single_lineTo: lineTo,
+    //         Single_note: note,
+    //       },
+    //     };
+    //     const jsonData = JSON.stringify(data);
+    //     const filePath = fileName;
+    //     setFileName(filePath);
+    //     await writeTextFile(filePath, jsonData, {
+    //       dir: BaseDirectory.AppConfig,
+    //     });
+    //   } catch (error: any) {
+    //     console.error("Error saving data:", error.message);
+    //   }
+    // } else {
+    //   onSaveAsButtonClick();
+    // }
   };
 
   const onNewButtonClick = async () => {
@@ -348,12 +347,11 @@ const TwoPhase = () => {
     setResData([]);
 
     // reset process data
-    setFluid(10);
-    setMassFlowRate("");
-    setDensity("");
-    setViscosity("");
-    setRoughness("");
-    setSafeFactor("1.0");
+    // setMassFlowRate("");
+    // setDensity("");
+    // setViscosity("");
+    // setRoughness("");
+    // setSafeFactor("1.0");
 
     // reset options data
     setLowPres("");
@@ -401,12 +399,11 @@ const TwoPhase = () => {
             const jsonData = data as string;
             const objData = JSON.parse(jsonData);
             // set process data
-            setFluid(parseInt(objData.Single_ProcessData.Single_FluidType));
-            setMassFlowRate(objData.Single_ProcessData.Single_MassFlowRate);
-            setDensity(objData.Single_ProcessData.Single_Density);
-            setViscosity(objData.Single_ProcessData.Single_Viscosity);
-            setRoughness(objData.Single_ProcessData.Single_Roughness);
-            setSafeFactor(objData.Single_ProcessData.Single_SafeFactor);
+            // setMassFlowRate(objData.Single_ProcessData.Single_MassFlowRate);
+            // setDensity(objData.Single_ProcessData.Single_Density);
+            // setViscosity(objData.Single_ProcessData.Single_Viscosity);
+            // setRoughness(objData.Single_ProcessData.Single_Roughness);
+            // setSafeFactor(objData.Single_ProcessData.Single_SafeFactor);
             // set options data
             setLowPres(objData.Single_OptionData.Single_lowPres);
             setHighPres(objData.Single_OptionData.Single_highPres);
@@ -482,20 +479,9 @@ const TwoPhase = () => {
       `To : ${lineTo}`,
       `Note : ${note}`,
       `>>>> INPUT DATA <<<<`,
-      `Fluid Type : ${
-        fluid === 10
-          ? "Liquid"
-          : fluid === 20
-          ? "Gas"
-          : fluid === 30
-          ? "Steam"
-          : fluid === 40
-          ? "Water"
-          : ""
-      }`,
-      `Mass Flow Rate (Kg/hr): ${massFlowRate}`,
-      `Density (Kg/m^3): ${density} `,
-      `Viscosity (cP): ${viscosity} `,
+      // `Mass Flow Rate (Kg/hr): ${massFlowRate}`,
+      // `Density (Kg/m^3): ${density} `,
+      // `Viscosity (cP): ${viscosity} `,
       `Pipe Roughness (mm): ${roughness} `,
       `Safe Factor : ${safeFactor}`,
       `>>>> CALCULATION RESULT  <<<<`,
@@ -670,7 +656,7 @@ const TwoPhase = () => {
           >
             Two Phase Line Sizing App
           </Typography>
-          <Box sx={{ width: "100%", height: "550px" }}>
+          <Box sx={{ width: "100%", height: "600px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -695,57 +681,91 @@ const TwoPhase = () => {
                   "& .MuiTextField-root": { mt: 2, width: "25ch" },
                 }}
               >
-                <FormControl sx={{ mt: 2 }}>
-                  <InputLabel id="state-label">Fluid</InputLabel>
-                  <Select
-                    labelId="state-label"
-                    id="state-select"
-                    value={fluid}
-                    label="Fluid"
-                    onChange={(e) => {
-                      setFluid(e.target.value as number);
-                    }}
-                    sx={{ width: "20ch" }}
-                  >
-                    <MenuItem value={10}>Liquid</MenuItem>
-                    <MenuItem value={20}>Gas</MenuItem>
-                    <MenuItem value={30}>Steam</MenuItem>
-                    <MenuItem value={40}>Water</MenuItem>
-                  </Select>
-                </FormControl>
-
+                <Box display="flex" flexDirection="row">
+                  <TextField
+                    id="liquid-flow-rate"
+                    label="Liquid Flow Rate (Kg/hr)"
+                    variant="outlined"
+                    value={liquidFlowRate}
+                    color="secondary"
+                    error={error102}
+                    helperText={error102 ? "Please input correct number" : ""}
+                    onChange={(e) => setLiquidFlowRate(e.target.value)}
+                    onBlur={(e) => validateInput("102", e.target.value)}
+                  />
+                  <TextField
+                    id="vapor-flow-rate"
+                    label="Vapor Flow Rate (Kg/hr)"
+                    variant="outlined"
+                    value={vaporFlowRate}
+                    color="secondary"
+                    error={error101}
+                    helperText={error101 ? "Please input correct number" : ""}
+                    onChange={(e) => setVaporFlowRate(e.target.value)}
+                    onBlur={(e) => validateInput("101", e.target.value)}
+                    sx={{ ml: 4 }}
+                  />
+                </Box>
+                <Box display="flex" flexDirection="row">
+                  <TextField
+                    id="liquid-density"
+                    label="Liquid Density (Kg/m^3)"
+                    variant="outlined"
+                    value={liquidDensity}
+                    color="secondary"
+                    error={error104}
+                    helperText={error104 ? "Please input correct number" : ""}
+                    onChange={(e) => setLiquidDensity(e.target.value)}
+                    onBlur={(e) => validateInput("104", e.target.value)}
+                  />
+                  <TextField
+                    id="vapor-density"
+                    label="Vapor Density (Kg/m^3)"
+                    variant="outlined"
+                    value={vaporDensity}
+                    color="secondary"
+                    error={error103}
+                    helperText={error103 ? "Please input correct number" : ""}
+                    onChange={(e) => setVaporDensity(e.target.value)}
+                    onBlur={(e) => validateInput("103", e.target.value)}
+                    sx={{ ml: 4 }}
+                  />
+                </Box>
+                <Box display="flex" flexDirection="row">
+                  <TextField
+                    id="liquid-viscosity"
+                    label="Liquid Viscosity (cP)"
+                    variant="outlined"
+                    value={liquidViscosity}
+                    color="secondary"
+                    error={error106}
+                    helperText={error106 ? "Please input correct number" : ""}
+                    onChange={(e) => setVaporViscosity(e.target.value)}
+                    onBlur={(e) => validateInput("106", e.target.value)}
+                  />
+                  <TextField
+                    id="vapor-viscosity"
+                    label="Vapor Viscosity (cP)"
+                    variant="outlined"
+                    value={vaporViscosity}
+                    color="secondary"
+                    error={error105}
+                    helperText={error105 ? "Please input correct number" : ""}
+                    onChange={(e) => setVaporViscosity(e.target.value)}
+                    onBlur={(e) => validateInput("105", e.target.value)}
+                    sx={{ ml: 4 }}
+                  />
+                </Box>
                 <TextField
-                  id="mass-flow-rate"
-                  label="Mass Flow Rate (Kg/hr)"
+                  id="surface-tension"
+                  label="Surface Tension (dyne/cm)"
                   variant="outlined"
-                  value={massFlowRate}
+                  value={surfaceTension}
                   color="secondary"
-                  error={error101}
-                  helperText={error101 ? "Please input correct number" : ""}
-                  onChange={(e) => setMassFlowRate(e.target.value)}
-                  onBlur={(e) => validateInput("101", e.target.value)}
-                />
-                <TextField
-                  id="density"
-                  label="Density (Kg/m^3)"
-                  variant="outlined"
-                  value={density}
-                  color="secondary"
-                  error={error102}
-                  helperText={error102 ? "Please input correct number" : ""}
-                  onChange={(e) => setDensity(e.target.value)}
-                  onBlur={(e) => validateInput("102", e.target.value)}
-                />
-                <TextField
-                  id="viscosity"
-                  label="Viscosity (cP)"
-                  variant="outlined"
-                  value={viscosity}
-                  color="secondary"
-                  error={error103}
-                  helperText={error103 ? "Please input correct number" : ""}
-                  onChange={(e) => setViscosity(e.target.value)}
-                  onBlur={(e) => validateInput("103", e.target.value)}
+                  error={error106}
+                  helperText={error106 ? "Please input correct number" : ""}
+                  onChange={(e) => setSurfaceTension(e.target.value)}
+                  onBlur={(e) => validateInput("106", e.target.value)}
                 />
                 <TextField
                   id="roughness"
@@ -753,15 +773,27 @@ const TwoPhase = () => {
                   variant="outlined"
                   value={roughness}
                   color="secondary"
-                  error={error104}
-                  helperText={error104 ? "Please input correct number" : ""}
+                  error={error107}
+                  helperText={error107 ? "Please input correct number" : ""}
                   onChange={(e) => setRoughness(e.target.value)}
-                  onBlur={(e) => validateInput("104", e.target.value)}
+                  onBlur={(e) => validateInput("107", e.target.value)}
+                />
+                <TextField
+                  id="slope"
+                  label="Pipe Slope (degree)"
+                  variant="outlined"
+                  value={slope}
+                  color="secondary"
+                  error={error108}
+                  helperText={error108 ? "Please input correct number" : ""}
+                  onChange={(e) => setSlope(e.target.value)}
+                  onBlur={(e) => validateInput("108", e.target.value)}
+                  style={{ width: 150 }}
                 />
 
                 <TextField
-                  id="safefactor"
-                  label="Safe Factor (-)"
+                  id="safety-factor"
+                  label="Safety Factor (-)"
                   variant="outlined"
                   value={safeFactor}
                   color="secondary"
@@ -769,6 +801,7 @@ const TwoPhase = () => {
                   helperText={error105 ? "Please input correct number" : ""}
                   onChange={(e) => setSafeFactor(e.target.value)}
                   onBlur={(e) => validateInput("105", e.target.value)}
+                  style={{ width: 150 }}
                 />
               </Box>
             </CustomTabPanel>
@@ -995,17 +1028,15 @@ const TwoPhase = () => {
               </Box>
             </CustomTabPanel>
           </Box>
-          <Grid display={"flex"} flexDirection={"row"}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleExecuteButtonClick}
-              sx={{ borderRadius: "20px", width: "120px", minWidth: "120px" }}
-            >
-              {" "}
-              Execute{" "}
-            </Button>
-          </Grid>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleExecuteButtonClick}
+            sx={{ borderRadius: "20px", width: "120px", minWidth: "120px" }}
+          >
+            {" "}
+            Execute{" "}
+          </Button>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}
             setOptErrOpen={setOptDiaErrOpen}

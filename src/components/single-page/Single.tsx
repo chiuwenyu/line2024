@@ -759,8 +759,8 @@ export const Single = () => {
                 />
 
                 <TextField
-                  id="safefactor"
-                  label="Safe Factor (-)"
+                  id="safety-factor"
+                  label="Safety Factor (-)"
                   variant="outlined"
                   value={safeFactor}
                   color="secondary"
