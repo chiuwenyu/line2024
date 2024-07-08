@@ -112,7 +112,7 @@ const TwoPhase = () => {
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
 
-    // 101~ 105 is process data input validation
+    // 101~ 108 is process data input validation
     // 201, 202 is option pressure high-low input validation
     id === "101" && !isPositiveFloat.test(value) && value !== ""
       ? setError101(true)
@@ -311,47 +311,52 @@ const TwoPhase = () => {
   };
 
   const onSaveButtonClick = async () => {
-    // if (fileName !== "") {
-    //   try {
-    //     const data: SingleData = {
-    //       // Single_ProcessData: {
-    //       //   Single_MassFlowRate: massFlowRate,
-    //       //   Single_Density: density,
-    //       //   Single_Viscosity: viscosity,
-    //       //   Single_Roughness: roughness,
-    //       //   Single_SafeFactor: safeFactor,
-    //       // },
-    //       Single_OptionData: {
-    //         Single_lowPres: lowPres,
-    //         Single_highPres: highPres,
-    //         Single_lowID: lowID,
-    //         Single_highID: highID,
-    //         Single_OptValue: optValue,
-    //       },
-    //       Single_ProjectData: {
-    //         Single_projNo: projNo,
-    //         Single_projName: projName,
-    //         Single_projDesc: projDesc,
-    //       },
-    //       Single_LineData: {
-    //         Single_lineNo: lineNo,
-    //         Single_lineFrom: lineFrom,
-    //         Single_lineTo: lineTo,
-    //         Single_note: note,
-    //       },
-    //     };
-    //     const jsonData = JSON.stringify(data);
-    //     const filePath = fileName;
-    //     setFileName(filePath);
-    //     await writeTextFile(filePath, jsonData, {
-    //       dir: BaseDirectory.AppConfig,
-    //     });
-    //   } catch (error: any) {
-    //     console.error("Error saving data:", error.message);
-    //   }
-    // } else {
-    //   onSaveAsButtonClick();
-    // }
+    if (fileName !== "") {
+      try {
+        const data: TwoData = {
+          Two_ProcessData: {
+            Two_LiquidFlowRate: liquidFlowRate,
+            Two_VaporFlowRate: vaporDensity,
+            Two_LiquidDensity: liquidDensity,
+            Two_VaporDensity: vaporDensity,
+            Two_LiquidViscosity: liquidViscosity,
+            Two_VaporViscosity: vaporViscosity,
+            Two_SurfaceTension: surfaceTension,
+            Two_Roughness: roughness,
+            Two_Slope: slope,
+            Two_SafeFactor: safeFactor,
+          },
+          Two_OptionData: {
+            Two_lowPres: lowPres,
+            Two_highPres: highPres,
+            Two_lowID: lowID,
+            Two_highID: highID,
+            Two_OptValue: optValue,
+          },
+          Two_ProjectData: {
+            Two_projNo: projNo,
+            Two_projName: projName,
+            Two_projDesc: projDesc,
+          },
+          Two_LineData: {
+            Two_lineNo: lineNo,
+            Two_lineFrom: lineFrom,
+            Two_lineTo: lineTo,
+            Two_note: note,
+          },
+        };
+        const jsonData = JSON.stringify(data);
+        const filePath = fileName;
+        setFileName(filePath);
+        await writeTextFile(filePath, jsonData, {
+          dir: BaseDirectory.AppConfig,
+        });
+      } catch (error: any) {
+        console.error("Error saving data:", error.message);
+      }
+    } else {
+      onSaveAsButtonClick();
+    }
   };
 
   const onNewButtonClick = async () => {
