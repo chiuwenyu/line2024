@@ -63,7 +63,7 @@ const drawerItems1: DrawerStyle[] = [
 const SetupIndex = drawerItems1[drawerItems1.length - 1].Index + 1;
 
 export default function ClippedDrawer() {
-  const [appNo, setAppNo] = useState(3);
+  const [appNo, setAppNo] = useState(2);
 
   // steam component states
   const [steamState, setSteamState] = useState(0);
@@ -76,18 +76,6 @@ export default function ClippedDrawer() {
       fontSize: 12,
     },
   });
-
-  // const saveFileContents = async () => {
-  //   try {
-  //     const selectedPath = await open({
-  //       multiple: false,
-  //     });
-  //     if (!selectedPath) return;
-  //     console.log(selectedPath);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   return (
     <ThemeProvider theme={theme}>

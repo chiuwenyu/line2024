@@ -114,25 +114,34 @@ const TwoPhase = () => {
 
     // 101~ 105 is process data input validation
     // 201, 202 is option pressure high-low input validation
-    id === "101" && !isPositiveFloat.test(value)
+    id === "101" && !isPositiveFloat.test(value) && value !== ""
       ? setError101(true)
       : setError101(false);
-    id === "102" && !isPositiveFloat.test(value)
+    id === "102" && !isPositiveFloat.test(value) && value !== ""
       ? setError102(true)
       : setError102(false);
-    id === "103" && !isPositiveFloat.test(value)
+    id === "103" && !isPositiveFloat.test(value) && value !== ""
       ? setError103(true)
       : setError103(false);
-    id === "104" && !isPositiveFloat.test(value)
+    id === "104" && !isPositiveFloat.test(value) && value !== ""
       ? setError104(true)
       : setError104(false);
-    id === "105" && !isPositiveFloat.test(value)
+    id === "105" && !isPositiveFloat.test(value) && value !== ""
       ? setError105(true)
       : setError105(false);
-    id === "201" && !isPositiveFloat.test(value)
+    id === "106" && !isPositiveFloat.test(value) && value !== ""
+      ? setError106(true)
+      : setError106(false);
+    id === "107" && !isPositiveFloat.test(value) && value !== ""
+      ? setError107(true)
+      : setError107(false);
+    id === "108" && !isPositiveFloat.test(value) && value !== ""
+      ? setError108(true)
+      : setError108(false);
+    id === "201" && !isPositiveFloat.test(value) && value !== ""
       ? setError201(true)
       : setError201(false);
-    id === "202" && !isPositiveFloat.test(value)
+    id === "202" && !isPositiveFloat.test(value) && value !== ""
       ? setError202(true)
       : setError202(false);
     setCalState(false);
