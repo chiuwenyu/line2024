@@ -32,7 +32,7 @@ import {
   OptDiaErrorDialog,
   OptPresErrorDialog,
 } from "../single-page/OptErrorDialog";
-import { SingleData, Result } from "../single-page/SingleDataType";
+import { TwoData } from "./TwoDataType";
 import FileButton from "../single-page/FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
@@ -256,53 +256,58 @@ const TwoPhase = () => {
   // }
 
   const onSaveAsButtonClick = async () => {
-    // dialog
-    //   .save({
-    //     defaultPath: "data1.tps", // 預設檔案名稱
-    //     filters: [{ name: "Two Phase Sizing Files", extensions: ["tps"] }], // 檔案類型過濾器
-    //     title: "Save File As",
-    //   })
-    //   .then(async (result) => {
-    //     if (result !== null) {
-    // const data: SingleData = {
-    //   Single_ProcessData: {
-    //     Single_MassFlowRate: massFlowRate,
-    //     Single_Density: density,
-    //     Single_Viscosity: viscosity,
-    //     Single_Roughness: roughness,
-    //     Single_SafeFactor: safeFactor,
-    //   },
-    //   Single_OptionData: {
-    //     Single_lowPres: lowPres,
-    //     Single_highPres: highPres,
-    //     Single_lowID: lowID,
-    //     Single_highID: highID,
-    //     Single_OptValue: optValue,
-    //   },
-    //   Single_ProjectData: {
-    //     Single_projNo: projNo,
-    //     Single_projName: projName,
-    //     Single_projDesc: projDesc,
-    //   },
-    //   Single_LineData: {
-    //     Single_lineNo: lineNo,
-    //     Single_lineFrom: lineFrom,
-    //     Single_lineTo: lineTo,
-    //     Single_note: note,
-    //   },
-    // };
-    // const jsonData = JSON.stringify(data);
-    //   setFileName(result);
-    //   await writeTextFile(result, jsonData, {
-    //     dir: BaseDirectory.AppConfig,
-    //   });
-    // } else {
-    //   console.log("Cancelled by user.");
-    // }
-    // })
-    // .catch((error) => {
-    //   console.error("Error saving data:", error.message);
-    // });
+    dialog
+      .save({
+        defaultPath: "tpdata1.tps", // 預設檔案名稱
+        filters: [{ name: "Two Phase Sizing Files", extensions: ["tps"] }], // 檔案類型過濾器
+        title: "Save File As",
+      })
+      .then(async (result) => {
+        if (result !== null) {
+          const data: TwoData = {
+            Two_ProcessData: {
+              Two_LiquidFlowRate: liquidFlowRate,
+              Two_VaporFlowRate: vaporDensity,
+              Two_LiquidDensity: liquidDensity,
+              Two_VaporDensity: vaporDensity,
+              Two_LiquidViscosity: liquidViscosity,
+              Two_VaporViscosity: vaporViscosity,
+              Two_SurfaceTension: surfaceTension,
+              Two_Roughness: roughness,
+              Two_Slope: slope,
+              Two_SafeFactor: safeFactor,
+            },
+            Two_OptionData: {
+              Two_lowPres: lowPres,
+              Two_highPres: highPres,
+              Two_lowID: lowID,
+              Two_highID: highID,
+              Two_OptValue: optValue,
+            },
+            Two_ProjectData: {
+              Two_projNo: projNo,
+              Two_projName: projName,
+              Two_projDesc: projDesc,
+            },
+            Two_LineData: {
+              Two_lineNo: lineNo,
+              Two_lineFrom: lineFrom,
+              Two_lineTo: lineTo,
+              Two_note: note,
+            },
+          };
+          const jsonData = JSON.stringify(data);
+          setFileName(result);
+          await writeTextFile(result, jsonData, {
+            dir: BaseDirectory.AppConfig,
+          });
+        } else {
+          console.log("Cancelled by user.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error.message);
+      });
   };
 
   const onSaveButtonClick = async () => {
