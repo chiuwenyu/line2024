@@ -427,11 +427,16 @@ const TwoPhase = () => {
             const jsonData = data as string;
             const objData = JSON.parse(jsonData);
             // set process data
-            // setMassFlowRate(objData.Single_ProcessData.Single_MassFlowRate);
-            // setDensity(objData.Single_ProcessData.Single_Density);
-            // setViscosity(objData.Single_ProcessData.Single_Viscosity);
-            // setRoughness(objData.Single_ProcessData.Single_Roughness);
-            // setSafeFactor(objData.Single_ProcessData.Single_SafeFactor);
+            setLiquidFlowRate(objData.Two_ProcessData.Two_LiquidFlowRate);
+            setVaporFlowRate(objData.Two_ProcessData.Two_VaporFlowRate);
+            setLiquidDensity(objData.Two_ProcessData.Two_LiquidDensity);
+            setVaporDensity(objData.Two_ProcessData.Two_VaporDensity);
+            setLiquidViscosity(objData.Two_ProcessData.Two_LiquidViscosity);
+            setVaporViscosity(objData.Two_ProcessData.Two_VaporViscosity);
+            setSurfaceTension(objData.Two_ProcessData.Two_SurfaceTension);
+            setRoughness(objData.Two_ProcessData.Two_Roughness);
+            setSlope(objData.Two_ProcessData.Two_Slope);
+            setSafeFactor(objData.Two_ProcessData.Two_SafeFactor);
             // set options data
             setLowPres(objData.Single_OptionData.Single_lowPres);
             setHighPres(objData.Single_OptionData.Single_highPres);
