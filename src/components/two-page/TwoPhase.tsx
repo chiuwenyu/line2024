@@ -259,7 +259,7 @@ const TwoPhase = () => {
     dialog
       .save({
         defaultPath: "tpdata1.tps", // 預設檔案名稱
-        filters: [{ name: "Two Phase Sizing Files", extensions: ["tps"] }], // 檔案類型過濾器
+        filters: [{ name: "Two Phase Files", extensions: ["tps"] }], // 檔案類型過濾器
         title: "Save File As",
       })
       .then(async (result) => {
@@ -361,11 +361,17 @@ const TwoPhase = () => {
     setResData([]);
 
     // reset process data
-    // setMassFlowRate("");
-    // setDensity("");
-    // setViscosity("");
-    // setRoughness("");
-    // setSafeFactor("1.0");
+    setLiquidFlowRate("");
+    setVaporFlowRate("");
+    setLiquidDensity("");
+    setVaporDensity("");
+    setLiquidViscosity("");
+    setVaporViscosity("");
+    setSurfaceTension("");
+    setInsideDia("");
+    setSlope("");
+    setRoughness("");
+    setSafeFactor("1.2");
 
     // reset options data
     setLowPres("");
@@ -392,6 +398,9 @@ const TwoPhase = () => {
     setError103(false);
     setError104(false);
     setError105(false);
+    setError106(false);
+    setError107(false);
+    setError108(false);
     setError201(false);
     setError202(false);
     // reset Tab value
@@ -401,7 +410,7 @@ const TwoPhase = () => {
   const onOpenButtonClick = async () => {
     dialog
       .open({
-        filters: [{ name: "Two Phase Sizing Files", extensions: ["tps"] }], // 檔案類型過濾器
+        filters: [{ name: "Two Phase Files", extensions: ["tps"] }], // 檔案類型過濾器
         title: "Open File",
       })
       .then(async (result) => {
