@@ -692,6 +692,11 @@ const TwoPhase = () => {
                     helperText={error102 ? "Please input correct number" : ""}
                     onChange={(e) => setLiquidFlowRate(e.target.value)}
                     onBlur={(e) => validateInput("102", e.target.value)}
+                    InputLabelProps={{
+                      sx: {
+                        color: "blue", // 預設顏色
+                      },
+                    }}
                   />
                   <TextField
                     id="vapor-flow-rate"
@@ -704,6 +709,11 @@ const TwoPhase = () => {
                     onChange={(e) => setVaporFlowRate(e.target.value)}
                     onBlur={(e) => validateInput("101", e.target.value)}
                     sx={{ ml: 4 }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "Orange", // 預設顏色
+                      },
+                    }}
                   />
                 </Box>
                 <Box display="flex" flexDirection="row">
@@ -717,6 +727,11 @@ const TwoPhase = () => {
                     helperText={error104 ? "Please input correct number" : ""}
                     onChange={(e) => setLiquidDensity(e.target.value)}
                     onBlur={(e) => validateInput("104", e.target.value)}
+                    InputLabelProps={{
+                      sx: {
+                        color: "blue", // 預設顏色
+                      },
+                    }}
                   />
                   <TextField
                     id="vapor-density"
@@ -729,6 +744,11 @@ const TwoPhase = () => {
                     onChange={(e) => setVaporDensity(e.target.value)}
                     onBlur={(e) => validateInput("103", e.target.value)}
                     sx={{ ml: 4 }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "Orange", // 預設顏色
+                      },
+                    }}
                   />
                 </Box>
                 <Box display="flex" flexDirection="row">
@@ -742,6 +762,11 @@ const TwoPhase = () => {
                     helperText={error106 ? "Please input correct number" : ""}
                     onChange={(e) => setVaporViscosity(e.target.value)}
                     onBlur={(e) => validateInput("106", e.target.value)}
+                    InputLabelProps={{
+                      sx: {
+                        color: "blue", // 預設顏色
+                      },
+                    }}
                   />
                   <TextField
                     id="vapor-viscosity"
@@ -754,6 +779,11 @@ const TwoPhase = () => {
                     onChange={(e) => setVaporViscosity(e.target.value)}
                     onBlur={(e) => validateInput("105", e.target.value)}
                     sx={{ ml: 4 }}
+                    InputLabelProps={{
+                      sx: {
+                        color: "Orange", // 預設顏色
+                      },
+                    }}
                   />
                 </Box>
                 <TextField
@@ -766,6 +796,11 @@ const TwoPhase = () => {
                   helperText={error106 ? "Please input correct number" : ""}
                   onChange={(e) => setSurfaceTension(e.target.value)}
                   onBlur={(e) => validateInput("106", e.target.value)}
+                  InputLabelProps={{
+                    sx: {
+                      color: "blue", // 預設顏色
+                    },
+                  }}
                 />
                 <TextField
                   id="roughness"
