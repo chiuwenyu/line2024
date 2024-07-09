@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useState } from "react";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 // import MUI components
-import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,6 +14,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Box from "@mui/material/Box";
 
 // import Icons
 import LooksOneIcon from "@mui/icons-material/LooksOne";
@@ -29,9 +30,6 @@ import Single from "./components/single-page/Single";
 import TwoPhase from "./components/two-page/TwoPhase";
 import Thermo from "./components/hydraulic-page/Thermo";
 import Setup from "./components/setup-page/Setup";
-import { createTheme, ThemeProvider } from "@mui/material";
-
-// import { open } from "@tauri-apps/api/dialog";
 
 const drawerWidth = 200;
 
