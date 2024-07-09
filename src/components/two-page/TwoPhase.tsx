@@ -38,6 +38,11 @@ import FileButton from "../single-page/FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
 import { CustomTabPanel, a11yProps } from "../utils/utility";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import UploadIcon from "@mui/icons-material/Upload";
+import ForwardIcon from "@mui/icons-material/Forward";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const TwoPhase = () => {
   // Program Data
@@ -90,6 +95,8 @@ const TwoPhase = () => {
 
   // Tab value
   const [value, setValue] = useState(0);
+
+  const [direct, setDirect] = React.useState("up");
 
   // Calculated Result
   const [resData, setResData] = useState<SizingData[]>([]);
@@ -146,6 +153,13 @@ const TwoPhase = () => {
       ? setError202(true)
       : setError202(false);
     setCalState(false);
+  };
+
+  const handleDirectChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newDirect: string
+  ) => {
+    setDirect(newDirect);
   };
 
   const handleExecuteButtonClick = async () => {
@@ -1096,15 +1110,34 @@ const TwoPhase = () => {
               </Box>
             </CustomTabPanel>
           </Box>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleExecuteButtonClick}
-            sx={{ borderRadius: "20px", width: "120px", minWidth: "120px" }}
+          <Typography
+            gutterBottom
+            variant="body1"
+            component="div"
+            sx={{ mb: 1, ml: 0.5, fontWeight: "medium" }}
           >
-            {" "}
-            Execute{" "}
-          </Button>
+            Flow Direction :{" "}
+          </Typography>
+          <ToggleButtonGroup
+            color="standard"
+            value={direct}
+            exclusive
+            onChange={handleDirectChange}
+            aria-label="flow-direction"
+          >
+            <ToggleButton value="up" sx={{ width: 90 }}>
+              <UploadIcon />
+              <Box sx={{ pl: 1 }}>Up</Box>
+            </ToggleButton>
+            <ToggleButton value="horizontal" sx={{ width: 90 }}>
+              <ForwardIcon />
+              <Box sx={{ pl: 1 }}>Hori</Box>
+            </ToggleButton>
+            <ToggleButton value="down" sx={{ width: 90 }}>
+              <FileDownloadIcon />
+              <Box sx={{ pl: 1 }}>down</Box>
+            </ToggleButton>
+          </ToggleButtonGroup>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}
             setOptErrOpen={setOptDiaErrOpen}
