@@ -9,14 +9,20 @@ import UploadIcon from "@mui/icons-material/Upload";
 import ForwardIcon from "@mui/icons-material/Forward";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
+const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+  "&.Mui-selected": {
+    backgroundColor: theme.palette.secondary.main,
+    color: "white",
+  },
+
+  "&.Mui-selected:hover": {
+    backgroundColor: theme.palette.secondary.light,
+    color: "white",
+  },
+}));
+
 const FlowDirToggleButton = (props: any) => {
   const { direct, handleDirectChange } = props;
-  const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
-    "&.Mui-selected": {
-      backgroundColor: theme.palette.secondary.main,
-      color: "white",
-    },
-  }));
 
   return (
     <>
