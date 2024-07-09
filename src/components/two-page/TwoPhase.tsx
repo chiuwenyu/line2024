@@ -96,7 +96,7 @@ const TwoPhase = () => {
   // Tab value
   const [value, setValue] = useState(0);
 
-  const [direct, setDirect] = React.useState("up");
+  const [direct, setDirect] = React.useState<string[]>([]);
 
   // Calculated Result
   const [resData, setResData] = useState<SizingData[]>([]);
@@ -157,13 +157,14 @@ const TwoPhase = () => {
 
   const handleDirectChange = (
     event: React.MouseEvent<HTMLElement>,
-    newDirect: string
+    newDirect: string[]
   ) => {
-    setDirect(newDirect);
+    setDirect(newDirect || []);
+    handleExecuteButtonClick(newDirect);
   };
 
-  const handleExecuteButtonClick = async () => {
-    // if (optValue === "1") {
+  const handleExecuteButtonClick = async (opt: string[]) => {
+    // if (opt === "up") {
     //   // implement by all dia.
     //   const newResData: SizingData[] = [];
     //   await Promise.all(
@@ -184,7 +185,7 @@ const TwoPhase = () => {
     //   setResData(newResData);
     //   setCalState(true);
     // }
-    // if (optValue === "2") {
+    // if (opt === "horizontal") {
     //   // optValue = 2, implement by Dia range
     //   let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
     //   let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
@@ -213,7 +214,7 @@ const TwoPhase = () => {
     //   setResData(newResData);
     //   setCalState(true);
     // }
-    // if (optValue === "3") {
+    // if (opt === "down") {
     //   // implement by pressure drop range
     //   let lowDP = parseFloat(lowPres);
     //   let highDP = parseFloat(highPres);
