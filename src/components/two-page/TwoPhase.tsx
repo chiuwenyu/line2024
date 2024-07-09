@@ -672,7 +672,6 @@ const TwoPhase = () => {
       </Stack>
       <Grid
         container
-        // alignItems="center"
         gap={6}
         sx={{
           bgcolor: "background.default",
@@ -689,7 +688,7 @@ const TwoPhase = () => {
           >
             Two Phase Line Sizing App
           </Typography>
-          <Box sx={{ width: "100%", height: "600px" }}>
+          <Box sx={{ width: "100%", height: "580px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
