@@ -5,7 +5,6 @@ import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import DataGridSingle from "../single-page/DataGridSingle";
-import { SizingData } from "../single-page/DataGridSingle";
 import pipeData from "../../assets/PipeStd.json";
 import workID from "../../assets/PipeWork.json";
 import { dialog } from "@tauri-apps/api";
@@ -13,7 +12,6 @@ import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 
 import {
-  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -33,12 +31,13 @@ import {
   OptDiaErrorDialog,
   OptPresErrorDialog,
 } from "../single-page/OptErrorDialog";
-import { TwoData } from "./TwoDataType";
+import { TwoData, VUResult } from "./TwoDataType";
 import FileButton from "../single-page/FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
 import { CustomTabPanel, a11yProps } from "../utils/utility";
 import FlowDirToggleButton from "./FlowDirToggleButton";
+import { TwoSizingData } from "./DataGridTwo";
 
 const TwoPhase = () => {
   // Program Data
@@ -95,7 +94,7 @@ const TwoPhase = () => {
   const [direct, setDirect] = React.useState<string[]>([]);
 
   // Calculated Result
-  const [resData, setResData] = useState<SizingData[]>([]);
+  const [resData, setResData] = useState<TwoSizingData[]>([]);
   const [calState, setCalState] = useState(false);
   const [selectId, setSelectId] = useState<string>("");
 
@@ -160,28 +159,27 @@ const TwoPhase = () => {
   };
 
   const handleExecuteButtonClick = async (opt: string[]) => {
-    // if (opt === "up") {
-    //   // implement by all dia.
-    //   const newResData: SizingData[] = [];
-    //   await Promise.all(
-    //     workID.map(async (item) => {
-    //       let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
-    //         item.ID
-    //       );
-    //       newResData.push({
-    //         id: item.SIZE,
-    //         actID: item.ID.toString(),
-    //         vel: v,
-    //         presDrop: dp,
-    //         vh: vhead,
-    //         reynoldNo: nre,
-    //       });
-    //     })
-    //   );
-    //   setResData(newResData);
-    //   setCalState(true);
-    // }
-    // if (opt === "horizontal") {
+    if (opt.includes("up")) {
+      // implement by all dia.
+      const newResData: TwoSizingData[] = [];
+      await Promise.all(
+        workID.map(async (item) => {
+          let [flow_rrgime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+            item.ID
+          );
+          newResData.push({
+            id: item.SIZE,
+            actID: item.ID.toString(),
+            flow_regime: flow_rrgime,
+            Pfric: Pfric,
+            Ef: Ef,
+          });
+        })
+      );
+      setResData(newResData);
+      setCalState(true);
+    }
+    // if (opt.includes("horizontal")) {
     //   // optValue = 2, implement by Dia range
     //   let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
     //   let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
@@ -210,7 +208,7 @@ const TwoPhase = () => {
     //   setResData(newResData);
     //   setCalState(true);
     // }
-    // if (opt === "down") {
+    // if (opt.includes("down")) {
     //   // implement by pressure drop range
     //   let lowDP = parseFloat(lowPres);
     //   let highDP = parseFloat(highPres);
@@ -242,30 +240,30 @@ const TwoPhase = () => {
     // }
   };
 
-  // async function rust_single_phase_hydraulic_byid(
-  //   actID: number
-  // ): Promise<[string, string, string, string]> {
-  //   try {
-  //     const result = await invoke<Result>("invoke_hydraulic", {
-  //       w: parseFloat(massFlowRate),
-  //       rho: parseFloat(density),
-  //       mu: parseFloat(viscosity),
-  //       id: actID,
-  //       e: parseFloat(roughness),
-  //       sf: parseFloat(safeFactor),
-  //     });
-  //     const res = result as Result;
-  //     return [
-  //       res.v.toFixed(4),
-  //       res.dp100.toFixed(6),
-  //       res.vh.toFixed(4),
-  //       fmt_f64(res.nre, 20, 4, 3),
-  //     ];
-  //   } catch (e) {
-  //     console.error(e);
-  //     return ["", "", "", ""];
-  //   }
-  // }
+  async function rust_two_phase_hydraulic_byid(
+    actID: number
+  ): Promise<[string, string, string]> {
+    try {
+      const result = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
+        wl: parseFloat(liquidFlowRate),
+        wg: parseFloat(vaporFlowRate),
+        lo_l: parseFloat(liquidDensity),
+        lo_g: parseFloat(vaporDensity),
+        mu_l: parseFloat(liquidViscosity),
+        mu_g: parseFloat(vaporViscosity),
+        surface_tension: parseFloat(surfaceTension),
+        rough: parseFloat(roughness),
+        sf: parseFloat(safeFactor),
+        id: actID,
+        slope: parseFloat(slope),
+      });
+      const res = result as VUResult;
+      return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];
+    } catch (e) {
+      console.error(e);
+      return ["", "", ""];
+    }
+  }
 
   const onSaveAsButtonClick = async () => {
     dialog
@@ -475,188 +473,173 @@ const TwoPhase = () => {
   };
 
   const onExportButtonClick = async () => {
-    const pdfDoc = await PDFDocument.create();
-
-    const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-    const page = pdfDoc.addPage();
-    const { width, height } = page.getSize();
-
-    // **** Print Header (Application Name) ****
-    let fontSize = 16;
-    let dy = height - 3 * fontSize;
-    let dx = 450;
-    let textStr = "Line2024";
-    let textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
-    page.drawText(textStr, {
-      x: dx,
-      y: dy,
-      size: fontSize,
-      font: timesRomanFont,
-      color: rgb(0, 0, 0),
-    });
-
-    fontSize = 6;
-    page.drawText("   Ver 1.0.0", {
-      x: dx + textWidth,
-      y: dy,
-      size: fontSize,
-      font: timesRomanFont,
-      color: rgb(0, 0, 0),
-    });
-
-    // draw a thick red line at the bottom of header
-    const widthMargin = 30;
-    page.drawLine({
-      start: { x: widthMargin, y: dy - 5 },
-      end: { x: width - widthMargin, y: dy - 5 },
-      thickness: 1,
-      color: rgb(1, 0, 0),
-    });
-
-    // **** Print Input Data ****
-    let txtStrs: string[] = [
-      `Project No. : ${projNo}`,
-      `Project Name : ${projName}`,
-      `Description : ${projDesc}`,
-      `Line No. : ${lineNo}`,
-      `From : ${lineFrom}`,
-      `To : ${lineTo}`,
-      `Note : ${note}`,
-      `>>>> INPUT DATA <<<<`,
-      // `Mass Flow Rate (Kg/hr): ${massFlowRate}`,
-      // `Density (Kg/m^3): ${density} `,
-      // `Viscosity (cP): ${viscosity} `,
-      `Pipe Roughness (mm): ${roughness} `,
-      `Safe Factor : ${safeFactor}`,
-      `>>>> CALCULATION RESULT  <<<<`,
-      `    `,
-      `  Norm. ID         Act. ID        Velocity         Pressure Drop          1.0 V.H           Reynold No.`,
-      `   (inch)          (inch)          (m/s)           (Kg/cm^2/100m)        (Kg/m/s^2)             [-]`,
-    ];
-    dy = dy - 5;
-    const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
-    const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
-
-    fontSize = 8;
-    const lineSpacing = 2;
-    const lineHeight = fontSize + lineSpacing;
-    dx = widthMargin + 5;
-
-    for (let i = 0; i < txtStrs.length; i++) {
-      dy = dy - lineHeight * 1.5;
-      if (i === 7 || i === 14) {
-        page.drawText(txtStrs[i], {
-          x: dx,
-          y: dy,
-          size: fontSize,
-          font: courierBoldFont,
-          color: rgb(0, 0, 0),
-        });
-      } else {
-        page.drawText(txtStrs[i], {
-          x: dx,
-          y: dy,
-          size: fontSize,
-          font: courierFont,
-          color: rgb(0, 0, 0),
-        });
-      }
-    }
-
-    // draw a thick black line at the top of head row
-    page.drawLine({
-      start: { x: widthMargin, y: dy + 30 },
-      end: { x: width - widthMargin * 1.5, y: dy + 30 },
-      thickness: 1,
-      color: rgb(0.25, 0.25, 0.25),
-    });
-
-    // draw a thick black line at the bottom of head row
-    dy = dy - 7;
-    page.drawLine({
-      start: { x: widthMargin, y: dy },
-      end: { x: width - widthMargin * 1.5, y: dy },
-      thickness: 1,
-      color: rgb(0.25, 0.25, 0.25),
-    });
-
-    // **** Print Result Data ****
-    if (resData.length === 0) {
-      dy = dy - 12;
-      page.drawText("No data available...", {
-        x: dx,
-        y: dy,
-        size: fontSize,
-        font: courierFont,
-        color: rgb(0, 0, 0),
-      });
-    } else {
-      let outStrs: string[] = [];
-      resData.forEach((item) => {
-        outStrs.push(
-          `${item.id.padStart(8)}${item.actID.padStart(17)}${item.vel.padStart(
-            17
-          )}${item.presDrop.padStart(22)}${item.vh.padStart(19)}${
-            item.reynoldNo
-          }`
-        );
-      });
-
-      dy = dy - 5;
-      for (let i = 0; i < outStrs.length; i++) {
-        dy = dy - lineHeight * 1.5;
-        if (selectId === resData[i].id) {
-          page.drawText(outStrs[i], {
-            x: dx,
-            y: dy,
-            size: fontSize,
-            font: courierBoldFont,
-            color: rgb(1, 0, 0),
-          });
-        } else {
-          page.drawText(outStrs[i], {
-            x: dx,
-            y: dy,
-            size: fontSize,
-            font: courierFont,
-            color: rgb(0, 0, 0),
-          });
-        }
-      }
-    }
-
-    // draw a thick black line at the bottom of data table
-    dy = dy - 8;
-    page.drawLine({
-      start: { x: widthMargin, y: dy },
-      end: { x: width - widthMargin * 1.5, y: dy },
-      thickness: 1,
-      color: rgb(0.25, 0.25, 0.25),
-    });
-
-    // **** Print Footer ****
-    let msg = "";
-    if (selectId === "") {
-      msg =
-        "Note: You did not select any pipe ID. Please select one on the result table!!";
-    } else {
-      msg = `Note: You select the ${selectId}\" pipe.`;
-    }
-    dy = dy - 14;
-    page.drawText(msg, {
-      x: dx + 10,
-      y: dy,
-      size: fontSize,
-      font: courierFont,
-      color: rgb(0, 0, 0),
-    });
-
-    const pdfBytes = await pdfDoc.save();
-    const pdfDataUrl = URL.createObjectURL(
-      new Blob([pdfBytes], { type: "application/pdf" })
-    );
-    window.open(pdfDataUrl);
+    // const pdfDoc = await PDFDocument.create();
+    // const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    // const page = pdfDoc.addPage();
+    // const { width, height } = page.getSize();
+    // // **** Print Header (Application Name) ****
+    // let fontSize = 16;
+    // let dy = height - 3 * fontSize;
+    // let dx = 450;
+    // let textStr = "Line2024";
+    // let textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
+    // page.drawText(textStr, {
+    //   x: dx,
+    //   y: dy,
+    //   size: fontSize,
+    //   font: timesRomanFont,
+    //   color: rgb(0, 0, 0),
+    // });
+    // fontSize = 6;
+    // page.drawText("   Ver 1.0.0", {
+    //   x: dx + textWidth,
+    //   y: dy,
+    //   size: fontSize,
+    //   font: timesRomanFont,
+    //   color: rgb(0, 0, 0),
+    // });
+    // // draw a thick red line at the bottom of header
+    // const widthMargin = 30;
+    // page.drawLine({
+    //   start: { x: widthMargin, y: dy - 5 },
+    //   end: { x: width - widthMargin, y: dy - 5 },
+    //   thickness: 1,
+    //   color: rgb(1, 0, 0),
+    // });
+    // // **** Print Input Data ****
+    // let txtStrs: string[] = [
+    //   `Project No. : ${projNo}`,
+    //   `Project Name : ${projName}`,
+    //   `Description : ${projDesc}`,
+    //   `Line No. : ${lineNo}`,
+    //   `From : ${lineFrom}`,
+    //   `To : ${lineTo}`,
+    //   `Note : ${note}`,
+    //   `>>>> INPUT DATA <<<<`,
+    //   // `Mass Flow Rate (Kg/hr): ${massFlowRate}`,
+    //   // `Density (Kg/m^3): ${density} `,
+    //   // `Viscosity (cP): ${viscosity} `,
+    //   `Pipe Roughness (mm): ${roughness} `,
+    //   `Safe Factor : ${safeFactor}`,
+    //   `>>>> CALCULATION RESULT  <<<<`,
+    //   `    `,
+    //   `  Norm. ID         Act. ID        Velocity         Pressure Drop          1.0 V.H           Reynold No.`,
+    //   `   (inch)          (inch)          (m/s)           (Kg/cm^2/100m)        (Kg/m/s^2)             [-]`,
+    // ];
+    // dy = dy - 5;
+    // const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
+    // const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
+    // fontSize = 8;
+    // const lineSpacing = 2;
+    // const lineHeight = fontSize + lineSpacing;
+    // dx = widthMargin + 5;
+    // for (let i = 0; i < txtStrs.length; i++) {
+    //   dy = dy - lineHeight * 1.5;
+    //   if (i === 7 || i === 14) {
+    //     page.drawText(txtStrs[i], {
+    //       x: dx,
+    //       y: dy,
+    //       size: fontSize,
+    //       font: courierBoldFont,
+    //       color: rgb(0, 0, 0),
+    //     });
+    //   } else {
+    //     page.drawText(txtStrs[i], {
+    //       x: dx,
+    //       y: dy,
+    //       size: fontSize,
+    //       font: courierFont,
+    //       color: rgb(0, 0, 0),
+    //     });
+    //   }
+    // }
+    // // draw a thick black line at the top of head row
+    // page.drawLine({
+    //   start: { x: widthMargin, y: dy + 30 },
+    //   end: { x: width - widthMargin * 1.5, y: dy + 30 },
+    //   thickness: 1,
+    //   color: rgb(0.25, 0.25, 0.25),
+    // });
+    // // draw a thick black line at the bottom of head row
+    // dy = dy - 7;
+    // page.drawLine({
+    //   start: { x: widthMargin, y: dy },
+    //   end: { x: width - widthMargin * 1.5, y: dy },
+    //   thickness: 1,
+    //   color: rgb(0.25, 0.25, 0.25),
+    // });
+    // // **** Print Result Data ****
+    // if (resData.length === 0) {
+    //   dy = dy - 12;
+    //   page.drawText("No data available...", {
+    //     x: dx,
+    //     y: dy,
+    //     size: fontSize,
+    //     font: courierFont,
+    //     color: rgb(0, 0, 0),
+    //   });
+    // } else {
+    //   let outStrs: string[] = [];
+    //   resData.forEach((item) => {
+    //     outStrs.push(
+    //       `${item.id.padStart(8)}${item.actID.padStart(17)}${item.vel.padStart(
+    //         17
+    //       )}${item.presDrop.padStart(22)}${item.vh.padStart(19)}${
+    //         item.reynoldNo
+    //       }`
+    //     );
+    //   });
+    //   dy = dy - 5;
+    //   for (let i = 0; i < outStrs.length; i++) {
+    //     dy = dy - lineHeight * 1.5;
+    //     if (selectId === resData[i].id) {
+    //       page.drawText(outStrs[i], {
+    //         x: dx,
+    //         y: dy,
+    //         size: fontSize,
+    //         font: courierBoldFont,
+    //         color: rgb(1, 0, 0),
+    //       });
+    //     } else {
+    //       page.drawText(outStrs[i], {
+    //         x: dx,
+    //         y: dy,
+    //         size: fontSize,
+    //         font: courierFont,
+    //         color: rgb(0, 0, 0),
+    //       });
+    //     }
+    //   }
+    // }
+    // // draw a thick black line at the bottom of data table
+    // dy = dy - 8;
+    // page.drawLine({
+    //   start: { x: widthMargin, y: dy },
+    //   end: { x: width - widthMargin * 1.5, y: dy },
+    //   thickness: 1,
+    //   color: rgb(0.25, 0.25, 0.25),
+    // });
+    // // **** Print Footer ****
+    // let msg = "";
+    // if (selectId === "") {
+    //   msg =
+    //     "Note: You did not select any pipe ID. Please select one on the result table!!";
+    // } else {
+    //   msg = `Note: You select the ${selectId}\" pipe.`;
+    // }
+    // dy = dy - 14;
+    // page.drawText(msg, {
+    //   x: dx + 10,
+    //   y: dy,
+    //   size: fontSize,
+    //   font: courierFont,
+    //   color: rgb(0, 0, 0),
+    // });
+    // const pdfBytes = await pdfDoc.save();
+    // const pdfDataUrl = URL.createObjectURL(
+    //   new Blob([pdfBytes], { type: "application/pdf" })
+    // );
+    // window.open(pdfDataUrl);
   };
 
   return (
