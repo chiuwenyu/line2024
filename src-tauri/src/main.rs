@@ -45,7 +45,7 @@ fn invoke_vertical_up_hydraulic(
     id: f64,
     slope: f64,
 ) -> VerticalUp {
-    let mut vertical_up: VerticalUp = VerticalUp::new(
+    let mut vu: VerticalUp = VerticalUp::new(
         wl,
         wg,
         lo_l,
@@ -58,8 +58,70 @@ fn invoke_vertical_up_hydraulic(
         id,
         slope,
     );
-    vertical_up.model_cal();
-    vertical_up
+    vu.model_cal();
+    vu
+}
+
+#[tauri::command]
+fn invoke_vertical_down_hydraulic(
+    wl: f64,
+    wg: f64,
+    lo_l: f64,
+    lo_g: f64,
+    mu_l: f64,
+    mu_g: f64,
+    surface_tension: f64,
+    rough: f64,
+    sf: f64,
+    id: f64,
+    slope: f64,
+) -> VerticalDown {
+    let mut vd: VerticalDown = VerticalDown::new(
+        wl,
+        wg,
+        lo_l,
+        lo_g,
+        mu_l,
+        mu_g,
+        surface_tension,
+        rough,
+        sf,
+        id,
+        slope,
+    );
+    vd.model_cal();
+    vd
+}
+
+#[tauri::command]
+fn invoke_horizontal_hydraulic(
+    wl: f64,
+    wg: f64,
+    lo_l: f64,
+    lo_g: f64,
+    mu_l: f64,
+    mu_g: f64,
+    surface_tension: f64,
+    rough: f64,
+    sf: f64,
+    id: f64,
+    slope: f64,
+) -> Horizontal {
+    let mut h1: Horizontal = Horizontal::new(
+        wl,
+        wg,
+        lo_l,
+        lo_g,
+        mu_l,
+        mu_g,
+        surface_tension,
+        rough,
+        sf,
+        id,
+        slope,
+    );
+    h1.model_cal();
+    h1
 }
 
 fn main() {
