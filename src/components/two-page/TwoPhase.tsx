@@ -38,6 +38,7 @@ import { fmt_f64 } from "../utils/utility";
 import { CustomTabPanel, a11yProps } from "../utils/utility";
 import FlowDirToggleButton from "./FlowDirToggleButton";
 import { TwoSizingData } from "./DataGridTwo";
+import { log } from "console";
 
 const TwoPhase = () => {
   // Program Data
@@ -164,13 +165,13 @@ const TwoPhase = () => {
       const newResData: TwoSizingData[] = [];
       await Promise.all(
         workID.map(async (item) => {
-          let [flow_rrgime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+          let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
             item.ID
           );
           newResData.push({
             id: item.SIZE,
             actID: item.ID.toString(),
-            flow_regime: flow_rrgime,
+            flow_regime: flow_regime,
             Pfric: Pfric,
             Ef: Ef,
           });
@@ -247,18 +248,18 @@ const TwoPhase = () => {
       const result = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
         wl: parseFloat(liquidFlowRate),
         wg: parseFloat(vaporFlowRate),
-        lo_l: parseFloat(liquidDensity),
-        lo_g: parseFloat(vaporDensity),
-        mu_l: parseFloat(liquidViscosity),
-        mu_g: parseFloat(vaporViscosity),
-        surface_tension: parseFloat(surfaceTension),
+        lol: parseFloat(liquidDensity),
+        logg: parseFloat(vaporDensity),
+        mul: parseFloat(liquidViscosity),
+        mug: parseFloat(vaporViscosity),
+        st: parseFloat(surfaceTension),
         rough: parseFloat(roughness),
         sf: parseFloat(safeFactor),
         id: actID,
-        slope: parseFloat(slope),
+        degree: parseFloat(slope),
       });
       const res = result as VUResult;
-      return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];
+      return ["", "", ""];
     } catch (e) {
       console.error(e);
       return ["", "", ""];
@@ -448,20 +449,20 @@ const TwoPhase = () => {
             setSlope(objData.Two_ProcessData.Two_Slope);
             setSafeFactor(objData.Two_ProcessData.Two_SafeFactor);
             // set options data
-            setLowPres(objData.Single_OptionData.Single_lowPres);
-            setHighPres(objData.Single_OptionData.Single_highPres);
-            setLowID(objData.Single_OptionData.Single_lowID);
-            setHighID(objData.Single_OptionData.Single_highID);
-            setOptValue(objData.Single_OptionData.Single_OptValue);
+            setLowPres(objData.Two_OptionData.Two_lowPres);
+            setHighPres(objData.Two_OptionData.Two_highPres);
+            setLowID(objData.Two_OptionData.Two_lowID);
+            setHighID(objData.Two_OptionData.Two_highID);
+            setOptValue(objData.Two_OptionData.Two_OptValue);
             // set project data
-            setProjectNo(objData.Single_ProjectData.Single_projNo);
-            setProjectName(objData.Single_ProjectData.Single_projName);
-            setProjectDesc(objData.Single_ProjectData.Single_projDesc);
+            setProjectNo(objData.Two_ProjectData.Two_projNo);
+            setProjectName(objData.Two_ProjectData.Two_projName);
+            setProjectDesc(objData.Two_ProjectData.Two_projDesc);
             // set line data
-            setLineNo(objData.Single_LineData.Single_lineNo);
-            setLineFrom(objData.Single_LineData.Single_lineFrom);
-            setLineTo(objData.Single_LineData.Single_lineTo);
-            setNote(objData.Single_LineData.Single_note);
+            setLineNo(objData.Two_LineData.Two_lineNo);
+            setLineFrom(objData.Two_LineData.Two_lineFrom);
+            setLineTo(objData.Two_LineData.Two_lineTo);
+            setNote(objData.Two_LineData.Two_note);
           });
         } else {
           console.log("Cancelled by user.");
