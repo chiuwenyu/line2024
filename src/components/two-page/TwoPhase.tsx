@@ -152,8 +152,8 @@ const TwoPhase = () => {
     _event: React.MouseEvent<HTMLElement>,
     newDirect: string[]
   ) => {
-    setDirect(newDirect || []);
     handleExecuteButtonClick(newDirect);
+    setDirect(newDirect || []);
   };
 
   const handleExecuteButtonClick = async (fd: string[]) => {
