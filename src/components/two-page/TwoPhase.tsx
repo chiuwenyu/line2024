@@ -149,7 +149,7 @@ const TwoPhase = () => {
   };
 
   const handleDirectChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newDirect: string[]
   ) => {
     setDirect(newDirect || []);
@@ -160,83 +160,110 @@ const TwoPhase = () => {
     // fd: flow direction
     if (fd.includes("up")) {
       // implement by all dia.
-      const newResData: TwoSizingData[] = [];
-      await Promise.all(
-        workID.map(async (item) => {
-          let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
-            item.ID
-          );
-          newResData.push({
-            id: item.SIZE,
-            actID: item.ID.toString(),
-            flow_regime: flow_regime,
-            Pfric: Pfric,
-            Ef: Ef,
-          });
-        })
-      );
-      setResData(newResData);
-      setCalState(true);
+      if (optValue === "1") {
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+              item.ID
+            );
+            newResData.push({
+              id: item.SIZE,
+              actID: item.ID.toString(),
+              flow_regime: flow_regime,
+              Pfric: Pfric,
+              Ef: Ef,
+            });
+          })
+        );
+        setResData(newResData);
+        setCalState(true);
+      }
+      if (optValue === "2") {
+        // optValue = 2, implement by Dia range
+        let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
+        let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
+        if (lowActID >= highActID) {
+          setOptDiaErrOpen(true);
+          return;
+        }
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+              item.ID
+            );
+            if (item.ID >= lowActID && item.ID <= highActID) {
+              newResData.push({
+                id: item.SIZE,
+                actID: item.ID.toString(),
+                flow_regime: flow_regime,
+                Pfric: Pfric,
+                Ef: Ef,
+              });
+            }
+          })
+        );
+        setResData(newResData);
+        setCalState(true);
+      }
+      if (optValue === "3") {
+        // implement by pressure drop range
+        let lowDP = parseFloat(lowPres);
+        let highDP = parseFloat(highPres);
+        if (lowDP >= highDP) {
+          setOptPresErrOpen(true);
+          return;
+        }
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+              item.ID
+            );
+            if (parseFloat(Pfric) > lowDP && parseFloat(Pfric) < highDP) {
+              newResData.push({
+                id: item.SIZE,
+                actID: item.ID.toString(),
+                flow_regime: flow_regime,
+                Pfric: Pfric,
+                Ef: Ef,
+              });
+            }
+          })
+        );
+        // judge the pressure drop range here
+        setResData(newResData);
+        setCalState(true);
+      }
+      if (optValue === "4") {
+        // implement by Erosion Factor < 1.0
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+              item.ID
+            );
+            if (parseFloat(Ef) <= 1.0) {
+              newResData.push({
+                id: item.SIZE,
+                actID: item.ID.toString(),
+                flow_regime: flow_regime,
+                Pfric: Pfric,
+                Ef: Ef,
+              });
+            }
+          })
+        );
+        // judge the pressure drop range here
+        setResData(newResData);
+        setCalState(true);
+      }
+    } else if (fd.includes("horizontal")) {
+    } else if (fd.includes("down")) {
+    } else {
+      return;
     }
-    // if (fd.includes("horizontal")) {
-    //   // optValue = 2, implement by Dia range
-    //   let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
-    //   let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
-    //   if (lowActID >= highActID) {
-    //     setOptDiaErrOpen(true);
-    //     return;
-    //   }
-    //   const newResData: SizingData[] = [];
-    //   await Promise.all(
-    //     workID.map(async (item) => {
-    //       let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
-    //         item.ID
-    //       );
-    //       if (item.ID >= lowActID && item.ID <= highActID) {
-    //         newResData.push({
-    //           id: item.SIZE,
-    //           actID: item.ID.toString(),
-    //           vel: v,
-    //           presDrop: dp,
-    //           vh: vhead,
-    //           reynoldNo: nre,
-    //         });
-    //       }
-    //     })
-    //   );
-    //   setResData(newResData);
-    //   setCalState(true);
-    // }
-    // if (fd.includes("down")) {
-    //   // implement by pressure drop range
-    //   let lowDP = parseFloat(lowPres);
-    //   let highDP = parseFloat(highPres);
-    //   if (lowDP >= highDP) {
-    //     setOptPresErrOpen(true);
-    //     return;
-    //   }
-    //   const newResData: SizingData[] = [];
-    //   await Promise.all(
-    //     workID.map(async (item) => {
-    //       let [v, dp, vhead, nre] = await rust_single_phase_hydraulic_byid(
-    //         item.ID
-    //       );
-    //       if (parseFloat(dp) > lowDP && parseFloat(dp) < highDP) {
-    //         newResData.push({
-    //           id: item.SIZE,
-    //           actID: item.ID.toString(),
-    //           vel: v,
-    //           presDrop: dp,
-    //           vh: vhead,
-    //           reynoldNo: nre,
-    //         });
-    //       }
-    //     })
-    //   );
-    //   // judge the pressure drop range here
-    //   setResData(newResData);
-    //   setCalState(true);
-    // }
   };
 
   async function rust_two_phase_hydraulic_byid(
@@ -882,7 +909,7 @@ const TwoPhase = () => {
                     Design Criteria :
                   </FormLabel>
                   <Box
-                    height="42ch"
+                    height="50ch"
                     boxShadow={1}
                     sx={{ border: "1px solid lightgrey", mt: 1, pl: 2 }}
                   >
@@ -981,6 +1008,12 @@ const TwoPhase = () => {
                           disabled={optValue !== "3"}
                         />
                       </Grid>
+                      <FormControlLabel
+                        value="4"
+                        control={<Radio />}
+                        label="Erosion Factor < 1.0"
+                        sx={{ mt: 2 }}
+                      />
                     </RadioGroup>
                   </Box>
                 </FormControl>
