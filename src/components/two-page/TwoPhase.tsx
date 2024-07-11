@@ -4,7 +4,6 @@ import React from "react";
 import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import DataGridSingle from "../single-page/DataGridSingle";
 import pipeData from "../../assets/PipeStd.json";
 import workID from "../../assets/PipeWork.json";
 import { dialog } from "@tauri-apps/api";
@@ -33,12 +32,10 @@ import {
 } from "../single-page/OptErrorDialog";
 import { TwoData, VUResult } from "./TwoDataType";
 import FileButton from "../single-page/FileButton";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-import { fmt_f64 } from "../utils/utility";
+
 import { CustomTabPanel, a11yProps } from "../utils/utility";
 import FlowDirToggleButton from "./FlowDirToggleButton";
 import DataGridTwo, { TwoSizingData } from "./DataGridTwo";
-import { log } from "console";
 
 const TwoPhase = () => {
   // Program Data
@@ -159,8 +156,9 @@ const TwoPhase = () => {
     handleExecuteButtonClick(newDirect);
   };
 
-  const handleExecuteButtonClick = async (opt: string[]) => {
-    if (opt.includes("up")) {
+  const handleExecuteButtonClick = async (fd: string[]) => {
+    // fd: flow direction
+    if (fd.includes("up")) {
       // implement by all dia.
       const newResData: TwoSizingData[] = [];
       await Promise.all(
@@ -180,7 +178,7 @@ const TwoPhase = () => {
       setResData(newResData);
       setCalState(true);
     }
-    // if (opt.includes("horizontal")) {
+    // if (fd.includes("horizontal")) {
     //   // optValue = 2, implement by Dia range
     //   let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
     //   let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
@@ -209,7 +207,7 @@ const TwoPhase = () => {
     //   setResData(newResData);
     //   setCalState(true);
     // }
-    // if (opt.includes("down")) {
+    // if (fd.includes("down")) {
     //   // implement by pressure drop range
     //   let lowDP = parseFloat(lowPres);
     //   let highDP = parseFloat(highPres);
@@ -258,9 +256,8 @@ const TwoPhase = () => {
         id: actID,
         degree: parseFloat(slope),
       });
-      console.log(result);
       const res = result as VUResult;
-      return [res.flow_regime, "", ""];
+      return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];
     } catch (e) {
       console.error(e);
       return ["", "", ""];

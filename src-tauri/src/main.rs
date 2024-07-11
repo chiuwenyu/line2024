@@ -37,7 +37,7 @@ fn invoke_vertical_up_hydraulic(
 ) -> VerticalUp {
     let mut vu: VerticalUp =
         VerticalUp::new(wl, wg, lol, logg, mul, mug, st, rough, sf, id, degree);
-    vu.flow_regime();
+    vu.model_cal();
     vu
 }
 
