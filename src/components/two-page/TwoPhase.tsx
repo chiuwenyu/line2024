@@ -922,13 +922,13 @@ const TwoPhase = () => {
                       <FormControlLabel
                         value="1"
                         control={<Radio />}
-                        label="all diameters"
+                        label="All Diameters"
                         sx={{ mt: 2 }}
                       />
                       <FormControlLabel
                         value="2"
                         control={<Radio />}
-                        label="by Diameter range"
+                        label="By Diameter range"
                         sx={{ mt: 2 }}
                       />
                       <Grid>
@@ -969,7 +969,7 @@ const TwoPhase = () => {
                       <FormControlLabel
                         value="3"
                         control={<Radio />}
-                        label="by Pressure Drop (Kg/cm^2/100m) range"
+                        label="By Pressure Drop (Kg/cm^2/100m) range"
                         sx={{ mt: 2 }}
                       />
                       <Grid
