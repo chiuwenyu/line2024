@@ -73,4 +73,5 @@ export type VUResult = {
   SF: number; // safety factor
   ID: number; // inner diameter [mm]
   degree: number; // slope [degree]
+  flow_regime: string; // flow regime
 };

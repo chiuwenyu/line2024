@@ -37,7 +37,7 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
 import { CustomTabPanel, a11yProps } from "../utils/utility";
 import FlowDirToggleButton from "./FlowDirToggleButton";
-import { TwoSizingData } from "./DataGridTwo";
+import DataGridTwo, { TwoSizingData } from "./DataGridTwo";
 import { log } from "console";
 
 const TwoPhase = () => {
@@ -258,8 +258,9 @@ const TwoPhase = () => {
         id: actID,
         degree: parseFloat(slope),
       });
+      console.log(result);
       const res = result as VUResult;
-      return ["", "", ""];
+      return [res.flow_regime, "", ""];
     } catch (e) {
       console.error(e);
       return ["", "", ""];
@@ -1108,7 +1109,7 @@ const TwoPhase = () => {
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
           {calState && (
-            <DataGridSingle
+            <DataGridTwo
               rows={resData}
               selectId={selectId}
               setSelectId={setSelectId}

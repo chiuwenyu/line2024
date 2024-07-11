@@ -14,7 +14,7 @@ const columns: GridColDef<TwoSizingData>[] = [
   {
     field: "id",
     headerName: "Norm. ID\n     (in)",
-    width: 100,
+    width: 90,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -24,7 +24,7 @@ const columns: GridColDef<TwoSizingData>[] = [
   {
     field: "actID",
     headerName: "Act. ID\n   (in)",
-    width: 100,
+    width: 90,
     editable: false,
     resizable: false,
     sortable: false,
@@ -35,7 +35,7 @@ const columns: GridColDef<TwoSizingData>[] = [
   {
     field: "flow_regime",
     headerName: "Flow Pattern",
-    width: 200,
+    width: 270,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -71,7 +71,7 @@ export default function DataGridTwo(props: any) {
   const { rows, selectId, setSelectId } = props;
 
   return (
-    <Box sx={{ minWidth: "702px", height: "400px" }}>
+    <Box sx={{ minWidth: "750px", height: "400px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
         <span>
           <Typography
@@ -101,7 +101,7 @@ export default function DataGridTwo(props: any) {
             fontSize: "0.9rem", // 變更 footer font size
           },
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "success.main",
+            backgroundColor: "secondary.main",
             color: "white",
             fontWeight: "bold",
             fontSize: "0.8rem",

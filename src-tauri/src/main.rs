@@ -1,18 +1,10 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod single_phase;
-
-use twoline::TwoPhaseLine;
-
-use crate::single_phase::SingleFx;
-
 mod use_seuif97;
 use crate::use_seuif97::SteamProps;
-
-mod horizontal;
-mod twoline;
-mod vertical_down;
+mod single_phase;
+use crate::single_phase::SingleFx;
 mod vertical_up;
 use crate::vertical_up::VerticalUp;
 
@@ -45,6 +37,7 @@ fn invoke_vertical_up_hydraulic(
 ) -> VerticalUp {
     let mut vu: VerticalUp =
         VerticalUp::new(wl, wg, lol, logg, mul, mug, st, rough, sf, id, degree);
+    vu.flow_regime();
     vu
 }
 
