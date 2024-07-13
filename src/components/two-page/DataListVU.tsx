@@ -29,9 +29,14 @@ const DataListVU = (props: any) => {
                 color="white"
                 style={{ lineHeight: 2 }}
               >
-                Pipe Norminal Diameter = {(vuData as VUDataType).id} inch
+                Norminal ID = {(vuData as VUDataType).id} in, &nbsp;&nbsp;
+                &nbsp;&nbsp; Inside ID = {(vuData as VUDataType).actID} in
                 <br />
-                Pipe Inside Diameter = {(vuData as VUDataType).actID} inch
+                Flow Regime : &nbsp; &nbsp; &lt;&lt;{" "}
+                {(vuData as VUDataType).flow_regime} &gt;&gt;
+                <br />
+                Frictional Press. Loss (Kgf/cm²/100m) ={" "}
+                {(vuData as VUDataType).Pfric}
               </Typography>
             }
           </CardContent>
