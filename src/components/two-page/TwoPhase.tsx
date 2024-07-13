@@ -88,13 +88,44 @@ const TwoPhase = () => {
 
   // Tab value
   const [value, setValue] = useState(0);
-
   const [direct, setDirect] = React.useState<string[]>([]);
 
   // Calculated Result
   const [resData, setResData] = useState<TwoSizingData[]>([]);
   const [calState, setCalState] = useState(false);
   const [selectId, setSelectId] = useState<string>("");
+
+  // uesEffect to handle the select ID
+  React.useEffect(() => {
+    const fetchData = async () => {
+      let actID = workID.find((item) => item.SIZE === selectId)?.ID || 0;
+      if (direct.includes("up")) {
+        try {
+          const result = await invoke<VUResult>(
+            "invoke_vertical_up_hydraulic",
+            {
+              wl: parseFloat(liquidFlowRate),
+              wg: parseFloat(vaporFlowRate),
+              lol: parseFloat(liquidDensity),
+              logg: parseFloat(vaporDensity),
+              mul: parseFloat(liquidViscosity),
+              mug: parseFloat(vaporViscosity),
+              st: parseFloat(surfaceTension),
+              rough: parseFloat(roughness),
+              sf: parseFloat(safeFactor),
+              id: actID,
+              degree: parseFloat(slope),
+            }
+          );
+          const res = result as VUResult;
+          console.log(res);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    };
+    fetchData();
+  }, [selectId, direct]);
 
   // handle ID select
   const nids = pipeData.map((item) => {
