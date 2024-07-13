@@ -214,6 +214,7 @@ const TwoPhase = () => {
 
   const handleExecuteButtonClick = async (fd: string[]) => {
     // fd: flow direction
+    if (fd === null) return;
     if (fd.includes("up")) {
       // implement by all dia.
       if (optValue === "1") {

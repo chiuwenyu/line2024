@@ -29,8 +29,9 @@ const DataListVU = (props: any) => {
                 color="white"
                 style={{ lineHeight: 2 }}
               >
-                Pipe Norminal ID = {(vuData as VUDataType).id} inch
+                Pipe Norminal Diameter = {(vuData as VUDataType).id} inch
                 <br />
+                Pipe Inside Diameter = {(vuData as VUDataType).actID} inch
               </Typography>
             }
           </CardContent>
