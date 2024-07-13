@@ -36,6 +36,15 @@ import FileButton from "../single-page/FileButton";
 import { CustomTabPanel, a11yProps } from "../utils/utility";
 import FlowDirToggleButton from "./FlowDirToggleButton";
 import DataGridTwo, { TwoSizingData } from "./DataGridTwo";
+import DataListVU from "./DataListVU";
+
+export interface VUDataType {
+  id: string;
+  actID: string;
+  flow_regime: string;
+  Pfric: string;
+  Ef: string;
+}
 
 const TwoPhase = () => {
   // Program Data
@@ -94,6 +103,14 @@ const TwoPhase = () => {
   const [resData, setResData] = useState<TwoSizingData[]>([]);
   const [calState, setCalState] = useState(false);
   const [selectId, setSelectId] = useState<string>("");
+  const [idSelState, setIdSelState] = useState(false);
+  const [vuData, setVuData] = useState<VUDataType>({
+    id: "",
+    actID: "",
+    flow_regime: "",
+    Pfric: "",
+    Ef: "",
+  });
 
   // uesEffect to handle the select ID
   React.useEffect(() => {
@@ -118,7 +135,15 @@ const TwoPhase = () => {
             }
           );
           const res = result as VUResult;
-          console.log(res);
+          const newData = {
+            id: selectId,
+            actID: actID.toString(),
+            flow_regime: res.flow_regime,
+            Pfric: res.Pfric.toFixed(4),
+            Ef: res.Ef.toFixed(4),
+          };
+          setVuData(newData as VUDataType);
+          setIdSelState(true);
         } catch (e) {
           console.error(e);
         }
@@ -477,6 +502,7 @@ const TwoPhase = () => {
     setError202(false);
     // reset Tab value
     setValue(0);
+    setIdSelState(false);
   };
 
   const onOpenButtonClick = async () => {
@@ -1176,6 +1202,7 @@ const TwoPhase = () => {
               setSelectId={setSelectId}
             />
           )}
+          {idSelState && <DataListVU vuData={vuData} direct={direct} />}
         </Grid>
       </Grid>
     </>
