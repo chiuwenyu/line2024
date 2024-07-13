@@ -125,7 +125,7 @@ const TwoPhase = () => {
       }
     };
     fetchData();
-  }, [selectId, direct]);
+  }, [selectId]);
 
   // handle ID select
   const nids = pipeData.map((item) => {
