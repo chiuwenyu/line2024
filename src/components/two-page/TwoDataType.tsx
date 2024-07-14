@@ -80,4 +80,8 @@ export type VUResult = {
   Ef: number; //Erosion Factor [-]
   LoLS: number; // Liquid Slug Unit Density [Kg/m^3]
   LoSU: number; // Two-Phase Slug Unit Density [Kg/m^3]
+  ULLS: number; // Liquid Slug Velocity [m/s]
+  LLS: number; // Liquid Slug Length [m]
+  Lu: number; // Slug Unit Length [m]
+  Le: number; // Stabilizers to Slug Flow in x m [m]
 };

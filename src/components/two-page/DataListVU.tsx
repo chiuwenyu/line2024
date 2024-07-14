@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { deepPurple } from "@mui/material/colors";
 import { VUDataType } from "./TwoPhase";
 
-const pcolor = deepPurple[500];
+const pcolor = deepPurple[900];
 
 const DataListVU = (props: any) => {
   const { vuData, direct } = props;
@@ -15,14 +15,19 @@ const DataListVU = (props: any) => {
   return (
     <>
       <Box sx={{ minWidth: "730px", height: "400px", mt: 7 }}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ fontWeight: "medium" }}
+        >
+          Calculated Property :
+        </Typography>
         <Card
           style={{ backgroundColor: pcolor, color: "white" }}
           sx={{ maxWidth: 730 }}
         >
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Calculated Property
-            </Typography>
             {
               <Typography
                 variant="body1"
@@ -45,6 +50,17 @@ const DataListVU = (props: any) => {
                       (vuData as VUDataType).LoSU
                     }{" "}
                     Kg/m³
+                    <br />
+                    Liquid Slug Velocity = {(vuData as VUDataType).ULLS} m/s
+                    <br />
+                    Liquid Slug Length = {(vuData as VUDataType).LLS} m
+                    <br />
+                    Slug Unit Length = {(vuData as VUDataType).Lu} m
+                    <br />
+                    Stabilizes to Slug Flow in x m = {
+                      (vuData as VUDataType).Le
+                    }{" "}
+                    m
                     <br />
                   </>
                 )}

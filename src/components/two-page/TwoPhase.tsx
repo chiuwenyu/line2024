@@ -48,6 +48,10 @@ export interface VUDataType {
   Ef: string;
   LoLS: string;
   LoSU: string;
+  ULLS: string;
+  LLS: string;
+  Lu: string;
+  Le: string;
 }
 
 const TwoPhase = () => {
@@ -118,6 +122,10 @@ const TwoPhase = () => {
     Ef: "",
     LoLS: "",
     LoSU: "",
+    ULLS: "",
+    LLS: "",
+    Lu: "",
+    Le: "",
   });
 
   // uesEffect to handle the select ID
@@ -153,6 +161,10 @@ const TwoPhase = () => {
             Ef: res.Ef.toFixed(4),
             LoLS: res.LoLS.toFixed(4),
             LoSU: res.LoSU.toFixed(4),
+            ULLS: res.ULLS.toFixed(4),
+            LLS: res.LLS.toFixed(4),
+            Lu: res.Lu.toFixed(4),
+            Le: res.Le.toFixed(4),
           };
           setVuData(newData as VUDataType);
           setIdSelState(true);

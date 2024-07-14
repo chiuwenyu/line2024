@@ -33,6 +33,10 @@ pub struct VerticalUp {
     // Slug Mode result data
     LoLS: f64, // Liquid Slug Unit Density [Kg/m^3]
     LoSU: f64, // Two Phase Slug Unit Density [Kg/m^3]
+    ULLS: f64, // Liquid Slug Velocity [m/s]
+    LLS: f64,  // Liquid Slug Length [m]
+    Lu: f64,   // Slug Unit Length [m]
+    Le: f64,   // Stabilizes to Slug Flow in x m [m]
 }
 
 impl VerticalUp {
@@ -68,6 +72,10 @@ impl VerticalUp {
             Ef: 0.0,
             LoLS: 0.0,
             LoSU: 0.0,
+            ULLS: 0.0,
+            LLS: 0.0,
+            Lu: 0.0,
+            Le: 0.0,
         }
     }
 
@@ -326,7 +334,11 @@ impl VerticalUp {
         self.Pfric = self.Pfric + Pacc;
         self.Pgrav = (self.LoL * (1.0 - alfaSU) + self.LoG * alfaSU) / 10000.0 * 100.0;
         self.Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
-        // must transfer to imperial unit
+
+        self.ULLS = ULLS;
+        self.LLS = LLS;
+        self.Lu = Lu;
+        self.Le = Le;
     }
 
     fn BubbleModel(&mut self) {
@@ -389,7 +401,7 @@ impl Serialize for VerticalUp {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalUp", 18)?;
+        let mut state = serializer.serialize_struct("VerticalUp", 22)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -408,6 +420,10 @@ impl Serialize for VerticalUp {
         state.serialize_field("Ef", &self.Ef)?;
         state.serialize_field("LoLS", &self.LoLS)?;
         state.serialize_field("LoSU", &self.LoSU)?;
+        state.serialize_field("ULLS", &self.ULLS)?;
+        state.serialize_field("LLS", &self.LLS)?;
+        state.serialize_field("Lu", &self.Lu)?;
+        state.serialize_field("Le", &self.Le)?;
         state.end()
     }
 }
