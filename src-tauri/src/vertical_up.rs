@@ -32,6 +32,7 @@ pub struct VerticalUp {
 
     // Slug Mode result data
     LoLS: f64, // Liquid Slug Unit Density [Kg/m^3]
+    LoSU: f64, // Two Phase Slug Unit Density [Kg/m^3]
 }
 
 impl VerticalUp {
@@ -66,6 +67,7 @@ impl VerticalUp {
             Pgrav: 0.0,
             Ef: 0.0,
             LoLS: 0.0,
+            LoSU: 0.0,
         }
     }
 
@@ -299,7 +301,7 @@ impl VerticalUp {
         let LTB = Lu - LLS; // length of Taylor Bubble
         self.LoLS = self.LoG * (1.0 - Landa).powf(2.0) / alfaLS
             + self.LoL * Landa.powf(2.0) / (1.0 - alfaLS);
-        let LoSU = self.LoG * (1.0 - alfaSU) + self.LoL * alfaSU;
+        self.LoSU = self.LoG * (1.0 - alfaSU) + self.LoL * alfaSU;
         let Le = self.ID * 35.5 * (8.0 / 7.0 * UTP / (G * self.ID).sqrt() + 0.25) * 1.2;
 
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG); // no-slip density [Kg/m^3]
@@ -387,7 +389,7 @@ impl Serialize for VerticalUp {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalUp", 17)?;
+        let mut state = serializer.serialize_struct("VerticalUp", 18)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -405,6 +407,7 @@ impl Serialize for VerticalUp {
         state.serialize_field("Pgrav", &self.Pgrav)?;
         state.serialize_field("Ef", &self.Ef)?;
         state.serialize_field("LoLS", &self.LoLS)?;
+        state.serialize_field("LoSU", &self.LoSU)?;
         state.end()
     }
 }

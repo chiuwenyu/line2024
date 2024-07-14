@@ -78,5 +78,6 @@ export type VUResult = {
   Pfric: number; // frictional pressure drop [Kgf/cm^2/100m]
   Pgrav: number; // Elevation Head Loss [Kgf/cm^2/100m]
   Ef: number; //Erosion Factor [-]
-  LoLS: number; // Liquid Slug Unit Density [kg/m^3]
+  LoLS: number; // Liquid Slug Unit Density [Kg/m^3]
+  LoSU: number; // Two-Phase Slug Unit Density [Kg/m^3]
 };

@@ -47,6 +47,7 @@ export interface VUDataType {
   Pgrav: string;
   Ef: string;
   LoLS: string;
+  LoSU: string;
 }
 
 const TwoPhase = () => {
@@ -116,6 +117,7 @@ const TwoPhase = () => {
     Pgrav: "",
     Ef: "",
     LoLS: "",
+    LoSU: "",
   });
 
   // uesEffect to handle the select ID
@@ -150,6 +152,7 @@ const TwoPhase = () => {
             Pgrav: res.Pgrav.toFixed(4),
             Ef: res.Ef.toFixed(4),
             LoLS: res.LoLS.toFixed(4),
+            LoSU: res.LoSU.toFixed(4),
           };
           setVuData(newData as VUDataType);
           setIdSelState(true);

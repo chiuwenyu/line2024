@@ -41,6 +41,11 @@ const DataListVU = (props: any) => {
                     Liquid Slug Unit Density = {(vuData as VUDataType).LoLS}{" "}
                     Kg/m³
                     <br />
+                    Two-Phase Slug Unit Density = {
+                      (vuData as VUDataType).LoSU
+                    }{" "}
+                    Kg/m³
+                    <br />
                   </>
                 )}
                 1.0 Velocity Head (Kgf/cm²) = {(vuData as VUDataType).Head}
