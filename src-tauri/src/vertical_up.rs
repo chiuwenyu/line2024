@@ -26,6 +26,7 @@ pub struct VerticalUp {
 
     // result data
     Pfric: f64, // frictional pressure drop [Kgf/cm^2/100m]
+    Pgrav: f64, // Elevation Head Loss [Kgf/cm^2/100m]
     Ef: f64,    // Erosion Factor [-]
 }
 
@@ -57,6 +58,7 @@ impl VerticalUp {
             degree: degree * f64::consts::PI / 180.0, // [degree] -> [rad]
             flow_regime: String::from(""),
             Pfric: 0.0,
+            Pgrav: 0.0,
             Ef: 0.0,
         }
     }
@@ -230,7 +232,7 @@ impl VerticalUp {
 
         self.Pfric =
             fTP * LoTP * (ULS + UGS).powf(2.0) / (2.0 * G * self.ID) / 10000.0 * 100.0 * self.SF; // Eq. (32)
-        let Pgrav = (self.LoL * (1.0 - Rg) + self.LoG * Rg) / 10000.0 * 100.0; // Eq. (33)
+        self.Pgrav = (self.LoL * (1.0 - Rg) + self.LoG * Rg) / 10000.0 * 100.0; // Eq. (33)
         let Loip = self.LoL * (1.0 - Rg) + self.LoG * Rg;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG);
         let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
@@ -314,7 +316,7 @@ impl VerticalUp {
         let Pacc =
             self.LoL * ULTB / G * (1.0 - alfaTB) * (ULLS + ULTB) * (1.0 / Lu) / 10000.0 * 100.0;
         self.Pfric = self.Pfric + Pacc;
-        let Pgrav = (self.LoL * (1.0 - alfaSU) + self.LoG * alfaSU) / 10000.0 * 100.0;
+        self.Pgrav = (self.LoL * (1.0 - alfaSU) + self.LoG * alfaSU) / 10000.0 * 100.0;
         self.Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
         // must transfer to imperial unit
     }
@@ -365,7 +367,7 @@ impl VerticalUp {
                         + 0.00843 * lnlanda.powf(4.0))); // Step (4)
         self.Pfric =
             fTP * loTP * (ULS + UGS).powf(2.0) / (2.0 * G * self.ID) / 10000.0 * 100.0 * self.SF; // Eq. (42)
-        let Pgrav = (self.LoL * (1.0 - alfa) + self.LoG * alfa) / 10000.0 * 100.0; // Eq. (43)
+        self.Pgrav = (self.LoL * (1.0 - alfa) + self.LoG * alfa) / 10000.0 * 100.0; // Eq. (43)
         let UTP = ULS + UGS;
         let LoNS = self.LoL * Landa + self.LoG * (1.0 - Landa);
         let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
@@ -379,7 +381,7 @@ impl Serialize for VerticalUp {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalUp", 14)?;
+        let mut state = serializer.serialize_struct("VerticalUp", 15)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -393,6 +395,7 @@ impl Serialize for VerticalUp {
         state.serialize_field("degree", &self.degree)?;
         state.serialize_field("flow_regime", &self.flow_regime)?;
         state.serialize_field("Pfric", &self.Pfric)?;
+        state.serialize_field("Pgrav", &self.Pgrav)?;
         state.serialize_field("Ef", &self.Ef)?;
         state.end()
     }

@@ -38,6 +38,9 @@ const DataListVU = (props: any) => {
                 Frictional Press. Loss (Kgf/cm²/100m) ={" "}
                 {(vuData as VUDataType).Pfric}
                 <br />
+                Elevation Head Loss (Kgf/cm²/100m) ={" "}
+                {(vuData as VUDataType).Pgrav}
+                <br />
                 Erosion Factor = {(vuData as VUDataType).Ef} &nbsp; &nbsp;
                 &nbsp;&#8212; &nbsp; if Φ ≤ 1 : No Erosion, Φ &lt; 1 : Erosion
                 occurred

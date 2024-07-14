@@ -43,6 +43,7 @@ export interface VUDataType {
   actID: string;
   flow_regime: string;
   Pfric: string;
+  Pgrav: string;
   Ef: string;
 }
 
@@ -109,6 +110,7 @@ const TwoPhase = () => {
     actID: "",
     flow_regime: "",
     Pfric: "",
+    Pgrav: "",
     Ef: "",
   });
 
@@ -140,6 +142,7 @@ const TwoPhase = () => {
             actID: actID.toString(),
             flow_regime: res.flow_regime,
             Pfric: res.Pfric.toFixed(4),
+            Pgrav: res.Pgrav.toFixed(4),
             Ef: res.Ef.toFixed(4),
           };
           setVuData(newData as VUDataType);

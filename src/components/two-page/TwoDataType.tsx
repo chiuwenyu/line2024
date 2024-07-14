@@ -75,5 +75,6 @@ export type VUResult = {
   degree: number; // slope [degree]
   flow_regime: string; // flow regime
   Pfric: number; // frictional pressure drop [Kgf/cm^2/100m]
+  Pgrav: number; // Elevation Head Loss [Kgf/cm^2/100m]
   Ef: number; //Erosion Factor [-]
 };
