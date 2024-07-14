@@ -25,9 +25,13 @@ pub struct VerticalUp {
     flow_regime: String,
 
     // result data
+    Head: f64,  // 1.0 Velocity Head (Kgf/cm^2)
     Pfric: f64, // frictional pressure drop [Kgf/cm^2/100m]
     Pgrav: f64, // Elevation Head Loss [Kgf/cm^2/100m]
     Ef: f64,    // Erosion Factor [-]
+
+    // Slug Mode result data
+    LoLS: f64, // Liquid Slug Unit Density [Kg/m^3]
 }
 
 impl VerticalUp {
@@ -57,9 +61,11 @@ impl VerticalUp {
             ID: id * 2.54 / 100.0,                    // [in] -> [m]
             degree: degree * f64::consts::PI / 180.0, // [degree] -> [rad]
             flow_regime: String::from(""),
+            Head: 0.0,
             Pfric: 0.0,
             Pgrav: 0.0,
             Ef: 0.0,
+            LoLS: 0.0,
         }
     }
 
@@ -235,7 +241,7 @@ impl VerticalUp {
         self.Pgrav = (self.LoL * (1.0 - Rg) + self.LoG * Rg) / 10000.0 * 100.0; // Eq. (33)
         let Loip = self.LoL * (1.0 - Rg) + self.LoG * Rg;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG);
-        let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
+        self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
         self.Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
     }
 
@@ -291,14 +297,14 @@ impl VerticalUp {
         let LLS = 20.0 * self.ID;
         let Lu = LLS / (1.0 - beta);
         let LTB = Lu - LLS; // length of Taylor Bubble
-        let LoLS = self.LoG * (1.0 - Landa).powf(2.0) / alfaLS
+        self.LoLS = self.LoG * (1.0 - Landa).powf(2.0) / alfaLS
             + self.LoL * Landa.powf(2.0) / (1.0 - alfaLS);
         let LoSU = self.LoG * (1.0 - alfaSU) + self.LoL * alfaSU;
         let Le = self.ID * 35.5 * (8.0 / 7.0 * UTP / (G * self.ID).sqrt() + 0.25) * 1.2;
 
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG); // no-slip density [Kg/m^3]
-        let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
-        let LoTP = LoLS;
+        self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
+        let LoTP = self.LoLS;
         let muTP = self.muL * Landa + self.muG * (1.0 - Landa);
         let ReTP = LoTP * UTP * self.ID / muTP;
         let f0 = self.fanning(ReTP) * 4.0;
@@ -370,7 +376,7 @@ impl VerticalUp {
         self.Pgrav = (self.LoL * (1.0 - alfa) + self.LoG * alfa) / 10000.0 * 100.0; // Eq. (43)
         let UTP = ULS + UGS;
         let LoNS = self.LoL * Landa + self.LoG * (1.0 - Landa);
-        let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
+        self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
         self.Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0;
         // must transfer to imperial unit
     }
@@ -381,7 +387,7 @@ impl Serialize for VerticalUp {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalUp", 15)?;
+        let mut state = serializer.serialize_struct("VerticalUp", 17)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -394,9 +400,11 @@ impl Serialize for VerticalUp {
         state.serialize_field("id", &self.ID)?;
         state.serialize_field("degree", &self.degree)?;
         state.serialize_field("flow_regime", &self.flow_regime)?;
+        state.serialize_field("Head", &self.Head)?;
         state.serialize_field("Pfric", &self.Pfric)?;
         state.serialize_field("Pgrav", &self.Pgrav)?;
         state.serialize_field("Ef", &self.Ef)?;
+        state.serialize_field("LoLS", &self.LoLS)?;
         state.end()
     }
 }

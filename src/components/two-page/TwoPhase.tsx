@@ -42,9 +42,11 @@ export interface VUDataType {
   id: string;
   actID: string;
   flow_regime: string;
+  Head: string;
   Pfric: string;
   Pgrav: string;
   Ef: string;
+  LoLS: string;
 }
 
 const TwoPhase = () => {
@@ -109,9 +111,11 @@ const TwoPhase = () => {
     id: "",
     actID: "",
     flow_regime: "",
+    Head: "",
     Pfric: "",
     Pgrav: "",
     Ef: "",
+    LoLS: "",
   });
 
   // uesEffect to handle the select ID
@@ -141,9 +145,11 @@ const TwoPhase = () => {
             id: selectId,
             actID: actID.toString(),
             flow_regime: res.flow_regime,
+            Head: res.Head.toFixed(4),
             Pfric: res.Pfric.toFixed(4),
             Pgrav: res.Pgrav.toFixed(4),
             Ef: res.Ef.toFixed(4),
+            LoLS: res.LoLS.toFixed(4),
           };
           setVuData(newData as VUDataType);
           setIdSelState(true);

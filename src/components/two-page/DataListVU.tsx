@@ -35,6 +35,16 @@ const DataListVU = (props: any) => {
                 Flow Regime : &nbsp; &nbsp; &lt;&lt;{" "}
                 {(vuData as VUDataType).flow_regime} &gt;&gt;
                 <br />
+                {(vuData as VUDataType).flow_regime ===
+                  "Vertical Up Slug and Churn Flow" && (
+                  <>
+                    Liquid Slug Unit Density = {(vuData as VUDataType).LoLS}{" "}
+                    Kg/m³
+                    <br />
+                  </>
+                )}
+                1.0 Velocity Head (Kgf/cm²) = {(vuData as VUDataType).Head}
+                <br />
                 Frictional Press. Loss (Kgf/cm²/100m) ={" "}
                 {(vuData as VUDataType).Pfric}
                 <br />

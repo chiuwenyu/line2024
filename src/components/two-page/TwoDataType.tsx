@@ -74,7 +74,9 @@ export type VUResult = {
   ID: number; // inner diameter [mm]
   degree: number; // slope [degree]
   flow_regime: string; // flow regime
+  Head: number; // 1.0 Velocity Head [Kgf/cm^2]
   Pfric: number; // frictional pressure drop [Kgf/cm^2/100m]
   Pgrav: number; // Elevation Head Loss [Kgf/cm^2/100m]
   Ef: number; //Erosion Factor [-]
+  LoLS: number; // Liquid Slug Unit Density [kg/m^3]
 };
