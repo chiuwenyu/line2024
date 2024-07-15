@@ -7,6 +7,8 @@ mod single_phase;
 use crate::single_phase::SingleFx;
 mod vertical_up;
 use crate::vertical_up::VerticalUp;
+mod horizontal;
+use crate::horizontal::Horizontal;
 
 #[tauri::command]
 fn invoke_seuif(pressure: f64, temperature: f64, mode: u32) -> SteamProps {
@@ -41,12 +43,33 @@ fn invoke_vertical_up_hydraulic(
     vu
 }
 
+#[tauri::command]
+fn invoke_horizontal_hydraulic(
+    wl: f64,
+    wg: f64,
+    lol: f64,
+    logg: f64,
+    mul: f64,
+    mug: f64,
+    st: f64,
+    rough: f64,
+    sf: f64,
+    id: f64,
+    degree: f64,
+) -> Horizontal {
+    let mut hori: Horizontal =
+        Horizontal::new(wl, wg, lol, logg, mul, mug, st, rough, sf, id, degree);
+    hori.model_cal();
+    hori
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             invoke_seuif,
             invoke_hydraulic,
-            invoke_vertical_up_hydraulic
+            invoke_vertical_up_hydraulic,
+            invoke_horizontal_hydraulic
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

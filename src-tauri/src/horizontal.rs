@@ -1,113 +1,63 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 #![allow(non_snake_case)]
-#![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 
-use std::f32::consts::PI;
-
-use crate::twoline::{Regime, TwoPhaseLine};
-
+use serde::ser::{Serialize, SerializeStruct, Serializer};
+use std::f64;
 const G: f64 = 9.81; // gravity accelerator [,/s^2]
 const GC: f64 = 9.8; // gravity constant [kg-m/kgf-s^2]
 
 pub struct Horizontal {
     // process data
-    pub WL: f64,     // liquid mass flow rate [kg/hr]
-    pub WG: f64,     // Vapor mass flow rate [kg/hr]
-    pub LoL: f64,    // Liquid density [kg/m^3]
-    pub LoG: f64,    // Vapor density [kg/m^3]
-    pub muL: f64,    // Liquid viscosity [cP] -> [kg/m-s]
-    pub muG: f64,    // Vapor viscosity [cP] -> [kg/m-s]
-    pub ST: f64,     // Liquid surface tension [dyne/cm] -> [kg/s^2]
-    pub rough: f64,  // pipe absolute roughness [mm] -> [m]
-    pub SF: f64,     // Safety factor [-]
-    pub ID: f64,     // pipe inside diameter [in] -> [m]
-    pub degree: f64, // degree,  Horizontal = 0, -Up / +Down
+    WL: f64,     // liquid mass flow rate [kg/hr]
+    WG: f64,     // Vapor mass flow rate [kg/hr]
+    LoL: f64,    // Liquid density [kg/m^3]
+    LoG: f64,    // Vapor density [kg/m^3]
+    muL: f64,    // Liquid viscosity [cP] -> [kg/m-s]
+    muG: f64,    // Vapor viscosity [cP] -> [kg/m-s]
+    ST: f64,     // Liquid surface tension [dyne/cm] -> [kg/s^2]
+    rough: f64,  // pipe absolute roughness [mm] -> [m]
+    SF: f64,     // Safety factor [-]
+    ID: f64,     // pipe inside diameter [in] -> [m]
+    degree: f64, // degree,  Horizontal = 0, -Up / +Down
 
     // result
-    pub regime_enum: Regime, // identify the flow regime(enum)
     pub flow_regime: String, // identify the flow regime(String)
 
-    // for Similarity Analysis Model
-    pub Loip: f64,  // two phase density [kg/m^3]
-    pub RL: f64,    // Liquid Volume Fraction [-]
-    pub UTP: f64,   // Two-Phase Velocity [m/sec]
-    pub Head: f64,  // 1.0 Velocity Head [kgf/cm^2]
-    pub Pfric: f64, // Frictional Pressure Loss [kgf/cm^2/100m]
-    pub Pgrav: f64, // Elevation Head Loss [kgf/cm^2/100m]
-    pub Ef: f64,    // Erosion Factor [-]
-
-    // for Slug model
-    pub LoSU: f64, // Two-phase slug unit density [kg/m^3]
-    pub LoLS: f64, // Liquid Slug Unit Density [kg/m^3]
-    // RL, Liquid Volume Fraction same as Similarity Model
-    pub Us: f64,   // Liquid Slug Velocity [m/s]
-    pub Ls: f64,   // Liquid Slug Length [m]
-    pub Lu: f64,   // Slug Unit Length [m]
-    pub Pacc: f64, // Eq (69) acceleration loss
-    // Head, Pfric, Ef same as Similarity Model
-
-    // for Stratified model
-    pub LoTP: f64,  // Two phase density [kg/m^3]
-    pub depth: f64, // Liquid Depth -BOP (m)
-    pub velL: f64,  // Liquid Velocity [m/s]
-    pub velG: f64,  // Vapor Velocity [m/s]
-    // RL same as Similarity Analysis Model
-    // Head, Pfric, Ef same as Similarity Model
-
-    // state variable
-    is_unit_change: bool, // is call the unit_transfer and transfer to unit
+    // result data
+    Pfric: f64, // frictional pressure drop [Kgf/cm^2/100m]
+    Ef: f64,    // Erosion Factor [-]
 }
 
 impl Horizontal {
     pub fn new(
-        WL: f64,
-        WG: f64,
-        LoL: f64,
-        LoG: f64,
-        muL: f64,
-        muG: f64,
-        ST: f64,
+        wl: f64,
+        wg: f64,
+        lol: f64,
+        logg: f64,
+        mul: f64,
+        mug: f64,
+        st: f64,
         rough: f64,
-        SF: f64,
-        ID: f64,
+        sf: f64,
+        id: f64,
         degree: f64,
     ) -> Self {
         Horizontal {
-            WL,
-            WG,
-            LoL,
-            LoG,
-            muL,
-            muG,
-            ST,
-            rough,
-            SF,
-            ID,
-            degree,
-            is_unit_change: false,
-            regime_enum: Regime::NONE,
+            WL: wl,
+            WG: wg,
+            LoL: lol,
+            LoG: logg,
+            muL: mul * 0.001,        // [cP] -> [kg/m-s]
+            muG: mug * 0.001,        // [cP] -> [kg/m-s]
+            ST: st * 1.019716213E-4, // [dyne/cm] -> [kgf/s^2]
+            rough: rough / 1000.0,   // [mm] -> [m]
+            SF: sf,
+            ID: id * 2.54 / 100.0,                    // [in] -> [m]
+            degree: degree * f64::consts::PI / 180.0, // [degree] -> [rad]
             flow_regime: String::from(""),
-            Loip: 0.0,
-            RL: 0.0,
-            UTP: 0.0,
-            Head: 0.0,
             Pfric: 0.0,
-            Pgrav: 0.0,
             Ef: 0.0,
-
-            LoSU: 0.0,
-            LoLS: 0.0,
-            Us: 0.0,
-            Ls: 0.0,
-            Lu: 0.0,
-            Pacc: 0.0,
-
-            LoTP: 0.0,
-            depth: 0.0,
-            velL: 0.0,
-            velG: 0.0,
         }
     }
 }
@@ -185,7 +135,7 @@ impl Horizontal {
 
         let UGS = self.WG / self.LoG / area / 3600.0; // Vapor Velocity [m/s]
         let ULS = self.WL / self.LoL / area / 3600.0; // Liquid Velocity [m/s]
-        self.UTP = UGS + ULS; // Two Phase Velocity [m/s], Eq (23)
+        let UTP = UGS + ULS; // Two Phase Velocity [m/s], Eq (23)
 
         let lamda = ULS / (ULS + UGS); // Liquid Volume Fraction [-], Eq (24)
         let mut Rgi = 0.5; // Gas Hold-up (Rg) initial value [-]
@@ -196,7 +146,7 @@ impl Horizontal {
         for i in 0..np {
             // (5) Calc. Re and Fr
             let Re = self.ID * Gt / (Rgi * self.muG + (1.0 - Rgi) * self.muL); // Eq. (25)
-            let Fr = self.UTP * self.UTP / (G * self.ID); // Froude Number, Eq. (26)
+            let Fr = UTP * UTP / (G * self.ID); // Froude Number, Eq. (26)
 
             // (6) Calc. Z and K
             let Z = Re.powf(0.167) * Fr.powf(0.125) / lamda.powf(0.25); // Eq.(27)
@@ -230,7 +180,7 @@ impl Horizontal {
         }
 
         // Calculate Result
-        self.RL = 1.0 - Rg;
+        let RL = 1.0 - Rg;
         let LoTP =
             self.LoL * lamda.powf(2.0) / (1.0 - Rg) + self.LoG * (1.0 - lamda).powf(2.0) / Rg; // Eq. (29)
         let muTP = self.muL * lamda + self.muG * (1.0 - lamda);
@@ -244,13 +194,16 @@ impl Horizontal {
                     + 0.00843 * LnLanda.powf(4.0)))
             * f0; // Eq. (31)
 
-        self.Pfric =
+        let Pfric =
             fTP * LoTP * (ULS + UGS).powf(2.0) / (2.0 * G * self.ID) / 10000.0 * 100.0 * self.SF; // Eq. (32)
-        self.Pgrav = (self.LoL * (1.0 - Rg) + self.LoG * Rg) / 10000.0 * 100.0; // Eq. (33)
-        self.Loip = self.LoL * (1.0 - Rg) + self.LoG * Rg;
+        let Pgrav = (self.LoL * (1.0 - Rg) + self.LoG * Rg) / 10000.0 * 100.0; // Eq. (33)
+        let Loip = self.LoL * (1.0 - Rg) + self.LoG * Rg;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG);
-        self.Head = LoNS * self.UTP.powf(2.0) / (2.0 * G) / 10000.0;
-        self.Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
+        let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
+        let Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
+
+        self.Pfric = Pfric;
+        self.Ef = Ef;
     }
 
     fn SlugModel(&mut self) {
@@ -258,51 +211,51 @@ impl Horizontal {
         let UGS = self.WG / self.LoG / area / 3600.0; // Vapor Velocity [m/s]
         let ULS = self.WL / self.LoL / area / 3600.0; // Liquid Velocity [m/s]
         let UM = UGS + ULS; // Vapor-Liquid Mixture Velocity [m/s]
-        self.Us = UM; // Slug Liquid mean Velocity [m/s], Eq. (50), Dukler (1975) as Rs = 1 in Eq. (49)
+        let Us = UM; // Slug Liquid mean Velocity [m/s], Eq. (50), Dukler (1975) as Rs = 1 in Eq. (49)
         let alfa = 8.66;
         let beta = 1.39;
-        let Rs = 1.0 / (1.0 + (self.Us / alfa).powf(beta)); // Liquid Volume Fraction in Liquid-Slug [-], Eq. (54)
-        let Res = self.ID * self.Us * (self.LoL * Rs + self.LoG * (1.0 - Rs))
+        let Rs = 1.0 / (1.0 + (Us / alfa).powf(beta)); // Liquid Volume Fraction in Liquid-Slug [-], Eq. (54)
+        let Res = self.ID * Us * (self.LoL * Rs + self.LoG * (1.0 - Rs))
             / (self.muL * Rs + self.muG * (1.0 - Rs)); // Reynold Number of Liquid-Slug [-], Eq. (66)
         let c = 0.021 * Res.ln() + 0.022; // Eq. (46) parameter
-        let Ut = (1.0 + c) * self.Us; // Average Moving Velocity of Whole Slug Unit [m/s], Eq. (46)
-        self.RL = (ULS + Rs * (Ut - UM)) / Ut; // Liquid Hold-Up of Slug Unit [-]
-        self.Ls = 30.0 * self.ID; // Liquid-Slug Length [m]
-        let mut Rfe = self.RL * 0.5; // Liquid Hold-Up of Film End [-]
+        let Ut = (1.0 + c) * Us; // Average Moving Velocity of Whole Slug Unit [m/s], Eq. (46)
+        let RL = (ULS + Rs * (Ut - UM)) / Ut; // Liquid Hold-Up of Slug Unit [-]
+        let Ls = 30.0 * self.ID; // Liquid-Slug Length [m]
+        let mut Rfe = RL * 0.5; // Liquid Hold-Up of Film End [-]
         let mut delta = 1.0; // absolute error
         let eps = 1e-4; // Allowable Tolerance
         let mut Lf = 0.0; // Liquid Film Length [m]
         let mut Lu; // Slug Unit Length [m]
 
         while delta > eps {
-            Lf = self.Ls * (Rs - self.RL) / (self.RL - Rfe); // Liquid Film Length [m]
-            Lu = Lf + self.Ls; // Length of Liquid Slug [m]
-            let Rfecal = Rs - (Rs * self.Us - ULS) * Lu / Lf / Ut; // Rfe calculated value
+            Lf = Ls * (Rs - RL) / (RL - Rfe); // Liquid Film Length [m]
+            Lu = Lf + Ls; // Length of Liquid Slug [m]
+            let Rfecal = Rs - (Rs * Us - ULS) * Lu / Lf / Ut; // Rfe calculated value
             delta = (Rfecal - Rfe).abs();
             Rfe = (Rfecal + Rfe) / 2.0;
         }
 
-        self.Lu = Lf + self.Ls;
-        self.LoSU = self.LoL * self.RL + self.LoG * (1.0 - self.RL);
-        self.LoLS = self.LoL * Rs + self.LoG * (1.0 - Rs);
-        let Ufe = (ULS * (self.Ls + Lf) - Rs * self.Us * self.Ls) / (Rfe * Lf); // Liquid mean Velocity of liquid film end. [m/s]
-        let Lm = 0.15 * (self.Us - Ufe).powf(2.0) / GC; // Mixture area length [m] Eq. (68)
+        let Lu = Lf + Ls;
+        let LoSU = self.LoL * RL + self.LoG * (1.0 - RL);
+        let LoLS = self.LoL * Rs + self.LoG * (1.0 - Rs);
+        let Ufe = (ULS * (Ls + Lf) - Rs * Us * Ls) / (Rfe * Lf); // Liquid mean Velocity of liquid film end. [m/s]
+        let Lm = 0.15 * (Us - Ufe).powf(2.0) / GC; // Mixture area length [m] Eq. (68)
         let f0 = self.fanning(Res) * 4.0;
-        self.Pfric =
-            f0 * (self.LoL * Rs + self.LoG * (1.0 - Rs)) * self.Us.powf(2.0) * (self.Ls - Lm)
-                / self.Lu
-                / (2.0 * GC * self.ID)
-                / 10000.0
-                * 100.0
-                * self.SF;
-        self.Pacc =
-            self.LoL * Rfe * (Ut - Ufe) * (self.Us - Ufe) / (GC * self.Lu) / 10000.0 * 100.0; // Eq. (69) acceleration loss
-        self.Pfric = self.Pfric + self.Pacc;
+        let Pfric = f0 * (self.LoL * Rs + self.LoG * (1.0 - Rs)) * Us.powf(2.0) * (Ls - Lm)
+            / Lu
+            / (2.0 * GC * self.ID)
+            / 10000.0
+            * 100.0
+            * self.SF;
+        let Pacc = self.LoL * Rfe * (Ut - Ufe) * (Us - Ufe) / (GC * Lu) / 10000.0 * 100.0; // Eq. (69) acceleration loss
+        let Pfric = Pfric + Pacc;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG); // No-slip Two-Phase Density [Kg/m^3]
-        let UTP = self.Us;
-        self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
-        self.Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
+        let UTP = Us;
+        let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
+        let Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
         // must transfer to imperial unit
+        self.Pfric = Pfric;
+        self.Ef = Ef;
     }
 
     fn Stratified(&mut self) {
@@ -336,17 +289,17 @@ impl Horizontal {
         let term2 = (1.0 - (2.0 * hL - 1.0).powf(2.0)).sqrt(); // Eq. (14)
         let ALB = 0.25 * (std::f64::consts::PI - term1 + (2.0 * hL - 1.0) * term2); // Eq. (10)
         let AGB = 0.25 * (term1 - (2.0 * hL - 1.0) * term2); // Eq. (11)
-        self.RL = ALB / (ALB + AGB); // Liquid Holdup [-]
-        self.LoTP = self.LoL * self.RL + self.LoG * (1.0 - self.RL); // Two-Phase Density [Kg/m^3]
-        self.depth = hL * self.ID; // Liquid Depth - BOP [m]
-        let area = std::f64::consts::PI * self.ID * self.ID / 4.0; // pipe area [m^2]
+        let RL = ALB / (ALB + AGB); // Liquid Holdup [-]
+        let LoTP = self.LoL * RL + self.LoG * (1.0 - RL); // Two-Phase Density [Kg/m^3]
+        let depth = hL * self.ID; // Liquid Depth - BOP [m]
+        let area = f64::consts::PI * self.ID * self.ID / 4.0; // pipe area [m^2]
         let UGS = self.WG / self.LoG / area / 3600.0; // Vapor Velocity [m/s]
         let ULS = self.WL / self.LoL / area / 3600.0; // Liquid Velocity [m/s]
-        let AB = std::f64::consts::PI / 4.0; // 相對於面積參考量 D^2 的無因次管截面積
+        let AB = f64::consts::PI / 4.0; // 相對於面積參考量 D^2 的無因次管截面積
         let ULB = AB / ALB; // Eq. (15)
         let UGB = AB / AGB; // Eq. (16)
-        self.velL = ULB * ULS; // Liquid Velocity [m/s]
-        self.velG = UGB * UGS; // Vapor Velocity [m/s]
+        let velL = ULB * ULS; // Liquid Velocity [m/s]
+        let velG = UGB * UGS; // Vapor Velocity [m/s]
         let SGB = (2.0 * hL - 1.0).acos();
         let SiB = (1.0 - (2.0 * hL - 1.0).powf(2.0)).sqrt();
         let DGB = 4.0 * AGB / (SGB + SiB);
@@ -356,29 +309,16 @@ impl Horizontal {
         let nuG = self.muG / self.LoG; // Dynamic Viscosity of Gas [Stoke]
         let Pgs =
             4.0 * CG / self.ID * (UGS * self.ID / nuG).powf(-m) * (self.LoG * UGS.powf(2.0) / 2.0); // Eq. (9) denominator
-        self.Pfric = fig2 * Pgs / GC / 10000.0 * 100.0 * self.SF;
+        let Pfric = fig2 * Pgs / GC / 10000.0 * 100.0 * self.SF;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG); // No-Slip Velocity [m/s]
         let UTP = UGS + ULS; // Two Phase Velocity [m/s]
-        self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
-        self.Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0; // Erosion Factor must transfer to imperial unit
-    }
-}
-
-impl TwoPhaseLine for Horizontal {
-    fn unit_transfer(&mut self) {
-        if !self.is_unit_change {
-            self.muL = self.muL * 0.001; // [cP] -> [kg/m-s]
-            self.muG = self.muG * 0.001; // [cP] -> [kg/m-s]
-            self.ID = self.ID * 2.54 / 100.0; // [in] -> [m]
-            self.ST = self.ST * 1.019716213E-4; // [dyne/cm] -> [kgf/s^2]
-            self.degree = self.degree * (PI as f64) / 180.0; // [degree] -> [rad]
-            self.rough = self.rough / 1000.0; // [mm] -> [m]
-
-            self.is_unit_change = true;
-        }
+        let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
+        let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0; // Erosion Factor must transfer to imperial unit
+        self.Pfric = Pfric;
+        self.Ef = Ef;
     }
 
-    fn flow_regime(&mut self) {
+    pub fn flow_regime(&mut self) {
         // assume turbulent flow Eq.(8), see ref. 01
         let X = (self.WL / self.WG).powf(0.9)
             * (self.LoG / self.LoL).sqrt()
@@ -460,62 +400,73 @@ impl TwoPhaseLine for Horizontal {
             // left side
             if ratio_c <= 1.0 {
                 // down side
-                self.regime_enum =
-                    Regime::HorizontalStratifiedSmoothFlow(String::from("Stratified Smooth Flow"));
+                self.flow_regime = String::from("Hori Stratified Smooth Flow");
             } else {
                 // top side
-                self.regime_enum =
-                    Regime::HorizontalStratifiedWavyFlow(String::from("Stratified Wavy Flow"));
+                self.flow_regime = String::from("Hori Stratified Wavy Flow");
             }
         } else {
             // right side
             if ratio_b <= 1.0 {
-                self.regime_enum =
-                    Regime::HorizontalAnnularDispersedFlow(String::from("Annular-Dispersed Flow"));
+                self.flow_regime = String::from("Hori Annular-Dispersed Flow");
             } else {
                 if ratio_d <= 1.0 {
                     if EE <= 1.0 {
-                        self.regime_enum = Regime::HorizontalElongatedBubbleFlow(String::from(
-                            "Elongated Bubble Flow",
-                        ));
+                        self.flow_regime = String::from("Hori Elongated Bubble Flow");
                     } else {
-                        self.regime_enum = Regime::HorizontalIntermittentSlugFlow(String::from(
-                            "Intermittent-Slug Flow",
-                        ));
+                        self.flow_regime = String::from("Hori Intermittent-Slug Flow");
                     }
                 } else {
-                    self.regime_enum = Regime::HorizontalDispersedBubbleFlow(String::from(
-                        "Dispersed Bubble Flow",
-                    ));
+                    self.flow_regime = String::from("Hori Dispersed Bubble Flow");
                 }
             }
         }
-        self.flow_regime = match &self.regime_enum {
-            Regime::HorizontalStratifiedSmoothFlow(v) => v.to_string(),
-            Regime::HorizontalStratifiedWavyFlow(v) => v.to_string(),
-            Regime::HorizontalAnnularDispersedFlow(v) => v.to_string(),
-            Regime::HorizontalElongatedBubbleFlow(v) => v.to_string(),
-            Regime::HorizontalIntermittentSlugFlow(v) => v.to_string(),
-            Regime::HorizontalDispersedBubbleFlow(v) => v.to_string(),
-            _ => String::from(""),
-        };
     }
 
-    fn model_cal(&mut self) {
-        if !self.is_unit_change {
-            self.unit_transfer();
-        }
+    pub fn model_cal(&mut self) {
         self.flow_regime();
-        match self.regime_enum {
-            Regime::HorizontalAnnularDispersedFlow(..) => self.SimilarityAnalysis(),
-            Regime::HorizontalDispersedBubbleFlow(..) => self.SimilarityAnalysis(),
-            Regime::HorizontalElongatedBubbleFlow(..) => self.SlugModel(),
-            Regime::HorizontalIntermittentSlugFlow(..) => self.SlugModel(),
-            Regime::HorizontalStratifiedSmoothFlow(..) => self.Stratified(),
-            Regime::HorizontalStratifiedWavyFlow(..) => self.Stratified(),
-            _ => {
-                println!("No match model for this flow pattern !!")
-            }
+        if self.flow_regime == "Hori Annular-Dispersed Flow" {
+            self.SimilarityAnalysis();
         }
+        if self.flow_regime == "Hori Dispersed Bubble Flow" {
+            self.SimilarityAnalysis();
+        }
+        if self.flow_regime == "Hori Elongated Bubble Flow" {
+            self.SlugModel();
+        }
+        if self.flow_regime == "Hori Intermittent-Slug Flow" {
+            self.SlugModel();
+        }
+        if self.flow_regime == "Hori Stratified Smooth Flow" {
+            self.Stratified();
+        }
+        if self.flow_regime == "Hori Stratified Wavy Flow" {
+            self.Stratified();
+        }
+    }
+}
+
+impl Serialize for Horizontal {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut state = serializer.serialize_struct("Horizontal", 14)?;
+        state.serialize_field("wl", &self.WL)?;
+        state.serialize_field("wg", &self.WG)?;
+        state.serialize_field("lol", &self.LoL)?;
+        state.serialize_field("logg", &self.LoG)?;
+        state.serialize_field("mul", &self.muL)?;
+        state.serialize_field("mug", &self.muG)?;
+        state.serialize_field("st", &self.ST)?;
+        state.serialize_field("rough", &self.rough)?;
+        state.serialize_field("sf", &self.SF)?;
+        state.serialize_field("id", &self.ID)?;
+        state.serialize_field("degree", &self.degree)?;
+        state.serialize_field("flow_regime", &self.flow_regime)?;
+        state.serialize_field("Pfric", &self.Pfric)?;
+        state.serialize_field("Ef", &self.Ef)?;
+
+        state.end()
     }
 }

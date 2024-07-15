@@ -9,17 +9,17 @@ const GC: f64 = 9.8; // gravity constant [kg-m/kgf-s^2]
 
 pub struct VerticalUp {
     // process data
-    WL: f64,    // liquid mass flow rate [kg/hr]
-    WG: f64,    // Vapor mass flow rate [kg/hr]
-    LoL: f64,   // liquid density [kg/m^3]
-    LoG: f64,   // vapor density [kg/m^3]
-    muL: f64,   // liquid viscosity [Pa-s]
-    muG: f64,   // vapor viscosity [Pa-s]
-    ST: f64,    // surface tension [N/m]
-    rough: f64, // pipe roughness [m]
-    SF: f64,    // safety factor
-    ID: f64,    // pipe diameter [m]
-    degree: f64,
+    WL: f64,     // liquid mass flow rate [kg/hr]
+    WG: f64,     // Vapor mass flow rate [kg/hr]
+    LoL: f64,    // Liquid Density [kg/m^3]
+    LoG: f64,    // Vapor Density [kg/m^3]
+    muL: f64,    // Liquid viscosity [cP] -> [kg/m-s]
+    muG: f64,    // Vapor viscosity [cP] -> [kg/m-s]
+    ST: f64,     // Liquid surface tension [dyne/cm] -> [kg/s^2]
+    rough: f64,  // pipe absolute roughness [mm] -> [m]
+    SF: f64,     // Safety Factor
+    ID: f64,     // pipe inside diameter [in] -> [m]
+    degree: f64, // degree,  Horizontal = 0, -Up / +Down
 
     // regime data
     flow_regime: String,

@@ -30,13 +30,14 @@ import {
   OptDiaErrorDialog,
   OptPresErrorDialog,
 } from "../single-page/OptErrorDialog";
-import { TwoData, VUResult } from "./TwoDataType";
+import { TwoData, VUResult, HORIResult } from "./TwoDataType";
 import FileButton from "../single-page/FileButton";
 
 import { CustomTabPanel, a11yProps } from "../utils/utility";
 import FlowDirToggleButton from "./FlowDirToggleButton";
 import DataGridTwo, { TwoSizingData } from "./DataGridTwo";
 import DataListVU from "./DataListVU";
+import DataListHori from "./DataListHori";
 
 export interface VUDataType {
   id: string;
@@ -57,6 +58,14 @@ export interface VUDataType {
   UTP: string;
   LoNS: string;
   Landa: string;
+}
+
+export interface HORIDataType {
+  id: string;
+  actID: string;
+  flow_regime: string;
+  Pfric: string;
+  Ef: string;
 }
 
 const TwoPhase = () => {
@@ -137,6 +146,13 @@ const TwoPhase = () => {
     LoNS: "",
     Landa: "",
   });
+  const [horiData, setHoriData] = useState<HORIDataType>({
+    id: "",
+    actID: "",
+    flow_regime: "",
+    Pfric: "",
+    Ef: "",
+  });
 
   // uesEffect to handle the select ID
   React.useEffect(() => {
@@ -182,6 +198,40 @@ const TwoPhase = () => {
             Landa: res.Landa.toFixed(4),
           };
           setVuData(newData as VUDataType);
+          setIdSelState(true);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // horizontal
+      else if (direct.includes("horizontal")) {
+        try {
+          const result = await invoke<HORIResult>(
+            "invoke_horizontal_hydraulic",
+            {
+              wl: parseFloat(liquidFlowRate),
+              wg: parseFloat(vaporFlowRate),
+              lol: parseFloat(liquidDensity),
+              logg: parseFloat(vaporDensity),
+              mul: parseFloat(liquidViscosity),
+              mug: parseFloat(vaporViscosity),
+              st: parseFloat(surfaceTension),
+              rough: parseFloat(roughness),
+              sf: parseFloat(safeFactor),
+              id: actID,
+              degree: parseFloat(slope),
+            }
+          );
+          const res = result as HORIResult;
+          const newData = {
+            id: selectId,
+            actID: actID.toString(),
+            flow_regime: res.flow_regime,
+            Pfric: res.Pfric.toFixed(4),
+            Ef: res.Ef.toFixed(4),
+          };
+          setHoriData(newData as HORIDataType);
           setIdSelState(true);
         } catch (e) {
           console.error(e);
@@ -260,7 +310,104 @@ const TwoPhase = () => {
         const newResData: TwoSizingData[] = [];
         await Promise.all(
           workID.map(async (item) => {
-            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+            let [flow_regime, Pfric, Ef] =
+              await rust_vertical_up_hydraulic_byid(item.ID);
+            newResData.push({
+              id: item.SIZE,
+              actID: item.ID.toString(),
+              flow_regime: flow_regime,
+              Pfric: Pfric,
+              Ef: Ef,
+            });
+          })
+        );
+        setResData(newResData);
+        setCalState(true);
+      }
+      if (optValue === "2") {
+        // optValue = 2, implement by Dia range
+        let lowActID = workID.find((item) => item.SIZE === lowID)?.ID || 0;
+        let highActID = workID.find((item) => item.SIZE === highID)?.ID || 0;
+        if (lowActID >= highActID) {
+          setOptDiaErrOpen(true);
+          return;
+        }
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] =
+              await rust_vertical_up_hydraulic_byid(item.ID);
+            if (item.ID >= lowActID && item.ID <= highActID) {
+              newResData.push({
+                id: item.SIZE,
+                actID: item.ID.toString(),
+                flow_regime: flow_regime,
+                Pfric: Pfric,
+                Ef: Ef,
+              });
+            }
+          })
+        );
+        setResData(newResData);
+        setCalState(true);
+      }
+      if (optValue === "3") {
+        // implement by pressure drop range
+        let lowDP = parseFloat(lowPres);
+        let highDP = parseFloat(highPres);
+        if (lowDP >= highDP) {
+          setOptPresErrOpen(true);
+          return;
+        }
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] =
+              await rust_vertical_up_hydraulic_byid(item.ID);
+            if (parseFloat(Pfric) > lowDP && parseFloat(Pfric) < highDP) {
+              newResData.push({
+                id: item.SIZE,
+                actID: item.ID.toString(),
+                flow_regime: flow_regime,
+                Pfric: Pfric,
+                Ef: Ef,
+              });
+            }
+          })
+        );
+        // judge the pressure drop range here
+        setResData(newResData);
+        setCalState(true);
+      }
+      if (optValue === "4") {
+        // implement by Erosion Factor < 1.0
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] =
+              await rust_vertical_up_hydraulic_byid(item.ID);
+            if (parseFloat(Ef) <= 1.0) {
+              newResData.push({
+                id: item.SIZE,
+                actID: item.ID.toString(),
+                flow_regime: flow_regime,
+                Pfric: Pfric,
+                Ef: Ef,
+              });
+            }
+          })
+        );
+        // judge the pressure drop range here
+        setResData(newResData);
+        setCalState(true);
+      }
+    } else if (fd.includes("horizontal")) {
+      // implement by all dia.
+      if (optValue === "1") {
+        const newResData: TwoSizingData[] = [];
+        await Promise.all(
+          workID.map(async (item) => {
+            let [flow_regime, Pfric, Ef] = await rust_horizontal_hydraulic_byid(
               item.ID
             );
             newResData.push({
@@ -286,7 +433,7 @@ const TwoPhase = () => {
         const newResData: TwoSizingData[] = [];
         await Promise.all(
           workID.map(async (item) => {
-            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+            let [flow_regime, Pfric, Ef] = await rust_horizontal_hydraulic_byid(
               item.ID
             );
             if (item.ID >= lowActID && item.ID <= highActID) {
@@ -314,7 +461,7 @@ const TwoPhase = () => {
         const newResData: TwoSizingData[] = [];
         await Promise.all(
           workID.map(async (item) => {
-            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+            let [flow_regime, Pfric, Ef] = await rust_horizontal_hydraulic_byid(
               item.ID
             );
             if (parseFloat(Pfric) > lowDP && parseFloat(Pfric) < highDP) {
@@ -337,7 +484,7 @@ const TwoPhase = () => {
         const newResData: TwoSizingData[] = [];
         await Promise.all(
           workID.map(async (item) => {
-            let [flow_regime, Pfric, Ef] = await rust_two_phase_hydraulic_byid(
+            let [flow_regime, Pfric, Ef] = await rust_horizontal_hydraulic_byid(
               item.ID
             );
             if (parseFloat(Ef) <= 1.0) {
@@ -355,14 +502,13 @@ const TwoPhase = () => {
         setResData(newResData);
         setCalState(true);
       }
-    } else if (fd.includes("horizontal")) {
     } else if (fd.includes("down")) {
     } else {
       return;
     }
   };
 
-  async function rust_two_phase_hydraulic_byid(
+  async function rust_vertical_up_hydraulic_byid(
     actID: number
   ): Promise<[string, string, string]> {
     try {
@@ -380,6 +526,31 @@ const TwoPhase = () => {
         degree: parseFloat(slope),
       });
       const res = result as VUResult;
+      return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];
+    } catch (e) {
+      console.error(e);
+      return ["", "", ""];
+    }
+  }
+
+  async function rust_horizontal_hydraulic_byid(
+    actID: number
+  ): Promise<[string, string, string]> {
+    try {
+      const result = await invoke<HORIResult>("invoke_horizontal_hydraulic", {
+        wl: parseFloat(liquidFlowRate),
+        wg: parseFloat(vaporFlowRate),
+        lol: parseFloat(liquidDensity),
+        logg: parseFloat(vaporDensity),
+        mul: parseFloat(liquidViscosity),
+        mug: parseFloat(vaporViscosity),
+        st: parseFloat(surfaceTension),
+        rough: parseFloat(roughness),
+        sf: parseFloat(safeFactor),
+        id: actID,
+        degree: parseFloat(slope),
+      });
+      const res = result as HORIResult;
       return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];
     } catch (e) {
       console.error(e);
@@ -1242,7 +1413,12 @@ const TwoPhase = () => {
               setSelectId={setSelectId}
             />
           )}
-          {idSelState && <DataListVU vuData={vuData} direct={direct} />}
+          {idSelState && direct.includes("up") && (
+            <DataListVU vuData={vuData} direct={direct} />
+          )}
+          {idSelState && direct.includes("horizontal") && (
+            <DataListHori horiData={horiData} direct={direct} />
+          )}
         </Grid>
       </Grid>
     </>
