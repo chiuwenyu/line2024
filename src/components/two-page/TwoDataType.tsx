@@ -87,4 +87,6 @@ export type VUResult = {
   Loip: number; // Two-Phase Density [Kg/cm^3]
   RL: number; // Liquid Volum Fraction [-]
   UTP: number; // Two-Phase Velocity [m/s]
+  LoNS: number; // Two-Phase Density [Kg/cm^3]
+  Landa: number; // Liquid Volume Fraction [-]
 };

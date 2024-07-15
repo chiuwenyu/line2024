@@ -42,6 +42,11 @@ pub struct VerticalUp {
     Loip: f64, // Two-Phase Density [Kg/m^3]
     RL: f64,   // Liquid Volume Fraction [-]
     UTP: f64,  // Two-Phase Velocity [m/s]
+
+    // Bubble Model
+    LoNS: f64, // Two-Phase Density [Kg/m^3]
+    Landa: f64, // Liquid Volume Fraction [-]
+               // UTP same as Similarity Analysis Model
 }
 
 impl VerticalUp {
@@ -84,6 +89,8 @@ impl VerticalUp {
             Loip: 0.0,
             RL: 0.0,
             UTP: 0.0,
+            LoNS: 0.0,
+            Landa: 0.0,
         }
     }
 
@@ -404,6 +411,9 @@ impl VerticalUp {
         self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
         self.Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0;
         // must transfer to imperial unit
+        self.LoNS = LoNS;
+        self.Landa = Landa;
+        self.UTP = UTP;
     }
 }
 
@@ -412,7 +422,7 @@ impl Serialize for VerticalUp {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalUp", 25)?;
+        let mut state = serializer.serialize_struct("VerticalUp", 27)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -438,6 +448,8 @@ impl Serialize for VerticalUp {
         state.serialize_field("Loip", &self.Loip)?;
         state.serialize_field("RL", &self.RL)?;
         state.serialize_field("UTP", &self.UTP)?;
+        state.serialize_field("LoNS", &self.LoNS)?;
+        state.serialize_field("Landa", &self.Landa)?;
         state.end()
     }
 }

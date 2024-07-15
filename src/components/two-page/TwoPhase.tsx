@@ -55,6 +55,8 @@ export interface VUDataType {
   Loip: string;
   RL: string;
   UTP: string;
+  LoNS: string;
+  Landa: string;
 }
 
 const TwoPhase = () => {
@@ -132,6 +134,8 @@ const TwoPhase = () => {
     Loip: "",
     RL: "",
     UTP: "",
+    LoNS: "",
+    Landa: "",
   });
 
   // uesEffect to handle the select ID
@@ -174,6 +178,8 @@ const TwoPhase = () => {
             Loip: res.Loip.toFixed(4),
             RL: res.RL.toFixed(4),
             UTP: res.UTP.toFixed(4),
+            LoNS: res.LoNS.toFixed(4),
+            Landa: res.Landa.toFixed(4),
           };
           setVuData(newData as VUDataType);
           setIdSelState(true);
