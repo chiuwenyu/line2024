@@ -175,7 +175,6 @@ impl Horizontal {
         if i < np {
             Rg = Rgi; // certain Rg
         } else {
-            Rg = 0.0; // no convergence
             return;
         }
 

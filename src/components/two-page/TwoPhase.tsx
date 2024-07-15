@@ -80,7 +80,6 @@ const TwoPhase = () => {
   const [vaporViscosity, setVaporViscosity] = useState("");
   const [liquidViscosity, setLiquidViscosity] = useState("");
   const [surfaceTension, setSurfaceTension] = useState("");
-  const [insideDia, setInsideDia] = useState("");
   const [slope, setSlope] = useState("");
   const [roughness, setRoughness] = useState("");
   const [safeFactor, setSafeFactor] = useState("1.2");
@@ -676,7 +675,6 @@ const TwoPhase = () => {
     setLiquidViscosity("");
     setVaporViscosity("");
     setSurfaceTension("");
-    setInsideDia("");
     setSlope("");
     setRoughness("");
     setSafeFactor("1.2");
