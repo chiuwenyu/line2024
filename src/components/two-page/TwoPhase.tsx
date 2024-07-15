@@ -52,6 +52,9 @@ export interface VUDataType {
   LLS: string;
   Lu: string;
   Le: string;
+  Loip: string;
+  RL: string;
+  UTP: string;
 }
 
 const TwoPhase = () => {
@@ -126,6 +129,9 @@ const TwoPhase = () => {
     LLS: "",
     Lu: "",
     Le: "",
+    Loip: "",
+    RL: "",
+    UTP: "",
   });
 
   // uesEffect to handle the select ID
@@ -165,6 +171,9 @@ const TwoPhase = () => {
             LLS: res.LLS.toFixed(4),
             Lu: res.Lu.toFixed(4),
             Le: res.Le.toFixed(4),
+            Loip: res.Loip.toFixed(4),
+            RL: res.RL.toFixed(4),
+            UTP: res.UTP.toFixed(4),
           };
           setVuData(newData as VUDataType);
           setIdSelState(true);
@@ -384,7 +393,7 @@ const TwoPhase = () => {
           const data: TwoData = {
             Two_ProcessData: {
               Two_LiquidFlowRate: liquidFlowRate,
-              Two_VaporFlowRate: vaporDensity,
+              Two_VaporFlowRate: vaporFlowRate,
               Two_LiquidDensity: liquidDensity,
               Two_VaporDensity: vaporDensity,
               Two_LiquidViscosity: liquidViscosity,
@@ -433,7 +442,7 @@ const TwoPhase = () => {
         const data: TwoData = {
           Two_ProcessData: {
             Two_LiquidFlowRate: liquidFlowRate,
-            Two_VaporFlowRate: vaporDensity,
+            Two_VaporFlowRate: vaporFlowRate,
             Two_LiquidDensity: liquidDensity,
             Two_VaporDensity: vaporDensity,
             Two_LiquidViscosity: liquidViscosity,
@@ -895,7 +904,7 @@ const TwoPhase = () => {
                     color="secondary"
                     error={error106}
                     helperText={error106 ? "Please input correct number" : ""}
-                    onChange={(e) => setVaporViscosity(e.target.value)}
+                    onChange={(e) => setLiquidViscosity(e.target.value)}
                     onBlur={(e) => validateInput("106", e.target.value)}
                     InputLabelProps={{
                       sx: {

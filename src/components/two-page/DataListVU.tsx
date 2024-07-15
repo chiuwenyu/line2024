@@ -41,6 +41,17 @@ const DataListVU = (props: any) => {
                 {(vuData as VUDataType).flow_regime} &gt;&gt;
                 <br />
                 {(vuData as VUDataType).flow_regime ===
+                  "Vertical Up Annular Flow" && (
+                  <>
+                    Two Phase Density (Kg/m³) = {(vuData as VUDataType).Loip}
+                    <br />
+                    Liquid Volume Fraction = {(vuData as VUDataType).RL}
+                    <br />
+                    Two-Phase Velocity (m/s)= {(vuData as VUDataType).UTP}
+                    <br />
+                  </>
+                )}
+                {(vuData as VUDataType).flow_regime ===
                   "Vertical Up Slug and Churn Flow" && (
                   <>
                     Liquid Slug Unit Density = {(vuData as VUDataType).LoLS}{" "}
@@ -73,8 +84,8 @@ const DataListVU = (props: any) => {
                 {(vuData as VUDataType).Pgrav}
                 <br />
                 Erosion Factor = {(vuData as VUDataType).Ef} &nbsp; &nbsp;
-                &nbsp;&#8212; &nbsp; if Φ ≤ 1 : No Erosion, Φ &lt; 1 : Erosion
-                occurred
+                &nbsp;&#8212; &nbsp; if Φ ≤ 1 : No Erosion; &nbsp; Φ &lt; 1 :
+                Erosion occurred
               </Typography>
             }
           </CardContent>

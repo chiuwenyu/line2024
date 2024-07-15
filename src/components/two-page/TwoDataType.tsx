@@ -84,4 +84,7 @@ export type VUResult = {
   LLS: number; // Liquid Slug Length [m]
   Lu: number; // Slug Unit Length [m]
   Le: number; // Stabilizers to Slug Flow in x m [m]
+  Loip: number; // Two-Phase Density [Kg/cm^3]
+  RL: number; // Liquid Volum Fraction [-]
+  UTP: number; // Two-Phase Velocity [m/s]
 };

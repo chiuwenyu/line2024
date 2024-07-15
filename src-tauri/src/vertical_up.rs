@@ -37,6 +37,11 @@ pub struct VerticalUp {
     LLS: f64,  // Liquid Slug Length [m]
     Lu: f64,   // Slug Unit Length [m]
     Le: f64,   // Stabilizes to Slug Flow in x m [m]
+
+    // Similarity Analysis Model
+    Loip: f64, // Two-Phase Density [Kg/m^3]
+    RL: f64,   // Liquid Volume Fraction [-]
+    UTP: f64,  // Two-Phase Velocity [m/s]
 }
 
 impl VerticalUp {
@@ -76,6 +81,9 @@ impl VerticalUp {
             LLS: 0.0,
             Lu: 0.0,
             Le: 0.0,
+            Loip: 0.0,
+            RL: 0.0,
+            UTP: 0.0,
         }
     }
 
@@ -253,6 +261,9 @@ impl VerticalUp {
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG);
         self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
         self.Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
+        self.Loip = Loip;
+        self.RL = RL;
+        self.UTP = UTP;
     }
 
     fn SlugModel(&mut self) {
@@ -401,7 +412,7 @@ impl Serialize for VerticalUp {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalUp", 22)?;
+        let mut state = serializer.serialize_struct("VerticalUp", 25)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -424,6 +435,9 @@ impl Serialize for VerticalUp {
         state.serialize_field("LLS", &self.LLS)?;
         state.serialize_field("Lu", &self.Lu)?;
         state.serialize_field("Le", &self.Le)?;
+        state.serialize_field("Loip", &self.Loip)?;
+        state.serialize_field("RL", &self.RL)?;
+        state.serialize_field("UTP", &self.UTP)?;
         state.end()
     }
 }
