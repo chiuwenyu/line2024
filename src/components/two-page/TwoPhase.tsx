@@ -70,6 +70,10 @@ export interface HORIDataType {
   Loip: string;
   RL: string;
   UTP: string;
+  LoTP: string;
+  depth: string;
+  velL: string;
+  velG: string;
 }
 
 const TwoPhase = () => {
@@ -159,6 +163,10 @@ const TwoPhase = () => {
     Loip: "",
     RL: "",
     UTP: "",
+    LoTP: "",
+    depth: "",
+    velL: "",
+    velG: "",
   });
 
   // uesEffect to handle the select ID
@@ -241,6 +249,10 @@ const TwoPhase = () => {
             Loip: res.Loip.toFixed(4),
             RL: res.RL.toFixed(4),
             UTP: res.UTP.toFixed(4),
+            LoTP: res.LoTP.toFixed(4),
+            depth: res.depth.toFixed(4),
+            velL: res.velL.toFixed(4),
+            velG: res.velG.toFixed(4),
           };
           setHoriData(newData as HORIDataType);
           setIdSelState(true);

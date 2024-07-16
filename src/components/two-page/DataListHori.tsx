@@ -56,6 +56,26 @@ const DataListHori = (props: any) => {
                   </>
                 )}
                 {/* Similarity Model 輸出結束 */}
+                {/* 針對 Stratified Model 的輸出 */}
+                {((horiData as HORIDataType).flow_regime ===
+                  "Hori Stratified Smooth Flow" ||
+                  (horiData as HORIDataType).flow_regime ===
+                    "Hori Stratified Wavy Flow") && (
+                  <>
+                    Two Phase Density (Kg/m³) ={" "}
+                    {(horiData as HORIDataType).LoTP}
+                    <br />
+                    Liquid Depth - BOP (m) = {(horiData as HORIDataType).depth}
+                    <br />
+                    Liquid Velocity (m/s) = {(horiData as HORIDataType).velL}
+                    <br />
+                    Vapor Velocity (m/s) = {(horiData as HORIDataType).velG}
+                    <br />
+                    Liquid Volume Fraction = {(horiData as HORIDataType).RL}
+                    <br />
+                  </>
+                )}
+                {/* Stratified Model 輸出結束 */}
                 {/* 以下為共通輸出 */}
                 1.0 Velocity Head (Kgf/cm²) = {(horiData as HORIDataType).Head}
                 <br />

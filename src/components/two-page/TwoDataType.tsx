@@ -90,4 +90,8 @@ export type HORIResult = {
   Loip: number; // Two-Phase Density [Kg/cm^3]
   RL: number; // Liquid Volum Fraction [-]
   UTP: number; // Two-Phase Velocity [m/s]
+  LoTP: number; // Two-Phase Density [Kg/cm^3]
+  depth: number; // Liquid Depth - BOP [m]
+  velL: number; // Liquid Velocity [m/s]
+  velG: number; // Vapor Velocity [m/s]
 };

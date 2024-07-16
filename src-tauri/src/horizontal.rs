@@ -33,6 +33,12 @@ pub struct Horizontal {
     Loip: f64, // Two-Phase Density [Kg/m^3]
     RL: f64,   // Liquid Volume Fraction [-]
     UTP: f64,  // Two Phase Velocity [m/s]
+
+    // Stratified Model Result
+    LoTP: f64,  // Two-Phase Density [Kg/m^3]
+    depth: f64, // Liquid Depth - BOP [m]
+    velL: f64,  // Liquid Velocity [m/s]
+    velG: f64,  // Vapor Velocity [m/s]
 }
 
 impl Horizontal {
@@ -68,6 +74,10 @@ impl Horizontal {
             Loip: 0.0,
             RL: 0.0,
             UTP: 0.0,
+            LoTP: 0.0,
+            depth: 0.0,
+            velL: 0.0,
+            velG: 0.0,
         }
     }
 }
@@ -330,6 +340,11 @@ impl Horizontal {
         self.Head = Head;
         self.Pfric = Pfric;
         self.Ef = Ef;
+        self.LoTP = LoTP;
+        self.depth = depth;
+        self.velL = velL;
+        self.velG = velG;
+        self.RL = RL;
     }
 
     pub fn flow_regime(&mut self) {
@@ -465,7 +480,7 @@ impl Serialize for Horizontal {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("Horizontal", 18)?;
+        let mut state = serializer.serialize_struct("Horizontal", 22)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -484,6 +499,10 @@ impl Serialize for Horizontal {
         state.serialize_field("Loip", &self.Loip)?;
         state.serialize_field("RL", &self.RL)?;
         state.serialize_field("UTP", &self.UTP)?;
+        state.serialize_field("LoTP", &self.LoTP)?;
+        state.serialize_field("depth", &self.depth)?;
+        state.serialize_field("velL", &self.velL)?;
+        state.serialize_field("velG", &self.velG)?;
         state.end()
     }
 }
