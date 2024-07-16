@@ -25,8 +25,14 @@ pub struct Horizontal {
     pub flow_regime: String, // identify the flow regime(String)
 
     // result data
+    Head: f64,  // 1.0 Velocity Head [Kgf/cm^2]
     Pfric: f64, // frictional pressure drop [Kgf/cm^2/100m]
     Ef: f64,    // Erosion Factor [-]
+
+    // Similarity Analysis Model Result
+    Loip: f64, // Two-Phase Density [Kg/m^3]
+    RL: f64,   // Liquid Volume Fraction [-]
+    UTP: f64,  // Two Phase Velocity [m/s]
 }
 
 impl Horizontal {
@@ -56,8 +62,12 @@ impl Horizontal {
             ID: id * 2.54 / 100.0,                    // [in] -> [m]
             degree: degree * f64::consts::PI / 180.0, // [degree] -> [rad]
             flow_regime: String::from(""),
+            Head: 0.0,
             Pfric: 0.0,
             Ef: 0.0,
+            Loip: 0.0,
+            RL: 0.0,
+            UTP: 0.0,
         }
     }
 }
@@ -200,7 +210,10 @@ impl Horizontal {
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG);
         let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
         let Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
-
+        self.Loip = Loip;
+        self.RL = RL;
+        self.UTP = UTP;
+        self.Head = Head;
         self.Pfric = Pfric;
         self.Ef = Ef;
     }
@@ -253,6 +266,7 @@ impl Horizontal {
         let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0;
         let Ef = (LoNS * 0.062428) * ((ULS + UGS) * 3.28084).powf(2.0) / 10000.0;
         // must transfer to imperial unit
+        self.Head = Head;
         self.Pfric = Pfric;
         self.Ef = Ef;
     }
@@ -313,6 +327,7 @@ impl Horizontal {
         let UTP = UGS + ULS; // Two Phase Velocity [m/s]
         let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
         let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0; // Erosion Factor must transfer to imperial unit
+        self.Head = Head;
         self.Pfric = Pfric;
         self.Ef = Ef;
     }
@@ -450,7 +465,7 @@ impl Serialize for Horizontal {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("Horizontal", 14)?;
+        let mut state = serializer.serialize_struct("Horizontal", 18)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -463,9 +478,12 @@ impl Serialize for Horizontal {
         state.serialize_field("id", &self.ID)?;
         state.serialize_field("degree", &self.degree)?;
         state.serialize_field("flow_regime", &self.flow_regime)?;
+        state.serialize_field("Head", &self.Head)?;
         state.serialize_field("Pfric", &self.Pfric)?;
         state.serialize_field("Ef", &self.Ef)?;
-
+        state.serialize_field("Loip", &self.Loip)?;
+        state.serialize_field("RL", &self.RL)?;
+        state.serialize_field("UTP", &self.UTP)?;
         state.end()
     }
 }

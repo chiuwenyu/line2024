@@ -40,7 +40,25 @@ const DataListHori = (props: any) => {
                 Flow Regime : &nbsp; &nbsp; &lt;&lt;{" "}
                 {(horiData as HORIDataType).flow_regime} &gt;&gt;
                 <br />
+                {/* 針對 Similarity Model 的輸出 */}
+                {((horiData as HORIDataType).flow_regime ===
+                  "Hori Annular-Dispersed Flow" ||
+                  (horiData as HORIDataType).flow_regime ===
+                    "Hori Dispersed Bubble Flow") && (
+                  <>
+                    Two Phase Density (Kg/m³) ={" "}
+                    {(horiData as HORIDataType).Loip}
+                    <br />
+                    Liquid Volume Fraction = {(horiData as HORIDataType).RL}
+                    <br />
+                    Two-Phase Velocity (m/s)= {(horiData as HORIDataType).UTP}
+                    <br />
+                  </>
+                )}
+                {/* Similarity Model 輸出結束 */}
                 {/* 以下為共通輸出 */}
+                1.0 Velocity Head (Kgf/cm²) = {(horiData as HORIDataType).Head}
+                <br />
                 Frictional Press. Loss (Kgf/cm²/100m) ={" "}
                 {(horiData as HORIDataType).Pfric}
                 <br />

@@ -64,8 +64,12 @@ export interface HORIDataType {
   id: string;
   actID: string;
   flow_regime: string;
+  Head: string;
   Pfric: string;
   Ef: string;
+  Loip: string;
+  RL: string;
+  UTP: string;
 }
 
 const TwoPhase = () => {
@@ -149,8 +153,12 @@ const TwoPhase = () => {
     id: "",
     actID: "",
     flow_regime: "",
+    Head: "",
     Pfric: "",
     Ef: "",
+    Loip: "",
+    RL: "",
+    UTP: "",
   });
 
   // uesEffect to handle the select ID
@@ -227,8 +235,12 @@ const TwoPhase = () => {
             id: selectId,
             actID: actID.toString(),
             flow_regime: res.flow_regime,
+            Head: res.Head.toFixed(4),
             Pfric: res.Pfric.toFixed(4),
             Ef: res.Ef.toFixed(4),
+            Loip: res.Loip.toFixed(4),
+            RL: res.RL.toFixed(4),
+            UTP: res.UTP.toFixed(4),
           };
           setHoriData(newData as HORIDataType);
           setIdSelState(true);
