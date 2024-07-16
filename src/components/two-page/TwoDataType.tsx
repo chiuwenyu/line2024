@@ -94,4 +94,9 @@ export type HORIResult = {
   depth: number; // Liquid Depth - BOP [m]
   velL: number; // Liquid Velocity [m/s]
   velG: number; // Vapor Velocity [m/s]
+  LoSU: number; // Two-Phase Slug Unit Density [Kg/m^3]
+  LoLS: number; // Liquid Slug Unit Density [Kg/m^3]
+  Us: number; // Liquid Slug Velocity [m/s]
+  Ls: number; // Liquid Slug Length [m]
+  Lu: number; // Slug Unit Length [m]
 };

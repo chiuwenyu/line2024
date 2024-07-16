@@ -39,6 +39,13 @@ pub struct Horizontal {
     depth: f64, // Liquid Depth - BOP [m]
     velL: f64,  // Liquid Velocity [m/s]
     velG: f64,  // Vapor Velocity [m/s]
+
+    // Slug Model Result
+    LoSU: f64, // Two-Phase Slug Unit Density [Kg/m^3]
+    LoLS: f64, // Liquid Slug Unit Density [Kg/m^3]
+    Us: f64,   // Liquid Slug Velocity [m/s]
+    Ls: f64,   // Liquid Slug Length [m]
+    Lu: f64,   // Slug Unit Length [m]
 }
 
 impl Horizontal {
@@ -78,6 +85,11 @@ impl Horizontal {
             depth: 0.0,
             velL: 0.0,
             velG: 0.0,
+            LoSU: 0.0,
+            LoLS: 0.0,
+            Us: 0.0,
+            Ls: 0.0,
+            Lu: 0.0,
         }
     }
 }
@@ -279,6 +291,12 @@ impl Horizontal {
         self.Head = Head;
         self.Pfric = Pfric;
         self.Ef = Ef;
+        self.LoSU = LoSU;
+        self.LoLS = LoLS;
+        self.RL = RL;
+        self.Us = Us;
+        self.Ls = Ls;
+        self.Lu = Lu;
     }
 
     fn Stratified(&mut self) {
@@ -480,7 +498,7 @@ impl Serialize for Horizontal {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("Horizontal", 22)?;
+        let mut state = serializer.serialize_struct("Horizontal", 27)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -503,6 +521,11 @@ impl Serialize for Horizontal {
         state.serialize_field("depth", &self.depth)?;
         state.serialize_field("velL", &self.velL)?;
         state.serialize_field("velG", &self.velG)?;
+        state.serialize_field("LoSU", &self.LoSU)?;
+        state.serialize_field("LoLS", &self.LoLS)?;
+        state.serialize_field("Us", &self.Us)?;
+        state.serialize_field("Ls", &self.Ls)?;
+        state.serialize_field("Lu", &self.Lu)?;
         state.end()
     }
 }
