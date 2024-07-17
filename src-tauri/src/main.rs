@@ -9,6 +9,8 @@ mod vertical_up;
 use crate::vertical_up::VerticalUp;
 mod horizontal;
 use crate::horizontal::Horizontal;
+mod vertical_down;
+use crate::vertical_down::VerticalDown;
 
 #[tauri::command]
 fn invoke_seuif(pressure: f64, temperature: f64, mode: u32) -> SteamProps {
@@ -44,6 +46,26 @@ fn invoke_vertical_up_hydraulic(
 }
 
 #[tauri::command]
+fn invoke_vertical_down_hydraulic(
+    wl: f64,
+    wg: f64,
+    lol: f64,
+    logg: f64,
+    mul: f64,
+    mug: f64,
+    st: f64,
+    rough: f64,
+    sf: f64,
+    id: f64,
+    degree: f64,
+) -> VerticalDown {
+    let mut vd: VerticalDown =
+        VerticalDown::new(wl, wg, lol, logg, mul, mug, st, rough, sf, id, degree);
+    vd.model_cal();
+    vd
+}
+
+#[tauri::command]
 fn invoke_horizontal_hydraulic(
     wl: f64,
     wg: f64,
@@ -69,7 +91,8 @@ fn main() {
             invoke_seuif,
             invoke_hydraulic,
             invoke_vertical_up_hydraulic,
-            invoke_horizontal_hydraulic
+            invoke_horizontal_hydraulic,
+            invoke_vertical_down_hydraulic
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

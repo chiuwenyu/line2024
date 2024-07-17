@@ -1,98 +1,63 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 #![allow(non_snake_case)]
-#![allow(non_upper_case_globals)]
-#![allow(unused_assignments)]
 
-use std::f32::consts::PI;
-
-use twoline::TwoPhaseLine;
-
-use crate::twoline;
-use crate::twoline::Regime;
-
+use serde::ser::{Serialize, SerializeStruct, Serializer};
+use std::f64;
 const G: f64 = 9.81; // gravity accelerator [,/s^2]
 const GC: f64 = 9.8; // gravity constant [kg-m/kgf-s^2]
 
 pub struct VerticalDown {
     // process data
-    pub WL: f64,     // liquid mass flow rate [kg/hr]
-    pub WG: f64,     // Vapor mass flow rate [kg/hr]
-    pub LoL: f64,    // Liquid density [kg/m^3]
-    pub LoG: f64,    // Vapor density [kg/m^3]
-    pub muL: f64,    // Liquid viscosity [cP] -> [kg/m-s]
-    pub muG: f64,    // Vapor viscosity [cP] -> [kg/m-s]
-    pub ST: f64,     // Liquid surface tension [dyne/cm] -> [kg/s^2]
-    pub rough: f64,  // pipe absolute roughness [mm] -> [m]
-    pub SF: f64,     // Safety factor [-]
-    pub ID: f64,     // pipe inside diameter [in] -> [m]
-    pub degree: f64, // degree,  Horizontal = 0, -Up / +Down
+    WL: f64,     // liquid mass flow rate [kg/hr]
+    WG: f64,     // Vapor mass flow rate [kg/hr]
+    LoL: f64,    // Liquid density [kg/m^3]
+    LoG: f64,    // Vapor density [kg/m^3]
+    muL: f64,    // Liquid viscosity [cP] -> [kg/m-s]
+    muG: f64,    // Vapor viscosity [cP] -> [kg/m-s]
+    ST: f64,     // Liquid surface tension [dyne/cm] -> [kg/s^2]
+    rough: f64,  // pipe absolute roughness [mm] -> [m]
+    SF: f64,     // Safety factor [-]
+    ID: f64,     // pipe inside diameter [in] -> [m]
+    degree: f64, // degree,  Horizontal = 0, -Up / +Down
 
     // result
-    pub regime_enum: Regime, // identify the flow regime(enum)
     pub flow_regime: String, // identify the flow regime(String)
 
     // for Annular Model
-    pub LoTP: f64,  // Two-phase density [kg/m^3]
-    pub UTP: f64,   // Two-phase velocity [m/s]
-    pub alfaL: f64, // Liquid volume fraction
-    pub Head: f64,  // 1.0 velocity head [kgf/cm^2]
     pub Pfric: f64, // Frictional pressure loss (kgf/cm^2/100m]
-    pub Pgrav: f64, // Elevation Head Loss [kgf/cm^2/100m]
     pub Ef: f64,    // Erosion Factor [-]
-
-    // for Bubble Model
-    // LoTP, UTP, Head, Pfric, Pgrav, Ef same as Annular Model
-    pub HL: f64, // Liquid Volume Fraction [-]
-
-    // for Slug Model
-    pub Loip: f64, // Two-phase density [kg/m^3]
-    pub LoLS: f64, // Liquid Slug Density [kg/m^3]
-    // HL, Head, Pfric, Pgrav, EF same as Annular Model
-
-    // state variable
-    is_unit_change: bool, // is call the unit_transfer and transfer to unit
 }
 
 impl crate::vertical_down::VerticalDown {
     pub fn new(
-        WL: f64,
-        WG: f64,
-        LoL: f64,
-        LoG: f64,
-        muL: f64,
-        muG: f64,
-        ST: f64,
+        wl: f64,
+        wg: f64,
+        lol: f64,
+        logg: f64,
+        mul: f64,
+        mug: f64,
+        st: f64,
         rough: f64,
-        SF: f64,
-        ID: f64,
+        sf: f64,
+        id: f64,
         degree: f64,
     ) -> Self {
         crate::vertical_down::VerticalDown {
-            WL,
-            WG,
-            LoL,
-            LoG,
-            muL,
-            muG,
-            ST,
-            rough,
-            SF,
-            ID,
-            degree,
-            is_unit_change: false,
-            regime_enum: Regime::NONE,
+            WL: wl,
+            WG: wg,
+            LoL: lol,
+            LoG: logg,
+            muL: mul * 0.001,        // [cP] -> [kg/m-s]
+            muG: mug * 0.001,        // [cP] -> [kg/m-s]
+            ST: st * 1.019716213E-4, // [dyne/cm] -> [kgf/s^2]
+            rough: rough / 1000.0,   // [mm] -> [m]
+            SF: sf,
+            ID: id * 2.54 / 100.0,                    // [in] -> [m]
+            degree: degree * f64::consts::PI / 180.0, // [degree] -> [rad]
             flow_regime: String::from(""),
-            LoTP: 0.0,
-            UTP: 0.0,
-            alfaL: 0.0,
-            Head: 0.0,
             Pfric: 0.0,
-            Pgrav: 0.0,
             Ef: 0.0,
-            HL: 0.0,
-            Loip: 0.0,
-            LoLS: 0.0,
         }
     }
 
@@ -161,44 +126,46 @@ impl crate::vertical_down::VerticalDown {
         let X2 = fSL * self.LoL * ULS.powi(2) / (fSG * self.LoG * UGS.powi(2)); // Martinelli parameter [-]
         let Y = G * (self.LoL - self.LoG) / (4.0 * fSG * self.LoG * UGS.powi(2) / (2.0 * self.ID)); // Martinelli parameter [-]
 
-        self.alfaL = 0.5; // initial value for Liquid Hold-Up [-]
+        let mut alfaL: f64 = 0.5; // initial value for Liquid Hold-Up [-]
         let mut delta: f64; // absolute error [-]
         let eps = 1e-4; // allowable tolerance [-]
         let mut gx; // Liquid Holdup function eq.(29)
         let mut gpx; // 1st order derivated function
-        let mut alfaLcal; // alfaL (cal.) [-]
+        let mut alfaLcal: f64; // alfaL (cal.) [-]
 
         loop {
-            gx = X2 * (1.0 - self.alfaL).powf(2.5)
-                - self.alfaL.powf(2.0)
-                - 75.0 * self.alfaL.powf(3.0)
-                - Y * (1.0 - self.alfaL).powf(2.5) * self.alfaL.powf(3.0);
+            gx = X2 * (1.0 - alfaL).powf(2.5)
+                - alfaL.powf(2.0)
+                - 75.0 * alfaL.powf(3.0)
+                - Y * (1.0 - alfaL).powf(2.5) * alfaL.powf(3.0);
 
-            gpx = -2.5 * X2 * (1.0 - self.alfaL).powf(1.5)
-                - 2.0 * self.alfaL
-                - 225.0 * self.alfaL.powf(2.0)
-                - 3.0 * Y * (1.0 - self.alfaL).powf(2.5) * self.alfaL.powf(2.0)
-                + 2.5 * Y * (1.0 - self.alfaL).powf(1.5) * self.alfaL.powf(3.0);
+            gpx = -2.5 * X2 * (1.0 - alfaL).powf(1.5)
+                - 2.0 * alfaL
+                - 225.0 * alfaL.powf(2.0)
+                - 3.0 * Y * (1.0 - alfaL).powf(2.5) * alfaL.powf(2.0)
+                + 2.5 * Y * (1.0 - alfaL).powf(1.5) * alfaL.powf(3.0);
 
-            alfaLcal = self.alfaL - gx / gpx;
-            let delta = (self.alfaL - alfaLcal).abs();
-            self.alfaL = alfaLcal;
+            alfaLcal = alfaL - gx / gpx;
+            let delta = (alfaL - alfaLcal).abs();
+            alfaL = alfaLcal;
 
             if delta <= eps {
                 break;
             }
         }
-        self.Pfric = 2.0 * fSG * self.LoG * UGS.powi(2) / (G * self.ID) * (1.0 + 75.0 * self.alfaL)
-            / (1.0 - self.alfaL).powf(2.5)
+        let Pfric = 2.0 * fSG * self.LoG * UGS.powi(2) / (G * self.ID) * (1.0 + 75.0 * alfaL)
+            / (1.0 - alfaL).powf(2.5)
             / 10000.0
             * 100.0
             * self.SF;
-        self.Pgrav = self.LoG / 10000.0 * 100.0;
-        self.LoTP = self.LoL * self.alfaL + self.LoG * (1.0 - self.alfaL);
-        self.UTP = UGS + ULS;
+        let Pgrav = self.LoG / 10000.0 * 100.0;
+        let LoTP = self.LoL * alfaL + self.LoG * (1.0 - alfaL);
+        let UTP = UGS + ULS;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG);
-        self.Head = LoNS * self.UTP.powi(2) / (2.0 * G) / 10000.0;
-        self.Ef = (LoNS * 0.062428) * (self.UTP * 3.28084).powi(2) / 10000.0; // must transfer to imperial unit
+        let Head = LoNS * UTP.powi(2) / (2.0 * G) / 10000.0;
+        let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powi(2) / 10000.0; // must transfer to imperial unit
+        self.Pfric = Pfric;
+        self.Ef = Ef;
     }
 
     fn SlugModel(&mut self) {
@@ -210,14 +177,14 @@ impl crate::vertical_down::VerticalDown {
         let C0 = 1.0; // The Distribution parameter [-]
         let K = -0.6; // Drift-flux coefficient [-]
         let Ub = C0 * Um + K * ((G * self.ID * (self.LoL - self.LoG) / self.LoL).sqrt()); // bubble velocity down flow [m/s]
-        self.HL = 1.0 - UGS / Ub; // Liquid Hold-up [-]
-        if self.HL > 0.75 {
-            self.HL = 0.75;
+        let mut HL = 1.0 - UGS / Ub; // Liquid Hold-up [-]
+        if HL > 0.75 {
+            HL = 0.75;
         }
         let alfa = 0.25; // Gas average void fraction [-]
-        self.LoLS = self.LoL * (1.0 - alfa) + self.LoG * alfa;
+        let LoLS: f64 = self.LoL * (1.0 - alfa) + self.LoG * alfa;
         let muLS = self.muL * (1.0 - alfa) + self.muG * alfa;
-        let ReLS = self.LoLS * Um * self.ID / muLS;
+        let ReLS = LoLS * Um * self.ID / muLS;
         let f0 = self.fanning(ReLS) * 4.0; // single phase Moddy Darcy Friction Factor [-]
         let Landa: f64 = 0.75;
         let LnLanda = -1.0 * Landa.ln();
@@ -227,31 +194,31 @@ impl crate::vertical_down::VerticalDown {
                     - 0.094 * LnLanda.powf(3.0)
                     + 0.00843 * LnLanda.powf(4.0)))
             * f0; // Two Phase Moddy (Darcy) friction factor [-]
-        self.Pfric = fTP * self.LoLS * Um.powf(2.0) / (2.0 * G * self.ID) * self.HL / 10000.0
-            * 100.0
-            * self.SF;
-        self.Pgrav = (self.HL * self.LoL + (1.0 - self.HL) * self.LoG) / 10000.0 * 100.0;
+        let Pfric =
+            fTP * LoLS * Um.powf(2.0) / (2.0 * G * self.ID) * HL / 10000.0 * 100.0 * self.SF;
+        let Pgrav = (HL * self.LoL + (1.0 - HL) * self.LoG) / 10000.0 * 100.0;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG); // No-Slip Velocity [m/s]
-        self.Loip = self.LoL * self.HL + self.LoG * (1.0 - self.HL);
-        self.Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
-        self.Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0; // Erosion Factor must transfer to imperial unit
+        let Loip = self.LoL * HL + self.LoG * (1.0 - HL);
+        let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
+        let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0; // Erosion Factor must transfer to imperial unit
+        self.Pfric = Pfric;
+        self.Ef = Ef;
     }
 
     fn BubbleModel(&mut self) {
         let area = std::f64::consts::PI / 4.0 * self.ID * self.ID; // pipe inside cross section area [m^2]
         let UGS = self.WG / (self.LoG * area) / 3600.0; // Superficial Vapor velocity [m/s]
         let ULS = self.WL / (self.LoL * area) / 3600.0; // Superficial Liquid velocity [m/s]
-        self.UTP = UGS + ULS; // Two Phase Velocity [m/s]
-        let Um = self.UTP;
+        let UTP = UGS + ULS; // Two Phase Velocity [m/s]
+        let Um = UTP;
         let C0 = 1.0; // The Distribution parameter [-]
         let K = 0.0; // Drift-flux coefficient [-]
         let Ub = C0 * Um + K * (self.ST * G * (self.LoL - self.LoG) / self.LoL.powi(2)).powf(0.25); // bubble velocity down flow [m/s]
-        self.HL = 1.0 - UGS / Ub; // Liquid Hold-up [-]
+        let HL = 1.0 - UGS / Ub; // Liquid Hold-up [-]
         let Landa = (self.WL / self.LoL) / (self.WL / self.LoL + self.WG / self.LoG);
-        self.LoTP =
-            self.LoL * Landa.powi(2) / self.HL + self.LoG * (1.0 - Landa).powi(2) / (1.0 - self.HL); // Two phase density [kg/m^3]
+        let LoTP = self.LoL * Landa.powi(2) / HL + self.LoG * (1.0 - Landa).powi(2) / (1.0 - HL); // Two phase density [kg/m^3]
         let muTP = self.muL * Landa + self.muG * (1.0 - Landa); // Two Phase Viscosity [Kg/(m-s)]
-        let ReTP = self.LoTP * Um * self.ID / muTP; // Two phase Reynold Number [-]
+        let ReTP = LoTP * Um * self.ID / muTP; // Two phase Reynold Number [-]
 
         // Assuming Fanning is a function that you have defined elsewhere
         let f0 = self.fanning(ReTP) * 4.0; // Darcy friction factor [-]
@@ -261,29 +228,16 @@ impl crate::vertical_down::VerticalDown {
                 / (1.281 - 0.478 * LnLanda + 0.444 * LnLanda.powi(2) - 0.094 * LnLanda.powi(3)
                     + 0.00843 * LnLanda.powi(4)))
             * f0; // Two Phase Moddy (Darcy) friction factor [-]
-        self.Pfric = fTP * self.LoTP * Um.powi(2) / (2.0 * G * self.ID) / 10000.0 * 100.0 * self.SF;
-        self.Pgrav = (self.HL * self.LoL + (1.0 - self.HL) * self.LoG) / 10000.0 * 100.0;
+        let Pfric = fTP * LoTP * Um.powi(2) / (2.0 * G * self.ID) / 10000.0 * 100.0 * self.SF;
+        let Pgrav = (HL * self.LoL + (1.0 - HL) * self.LoG) / 10000.0 * 100.0;
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG); // No-Slip Velocity [m/s]
-        self.Head = LoNS * self.UTP.powi(2) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
-        self.Ef = (LoNS * 0.062428) * (self.UTP * 3.28084).powi(2) / 10000.0; // Erosion Factor must transfer to imperial unit
-    }
-}
-
-impl TwoPhaseLine for VerticalDown {
-    fn unit_transfer(&mut self) {
-        if !self.is_unit_change {
-            self.muL = self.muL * 0.001; // [cP] -> [kg/m-s]
-            self.muG = self.muG * 0.001; // [cP] -> [kg/m-s]
-            self.ID = self.ID * 2.54 / 100.0; // [in] -> [m]
-            self.ST = self.ST * 1.019716213E-4; // [dyne/cm] -> [kgf/s^2]
-            self.degree = self.degree * (PI as f64) / 180.0; // [degree] -> [rad]
-            self.rough = self.rough / 1000.0; // [mm] -> [m]
-
-            self.is_unit_change = true;
-        }
+        let Head = LoNS * UTP.powi(2) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
+        let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powi(2) / 10000.0; // Erosion Factor must transfer to imperial unit
+        self.Pfric = Pfric;
+        self.Ef = Ef;
     }
 
-    fn flow_regime(&mut self) {
+    pub fn flow_regime(&mut self) {
         let ratio_a = 0.0;
         let ratio_b = 0.0;
         let ratio_c = 0.0;
@@ -361,62 +315,72 @@ impl TwoPhaseLine for VerticalDown {
         // println!("ratio c: {}", ratio_c);
         // println!("ratio d: {}", ratio_d);
         if ratio_a < 1.0 {
-            self.regime_enum = Regime::VerticalDownAnnularFlow(String::from("Annular Flow"));
+            self.flow_regime = String::from("Vertical Down Annular Flow");
         } else {
             if self.ID <= Dcrit {
                 // Case II, Figure 2(b), Curve C-D
                 if ratio_d < 1.0 {
-                    self.regime_enum = Regime::VerticalDownSlugFlow(String::from("Slug Flow"));
+                    self.flow_regime = String::from("Vertical Down Slug Flow");
                 } else {
                     if ratio_c < 1.0 {
-                        self.regime_enum = Regime::VerticalDownSlugFlow(String::from("Slug Flow"));
+                        self.flow_regime = String::from("Vertical Down Slug Flow");
                     } else {
-                        self.regime_enum = Regime::VerticalDownDispersedBubbleFlow(String::from(
-                            "Dispersed-Bubble Flow",
-                        ));
+                        self.flow_regime = String::from("Vertical Down Dispersed-Bubble Flow");
                     }
                 }
             } else {
                 // D > Dcrit , Case I, Figure 2(a), Curve B-C-D
                 if ratio_d < 1.0 {
-                    self.regime_enum = Regime::VerticalDownSlugFlow(String::from("Slug Flow"));
+                    self.flow_regime = String::from("Vertical Down Slug Flow");
                 } else {
                     if ratio_c < 1.0 {
-                        self.regime_enum = Regime::VerticalDownSlugFlow(String::from("Slug Flow"));
+                        self.flow_regime = String::from("Vertical Down Slug Flow");
                     } else {
                         if ratio_b < 1.0 {
-                            self.regime_enum =
-                                Regime::VerticalDownSlugFlow(String::from("Slug Flow"));
+                            self.flow_regime = String::from("Vertical Down Slug Flow");
                         } else {
-                            self.regime_enum = Regime::VerticalDownDispersedBubbleFlow(
-                                String::from("Dispersed-Bubble Flow"),
-                            );
+                            self.flow_regime = String::from("Vertical Down Dispersed-Bubble Flow");
                         }
                     }
                 }
             }
         }
-        self.flow_regime = match &self.regime_enum {
-            Regime::VerticalDownAnnularFlow(v) => v.to_string(),
-            Regime::VerticalDownSlugFlow(v) => v.to_string(),
-            Regime::VerticalDownDispersedBubbleFlow(v) => v.to_string(),
-            _ => String::from(""),
-        };
     }
 
-    fn model_cal(&mut self) {
-        if !self.is_unit_change {
-            self.unit_transfer();
-        }
+    pub fn model_cal(&mut self) {
         self.flow_regime();
-        match self.regime_enum {
-            Regime::VerticalDownAnnularFlow(..) => self.AnnularModel(),
-            Regime::VerticalDownSlugFlow(..) => self.SlugModel(),
-            Regime::VerticalUpBubbleFlow(..) => self.BubbleModel(),
-            Regime::VerticalDownDispersedBubbleFlow(..) => self.BubbleModel(),
-            _ => {
-                println!("No match model for this flow pattern !!")
-            }
+        if self.flow_regime == "Vertical Down Annular Flow" {
+            self.AnnularModel();
+        } else if self.flow_regime == "Vertical Down Slug Flow" {
+            self.SlugModel();
+        } else if self.flow_regime == "Vertical Down Dispersed-Bubble Flow" {
+            self.BubbleModel();
+        } else {
+            println!("No match model for this flow pattern !!")
         }
+    }
+}
+
+impl Serialize for VerticalDown {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut state = serializer.serialize_struct("VerticalDown", 14)?;
+        state.serialize_field("wl", &self.WL)?;
+        state.serialize_field("wg", &self.WG)?;
+        state.serialize_field("lol", &self.LoL)?;
+        state.serialize_field("logg", &self.LoG)?;
+        state.serialize_field("mul", &self.muL)?;
+        state.serialize_field("mug", &self.muG)?;
+        state.serialize_field("st", &self.ST)?;
+        state.serialize_field("rough", &self.rough)?;
+        state.serialize_field("sf", &self.SF)?;
+        state.serialize_field("id", &self.ID)?;
+        state.serialize_field("degree", &self.degree)?;
+        state.serialize_field("flow_regime", &self.flow_regime)?;
+        state.serialize_field("Pfric", &self.Pfric)?;
+        state.serialize_field("Ef", &self.Ef)?;
+        state.end()
     }
 }

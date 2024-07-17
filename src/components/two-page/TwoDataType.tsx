@@ -70,6 +70,24 @@ export type VUResult = {
   Landa: number; // Liquid Volume Fraction [-]
 };
 
+export type VDResult = {
+  // process data
+  WL: number; // liquid mass flow rate [kg/hr]
+  WG: number; // Vapor mass flow rate [kg/hr]
+  LoL: number; // liquid density [kg/m^3]
+  LoG: number; // vapor density [kg/m^3]
+  muL: number; // liquid viscosity [cP]
+  muG: number; // vapor viscosity [cP]
+  ST: number; // surface tension [dyne/cm]
+  rough: number; // roughness [mm]
+  SF: number; // safety factor
+  ID: number; // inner diameter [mm]
+  degree: number; // slope [degree]
+  flow_regime: string; // flow regime
+  Pfric: number; // frictional pressure drop [Kgf/cm^2/100m]
+  Ef: number; //Erosion Factor [-]
+};
+
 export type HORIResult = {
   // process data
   WL: number; // liquid mass flow rate [kg/hr]
