@@ -36,6 +36,13 @@ pub struct VerticalDown {
     pub LoTP: f64, // Two phase density [Kg/m^3]
     pub HL: f64,   // Liquid Volume Fraction [-]
     pub UTP: f64,  // Two Phase Velocity [m/s]
+
+    // for Slug Model
+    pub Loip: f64, // Two-Phase density [Kg/m^3]
+    pub LoLS: f64, // Liquid Slug density [Kg/m^3]
+
+    // for Annular Model
+    pub alfaL: f64, // Liquid Volume Fraction [-]
 }
 
 impl crate::vertical_down::VerticalDown {
@@ -72,6 +79,9 @@ impl crate::vertical_down::VerticalDown {
             LoTP: 0.0,
             HL: 0.0,
             UTP: 0.0,
+            Loip: 0.0,
+            LoLS: 0.0,
+            alfaL: 0.0,
         }
     }
 
@@ -182,6 +192,9 @@ impl crate::vertical_down::VerticalDown {
         self.Pfric = Pfric;
         self.Pgrav = Pgrav;
         self.Ef = Ef;
+        self.LoTP = LoTP;
+        self.UTP = UTP;
+        self.alfaL = alfaL;
     }
 
     fn SlugModel(&mut self) {
@@ -221,6 +234,9 @@ impl crate::vertical_down::VerticalDown {
         self.Pfric = Pfric;
         self.Pgrav = Pgrav;
         self.Ef = Ef;
+        self.Loip = Loip;
+        self.LoLS = LoLS;
+        self.HL = HL;
     }
 
     fn BubbleModel(&mut self) {
@@ -389,7 +405,7 @@ impl Serialize for VerticalDown {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalDown", 19)?;
+        let mut state = serializer.serialize_struct("VerticalDown", 22)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -409,7 +425,9 @@ impl Serialize for VerticalDown {
         state.serialize_field("LoTP", &self.LoTP)?;
         state.serialize_field("HL", &self.HL)?;
         state.serialize_field("UTP", &self.UTP)?;
-
+        state.serialize_field("Loip", &self.Loip)?;
+        state.serialize_field("LoLS", &self.LoLS)?;
+        state.serialize_field("alfaL", &self.alfaL)?;
         state.end()
     }
 }

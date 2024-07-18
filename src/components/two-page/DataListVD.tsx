@@ -37,16 +37,43 @@ const DataListVD = (props: any) => {
                 {(vdData as VDDataType).flow_regime} &gt;&gt;
                 <br />
                 {/* 針對 Bubble Model 的輸出 */}
-                Two-Phase Density (Kg/m³) = {(vdData as VDDataType).LoTP}
-                <br />
-                Liquid Volume Fraction = {(vdData as VDDataType).HL}
-                <br />
-                Two-Phase Velocity (m/s)= {(vdData as VDDataType).UTP}
-                <br />
+                {(vdData as VDDataType).flow_regime ===
+                  "Vertical Down Dispersed-Bubble Flow" && (
+                  <>
+                    Two-Phase Density (Kg/m³) = {(vdData as VDDataType).LoTP}
+                    <br />
+                    Liquid Volume Fraction = {(vdData as VDDataType).HL}
+                    <br />
+                    Two-Phase Velocity (m/s)= {(vdData as VDDataType).UTP}
+                    <br />
+                  </>
+                )}
                 {/* Bubble Model 輸出結束 */}
-                {/* 針對 Similarity Model 的輸出 */}
-                {/* Similarity Model 輸出結束 */}
+                {/* 針對 Annular Model 的輸出 */}
+                {(vdData as VDDataType).flow_regime ===
+                  "Vertical Down Annular Flow" && (
+                  <>
+                    Two-Phase Density (Kg/m³) = {(vdData as VDDataType).LoTP}
+                    <br />
+                    Two-Phase Velocity (m/s)= {(vdData as VDDataType).UTP}
+                    <br />
+                    Liquid Volume Fraction = {(vdData as VDDataType).alfaL}
+                    <br />
+                  </>
+                )}
+                {/* Annular Model 輸出結束 */}
                 {/* 針對 Slug Model 的輸出 */}
+                {(vdData as VDDataType).flow_regime ===
+                  "Vertical Down Slug Flow" && (
+                  <>
+                    Two-Phase Density (Kg/m³) = {(vdData as VDDataType).Loip}
+                    <br />
+                    Liquid Slug Density (Kg/m³) = {(vdData as VDDataType).LoLS}
+                    <br />
+                    Liquid Volume Fraction = {(vdData as VDDataType).HL}
+                    <br />
+                  </>
+                )}
                 {/* Slug Model 輸出結束 */}
                 {/* 以下為共通輸出 */}
                 1.0 Velocity Head (Kgf/cm²) = {(vdData as VDDataType).Head}

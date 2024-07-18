@@ -91,6 +91,9 @@ export type VDResult = {
   LoTP: number; // Two-Phase Density [Kg/cm^3]
   HL: number; // Liquid Volum Fraction [-]
   UTP: number; // Two-Phase Velocity [m/s]
+  Loip: number; // Two-Phase Density [Kg/cm^3]
+  LoLS: number; // Liquid Slug Density [Kg/m^3]
+  alfaL: number; // Liquid Volume Fraction [-]
 };
 
 export type HORIResult = {
