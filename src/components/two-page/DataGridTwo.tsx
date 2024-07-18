@@ -71,7 +71,7 @@ export default function DataGridTwo(props: any) {
   const { rows, selectId, setSelectId } = props;
 
   return (
-    <Box sx={{ minWidth: "750px", height: "400px" }}>
+    <Box sx={{ minWidth: "750px", height: "370px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
         <span>
           <Typography
@@ -120,7 +120,8 @@ export default function DataGridTwo(props: any) {
           mt: 1,
         }}
         pageSizeOptions={[]}
-        hideFooterPagination={true}
+        // hideFooterPagination={true}
+        hideFooter={true}
         onRowSelectionModelChange={(newSelection) => {
           setSelectId(newSelection[0] as string);
         }}
