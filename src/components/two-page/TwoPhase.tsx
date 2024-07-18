@@ -593,7 +593,6 @@ const TwoPhase = () => {
         setCalState(true);
       }
     } else if (fd.includes("down")) {
-      console.log(idSelState);
       // implement by all dia.
       if (optValue === "1") {
         const newResData: TwoSizingData[] = [];
@@ -724,7 +723,7 @@ const TwoPhase = () => {
     actID: number
   ): Promise<[string, string, string]> {
     try {
-      const result = await invoke<VUResult>("invoke_vertical_down_hydraulic", {
+      const result = await invoke<VDResult>("invoke_vertical_down_hydraulic", {
         wl: parseFloat(liquidFlowRate),
         wg: parseFloat(vaporFlowRate),
         lol: parseFloat(liquidDensity),
@@ -1622,16 +1621,17 @@ const TwoPhase = () => {
               rows={resData}
               selectId={selectId}
               setSelectId={setSelectId}
+              setIdSelState={setIdSelState}
             />
           )}
           {idSelState && direct.includes("up") && (
-            <DataListVU vuData={vuData} direct={direct} />
+            <DataListVU vuData={vuData} />
           )}
           {idSelState && direct.includes("horizontal") && (
-            <DataListHori horiData={horiData} direct={direct} />
+            <DataListHori horiData={horiData} />
           )}
           {idSelState && direct.includes("down") && (
-            <DataListVD vdData={vdData} direct={direct} />
+            <DataListVD vdData={vdData} />
           )}
         </Grid>
       </Grid>

@@ -1,16 +1,11 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { useEffect } from "react";
 import { deepPurple } from "@mui/material/colors";
 import { HORIDataType } from "./TwoPhase";
 
 const pcolor = deepPurple[900];
 
 const DataListHori = (props: any) => {
-  const { horiData, direct } = props;
-
-  useEffect(() => {
-    console.log("DataListHori useEffect");
-  }, [horiData, direct]);
+  const { horiData } = props;
 
   return (
     <>
@@ -34,8 +29,9 @@ const DataListHori = (props: any) => {
                 color="white"
                 style={{ lineHeight: 2 }}
               >
-                Norminal ID = {(horiData as HORIDataType).id} in, &nbsp;&nbsp;
-                &nbsp;&nbsp; Inside ID = {(horiData as HORIDataType).actID} in
+                Norminal ID = {(horiData as HORIDataType).id} in
+                <br />
+                Inside ID = {(horiData as HORIDataType).actID} in
                 <br />
                 Flow Regime : &nbsp; &nbsp; &lt;&lt;{" "}
                 {(horiData as HORIDataType).flow_regime} &gt;&gt;

@@ -1,16 +1,11 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { useEffect } from "react";
 import { deepPurple } from "@mui/material/colors";
 import { VDDataType } from "./TwoPhase";
 
 const pcolor = deepPurple[900];
 
 const DataListVD = (props: any) => {
-  const { vdData, direct } = props;
-
-  // useEffect(() => {
-  //   console.log(vdData, direct);
-  // }, [vdData, direct]);
+  const { vdData } = props;
 
   return (
     <>
@@ -34,8 +29,9 @@ const DataListVD = (props: any) => {
                 color="white"
                 style={{ lineHeight: 2 }}
               >
-                Norminal ID = {(vdData as VDDataType).id} in, &nbsp;&nbsp;
-                &nbsp;&nbsp; Inside ID = {(vdData as VDDataType).actID} in
+                Norminal ID = {(vdData as VDDataType).id} in
+                <br />
+                Inside ID = {(vdData as VDDataType).actID} in
                 <br />
                 Flow Regime : &nbsp; &nbsp; &lt;&lt;{" "}
                 {(vdData as VDDataType).flow_regime} &gt;&gt;

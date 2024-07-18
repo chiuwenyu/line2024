@@ -68,7 +68,7 @@ const columns: GridColDef<TwoSizingData>[] = [
 ];
 
 export default function DataGridTwo(props: any) {
-  const { rows, selectId, setSelectId } = props;
+  const { rows, selectId, setSelectId, setIdSelState } = props;
 
   return (
     <Box sx={{ minWidth: "750px", height: "370px" }}>
@@ -120,10 +120,10 @@ export default function DataGridTwo(props: any) {
           mt: 1,
         }}
         pageSizeOptions={[]}
-        // hideFooterPagination={true}
         hideFooter={true}
         onRowSelectionModelChange={(newSelection) => {
           setSelectId(newSelection[0] as string);
+          setIdSelState(true);
         }}
       />
     </Box>
