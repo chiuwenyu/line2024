@@ -37,6 +37,12 @@ const DataListVD = (props: any) => {
                 {(vdData as VDDataType).flow_regime} &gt;&gt;
                 <br />
                 {/* 針對 Bubble Model 的輸出 */}
+                Two-Phase Density (Kg/m³) = {(vdData as VDDataType).LoTP}
+                <br />
+                Liquid Volume Fraction = {(vdData as VDDataType).HL}
+                <br />
+                Two-Phase Velocity (m/s)= {(vdData as VDDataType).UTP}
+                <br />
                 {/* Bubble Model 輸出結束 */}
                 {/* 針對 Similarity Model 的輸出 */}
                 {/* Similarity Model 輸出結束 */}

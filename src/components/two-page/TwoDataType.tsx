@@ -88,6 +88,9 @@ export type VDResult = {
   Pfric: number; // frictional pressure drop [Kgf/cm^2/100m]
   Pgrav: number; // Elevation Head Loss [Kgf/cm^2/100m]
   Ef: number; //Erosion Factor [-]
+  LoTP: number; // Two-Phase Density [Kg/cm^3]
+  HL: number; // Liquid Volum Fraction [-]
+  UTP: number; // Two-Phase Velocity [m/s]
 };
 
 export type HORIResult = {

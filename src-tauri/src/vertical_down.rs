@@ -31,6 +31,11 @@ pub struct VerticalDown {
     pub Pfric: f64, // Frictional pressure loss (kgf/cm^2/100m]
     pub Pgrav: f64, // Elevation Head loss (Kgf/cm^2/100n)
     pub Ef: f64,    // Erosion Factor [-]
+
+    // for Bubble Model
+    pub LoTP: f64, // Two phase density [Kg/m^3]
+    pub HL: f64,   // Liquid Volume Fraction [-]
+    pub UTP: f64,  // Two Phase Velocity [m/s]
 }
 
 impl crate::vertical_down::VerticalDown {
@@ -64,6 +69,9 @@ impl crate::vertical_down::VerticalDown {
             Pfric: 0.0,
             Pgrav: 0.0,
             Ef: 0.0,
+            LoTP: 0.0,
+            HL: 0.0,
+            UTP: 0.0,
         }
     }
 
@@ -247,6 +255,9 @@ impl crate::vertical_down::VerticalDown {
         self.Pfric = Pfric;
         self.Pgrav = Pgrav;
         self.Ef = Ef;
+        self.LoTP = LoTP;
+        self.HL = HL;
+        self.UTP = UTP;
     }
 
     pub fn flow_regime(&mut self) {
@@ -378,7 +389,7 @@ impl Serialize for VerticalDown {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalDown", 16)?;
+        let mut state = serializer.serialize_struct("VerticalDown", 19)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -395,6 +406,10 @@ impl Serialize for VerticalDown {
         state.serialize_field("Pfric", &self.Pfric)?;
         state.serialize_field("Pgrav", &self.Pgrav)?;
         state.serialize_field("Ef", &self.Ef)?;
+        state.serialize_field("LoTP", &self.LoTP)?;
+        state.serialize_field("HL", &self.HL)?;
+        state.serialize_field("UTP", &self.UTP)?;
+
         state.end()
     }
 }

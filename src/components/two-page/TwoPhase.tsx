@@ -69,6 +69,9 @@ export interface VDDataType {
   Pfric: string;
   Pgrav: string;
   Ef: string;
+  LoTP: string;
+  HL: string;
+  UTP: string;
 }
 
 export interface HORIDataType {
@@ -177,6 +180,9 @@ const TwoPhase = () => {
     Pfric: "",
     Pgrav: "",
     Ef: "",
+    LoTP: "",
+    HL: "",
+    UTP: "",
   });
   const [horiData, setHoriData] = useState<HORIDataType>({
     id: "",
@@ -320,6 +326,9 @@ const TwoPhase = () => {
             Pfric: res.Pfric.toFixed(4),
             Pgrav: res.Pgrav.toFixed(4),
             Ef: res.Ef.toFixed(4),
+            LoTP: res.LoTP.toFixed(4),
+            HL: res.HL.toFixed(4),
+            UTP: res.UTP.toFixed(4),
           };
           setVdData(newData as VDDataType);
           setIdSelState(true);
