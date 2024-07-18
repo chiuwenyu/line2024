@@ -65,7 +65,9 @@ export interface VDDataType {
   id: string;
   actID: string;
   flow_regime: string;
+  Head: string;
   Pfric: string;
+  Pgrav: string;
   Ef: string;
 }
 
@@ -171,7 +173,9 @@ const TwoPhase = () => {
     id: "",
     actID: "",
     flow_regime: "",
+    Head: "",
     Pfric: "",
+    Pgrav: "",
     Ef: "",
   });
   const [horiData, setHoriData] = useState<HORIDataType>({
@@ -307,12 +311,14 @@ const TwoPhase = () => {
               degree: parseFloat(slope),
             }
           );
-          const res = result as VUResult;
+          const res = result as VDResult;
           const newData = {
             id: selectId,
             actID: actID.toString(),
             flow_regime: res.flow_regime,
+            Head: res.Head.toFixed(4),
             Pfric: res.Pfric.toFixed(4),
+            Pgrav: res.Pgrav.toFixed(4),
             Ef: res.Ef.toFixed(4),
           };
           setVdData(newData as VDDataType);
@@ -587,6 +593,7 @@ const TwoPhase = () => {
         setCalState(true);
       }
     } else if (fd.includes("down")) {
+      console.log(idSelState);
       // implement by all dia.
       if (optValue === "1") {
         const newResData: TwoSizingData[] = [];

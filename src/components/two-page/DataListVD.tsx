@@ -8,9 +8,9 @@ const pcolor = deepPurple[900];
 const DataListVD = (props: any) => {
   const { vdData, direct } = props;
 
-  useEffect(() => {
-    console.log(vdData, direct);
-  }, [vdData, direct]);
+  // useEffect(() => {
+  //   console.log(vdData, direct);
+  // }, [vdData, direct]);
 
   return (
     <>
@@ -47,8 +47,13 @@ const DataListVD = (props: any) => {
                 {/* 針對 Slug Model 的輸出 */}
                 {/* Slug Model 輸出結束 */}
                 {/* 以下為共通輸出 */}
+                1.0 Velocity Head (Kgf/cm²) = {(vdData as VDDataType).Head}
+                <br />
                 Frictional Press. Loss (Kgf/cm²/100m) ={" "}
                 {(vdData as VDDataType).Pfric}
+                <br />
+                Elevation Head Loss (Kgf/cm²/100m) ={" "}
+                {(vdData as VDDataType).Pgrav}
                 <br />
                 Erosion Factor = {(vdData as VDDataType).Ef} &nbsp; &nbsp;
                 &nbsp;&#8212; &nbsp; if Φ ≤ 1 : No Erosion; &nbsp; Φ &lt; 1 :

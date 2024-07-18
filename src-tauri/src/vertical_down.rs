@@ -26,8 +26,10 @@ pub struct VerticalDown {
     // result
     pub flow_regime: String, // identify the flow regime(String)
 
-    // for Annular Model
+    // for General
+    pub Head: f64,  // 1.0 Velocity Head(kgf/cm^2)
     pub Pfric: f64, // Frictional pressure loss (kgf/cm^2/100m]
+    pub Pgrav: f64, // Elevation Head loss (Kgf/cm^2/100n)
     pub Ef: f64,    // Erosion Factor [-]
 }
 
@@ -58,7 +60,9 @@ impl crate::vertical_down::VerticalDown {
             ID: id * 2.54 / 100.0,                    // [in] -> [m]
             degree: degree * f64::consts::PI / 180.0, // [degree] -> [rad]
             flow_regime: String::from(""),
+            Head: 0.0,
             Pfric: 0.0,
+            Pgrav: 0.0,
             Ef: 0.0,
         }
     }
@@ -166,7 +170,9 @@ impl crate::vertical_down::VerticalDown {
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG);
         let Head = LoNS * UTP.powi(2) / (2.0 * G) / 10000.0;
         let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powi(2) / 10000.0; // must transfer to imperial unit
+        self.Head = Head;
         self.Pfric = Pfric;
+        self.Pgrav = Pgrav;
         self.Ef = Ef;
     }
 
@@ -203,7 +209,9 @@ impl crate::vertical_down::VerticalDown {
         let Loip = self.LoL * HL + self.LoG * (1.0 - HL);
         let Head = LoNS * UTP.powf(2.0) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
         let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0; // Erosion Factor must transfer to imperial unit
+        self.Head = Head;
         self.Pfric = Pfric;
+        self.Pgrav = Pgrav;
         self.Ef = Ef;
     }
 
@@ -235,7 +243,9 @@ impl crate::vertical_down::VerticalDown {
         let LoNS = (self.WL + self.WG) / (self.WL / self.LoL + self.WG / self.LoG); // No-Slip Velocity [m/s]
         let Head = LoNS * UTP.powi(2) / (2.0 * G) / 10000.0; // 1.0 Velocity Head
         let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powi(2) / 10000.0; // Erosion Factor must transfer to imperial unit
+        self.Head = Head;
         self.Pfric = Pfric;
+        self.Pgrav = Pgrav;
         self.Ef = Ef;
     }
 
@@ -368,7 +378,7 @@ impl Serialize for VerticalDown {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("VerticalDown", 14)?;
+        let mut state = serializer.serialize_struct("VerticalDown", 16)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -381,7 +391,9 @@ impl Serialize for VerticalDown {
         state.serialize_field("id", &self.ID)?;
         state.serialize_field("degree", &self.degree)?;
         state.serialize_field("flow_regime", &self.flow_regime)?;
+        state.serialize_field("Head", &self.Head)?;
         state.serialize_field("Pfric", &self.Pfric)?;
+        state.serialize_field("Pgrav", &self.Pgrav)?;
         state.serialize_field("Ef", &self.Ef)?;
         state.end()
     }
