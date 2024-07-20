@@ -75,6 +75,11 @@ export default function DataGridTwo(props: any) {
     ? "Vertical Down"
     : "Horizontal";
   StrTitle = StrTitle + " Line Sizing Result :";
+  let directColor = direct.includes("up")
+    ? "success.main"
+    : direct.includes("down")
+    ? "error.main"
+    : "warning.main";
 
   return (
     <Box sx={{ minWidth: "750px", height: "370px" }}>
@@ -99,7 +104,7 @@ export default function DataGridTwo(props: any) {
         columns={columns as GridColDef<TwoSizingData>[]}
         sx={{
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "secondary.main",
+            backgroundColor: directColor,
             color: "white",
             fontWeight: "bold",
             fontSize: "0.8rem",
