@@ -407,6 +407,7 @@ const TwoPhase = () => {
   ) => {
     handleExecuteButtonClick(newDirect);
     setDirect(newDirect || []);
+    setIdSelState(false);
   };
 
   const handleExecuteButtonClick = async (fd: string[]) => {
