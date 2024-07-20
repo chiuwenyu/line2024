@@ -39,6 +39,7 @@ import DataGridTwo, { TwoSizingData } from "./DataGridTwo";
 import DataListVU from "./DataListVU";
 import DataListVD from "./DataListVD";
 import DataListHori from "./DataListHori";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export interface VUDataType {
   id: string;
@@ -996,31 +997,31 @@ const TwoPhase = () => {
   };
 
   const onExportButtonClick = async () => {
-    // const pdfDoc = await PDFDocument.create();
-    // const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-    // const page = pdfDoc.addPage();
-    // const { width, height } = page.getSize();
-    // // **** Print Header (Application Name) ****
-    // let fontSize = 16;
-    // let dy = height - 3 * fontSize;
-    // let dx = 450;
-    // let textStr = "Line2024";
-    // let textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
-    // page.drawText(textStr, {
-    //   x: dx,
-    //   y: dy,
-    //   size: fontSize,
-    //   font: timesRomanFont,
-    //   color: rgb(0, 0, 0),
-    // });
-    // fontSize = 6;
-    // page.drawText("   Ver 1.0.0", {
-    //   x: dx + textWidth,
-    //   y: dy,
-    //   size: fontSize,
-    //   font: timesRomanFont,
-    //   color: rgb(0, 0, 0),
-    // });
+    const pdfDoc = await PDFDocument.create();
+    const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const page = pdfDoc.addPage();
+    const { width, height } = page.getSize();
+    // **** Print Header (Application Name) ****
+    let fontSize = 16;
+    let dy = height - 3 * fontSize;
+    let dx = 450;
+    let textStr = "Line2024";
+    let textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
+    page.drawText(textStr, {
+      x: dx,
+      y: dy,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0, 0),
+    });
+    fontSize = 6;
+    page.drawText("   Ver 1.0.0", {
+      x: dx + textWidth,
+      y: dy,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0, 0),
+    });
     // // draw a thick red line at the bottom of header
     // const widthMargin = 30;
     // page.drawLine({
