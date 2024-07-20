@@ -68,7 +68,13 @@ const columns: GridColDef<TwoSizingData>[] = [
 ];
 
 export default function DataGridTwo(props: any) {
-  const { rows, selectId, setSelectId, setIdSelState } = props;
+  const { rows, setSelectId, setIdSelState, direct } = props;
+  let StrTitle = direct.includes("up")
+    ? "Vertical Up"
+    : direct.includes("down")
+    ? "Vertical Down"
+    : "Horizontal";
+  StrTitle = StrTitle + " Line Sizing Result :";
 
   return (
     <Box sx={{ minWidth: "750px", height: "370px" }}>
@@ -82,7 +88,7 @@ export default function DataGridTwo(props: any) {
               fontWeight: "medium",
             }}
           >
-            Sizing Result :
+            {StrTitle}
           </Typography>
           <Box sx={{ float: "right" }}></Box>
         </span>
@@ -90,16 +96,8 @@ export default function DataGridTwo(props: any) {
       <DataGrid
         rows={rows}
         autoHeight={false}
-        localeText={{
-          footerRowSelected: () => `Selected pipe size : ${selectId} in`,
-        }}
         columns={columns as GridColDef<TwoSizingData>[]}
         sx={{
-          "& .MuiDataGrid-footerContainer": {
-            fontWeight: "bold", // 變更 footer font weight
-            color: "primary.main", // 變更 footer font color
-            fontSize: "0.9rem", // 變更 footer font size
-          },
           "& .MuiDataGrid-columnHeader": {
             backgroundColor: "secondary.main",
             color: "white",

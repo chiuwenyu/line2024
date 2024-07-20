@@ -1638,9 +1638,9 @@ const TwoPhase = () => {
           {calState && (
             <DataGridTwo
               rows={resData}
-              selectId={selectId}
               setSelectId={setSelectId}
               setIdSelState={setIdSelState}
+              direct={direct}
             />
           )}
           {idSelState && direct.includes("up") && (
