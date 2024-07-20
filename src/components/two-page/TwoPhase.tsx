@@ -1022,77 +1022,86 @@ const TwoPhase = () => {
       font: timesRomanFont,
       color: rgb(0, 0, 0),
     });
-    // // draw a thick red line at the bottom of header
-    // const widthMargin = 30;
-    // page.drawLine({
-    //   start: { x: widthMargin, y: dy - 5 },
-    //   end: { x: width - widthMargin, y: dy - 5 },
-    //   thickness: 1,
-    //   color: rgb(1, 0, 0),
-    // });
-    // // **** Print Input Data ****
-    // let txtStrs: string[] = [
-    //   `Project No. : ${projNo}`,
-    //   `Project Name : ${projName}`,
-    //   `Description : ${projDesc}`,
-    //   `Line No. : ${lineNo}`,
-    //   `From : ${lineFrom}`,
-    //   `To : ${lineTo}`,
-    //   `Note : ${note}`,
-    //   `>>>> INPUT DATA <<<<`,
-    //   // `Mass Flow Rate (Kg/hr): ${massFlowRate}`,
-    //   // `Density (Kg/m^3): ${density} `,
-    //   // `Viscosity (cP): ${viscosity} `,
-    //   `Pipe Roughness (mm): ${roughness} `,
-    //   `Safe Factor : ${safeFactor}`,
-    //   `>>>> CALCULATION RESULT  <<<<`,
-    //   `    `,
-    //   `  Norm. ID         Act. ID        Velocity         Pressure Drop          1.0 V.H           Reynold No.`,
-    //   `   (inch)          (inch)          (m/s)           (Kg/cm^2/100m)        (Kg/m/s^2)             [-]`,
-    // ];
-    // dy = dy - 5;
-    // const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
-    // const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
-    // fontSize = 8;
-    // const lineSpacing = 2;
-    // const lineHeight = fontSize + lineSpacing;
-    // dx = widthMargin + 5;
-    // for (let i = 0; i < txtStrs.length; i++) {
-    //   dy = dy - lineHeight * 1.5;
-    //   if (i === 7 || i === 14) {
-    //     page.drawText(txtStrs[i], {
-    //       x: dx,
-    //       y: dy,
-    //       size: fontSize,
-    //       font: courierBoldFont,
-    //       color: rgb(0, 0, 0),
-    //     });
-    //   } else {
-    //     page.drawText(txtStrs[i], {
-    //       x: dx,
-    //       y: dy,
-    //       size: fontSize,
-    //       font: courierFont,
-    //       color: rgb(0, 0, 0),
-    //     });
-    //   }
-    // }
-    // // draw a thick black line at the top of head row
-    // page.drawLine({
-    //   start: { x: widthMargin, y: dy + 30 },
-    //   end: { x: width - widthMargin * 1.5, y: dy + 30 },
-    //   thickness: 1,
-    //   color: rgb(0.25, 0.25, 0.25),
-    // });
-    // // draw a thick black line at the bottom of head row
-    // dy = dy - 7;
-    // page.drawLine({
-    //   start: { x: widthMargin, y: dy },
-    //   end: { x: width - widthMargin * 1.5, y: dy },
-    //   thickness: 1,
-    //   color: rgb(0.25, 0.25, 0.25),
-    // });
-    // // **** Print Result Data ****
+    // draw a thick red line at the bottom of header
+    const widthMargin = 30;
+    page.drawLine({
+      start: { x: widthMargin, y: dy - 5 },
+      end: { x: width - widthMargin, y: dy - 5 },
+      thickness: 1,
+      color: rgb(1, 0, 0),
+    });
+    let actID = workID.find((item) => item.SIZE === selectId)?.ID || 0;
+    let schedule =
+      workID.find((item) => item.SIZE === selectId)?.SCHEDULE || "";
+    // **** Print Input Data ****
+    let txtStrs: string[] = [
+      `Project No. : ${projNo}`,
+      `Project Name : ${projName}`,
+      `Description : ${projDesc}`,
+      `Line No. : ${lineNo}`,
+      `From : ${lineFrom}`,
+      `To : ${lineTo}`,
+      `Note : ${note}`,
+      `               >>>> INPUT DATA <<<<`,
+      `[VAPOR]`,
+      `    Vapor Flow Rate (Kg/hr) = ${vaporFlowRate}`,
+      `    Vapor Density (Kg/m^3) = ${vaporDensity}`,
+      `    Vapor Viscosity (cP) = ${vaporViscosity}`,
+      `[LIQUID]`,
+      `    Liquid Flow Rate (Kg/hr) = ${liquidFlowRate}`,
+      `    Liquid Density (Kg/m^3) = ${liquidDensity}`,
+      `    Liquid Viscosity (cP) = ${liquidViscosity}`,
+      `    Surface Tension (N/m) = ${surfaceTension}`,
+      `[Misc]`,
+      `    Normal ID (inch) = ${selectId}`,
+      `    Schedule = ${schedule}`,
+      `    Inside Diameter (inch) = ${actID}`,
+      `    Slope (degree) = ${slope}`,
+      `    Pipe Roughness (mm) = ${roughness}`,
+      `    Safe Factor : ${safeFactor}`,
+      `[TYPE]`,
+      `    Flow Direction : ${direct}`,
+      `    Mechanistic Model : Dukler Taitel model`,
+      ``,
+      `               >>>> CALCULATION RESULT  <<<<`,
+    ];
+    dy = dy - 5;
+    const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
+    const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
+    fontSize = 8;
+    const lineSpacing = 2;
+    const lineHeight = fontSize + lineSpacing;
+    dx = widthMargin + 5;
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      if (i === 7 || i === 8 || i === 12 || i === 17 || i === 24 || i === 28) {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
+    }
+
+    // draw a thick black line at the bottom of Input data
+    page.drawLine({
+      start: { x: widthMargin, y: dy + 15 },
+      end: { x: width - widthMargin * 1.5, y: dy + 15 },
+      thickness: 1,
+      color: rgb(0.25, 0.25, 0.25),
+      dashArray: [3, 3],
+    });
+    // **** Print Result Data ****
     // if (resData.length === 0) {
     //   dy = dy - 12;
     //   page.drawText("No data available...", {
@@ -1159,11 +1168,11 @@ const TwoPhase = () => {
     //   font: courierFont,
     //   color: rgb(0, 0, 0),
     // });
-    // const pdfBytes = await pdfDoc.save();
-    // const pdfDataUrl = URL.createObjectURL(
-    //   new Blob([pdfBytes], { type: "application/pdf" })
-    // );
-    // window.open(pdfDataUrl);
+    const pdfBytes = await pdfDoc.save();
+    const pdfDataUrl = URL.createObjectURL(
+      new Blob([pdfBytes], { type: "application/pdf" })
+    );
+    window.open(pdfDataUrl);
   };
 
   return (
