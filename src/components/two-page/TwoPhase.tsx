@@ -1350,13 +1350,23 @@ const TwoPhase = () => {
 
     for (let i = 0; i < outStrs.length; i++) {
       dy = dy - lineHeight * 2;
-      page.drawText(outStrs[i], {
-        x: dx,
-        y: dy,
-        size: fontSize,
-        font: courierFont,
-        color: rgb(0, 0, 0),
-      });
+      if (i == 0 || i == 1) {
+        page.drawText(outStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page.drawText(outStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
     }
 
     const pdfBytes = await pdfDoc.save();
