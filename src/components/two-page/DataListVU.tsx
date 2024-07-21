@@ -68,24 +68,18 @@ const DataListVU = (props: any) => {
                 {(vuData as VUDataType).flow_regime ===
                   "Vertical Up Slug and Churn Flow" && (
                   <>
-                    Liquid Slug Unit Density = {(vuData as VUDataType).LoLS}{" "}
-                    Kg/m³
+                    Liquid Slug Unit Density (Kg/m³) ={" "}
+                    {(vuData as VUDataType).LoLS} <br />
+                    Two-Phase Slug Unit Density (Kg/m³) ={" "}
+                    {(vuData as VUDataType).LoSU} <br />
+                    Liquid Slug Velocity (m/s) = {(vuData as VUDataType).ULLS}
                     <br />
-                    Two-Phase Slug Unit Density = {
-                      (vuData as VUDataType).LoSU
-                    }{" "}
-                    Kg/m³
+                    Liquid Slug Length (m) = {(vuData as VUDataType).LLS}
                     <br />
-                    Liquid Slug Velocity = {(vuData as VUDataType).ULLS} m/s
+                    Slug Unit Length (m) = {(vuData as VUDataType).Lu}
                     <br />
-                    Liquid Slug Length = {(vuData as VUDataType).LLS} m
-                    <br />
-                    Slug Unit Length = {(vuData as VUDataType).Lu} m
-                    <br />
-                    Stabilizes to Slug Flow in x m = {
-                      (vuData as VUDataType).Le
-                    }{" "}
-                    m
+                    Stabilizes to Slug Flow in x m (m) ={" "}
+                    {(vuData as VUDataType).Le}
                     <br />
                   </>
                 )}

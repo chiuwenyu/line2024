@@ -1045,11 +1045,11 @@ const TwoPhase = () => {
       `               >>>> INPUT DATA <<<<`,
       `[VAPOR]`,
       `    Vapor Flow Rate (Kg/hr) = ${vaporFlowRate}`,
-      `    Vapor Density (Kg/m^3) = ${vaporDensity}`,
+      `    Vapor Density (Kg/m³) = ${vaporDensity}`,
       `    Vapor Viscosity (cP) = ${vaporViscosity}`,
       `[LIQUID]`,
       `    Liquid Flow Rate (Kg/hr) = ${liquidFlowRate}`,
-      `    Liquid Density (Kg/m^3) = ${liquidDensity}`,
+      `    Liquid Density (Kg/m³) = ${liquidDensity}`,
       `    Liquid Viscosity (cP) = ${liquidViscosity}`,
       `    Surface Tension (N/m) = ${surfaceTension}`,
       `[Misc]`,
@@ -1102,56 +1102,235 @@ const TwoPhase = () => {
       dashArray: [3, 3],
     });
     // **** Print Result Data ****
-    // if (resData.length === 0) {
-    //   dy = dy - 12;
-    //   page.drawText("No data available...", {
-    //     x: dx,
-    //     y: dy,
-    //     size: fontSize,
-    //     font: courierFont,
-    //     color: rgb(0, 0, 0),
-    //   });
-    // } else {
-    //   let outStrs: string[] = [];
-    //   resData.forEach((item) => {
-    //     outStrs.push(
-    //       `${item.id.padStart(8)}${item.actID.padStart(17)}${item.vel.padStart(
-    //         17
-    //       )}${item.presDrop.padStart(22)}${item.vh.padStart(19)}${
-    //         item.reynoldNo
-    //       }`
-    //     );
-    //   });
-    //   dy = dy - 5;
-    //   for (let i = 0; i < outStrs.length; i++) {
-    //     dy = dy - lineHeight * 1.5;
-    //     if (selectId === resData[i].id) {
-    //       page.drawText(outStrs[i], {
-    //         x: dx,
-    //         y: dy,
-    //         size: fontSize,
-    //         font: courierBoldFont,
-    //         color: rgb(1, 0, 0),
-    //       });
-    //     } else {
-    //       page.drawText(outStrs[i], {
-    //         x: dx,
-    //         y: dy,
-    //         size: fontSize,
-    //         font: courierFont,
-    //         color: rgb(0, 0, 0),
-    //       });
-    //     }
-    //   }
-    // }
-    // // draw a thick black line at the bottom of data table
-    // dy = dy - 8;
-    // page.drawLine({
-    //   start: { x: widthMargin, y: dy },
-    //   end: { x: width - widthMargin * 1.5, y: dy },
-    //   thickness: 1,
-    //   color: rgb(0.25, 0.25, 0.25),
-    // });
+    let outStrs: string[] = [];
+    if (selectId === "" || idSelState === false) {
+      dy = dy - 12;
+      page.drawText("No ID selected yet...", {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    } else {
+      if (direct.includes("up")) {
+        // Vertical Up Start
+        outStrs.push("Flow Direction = Vertical Up");
+        outStrs.push(`Flow Regime = ${vuData.flow_regime}`);
+        if (
+          vuData.flow_regime === "Vertical Up Bubble Flow" ||
+          vuData.flow_regime === "Vertical Up Finely Dispersed Bubble Flow"
+        ) {
+          // Bubble Model start
+          outStrs.push(
+            `Two Phase Density (Kg/m³) = ${(vuData as VUDataType).LoNS}`
+          );
+          outStrs.push(
+            `Liquid Volume Fraction = ${(vuData as VUDataType).Landa}`
+          );
+          outStrs.push(
+            `Two-Phase Velocity (m/s)= ${(vuData as VUDataType).UTP}`
+          );
+          // Bubble Model end
+        } else if (vuData.flow_regime === "Vertical Up Annular Flow") {
+          // Annlar Model start
+          outStrs.push(
+            `Two Phase Density (Kg/m³) = ${(vuData as VUDataType).Loip}`
+          );
+          outStrs.push(`Liquid Volume Fraction = ${(vuData as VUDataType).RL}`);
+          outStrs.push(
+            `Two-Phase Velocity (m/s)= ${(vuData as VUDataType).UTP}`
+          );
+          // Annular Modle end
+        } else if (vuData.flow_regime === "Vertical Up Slug and Churn Flow") {
+          // Slug and Churn Model start
+          outStrs.push(
+            `Liquid Slug Unit Density (Kg/m³) = ${(vuData as VUDataType).LoLS}`
+          );
+          outStrs.push(
+            `Two-Phase Slug Unit Density (Kg/m³)= ${
+              (vuData as VUDataType).LoSU
+            }`
+          );
+          outStrs.push(
+            `Liquid Slug Velocity (m/s)= ${(vuData as VUDataType).ULLS}`
+          );
+          outStrs.push(
+            `Liquid Slug Length (m) = ${(vuData as VUDataType).LLS}`
+          );
+          outStrs.push(`Slug Unit Length (m)= ${(vuData as VUDataType).Lu}`);
+          outStrs.push(
+            `Stabilizes to Slug Flow in x m (m)= ${(vuData as VUDataType).Le}`
+          );
+        } // Slug and Churn Model end
+        outStrs.push(
+          `1.0 Velocity Head (Kgf/cm²) = ${(vuData as VUDataType).Head}`
+        );
+        outStrs.push(
+          `Frictional Press. Loss (Kgf/cm²/100m) = ${
+            (vuData as VUDataType).Pfric
+          }`
+        );
+        outStrs.push(
+          `Elevation Head Loss (Kgf/cm²/100m) = ${(vuData as VUDataType).Pgrav}`
+        );
+        outStrs.push(
+          `Erosion Factor = ${
+            (vuData as VUDataType).Ef
+          }  (Warning : if Ef <= 1 : No Erosion; Ef > 1 : Erosion occurred)`
+        );
+        // Up direction end
+      } else if (direct.includes("horizontal")) {
+        // Horizontal Start
+        outStrs.push("Flow Direction = Horizontal");
+        outStrs.push(`Flow Regime = ${horiData.flow_regime}`);
+        if (
+          horiData.flow_regime === "Hori Annular-Dispersed Flow" ||
+          horiData.flow_regime === "Hori Dispersed Bubble Flow"
+        ) {
+          // Similarity Model start
+          outStrs.push(
+            `Two Phase Density (Kg/m³) = ${(horiData as HORIDataType).Loip}`
+          );
+          outStrs.push(
+            `Liquid Volume Fraction = ${(horiData as HORIDataType).RL}`
+          );
+          outStrs.push(
+            `Two-Phase Velocity (m/s)= ${(horiData as HORIDataType).UTP}`
+          );
+          // Similarity Model end
+        } else if (
+          horiData.flow_regime === "Hori Stratified Smooth Flow" ||
+          horiData.flow_regime === "Hori Stratified Wavy Flow"
+        ) {
+          // Stratified Model start
+          outStrs.push(
+            `Two Phase Density (Kg/m³) = ${(horiData as HORIDataType).LoTP}`
+          );
+          outStrs.push(
+            `Liquid Depth - BOP (m) = ${(horiData as HORIDataType).depth}`
+          );
+          outStrs.push(
+            `Liquid Velocity (m/s)= ${(horiData as HORIDataType).velL}`
+          );
+          outStrs.push(
+            `Vapor Velocity (m/s)= ${(horiData as HORIDataType).velG}`
+          );
+          outStrs.push(`Liquid Volume Fraction = ${(vuData as VUDataType).RL}`);
+          // Stratified Modle end
+        } else if (
+          vuData.flow_regime === "Hori Elongated Bubble Flow" ||
+          vuData.flow_regime === "Hori Intermittent-Slug Flow"
+        ) {
+          // Slug Model start
+          outStrs.push(
+            `Two-Phase Slug Unit Density (Kg/m³) = ${
+              (horiData as HORIDataType).LoSU
+            }`
+          );
+          outStrs.push(
+            `Liquid Slug Unit Density (Kg/m³) = ${
+              (horiData as HORIDataType).LoLS
+            }`
+          );
+          outStrs.push(
+            `Liquid Volume Fraction = ${(horiData as HORIDataType).RL}`
+          );
+          outStrs.push(
+            `Liquid Slug Velocvity (m/s) = ${(horiData as HORIDataType).Us}`
+          );
+          outStrs.push(
+            `Liquid Slug Length (m) = ${(horiData as HORIDataType).Ls}`
+          );
+          outStrs.push(
+            `Slug Unit Length (m) = ${(horiData as HORIDataType).Lu}`
+          );
+        } // Slug Model end
+        outStrs.push(
+          `1.0 Velocity Head (Kgf/cm²) = ${(vuData as VUDataType).Head}`
+        );
+        outStrs.push(
+          `Frictional Press. Loss (Kgf/cm²/100m) = ${
+            (vuData as VUDataType).Pfric
+          }`
+        );
+        outStrs.push(
+          `Elevation Head Loss (Kgf/cm²/100m) = ${(vuData as VUDataType).Pgrav}`
+        );
+        outStrs.push(
+          `Erosion Factor = ${
+            (vuData as VUDataType).Ef
+          }  (Warning : if Ef <= 1 : No Erosion; Ef > 1 : Erosion occurred)`
+        );
+        // Horizontal end
+      } else if (direct.includes("down")) {
+        // Vertical Down start
+        outStrs.push("Flow Direction = Vertical Down");
+        outStrs.push(`Flow Regime = ${vdData.flow_regime}`);
+        if (vdData.flow_regime === "Vertical Down Dispersed-Bubble Flow") {
+          // Bubble Model start
+          outStrs.push(
+            `Two Phase Density (Kg/m³) = ${(vdData as VDDataType).LoTP}`
+          );
+          outStrs.push(`Liquid Volume Fraction = ${(vdData as VDDataType).HL}`);
+          outStrs.push(
+            `Two-Phase Velocity (m/s)= ${(vdData as VDDataType).UTP}`
+          );
+          // Bubble Model end
+        } else if (vdData.flow_regime === "Vertical Down Annular Flow") {
+          // Annlar Model start
+          outStrs.push(
+            `Two Phase Density (Kg/m³) = ${(vdData as VDDataType).LoTP}`
+          );
+          outStrs.push(
+            `Two-Phase Velocity (m/s)= ${(vdData as VDDataType).UTP}`
+          );
+          outStrs.push(
+            `Liquid Volume Fraction = ${(vdData as VDDataType).alfaL}`
+          );
+
+          // Annular Modle end
+        } else if (vdData.flow_regime === "Vertical Down Slug Flow") {
+          // Slug Model start
+          outStrs.push(
+            `Two-Phase Density (Kg/m³) = ${(vdData as VDDataType).Loip}`
+          );
+          outStrs.push(
+            `Liquid Slug Density (Kg/m³) = ${(vdData as VDDataType).LoLS}`
+          );
+          outStrs.push(`Liquid Volume Fraction = ${(vdData as VDDataType).HL}`);
+        } // Slug Model end
+        outStrs.push(
+          `1.0 Velocity Head (Kgf/cm²) = ${(vuData as VUDataType).Head}`
+        );
+        outStrs.push(
+          `Frictional Press. Loss (Kgf/cm²/100m) = ${
+            (vuData as VUDataType).Pfric
+          }`
+        );
+        outStrs.push(
+          `Elevation Head Loss (Kgf/cm²/100m) = ${(vuData as VUDataType).Pgrav}`
+        );
+        outStrs.push(
+          `Erosion Factor = ${
+            (vuData as VUDataType).Ef
+          }  (Warning : if Ef <= 1 : No Erosion; Ef > 1 : Erosion occurred)`
+        );
+        // Up direction end
+      }
+    }
+
+    for (let i = 0; i < outStrs.length; i++) {
+      dy = dy - lineHeight * 2;
+      page.drawText(outStrs[i], {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    }
+
     // // **** Print Footer ****
     // let msg = "";
     // if (selectId === "") {
