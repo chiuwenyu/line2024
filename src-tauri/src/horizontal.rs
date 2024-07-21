@@ -28,6 +28,7 @@ pub struct Horizontal {
     // result data
     Head: f64,  // 1.0 Velocity Head [Kgf/cm^2]
     Pfric: f64, // frictional pressure drop [Kgf/cm^2/100m]
+    Pgrav: f64, // Elevation Head drop [Kgf/cm^2/100m]
     Ef: f64,    // Erosion Factor [-]
 
     // Similarity Analysis Model Result
@@ -78,6 +79,7 @@ impl Horizontal {
             flow_regime: String::from(""),
             Head: 0.0,
             Pfric: 0.0,
+            Pgrav: 0.0,
             Ef: 0.0,
             Loip: 0.0,
             RL: 0.0,
@@ -238,6 +240,7 @@ impl Horizontal {
         self.UTP = UTP;
         self.Head = Head;
         self.Pfric = Pfric;
+        self.Pgrav = Pgrav;
         self.Ef = Ef;
     }
 
@@ -291,6 +294,7 @@ impl Horizontal {
         // must transfer to imperial unit
         self.Head = Head;
         self.Pfric = Pfric;
+        self.Pgrav = 0.0;
         self.Ef = Ef;
         self.LoSU = LoSU;
         self.LoLS = LoLS;
@@ -358,6 +362,7 @@ impl Horizontal {
         let Ef = (LoNS * 0.062428) * (UTP * 3.28084).powf(2.0) / 10000.0; // Erosion Factor must transfer to imperial unit
         self.Head = Head;
         self.Pfric = Pfric;
+        self.Pgrav = 0.0;
         self.Ef = Ef;
         self.LoTP = LoTP;
         self.depth = depth;
@@ -499,7 +504,7 @@ impl Serialize for Horizontal {
     where
         S: Serializer,
     {
-        let mut state = serializer.serialize_struct("Horizontal", 27)?;
+        let mut state = serializer.serialize_struct("Horizontal", 28)?;
         state.serialize_field("wl", &self.WL)?;
         state.serialize_field("wg", &self.WG)?;
         state.serialize_field("lol", &self.LoL)?;
@@ -514,6 +519,7 @@ impl Serialize for Horizontal {
         state.serialize_field("flow_regime", &self.flow_regime)?;
         state.serialize_field("Head", &self.Head)?;
         state.serialize_field("Pfric", &self.Pfric)?;
+        state.serialize_field("Pgrav", &self.Pgrav)?;
         state.serialize_field("Ef", &self.Ef)?;
         state.serialize_field("Loip", &self.Loip)?;
         state.serialize_field("RL", &self.RL)?;

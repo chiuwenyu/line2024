@@ -84,6 +84,7 @@ export interface HORIDataType {
   flow_regime: string;
   Head: string;
   Pfric: string;
+  Pgrav: string;
   Ef: string;
   Loip: string;
   RL: string;
@@ -197,6 +198,7 @@ const TwoPhase = () => {
     flow_regime: "",
     Head: "",
     Pfric: "",
+    Pgrav: "",
     Ef: "",
     Loip: "",
     RL: "",
@@ -286,6 +288,7 @@ const TwoPhase = () => {
             flow_regime: res.flow_regime,
             Head: res.Head.toFixed(4),
             Pfric: res.Pfric.toFixed(4),
+            Pgrav: res.Pgrav.toFixed(4),
             Ef: res.Ef.toFixed(4),
             Loip: res.Loip.toFixed(4),
             RL: res.RL.toFixed(4),
@@ -943,7 +946,10 @@ const TwoPhase = () => {
     setError202(false);
     // reset Tab value
     setValue(0);
+    setSelectId("");
     setIdSelState(false);
+    setCalState(false);
+    setDirect([]);
   };
 
   const onOpenButtonClick = async () => {
@@ -1116,10 +1122,11 @@ const TwoPhase = () => {
       if (direct.includes("up")) {
         // Vertical Up Start
         outStrs.push("Flow Direction = Vertical Up");
-        outStrs.push(`Flow Regime = ${vuData.flow_regime}`);
+        outStrs.push(`Flow Regime = ${(vuData as VUDataType).flow_regime}`);
         if (
-          vuData.flow_regime === "Vertical Up Bubble Flow" ||
-          vuData.flow_regime === "Vertical Up Finely Dispersed Bubble Flow"
+          (vuData as VUDataType).flow_regime === "Vertical Up Bubble Flow" ||
+          (vuData as VUDataType).flow_regime ===
+            "Vertical Up Finely Dispersed Bubble Flow"
         ) {
           // Bubble Model start
           outStrs.push(
@@ -1132,7 +1139,9 @@ const TwoPhase = () => {
             `Two-Phase Velocity (m/s)= ${(vuData as VUDataType).UTP}`
           );
           // Bubble Model end
-        } else if (vuData.flow_regime === "Vertical Up Annular Flow") {
+        } else if (
+          (vuData as VUDataType).flow_regime === "Vertical Up Annular Flow"
+        ) {
           // Annlar Model start
           outStrs.push(
             `Two Phase Density (Kg/m³) = ${(vuData as VUDataType).Loip}`
@@ -1142,7 +1151,10 @@ const TwoPhase = () => {
             `Two-Phase Velocity (m/s)= ${(vuData as VUDataType).UTP}`
           );
           // Annular Modle end
-        } else if (vuData.flow_regime === "Vertical Up Slug and Churn Flow") {
+        } else if (
+          (vuData as VUDataType).flow_regime ===
+          "Vertical Up Slug and Churn Flow"
+        ) {
           // Slug and Churn Model start
           outStrs.push(
             `Liquid Slug Density (Kg/m³) = ${(vuData as VUDataType).LoLS}`
@@ -1183,10 +1195,12 @@ const TwoPhase = () => {
       } else if (direct.includes("horizontal")) {
         // Horizontal Start
         outStrs.push("Flow Direction = Horizontal");
-        outStrs.push(`Flow Regime = ${horiData.flow_regime}`);
+        outStrs.push(`Flow Regime = ${(horiData as HORIDataType).flow_regime}`);
         if (
-          horiData.flow_regime === "Hori Annular-Dispersed Flow" ||
-          horiData.flow_regime === "Hori Dispersed Bubble Flow"
+          (horiData as HORIDataType).flow_regime ===
+            "Hori Annular-Dispersed Flow" ||
+          (horiData as HORIDataType).flow_regime ===
+            "Hori Dispersed Bubble Flow"
         ) {
           // Similarity Model start
           outStrs.push(
@@ -1200,8 +1214,9 @@ const TwoPhase = () => {
           );
           // Similarity Model end
         } else if (
-          horiData.flow_regime === "Hori Stratified Smooth Flow" ||
-          horiData.flow_regime === "Hori Stratified Wavy Flow"
+          (horiData as HORIDataType).flow_regime ===
+            "Hori Stratified Smooth Flow" ||
+          (horiData as HORIDataType).flow_regime === "Hori Stratified Wavy Flow"
         ) {
           // Stratified Model start
           outStrs.push(
@@ -1216,11 +1231,15 @@ const TwoPhase = () => {
           outStrs.push(
             `Vapor Velocity (m/s)= ${(horiData as HORIDataType).velG}`
           );
-          outStrs.push(`Liquid Volume Fraction = ${(vuData as VUDataType).RL}`);
+          outStrs.push(
+            `Liquid Volume Fraction = ${(horiData as HORIDataType).RL}`
+          );
           // Stratified Modle end
         } else if (
-          vuData.flow_regime === "Hori Elongated Bubble Flow" ||
-          vuData.flow_regime === "Hori Intermittent-Slug Flow"
+          (horiData as HORIDataType).flow_regime ===
+            "Hori Elongated Bubble Flow" ||
+          (horiData as HORIDataType).flow_regime ===
+            "Hori Intermittent-Slug Flow"
         ) {
           // Slug Model start
           outStrs.push(
@@ -1247,27 +1266,32 @@ const TwoPhase = () => {
           );
         } // Slug Model end
         outStrs.push(
-          `1.0 Velocity Head (Kgf/cm²) = ${(vuData as VUDataType).Head}`
+          `1.0 Velocity Head (Kgf/cm²) = ${(horiData as HORIDataType).Head}`
         );
         outStrs.push(
           `Frictional Press. Loss (Kgf/cm²/100m) = ${
-            (vuData as VUDataType).Pfric
+            (horiData as HORIDataType).Pfric
           }`
         );
         outStrs.push(
-          `Elevation Head Loss (Kgf/cm²/100m) = ${(vuData as VUDataType).Pgrav}`
+          `Elevation Head Loss (Kgf/cm²/100m) = ${
+            (horiData as HORIDataType).Pgrav
+          }`
         );
         outStrs.push(
           `Erosion Factor = ${
-            (vuData as VUDataType).Ef
+            (horiData as HORIDataType).Ef
           }  (Warning : if Ef <= 1 : No Erosion; Ef > 1 : Erosion occurred)`
         );
         // Horizontal end
       } else if (direct.includes("down")) {
         // Vertical Down start
         outStrs.push("Flow Direction = Vertical Down");
-        outStrs.push(`Flow Regime = ${vdData.flow_regime}`);
-        if (vdData.flow_regime === "Vertical Down Dispersed-Bubble Flow") {
+        outStrs.push(`Flow Regime = ${(vdData as VDDataType).flow_regime}`);
+        if (
+          (vdData as VDDataType).flow_regime ===
+          "Vertical Down Dispersed-Bubble Flow"
+        ) {
           // Bubble Model start
           outStrs.push(
             `Two Phase Density (Kg/m³) = ${(vdData as VDDataType).LoTP}`
@@ -1277,7 +1301,9 @@ const TwoPhase = () => {
             `Two-Phase Velocity (m/s)= ${(vdData as VDDataType).UTP}`
           );
           // Bubble Model end
-        } else if (vdData.flow_regime === "Vertical Down Annular Flow") {
+        } else if (
+          (vdData as VDDataType).flow_regime === "Vertical Down Annular Flow"
+        ) {
           // Annlar Model start
           outStrs.push(
             `Two Phase Density (Kg/m³) = ${(vdData as VDDataType).LoTP}`
@@ -1290,7 +1316,9 @@ const TwoPhase = () => {
           );
 
           // Annular Modle end
-        } else if (vdData.flow_regime === "Vertical Down Slug Flow") {
+        } else if (
+          (vdData as VDDataType).flow_regime === "Vertical Down Slug Flow"
+        ) {
           // Slug Model start
           outStrs.push(
             `Two-Phase Density (Kg/m³) = ${(vdData as VDDataType).Loip}`
@@ -1301,19 +1329,19 @@ const TwoPhase = () => {
           outStrs.push(`Liquid Volume Fraction = ${(vdData as VDDataType).HL}`);
         } // Slug Model end
         outStrs.push(
-          `1.0 Velocity Head (Kgf/cm²) = ${(vuData as VUDataType).Head}`
+          `1.0 Velocity Head (Kgf/cm²) = ${(vdData as VDDataType).Head}`
         );
         outStrs.push(
           `Frictional Press. Loss (Kgf/cm²/100m) = ${
-            (vuData as VUDataType).Pfric
+            (vdData as VDDataType).Pfric
           }`
         );
         outStrs.push(
-          `Elevation Head Loss (Kgf/cm²/100m) = ${(vuData as VUDataType).Pgrav}`
+          `Elevation Head Loss (Kgf/cm²/100m) = ${(vdData as VDDataType).Pgrav}`
         );
         outStrs.push(
           `Erosion Factor = ${
-            (vuData as VUDataType).Ef
+            (vdData as VDDataType).Ef
           }  (Warning : if Ef <= 1 : No Erosion; Ef > 1 : Erosion occurred)`
         );
         // Up direction end
@@ -1331,22 +1359,6 @@ const TwoPhase = () => {
       });
     }
 
-    // // **** Print Footer ****
-    // let msg = "";
-    // if (selectId === "") {
-    //   msg =
-    //     "Note: You did not select any pipe ID. Please select one on the result table!!";
-    // } else {
-    //   msg = `Note: You select the ${selectId}\" pipe.`;
-    // }
-    // dy = dy - 14;
-    // page.drawText(msg, {
-    //   x: dx + 10,
-    //   y: dy,
-    //   size: fontSize,
-    //   font: courierFont,
-    //   color: rgb(0, 0, 0),
-    // });
     const pdfBytes = await pdfDoc.save();
     const pdfDataUrl = URL.createObjectURL(
       new Blob([pdfBytes], { type: "application/pdf" })
