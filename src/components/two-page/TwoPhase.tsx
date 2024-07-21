@@ -1051,14 +1051,14 @@ const TwoPhase = () => {
       `    Liquid Flow Rate (Kg/hr) = ${liquidFlowRate}`,
       `    Liquid Density (Kg/m³) = ${liquidDensity}`,
       `    Liquid Viscosity (cP) = ${liquidViscosity}`,
-      `    Surface Tension (N/m) = ${surfaceTension}`,
+      `    Surface Tension (dyne/cm) = ${surfaceTension}`,
       `[Misc]`,
       `    Normal ID (inch) = ${selectId}`,
-      `    Schedule = ${schedule}`,
+      `    Pipe Schedule = ${schedule}`,
       `    Inside Diameter (inch) = ${actID}`,
       `    Slope (degree) = ${slope}`,
-      `    Pipe Roughness (mm) = ${roughness}`,
-      `    Safe Factor : ${safeFactor}`,
+      `    Pipe Absolute Roughness (mm) = ${roughness}`,
+      `    Safety Factor : ${safeFactor}`,
       `[TYPE]`,
       `    Flow Direction : ${direct}`,
       `    Mechanistic Model : Dukler Taitel model`,
@@ -1145,7 +1145,7 @@ const TwoPhase = () => {
         } else if (vuData.flow_regime === "Vertical Up Slug and Churn Flow") {
           // Slug and Churn Model start
           outStrs.push(
-            `Liquid Slug Unit Density (Kg/m³) = ${(vuData as VUDataType).LoLS}`
+            `Liquid Slug Density (Kg/m³) = ${(vuData as VUDataType).LoLS}`
           );
           outStrs.push(
             `Two-Phase Slug Unit Density (Kg/m³)= ${
@@ -1156,7 +1156,7 @@ const TwoPhase = () => {
             `Liquid Slug Velocity (m/s)= ${(vuData as VUDataType).ULLS}`
           );
           outStrs.push(
-            `Liquid Slug Length (m) = ${(vuData as VUDataType).LLS}`
+            `Liquid Slug Length (Liq+Vap) (m) = ${(vuData as VUDataType).LLS}`
           );
           outStrs.push(`Slug Unit Length (m)= ${(vuData as VUDataType).Lu}`);
           outStrs.push(
