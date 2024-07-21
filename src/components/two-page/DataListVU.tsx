@@ -76,7 +76,7 @@ const DataListVU = (props: any) => {
                     <br />
                     Liquid Slug Length (m) = {(vuData as VUDataType).LLS}
                     <br />
-                    Slug Unit Length (m) = {(vuData as VUDataType).Lu}
+                    Slug Unit Length (Liq+Vap) (m) = {(vuData as VUDataType).Lu}
                     <br />
                     Stabilizes to Slug Flow in x m (m) ={" "}
                     {(vuData as VUDataType).Le}

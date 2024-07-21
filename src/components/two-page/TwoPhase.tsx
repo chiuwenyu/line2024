@@ -1168,9 +1168,11 @@ const TwoPhase = () => {
             `Liquid Slug Velocity (m/s)= ${(vuData as VUDataType).ULLS}`
           );
           outStrs.push(
-            `Liquid Slug Length (Liq+Vap) (m) = ${(vuData as VUDataType).LLS}`
+            `Liquid Slug Length (m) = ${(vuData as VUDataType).LLS}`
           );
-          outStrs.push(`Slug Unit Length (m)= ${(vuData as VUDataType).Lu}`);
+          outStrs.push(
+            `Slug Unit Length (Liq+Vap) (m)= ${(vuData as VUDataType).Lu}`
+          );
           outStrs.push(
             `Stabilizes to Slug Flow in x m (m)= ${(vuData as VUDataType).Le}`
           );
