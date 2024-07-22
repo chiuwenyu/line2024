@@ -164,7 +164,6 @@ impl Horizontal {
 
     fn SimilarityAnalysis(&mut self) {
         // for Anaular flow pattern
-        use std::f64;
         let area = f64::consts::PI * self.ID * self.ID / 4.0; // pipe area [m^2]
         let Gt = (self.WL + self.WG) / area / 3600.0; // Eq (22)
 

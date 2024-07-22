@@ -198,7 +198,6 @@ impl VerticalUp {
 
     fn SimilarityAnalysis(&mut self) {
         // for Anaular flow pattern
-        use std::f64;
         let area = f64::consts::PI * self.ID * self.ID / 4.0; // pipe area [m^2]
         let Gt = (self.WL + self.WG) / area / 3600.0; // Eq (22)
 
@@ -276,8 +275,6 @@ impl VerticalUp {
 
     fn SlugModel(&mut self) {
         // for Slug and Churn flow pattern
-        use std::f64;
-
         let area = f64::consts::PI * self.ID * self.ID / 4.0; // pipe area [m^2]
         let UGS = self.WG / self.LoG / area / 3600.0; // Vapor Velocity [m/s]
         let ULS = self.WL / self.LoL / area / 3600.0; // Liquid Velocity [m/s]
@@ -362,7 +359,6 @@ impl VerticalUp {
 
     fn BubbleModel(&mut self) {
         // for Bubble flow and Finely Bubble flow pattern
-        use std::f64;
 
         let area = f64::consts::PI * self.ID * self.ID / 4.0; // pipe area [m^2]
         let UGS = self.WG / self.LoG / area / 3600.0; // Vapor Velocity [m/s]
