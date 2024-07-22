@@ -73,7 +73,7 @@ export default function DataGridTwo(props: any) {
     ? "Vertical Up"
     : direct.includes("down")
     ? "Vertical Down"
-    : direct.includes("Horizontal")
+    : direct.includes("horizontal")
     ? "Horizontal"
     : "";
   StrTitle = StrTitle + " Line Sizing Result :";
