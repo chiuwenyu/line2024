@@ -73,62 +73,68 @@ export default function DataGridTwo(props: any) {
     ? "Vertical Up"
     : direct.includes("down")
     ? "Vertical Down"
-    : "Horizontal";
+    : direct.includes("Horizontal")
+    ? "Horizontal"
+    : "";
   StrTitle = StrTitle + " Line Sizing Result :";
   let directColor = direct.includes("up")
     ? "success.main"
     : direct.includes("down")
     ? "error.main"
-    : "warning.main";
+    : direct.includes("horizontal")
+    ? "warning.main"
+    : "";
 
   return (
-    <Box sx={{ minWidth: "750px", height: "370px" }}>
-      <Stack display={"flex"} justifyContent={"flex-end"}>
-        <span>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="span"
-            sx={{
-              fontWeight: "medium",
-            }}
-          >
-            {StrTitle}
-          </Typography>
-          <Box sx={{ float: "right" }}></Box>
-        </span>
-      </Stack>
-      <DataGrid
-        rows={rows}
-        autoHeight={false}
-        columns={columns as GridColDef<TwoSizingData>[]}
-        sx={{
-          "& .MuiDataGrid-columnHeader": {
-            backgroundColor: directColor,
-            color: "white",
-            fontWeight: "bold",
-            fontSize: "0.8rem",
-            height: "60",
-          },
-          "& .MuiDataGrid-columnHeaderTitle": {
-            whiteSpace: "pre-wrap",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            maxHeight: "180px !important",
-          },
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none",
-          },
+    direct != "" && (
+      <Box sx={{ minWidth: "750px", height: "370px" }}>
+        <Stack display={"flex"} justifyContent={"flex-end"}>
+          <span>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="span"
+              sx={{
+                fontWeight: "medium",
+              }}
+            >
+              {StrTitle}
+            </Typography>
+            <Box sx={{ float: "right" }}></Box>
+          </span>
+        </Stack>
+        <DataGrid
+          rows={rows}
+          autoHeight={false}
+          columns={columns as GridColDef<TwoSizingData>[]}
+          sx={{
+            "& .MuiDataGrid-columnHeader": {
+              backgroundColor: directColor,
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "0.8rem",
+              height: "60",
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              whiteSpace: "pre-wrap",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              maxHeight: "180px !important",
+            },
+            "& .MuiDataGrid-columnSeparator": {
+              display: "none",
+            },
 
-          mt: 1,
-        }}
-        pageSizeOptions={[]}
-        hideFooter={true}
-        onRowSelectionModelChange={(newSelection) => {
-          setSelectId(newSelection[0] as string);
-          setIdSelState(true);
-        }}
-      />
-    </Box>
+            mt: 1,
+          }}
+          pageSizeOptions={[]}
+          hideFooter={true}
+          onRowSelectionModelChange={(newSelection) => {
+            setSelectId(newSelection[0] as string);
+            setIdSelState(true);
+          }}
+        />
+      </Box>
+    )
   );
 }

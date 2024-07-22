@@ -1627,7 +1627,13 @@ const TwoPhase = () => {
                       aria-labelledby="radio-buttons-group-label"
                       name="radio-buttons-group"
                       value={optValue}
-                      onChange={(e) => setOptValue(e.target.value)}
+                      onChange={(e) => {
+                        setOptValue(e.target.value);
+                        setSelectId("");
+                        setIdSelState(false);
+                        setCalState(false);
+                        setDirect([]);
+                      }}
                     >
                       <FormControlLabel
                         value="1"
