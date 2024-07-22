@@ -1,8 +1,8 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { deepPurple } from "@mui/material/colors";
+import { indigo } from "@mui/material/colors";
 import { HORIDataType } from "./TwoPhase";
 
-const pcolor = deepPurple[900];
+const pcolor = indigo[900];
 
 const DataListHori = (props: any) => {
   const { horiData } = props;

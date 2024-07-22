@@ -1,8 +1,8 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { deepPurple } from "@mui/material/colors";
+import { indigo } from "@mui/material/colors";
 import { VUDataType } from "./TwoPhase";
 
-const pcolor = deepPurple[900];
+const pcolor = indigo[900];
 
 const DataListVU = (props: any) => {
   const { vuData } = props;
