@@ -4,6 +4,7 @@ import FileButton from "../single-page/FileButton";
 import { useState } from "react";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import { StyledEngineProvider } from "@mui/material/styles";
+import SelCircuitPage from "./SelCircuitPage";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -51,29 +52,34 @@ const Thermo = () => {
           </Stack>
         )}
       </Stack>
-      <Grid>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="div"
-          sx={{ fontWeight: "medium" }}
-        >
-          Thermosyphon Hydraulic Check
-        </Typography>
-        <Box
-          border={1}
-          width={275}
-          sx={{ borderColor: "grey.400", boxShadow: 3, padding: 2, mt: 3 }}
-        >
-          <Typography sx={{ mb: 3 }}>WORKING PROCEDURE :</Typography>
-          <StyledEngineProvider injectFirst>
-            <VerticalLinearStepper
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-            />
-          </StyledEngineProvider>
-        </Box>
-      </Grid>
+      <Stack direction="row" spacing={4}>
+        <Grid item xs={4} sx={{ ml: 1 }}>
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            sx={{ fontWeight: "medium" }}
+          >
+            Thermosyphon Hydraulic Check
+          </Typography>
+          <Box
+            border={1}
+            width={275}
+            sx={{ borderColor: "grey.400", boxShadow: 3, padding: 2, mt: 3 }}
+          >
+            <Typography sx={{ mb: 3 }}>WORKING PROCEDURE :</Typography>
+            <StyledEngineProvider injectFirst>
+              <VerticalLinearStepper
+                activeStep={activeStep}
+                setActiveStep={setActiveStep}
+              />
+            </StyledEngineProvider>
+          </Box>
+        </Grid>
+        <Grid item xs={4} sx={{ width: "100%" }}>
+          {activeStep === 0 && <SelCircuitPage />}
+        </Grid>
+      </Stack>
     </>
   );
 };
