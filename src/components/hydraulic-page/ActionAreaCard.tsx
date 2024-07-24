@@ -4,15 +4,15 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import imageA from "../../assets/ThermoSyphone-Case A.svg";
 
-const ActionAreaCard = () => {
+const ActionAreaCard = (props: any) => {
+  const { cardimage, title, subtitle, description } = props;
   return (
     <Card sx={{ height: "420", width: 250 }}>
       <CardActionArea>
         <CardMedia
           component="img"
-          image={imageA}
+          image={cardimage}
           alt="green iguana"
           sx={{
             height: "auto", // 設定高度
@@ -21,16 +21,14 @@ const ActionAreaCard = () => {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Case A
+            {title}
           </Typography>
           <Typography variant="body1" color="text.primary">
-            Horizontal "J" type reboiler, Preference Ciucuit
+            {subtitle}
           </Typography>
           <Typography variant="body2" color="text.primary">
             <br />
-            Downcomer is draw-off from trapout boot and return to the bottom of
-            trapout boot, The bottom product is discharged from the bottom of
-            the distillation tower.
+            {description}
           </Typography>
         </CardContent>
       </CardActionArea>
