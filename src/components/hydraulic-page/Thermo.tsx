@@ -1,5 +1,11 @@
+import HorizontalLinearStepper from "./HorizontalLinearStepper";
+
 const Thermo = () => {
-  return <div>Thermosyphon Hydraulic Check App</div>;
+  return (
+    <>
+      <HorizontalLinearStepper />
+    </>
+  );
 };
 
 export default Thermo;
