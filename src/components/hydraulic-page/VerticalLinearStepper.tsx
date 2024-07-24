@@ -36,15 +36,15 @@ const steps = [
   },
 ];
 
-const VerticalLinearStepper = () => {
-  const [activeStep, setActiveStep] = React.useState(0);
+const VerticalLinearStepper = (props: any) => {
+  const { activeStep, setActiveStep } = props;
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prevActiveStep: number) => prevActiveStep - 1);
   };
 
   const handleReset = () => {

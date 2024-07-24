@@ -1,11 +1,13 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import VerticalLinearStepper from "./VerticalLinearStepper";
 import FileButton from "../single-page/FileButton";
 import { useState } from "react";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
 
   const onNewButtonClick = () => {
     console.log("New button clicked");
@@ -21,6 +23,10 @@ const Thermo = () => {
   };
   const onExportButtonClick = () => {
     console.log("Export button clicked");
+  };
+
+  const goNextStepbySelectCircuit = () => {
+    setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
   };
 
   return (
@@ -48,7 +54,7 @@ const Thermo = () => {
       <Grid>
         <Typography
           gutterBottom
-          variant="h5"
+          variant="h6"
           component="div"
           sx={{ fontWeight: "medium" }}
         >
@@ -60,7 +66,12 @@ const Thermo = () => {
           sx={{ borderColor: "grey.400", boxShadow: 3, padding: 2, mt: 3 }}
         >
           <Typography sx={{ mb: 3 }}>WORKING PROCEDURE :</Typography>
-          <VerticalLinearStepper />
+          <StyledEngineProvider injectFirst>
+            <VerticalLinearStepper
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+            />
+          </StyledEngineProvider>
         </Box>
       </Grid>
     </>
