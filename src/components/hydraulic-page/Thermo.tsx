@@ -4,7 +4,7 @@ import VerticalLinearStepper from "./VerticalLinearStepper";
 const Thermo = () => {
   return (
     <>
-      <Box width={300}>
+      <Box width={275}>
         <VerticalLinearStepper />
       </Box>
     </>
