@@ -1,9 +1,9 @@
-import HorizontalLinearStepper from "./HorizontalLinearStepper";
+import VerticalLinearStepper from "./VerticalLinearStepper";
 
 const Thermo = () => {
   return (
     <>
-      <HorizontalLinearStepper />
+      <VerticalLinearStepper />
     </>
   );
 };
