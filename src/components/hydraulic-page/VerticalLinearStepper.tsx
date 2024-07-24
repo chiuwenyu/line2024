@@ -30,6 +30,10 @@ const steps = [
     description: `Provide corresponding pipe layout height and 
     length data according to configuration type.`,
   },
+  {
+    label: "Done",
+    description: `Enter project information, then click execute button to get the result.`,
+  },
 ];
 
 const VerticalLinearStepper = () => {

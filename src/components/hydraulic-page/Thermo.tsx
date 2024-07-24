@@ -1,9 +1,12 @@
+import { Box } from "@mui/material";
 import VerticalLinearStepper from "./VerticalLinearStepper";
 
 const Thermo = () => {
   return (
     <>
-      <VerticalLinearStepper />
+      <Box width={300}>
+        <VerticalLinearStepper />
+      </Box>
     </>
   );
 };
