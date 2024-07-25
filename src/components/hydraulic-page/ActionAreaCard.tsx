@@ -18,7 +18,7 @@ const ActionAreaCard = (props: any) => {
     goNextStepbySelectCircuit,
   } = props;
   return (
-    <Card elevation={caseNo === id ? 10 : 1} sx={{ height: "420", width: 250 }}>
+    <Card elevation={caseNo === id ? 24 : 1} sx={{ height: "420", width: 250 }}>
       <CardActionArea onClick={goNextStepbySelectCircuit}>
         <CardMedia
           component="img"
