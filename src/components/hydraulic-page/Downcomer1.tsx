@@ -2,8 +2,15 @@ import { Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 
 const Downcomer1 = (props: any) => {
-  const { downFlowRateMain, setDownFlowRateMain, validateInput, error101 } =
-    props;
+  const {
+    downFlowRateMain,
+    setDownFlowRateMain,
+    downDensity,
+    setDownDensity,
+    validateInput,
+    error101,
+    error102,
+  } = props;
   return (
     <>
       <Grid
@@ -12,6 +19,7 @@ const Downcomer1 = (props: any) => {
         flexDirection={"column"}
         item
         xs={3}
+        gap={2}
         sx={{
           ml: 4,
           width: "75%",
@@ -21,19 +29,35 @@ const Downcomer1 = (props: any) => {
           gutterBottom
           variant="h6"
           component="div"
-          sx={{ fontWeight: "medium", mb: 3 }}
+          sx={{ fontWeight: "medium", mb: 1 }}
         >
           Downcomer Data Input:
         </Typography>
         <TextField
-          id="down-flow-rate"
-          label="Total Flow Rate (Kg/hr)"
+          id="down-main-flow-rate"
+          label="Total Flow Rate - Main (Kg/hr)"
           variant="outlined"
           value={downFlowRateMain}
           color="secondary"
           error={error101}
           helperText={error101 ? "Please input correct number" : ""}
           onChange={(e) => setDownFlowRateMain(e.target.value)}
+          onBlur={(e) => validateInput("101", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="down-fluid-density"
+          label="Fluid Density (Kg/m^3)"
+          variant="outlined"
+          value={downDensity}
+          color="secondary"
+          error={error102}
+          helperText={error102 ? "Please input correct number" : ""}
+          onChange={(e) => setDownDensity(e.target.value)}
           onBlur={(e) => validateInput("101", e.target.value)}
           InputLabelProps={{
             sx: {
