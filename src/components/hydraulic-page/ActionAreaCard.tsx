@@ -1,15 +1,18 @@
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import { indigo } from "@mui/material/colors";
+
+const pcolor = indigo[500];
 
 const ActionAreaCard = (props: any) => {
-  const { cardimage, title, subtitle, description } = props;
+  const { cardimage, title, subtitle, description, goNextStepbySelectCircuit } =
+    props;
   return (
     <Card sx={{ height: "420", width: 250 }}>
-      <CardActionArea>
+      <CardActionArea onClick={goNextStepbySelectCircuit}>
         <CardMedia
           component="img"
           image={cardimage}
@@ -23,7 +26,7 @@ const ActionAreaCard = (props: any) => {
           <Typography gutterBottom variant="h5" component="div">
             {title}
           </Typography>
-          <Typography variant="body1" color="text.primary">
+          <Typography variant="h6" color={pcolor}>
             {subtitle}
           </Typography>
           <Typography variant="body2" color="text.primary">

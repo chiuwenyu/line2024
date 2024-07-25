@@ -8,7 +8,8 @@ import SelCircuitPage from "./SelCircuitPage";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(0); // track stepper progress step, 0 = step 1, 4 = step 5
+  const [caseNo, setCaseNo] = useState(0); // track selected thermosyphon circuit case number; 0 = case A, 5 = case F
 
   const onNewButtonClick = () => {
     console.log("New button clicked");
@@ -77,7 +78,12 @@ const Thermo = () => {
           </Box>
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
-          {activeStep === 0 && <SelCircuitPage />}
+          {activeStep === 0 && (
+            <SelCircuitPage
+              goNextStepbySelectCircuit={goNextStepbySelectCircuit}
+              setCaseNo={setCaseNo}
+            />
+          )}
         </Grid>
       </Stack>
     </>
