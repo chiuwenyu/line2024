@@ -1,55 +1,45 @@
 import { Grid } from "@mui/material";
 import React from "react";
 import ActionAreaCard from "./ActionAreaCard";
-import imageA from "../../assets/ThermoSyphone-Case A.svg";
+import imageA from "../../assets/ThermoSyphon-Case A.svg";
+import imageB from "../../assets/ThermoSyphon-Case B.svg";
 
 const cards = [
   {
     cardimage: imageA,
     title: "Case A",
     subtitle: "Horizontal 'J' type reboiler, Preference Ciucuit",
-    description: `Downcomer is draw-off from trapout boot and return to the bottom of
-            trapout boot, The bottom product is discharged from the bottom of
-            the distillation tower.`,
+    description: `Downcomer is drawn off from the trapout boot and returned to the bottom of the trapout boot. The bottom product is discharged from the bottom of the distillation tower.`,
   },
   {
-    cardimage: imageA,
+    cardimage: imageB,
     title: "Case B",
     subtitle: "Horizontal 'J' type reboiler, Circulating Ciucuit",
-    description: `Downcomer is draw-off from the column bottom, 
-            The bottom product is also discharged from the bottom of
-            the distillation tower.`,
+    description: `Downcomer is drawn off from the column bottom,  the bottom product is discharged from the bottom of the distillation tower.`,
   },
   {
     cardimage: imageA,
     title: "Case C",
     subtitle: "Horizontal 'J' type reboiler, One-Through Ciucuit",
-    description: `Downcomer is draw-off from the overflow baffle of column bottom, 
-            The bottom product is also discharged from the another-side of baffle of
-            bottom.`,
+    description: `Downcomer is drawn off from the overflow baffle at the bottom of the column, and the bottom product is also discharged from the other side of the baffle at the bottom.`,
   },
   {
     cardimage: imageA,
     title: "Case D",
     subtitle: "Kettle type reboiler, Circulating Ciucuit",
-    description: `Downcomer is draw-off from the column bottom, 
-            fully Vapor is instead of two phase line for Kettle reboiler.`,
+    description: `The downcomer draws off from the column bottom, fully vapor instead of a two-phase line for the kettle reboiler.`,
   },
   {
     cardimage: imageA,
     title: "Case E",
     subtitle: "Vertical 'E' type reboiler, Circulating Ciucuit",
-    description: `Downcomer is draw-off from the column bottom, 
-            The bottom product is also discharged from the bottom of
-            the distillation tower.`,
+    description: `Downcomer is drawn off from the column bottom,  the bottom product is discharged from the bottom of the distillation tower.`,
   },
   {
     cardimage: imageA,
     title: "Case F",
     subtitle: "Vertical 'E' type reboiler, Preference Ciucuit",
-    description: `Downcomer is draw-off from trapout boot and return to the bottom of
-            trapout boot, The bottom product is discharged from the bottom of
-            the distillation tower.`,
+    description: `Downcomer is drawn off from the trapout boot and returned to the bottom of the trapout boot. The bottom product is discharged from the bottom of the distillation tower.`,
   },
 ];
 
