@@ -26,7 +26,7 @@ const Downcomer1 = (props: any) => {
           Downcomer Data Input:
         </Typography>
         <TextField
-          id="liquid-flow-rate"
+          id="down-flow-rate"
           label="Total Flow Rate (Kg/hr)"
           variant="outlined"
           value={downFlowRateMain}
