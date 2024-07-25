@@ -15,12 +15,14 @@ const Thermo = () => {
   const [calState, setCalState] = useState(false);
 
   // DownComer1 data
-  const [dwonFlowRateMain, setDownFlowRateMain] = useState(""); // Downcomer total flow Rate [Kg/hr]
+  const [downFlowRateMain, setDownFlowRateMain] = useState(""); // Downcomer total flow Rate [Kg/hr]
   const [downDensity, setDownDensity] = useState(""); // Downcomer fluid density [Kg/m^3]
+  const [downVisc, setDownVisc] = useState(""); // Downcimer fluid viscosity [cP]
 
   // Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
+  const [error103, setError103] = useState(false); // error number for downcomer fluid viscosity
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -33,6 +35,9 @@ const Thermo = () => {
     id === "102" && !isPositiveFloat.test(value) && value !== ""
       ? setError102(true)
       : setError102(false);
+    id === "103" && !isPositiveFloat.test(value) && value !== ""
+      ? setError103(true)
+      : setError103(false);
 
     setCalState(false);
   };
@@ -118,13 +123,16 @@ const Thermo = () => {
           {activeStep === 1 &&
             (caseNo === "D" || caseNo === "E" || caseNo === "F") && (
               <Downcomer1
-                dwonFlowRateMain={dwonFlowRateMain}
+                downFlowRateMain={downFlowRateMain}
                 setDownFlowRateMain={setDownFlowRateMain}
                 downDensity={downDensity}
                 setDownDensity={setDownDensity}
+                downVisc={downVisc}
+                setDownVisc={setDownVisc}
                 validateInput={validateInput}
                 error101={error101}
                 error102={error102}
+                error103={error103}
               />
             )}
           {activeStep === 1 &&
