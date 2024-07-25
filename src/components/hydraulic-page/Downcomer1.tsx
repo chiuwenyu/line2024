@@ -11,11 +11,14 @@ const Downcomer1 = (props: any) => {
     setDownVisc,
     downIDMain,
     setDownIDMain,
+    downRough,
+    setDownRough,
     validateInput,
     error101,
     error102,
     error103,
     error104,
+    error105,
   } = props;
   return (
     <>
@@ -106,6 +109,22 @@ const Downcomer1 = (props: any) => {
           helperText={error104 ? "Please input correct number" : ""}
           onChange={(e) => setDownIDMain(e.target.value)}
           onBlur={(e) => validateInput("104", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="down-main-rough"
+          label="Pipe Absolute Roughness (mm)"
+          variant="outlined"
+          value={downRough}
+          color="secondary"
+          error={error105}
+          helperText={error105 ? "Please input correct number" : ""}
+          onChange={(e) => setDownRough(e.target.value)}
+          onBlur={(e) => validateInput("105", e.target.value)}
           InputLabelProps={{
             sx: {
               color: "blue", // 預設顏色

@@ -18,13 +18,15 @@ const Thermo = () => {
   const [downFlowRateMain, setDownFlowRateMain] = useState(""); // Downcomer total flow Rate [Kg/hr]
   const [downDensity, setDownDensity] = useState(""); // Downcomer fluid density [Kg/m^3]
   const [downVisc, setDownVisc] = useState(""); // Downcimer fluid viscosity [cP]
-  const [downIDMain, setDownIDMain] = useState(""); // Downcomer main pipe diameter ]in]
+  const [downIDMain, setDownIDMain] = useState(""); // Downcomer main pipe diameter [in]
+  const [downRough, setDownRough] = useState(""); // Downcomer main pipe absolute roughness [mm]
 
   // Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
   const [error103, setError103] = useState(false); // error number for downcomer fluid viscosity
   const [error104, setError104] = useState(false); // error number for downcomer main pipe diameter
+  const [error105, setError105] = useState(false); // error number for downcomer main pipe absolute roughness
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -40,6 +42,12 @@ const Thermo = () => {
     id === "103" && !isPositiveFloat.test(value) && value !== ""
       ? setError103(true)
       : setError103(false);
+    id === "104" && !isPositiveFloat.test(value) && value !== ""
+      ? setError104(true)
+      : setError104(false);
+    id === "105" && !isPositiveFloat.test(value) && value !== ""
+      ? setError105(true)
+      : setError105(false);
 
     setCalState(false);
   };
@@ -133,11 +141,14 @@ const Thermo = () => {
                 setDownVisc={setDownVisc}
                 downIDMain={downIDMain}
                 setDownIDMain={setDownIDMain}
+                downRough={downRough}
+                setDownRough={setDownRough}
                 validateInput={validateInput}
                 error101={error101}
                 error102={error102}
                 error103={error103}
                 error104={error104}
+                error105={error105}
               />
             )}
           {activeStep === 1 &&
