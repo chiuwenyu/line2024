@@ -9,10 +9,13 @@ const Downcomer1 = (props: any) => {
     setDownDensity,
     downVisc,
     setDownVisc,
+    downIDMain,
+    setDownIDMain,
     validateInput,
     error101,
     error102,
     error103,
+    error104,
   } = props;
   return (
     <>
@@ -87,6 +90,22 @@ const Downcomer1 = (props: any) => {
           helperText={error103 ? "Please input correct number" : ""}
           onChange={(e) => setDownVisc(e.target.value)}
           onBlur={(e) => validateInput("103", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="down-main-ID"
+          label="Pipe Diameter (in)"
+          variant="outlined"
+          value={downIDMain}
+          color="secondary"
+          error={error104}
+          helperText={error104 ? "Please input correct number" : ""}
+          onChange={(e) => setDownIDMain(e.target.value)}
+          onBlur={(e) => validateInput("104", e.target.value)}
           InputLabelProps={{
             sx: {
               color: "blue", // 預設顏色
