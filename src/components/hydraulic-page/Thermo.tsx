@@ -12,6 +12,25 @@ const Thermo = () => {
   const [fileName, setFileName] = useState("");
   const [activeStep, setActiveStep] = useState(0); // track stepper progress step, 0 = step 1, 4 = step 5
   const [caseNo, setCaseNo] = useState(""); // track selected thermosyphon circuit case number; A~F
+  const [calState, setCalState] = useState(false);
+
+  // DownComer1 data
+  const [dwonFlowRateMain, setDownFlowRateMain] = useState("");
+
+  // Error handling
+  const [error101, setError101] = useState(false);
+
+  const validateInput = (id: string, value: any) => {
+    // 驗證輸入值是否為正的浮點數
+    const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
+
+    // 101~ 108 is process data input validation
+    id === "101" && !isPositiveFloat.test(value) && value !== ""
+      ? setError101(true)
+      : setError101(false);
+
+    setCalState(false);
+  };
 
   const onNewButtonClick = () => {
     console.log("New button clicked");
@@ -93,7 +112,12 @@ const Thermo = () => {
           )}
           {activeStep === 1 &&
             (caseNo === "D" || caseNo === "E" || caseNo === "F") && (
-              <Downcomer1 />
+              <Downcomer1
+                dwonFlowRateMain={dwonFlowRateMain}
+                setDownFlowRateMain={setDownFlowRateMain}
+                validateInput={validateInput}
+                error101={error101}
+              />
             )}
           {activeStep === 1 &&
             (caseNo === "A" || caseNo === "B" || caseNo === "C") && (

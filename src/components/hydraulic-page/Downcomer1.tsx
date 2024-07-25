@@ -1,17 +1,46 @@
-import { Grid } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 
-const Downcomer1 = () => {
+const Downcomer1 = (props: any) => {
+  const { downFlowRateMain, setDownFlowRateMain, validateInput, error101 } =
+    props;
   return (
     <>
       <Grid
         container
-        gap={6}
+        display={"flex"}
+        flexDirection={"column"}
+        item
+        xs={3}
         sx={{
-          marginLeft: "10px",
+          ml: 4,
+          width: "75%",
         }}
       >
-        <div>Docomer 1 input page</div>
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="div"
+          sx={{ fontWeight: "medium", mb: 3 }}
+        >
+          Downcomer Data Input:
+        </Typography>
+        <TextField
+          id="liquid-flow-rate"
+          label="Total Flow Rate (Kg/hr)"
+          variant="outlined"
+          value={downFlowRateMain}
+          color="secondary"
+          error={error101}
+          helperText={error101 ? "Please input correct number" : ""}
+          onChange={(e) => setDownFlowRateMain(e.target.value)}
+          onBlur={(e) => validateInput("101", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
       </Grid>
     </>
   );
