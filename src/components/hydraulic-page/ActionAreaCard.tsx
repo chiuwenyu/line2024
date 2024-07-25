@@ -8,10 +8,17 @@ import { indigo } from "@mui/material/colors";
 const pcolor = indigo[500];
 
 const ActionAreaCard = (props: any) => {
-  const { cardimage, title, subtitle, description, goNextStepbySelectCircuit } =
-    props;
+  const {
+    id,
+    cardimage,
+    title,
+    subtitle,
+    description,
+    caseNo,
+    goNextStepbySelectCircuit,
+  } = props;
   return (
-    <Card sx={{ height: "420", width: 250 }}>
+    <Card elevation={caseNo === id ? 10 : 1} sx={{ height: "420", width: 250 }}>
       <CardActionArea onClick={goNextStepbySelectCircuit}>
         <CardMedia
           component="img"

@@ -68,7 +68,11 @@ const Thermo = () => {
             width={275}
             sx={{ borderColor: "grey.400", boxShadow: 3, padding: 2, mt: 3 }}
           >
-            <Typography sx={{ mb: 3 }}>WORKING PROCEDURE :</Typography>
+            <Typography variant="h6" color="primary.main" sx={{ ml: 2, mb: 1 }}>
+              {caseNo !== 0
+                ? `Select Case ${caseNo}`
+                : "Follow the steps below"}
+            </Typography>
             <StyledEngineProvider injectFirst>
               <VerticalLinearStepper
                 activeStep={activeStep}
@@ -81,6 +85,7 @@ const Thermo = () => {
           {activeStep === 0 && (
             <SelCircuitPage
               goNextStepbySelectCircuit={goNextStepbySelectCircuit}
+              caseNo={caseNo}
               setCaseNo={setCaseNo}
             />
           )}

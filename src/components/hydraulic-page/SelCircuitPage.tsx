@@ -10,42 +10,42 @@ import imageF from "../../assets/ThermoSyphon-Case F.svg";
 
 const cards = [
   {
-    id: 1,
+    id: "A",
     cardimage: imageA,
     title: "Case A",
     subtitle: "Horizontal 'J' type reboiler, Preference Ciucuit",
     description: `Downcomer is drawn off from the trapout boot and returned to the bottom of the trapout boot. The bottom product is discharged from the bottom of the distillation tower.`,
   },
   {
-    id: 2,
+    id: "B",
     cardimage: imageB,
     title: "Case B",
     subtitle: "Horizontal 'J' type reboiler, Circulating Ciucuit",
     description: `Downcomer is drawn off from the column bottom,  the bottom product is discharged from the bottom of the distillation tower.`,
   },
   {
-    id: 3,
+    id: "C",
     cardimage: imageC,
     title: "Case C",
     subtitle: "Horizontal 'J' type reboiler, One-Through Ciucuit",
     description: `Downcomer is drawn off from the overflow baffle at the bottom of the column, and the bottom product is also discharged from the other side of the baffle at the bottom.`,
   },
   {
-    id: 4,
+    id: "D",
     cardimage: imageD,
     title: "Case D",
     subtitle: "Kettle type reboiler, Circulating Ciucuit",
     description: `The downcomer draws off from the column bottom, fully vapor instead of a two-phase line for the kettle reboiler.`,
   },
   {
-    id: 5,
+    id: "E",
     cardimage: imageE,
     title: "Case E",
     subtitle: "Vertical 'E' type reboiler, Circulating Ciucuit",
     description: `Downcomer is drawn off from the column bottom,  the bottom product is discharged from the bottom of the distillation tower.`,
   },
   {
-    id: 6,
+    id: "F",
     cardimage: imageF,
     title: "Case F",
     subtitle: "Vertical 'E' type reboiler, Preference Ciucuit",
@@ -54,7 +54,7 @@ const cards = [
 ];
 
 const SelCircuitPage = (props: any) => {
-  const { goNextStepbySelectCircuit, setCaseNo } = props;
+  const { goNextStepbySelectCircuit, caseNo, setCaseNo } = props;
 
   return (
     <>
@@ -62,17 +62,17 @@ const SelCircuitPage = (props: any) => {
         container
         gap={6}
         sx={{
-          bgcolor: "grey.100",
           marginLeft: "10px",
         }}
       >
         {cards.map((card) => (
           <ActionAreaCard
-            key={card.id}
+            id={card.id}
             cardimage={card.cardimage}
             title={card.title}
             subtitle={card.subtitle}
             description={card.description}
+            caseNo={caseNo}
             goNextStepbySelectCircuit={() => {
               goNextStepbySelectCircuit();
               setCaseNo(card.id);
