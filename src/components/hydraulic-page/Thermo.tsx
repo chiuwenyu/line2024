@@ -20,6 +20,8 @@ const Thermo = () => {
   const [downVisc, setDownVisc] = useState(""); // Downcimer fluid viscosity [cP]
   const [downIDMain, setDownIDMain] = useState(""); // Downcomer main pipe diameter [in]
   const [downRough, setDownRough] = useState(""); // Downcomer main pipe absolute roughness [mm]
+  const [downELMain, setDownELMain] = useState(""); // Downcomer main pipe equivalent length excl. H [m]
+  const [downSF, setDownSF] = useState(""); // Downcomer main pipe safety factor, [-]
 
   // Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -27,6 +29,8 @@ const Thermo = () => {
   const [error103, setError103] = useState(false); // error number for downcomer fluid viscosity
   const [error104, setError104] = useState(false); // error number for downcomer main pipe diameter
   const [error105, setError105] = useState(false); // error number for downcomer main pipe absolute roughness
+  const [error106, setError106] = useState(false); // error number for downcomer main pipe equivalent length
+  const [error107, setError107] = useState(false); // error number for downcomer main pipe safety factor
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -48,6 +52,12 @@ const Thermo = () => {
     id === "105" && !isPositiveFloat.test(value) && value !== ""
       ? setError105(true)
       : setError105(false);
+    id === "106" && !isPositiveFloat.test(value) && value !== ""
+      ? setError106(true)
+      : setError106(false);
+    id === "107" && !isPositiveFloat.test(value) && value !== ""
+      ? setError107(true)
+      : setError107(false);
 
     setCalState(false);
   };
@@ -143,12 +153,18 @@ const Thermo = () => {
                 setDownIDMain={setDownIDMain}
                 downRough={downRough}
                 setDownRough={setDownRough}
+                downELMain={downELMain}
+                setDownELMain={setDownELMain}
+                downSF={downSF}
+                setDownSF={setDownSF}
                 validateInput={validateInput}
                 error101={error101}
                 error102={error102}
                 error103={error103}
                 error104={error104}
                 error105={error105}
+                error106={error106}
+                error107={error107}
               />
             )}
           {activeStep === 1 &&

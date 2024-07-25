@@ -13,12 +13,18 @@ const Downcomer1 = (props: any) => {
     setDownIDMain,
     downRough,
     setDownRough,
+    downELMain,
+    setDownELMain,
+    downSF,
+    setDownSF,
     validateInput,
     error101,
     error102,
     error103,
     error104,
     error105,
+    error106,
+    error107,
   } = props;
   return (
     <>
@@ -125,6 +131,38 @@ const Downcomer1 = (props: any) => {
           helperText={error105 ? "Please input correct number" : ""}
           onChange={(e) => setDownRough(e.target.value)}
           onBlur={(e) => validateInput("105", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="down-main-EL"
+          label="Pipe Equivalent Length (m) excl. H"
+          variant="outlined"
+          value={downELMain}
+          color="secondary"
+          error={error106}
+          helperText={error106 ? "Please input correct number" : ""}
+          onChange={(e) => setDownELMain(e.target.value)}
+          onBlur={(e) => validateInput("106", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="down-main-SF"
+          label="Safety Factor for pres. drop"
+          variant="outlined"
+          value={downSF}
+          color="secondary"
+          error={error107}
+          helperText={error107 ? "Please input correct number" : ""}
+          onChange={(e) => setDownSF(e.target.value)}
+          onBlur={(e) => validateInput("107", e.target.value)}
           InputLabelProps={{
             sx: {
               color: "blue", // 預設顏色
