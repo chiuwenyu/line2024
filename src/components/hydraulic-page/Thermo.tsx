@@ -5,11 +5,13 @@ import { useState } from "react";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import { StyledEngineProvider } from "@mui/material/styles";
 import SelCircuitPage from "./SelCircuitPage";
+import Downcomer1 from "./Downcomer1";
+import Downcomer3 from "./Downcomer3";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
   const [activeStep, setActiveStep] = useState(0); // track stepper progress step, 0 = step 1, 4 = step 5
-  const [caseNo, setCaseNo] = useState(0); // track selected thermosyphon circuit case number; 0 = case A, 5 = case F
+  const [caseNo, setCaseNo] = useState(""); // track selected thermosyphon circuit case number; A~F
 
   const onNewButtonClick = () => {
     console.log("New button clicked");
@@ -69,7 +71,7 @@ const Thermo = () => {
             sx={{ borderColor: "grey.400", boxShadow: 3, padding: 2, mt: 3 }}
           >
             <Typography variant="h6" color="primary.main" sx={{ ml: 2, mb: 1 }}>
-              {caseNo !== 0
+              {caseNo !== ""
                 ? `Select Case ${caseNo}`
                 : "Follow the steps below"}
             </Typography>
@@ -89,6 +91,14 @@ const Thermo = () => {
               setCaseNo={setCaseNo}
             />
           )}
+          {activeStep === 1 &&
+            (caseNo === "D" || caseNo === "E" || caseNo === "F") && (
+              <Downcomer1 />
+            )}
+          {activeStep === 1 &&
+            (caseNo === "A" || caseNo === "B" || caseNo === "C") && (
+              <Downcomer3 />
+            )}
         </Grid>
       </Stack>
     </>
