@@ -7,6 +7,7 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import SelCircuitPage from "./SelCircuitPage";
 import Downcomer1 from "./Downcomer1";
 import Downcomer3 from "./Downcomer3";
+import Riser1 from "./Riser1";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -32,7 +33,13 @@ const Thermo = () => {
   const [downELMF, setDownELMF] = useState(""); // Downcomer manifold pipe equivalent length [m]
   const [downELLead, setDownELLead] = useState(""); // Downcomer lead pipe equivalent length [m]
 
-  // Error handling
+  // Riser1 data
+  const [riserWGMain, setRiserWGMain] = useState(""); // Riser main pipe vapor flow rate [Kg/hr]
+  const [riserWLMain, setRiserWLMain] = useState(""); // Riser main pipe liquid flow rate [Kg/hr]
+  const [riserVapDensity, setRiserVapDensity] = useState(""); // Riser vapor density [Kg/m^3]
+  const [riserLiqDensity, setRiserLiqDensity] = useState(""); // Riser liquid density [Kg/m^3]
+
+  // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
   const [error103, setError103] = useState(false); // error number for downcomer fluid viscosity
@@ -48,11 +55,17 @@ const Thermo = () => {
   const [error113, setError113] = useState(false); // error number for downcomer manifold pipe equivalent length
   const [error114, setError114] = useState(false); // error number for downcomer lead pipe equivalent length
 
+  // 200 Error handling
+  const [error201, setError201] = useState(false); // error number for riser main pipe vapor flow rate
+  const [error202, setError202] = useState(false); // error number for riser main pipe liquid flow rate
+  const [error203, setError203] = useState(false); // error number for riser vapor density
+  const [error204, setError204] = useState(false); // error number for riser liquid density
+
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
 
-    // 101~ 108 is process data input validation
+    // 100 is downcomer data input validation
     id === "101" && !isPositiveFloat.test(value) && value !== ""
       ? setError101(true)
       : setError101(false);
@@ -95,6 +108,20 @@ const Thermo = () => {
     id === "114" && !isPositiveFloat.test(value) && value !== ""
       ? setError114(true)
       : setError114(false);
+
+    // 200 is riser data input validation
+    id === "201" && !isPositiveFloat.test(value) && value !== ""
+      ? setError201(true)
+      : setError201(false);
+    id === "202" && !isPositiveFloat.test(value) && value !== ""
+      ? setError202(true)
+      : setError202(false);
+    id === "203" && !isPositiveFloat.test(value) && value !== ""
+      ? setError203(true)
+      : setError203(false);
+    id === "204" && !isPositiveFloat.test(value) && value !== ""
+      ? setError204(true)
+      : setError204(false);
 
     setCalState(false);
   };
@@ -253,6 +280,24 @@ const Thermo = () => {
                 error112={error112}
                 error113={error113}
                 error114={error114}
+              />
+            )}
+          {activeStep === 2 &&
+            (caseNo === "E" || caseNo === "F" || caseNo === "G") && (
+              <Riser1
+                riserWGMain={riserWGMain}
+                setRiserWGMain={setRiserWGMain}
+                riserWLMain={riserWLMain}
+                setRiserWLMain={setRiserWLMain}
+                riserVapDensity={riserVapDensity}
+                setRiserVapDensity={setRiserVapDensity}
+                riserLiqDensity={riserLiqDensity}
+                setRiserLiqDensity={setRiserLiqDensity}
+                validateInput={validateInput}
+                error201={error201}
+                error202={error202}
+                error203={error203}
+                error204={error204}
               />
             )}
         </Grid>
