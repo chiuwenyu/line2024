@@ -7,6 +7,7 @@ import imageC from "../../assets/ThermoSyphon-Case C.svg";
 import imageD from "../../assets/ThermoSyphon-Case D.svg";
 import imageE from "../../assets/ThermoSyphon-Case E.svg";
 import imageF from "../../assets/ThermoSyphon-Case F.svg";
+import imageG from "../../assets/ThermoSyphon-Case G.svg";
 
 const cards = [
   {
@@ -50,6 +51,13 @@ const cards = [
     title: "Case F",
     subtitle: "Vertical 'E' type reboiler, Preference Ciucuit",
     description: `Downcomer is drawn off from the trapout boot and returned to the bottom of the trapout boot. The bottom product is discharged from the bottom of the distillation tower.`,
+  },
+  {
+    id: "G",
+    cardimage: imageG,
+    title: "Case G",
+    subtitle: "Vertical 'E' type reboiler, One-Through Ciucuit",
+    description: `Downcomer is drawn off from the overflow baffle at the bottom of the column, and the bottom product is also discharged from the other side of the baffle at the bottom.`,
   },
 ];
 

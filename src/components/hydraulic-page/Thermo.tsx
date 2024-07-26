@@ -178,7 +178,10 @@ const Thermo = () => {
             />
           )}
           {activeStep === 1 &&
-            (caseNo === "D" || caseNo === "E" || caseNo === "F") && (
+            (caseNo === "D" ||
+              caseNo === "E" ||
+              caseNo === "F" ||
+              caseNo === "G") && (
               <Downcomer1
                 downFlowRateMain={downFlowRateMain}
                 setDownFlowRateMain={setDownFlowRateMain}
