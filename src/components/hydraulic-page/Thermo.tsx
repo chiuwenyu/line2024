@@ -23,6 +23,15 @@ const Thermo = () => {
   const [downELMain, setDownELMain] = useState(""); // Downcomer main pipe equivalent length excl. H [m]
   const [downSF, setDownSF] = useState(""); // Downcomer main pipe safety factor, [-]
 
+  // Downcomer3 data
+  const [downHD, setDownHD] = useState(""); // HD (Height from mainfold to reboiler) [m]
+  const [downFlowRateMF, setDownFlowRateMF] = useState(""); // Downcomer total flow Rate for manifold [Kg/hr]
+  const [downFlowRateLead, setDownFlowRateLead] = useState(""); // Downcomer total flow Rate for lead [Kg/hr]
+  const [downIDMF, setDownIDMF] = useState(""); // Downcomer manifold pipe diameter [in]
+  const [downIDLead, setDownIDLead] = useState(""); // Downcomer lead pipe diameter [in]
+  const [downELMF, setDownELMF] = useState(""); // Downcomer manifold pipe equivalent length [m]
+  const [downELLead, setDownELLead] = useState(""); // Downcomer lead pipe equivalent length [m]
+
   // Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
@@ -31,6 +40,13 @@ const Thermo = () => {
   const [error105, setError105] = useState(false); // error number for downcomer main pipe absolute roughness
   const [error106, setError106] = useState(false); // error number for downcomer main pipe equivalent length
   const [error107, setError107] = useState(false); // error number for downcomer main pipe safety factor
+  const [error108, setError108] = useState(false); // error number for downcomer HD height from mainfold to reboiler
+  const [error109, setError109] = useState(false); // error number for downcomer total flow rate for manifold
+  const [error110, setError110] = useState(false); // error number for downcomer total flow rate for lead
+  const [error111, setError111] = useState(false); // error number for downcomer manifold pipe diameter
+  const [error112, setError112] = useState(false); // error number for downcomer lead pipe diameter
+  const [error113, setError113] = useState(false); // error number for downcomer manifold pipe equivalent length
+  const [error114, setError114] = useState(false); // error number for downcomer lead pipe equivalent length
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -58,6 +74,27 @@ const Thermo = () => {
     id === "107" && !isPositiveFloat.test(value) && value !== ""
       ? setError107(true)
       : setError107(false);
+    id === "108" && !isPositiveFloat.test(value) && value !== ""
+      ? setError108(true)
+      : setError108(false);
+    id === "109" && !isPositiveFloat.test(value) && value !== ""
+      ? setError109(true)
+      : setError109(false);
+    id === "110" && !isPositiveFloat.test(value) && value !== ""
+      ? setError110(true)
+      : setError110(false);
+    id === "111" && !isPositiveFloat.test(value) && value !== ""
+      ? setError111(true)
+      : setError111(false);
+    id === "112" && !isPositiveFloat.test(value) && value !== ""
+      ? setError112(true)
+      : setError112(false);
+    id === "113" && !isPositiveFloat.test(value) && value !== ""
+      ? setError113(true)
+      : setError113(false);
+    id === "114" && !isPositiveFloat.test(value) && value !== ""
+      ? setError114(true)
+      : setError114(false);
 
     setCalState(false);
   };
@@ -169,7 +206,51 @@ const Thermo = () => {
             )}
           {activeStep === 1 &&
             (caseNo === "A" || caseNo === "B" || caseNo === "C") && (
-              <Downcomer3 />
+              <Downcomer3
+                downFlowRateMain={downFlowRateMain}
+                setDownFlowRateMain={setDownFlowRateMain}
+                downDensity={downDensity}
+                setDownDensity={setDownDensity}
+                downVisc={downVisc}
+                setDownVisc={setDownVisc}
+                downIDMain={downIDMain}
+                setDownIDMain={setDownIDMain}
+                downRough={downRough}
+                setDownRough={setDownRough}
+                downELMain={downELMain}
+                setDownELMain={setDownELMain}
+                downSF={downSF}
+                setDownSF={setDownSF}
+                downHD={downHD}
+                setDownHD={setDownHD}
+                downFlowRateMF={downFlowRateMF}
+                setDownFlowRateMF={setDownFlowRateMF}
+                downFlowRateLead={downFlowRateLead}
+                setDownFlowRateLead={setDownFlowRateLead}
+                downIDMF={downIDMF}
+                setDownIDMF={setDownIDMF}
+                downIDLead={downIDLead}
+                setDownIDLead={setDownIDLead}
+                downELMF={downELMF}
+                setDownELMF={setDownELMF}
+                downELLead={downELLead}
+                setDownELLead={setDownELLead}
+                validateInput={validateInput}
+                error101={error101}
+                error102={error102}
+                error103={error103}
+                error104={error104}
+                error105={error105}
+                error106={error106}
+                error107={error107}
+                error108={error108}
+                error109={error109}
+                error110={error110}
+                error111={error111}
+                error112={error112}
+                error113={error113}
+                error114={error114}
+              />
             )}
         </Grid>
       </Stack>

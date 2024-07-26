@@ -27,6 +27,14 @@ const Downcomer1 = (props: any) => {
   } = props;
   return (
     <>
+      <Typography
+        gutterBottom
+        variant="h6"
+        component="div"
+        sx={{ fontWeight: "medium", ml: 4 }}
+      >
+        Downcomer Data:
+      </Typography>
       <Grid
         container
         display={"flex"}
@@ -39,14 +47,6 @@ const Downcomer1 = (props: any) => {
           width: "75%",
         }}
       >
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="div"
-          sx={{ fontWeight: "medium" }}
-        >
-          Downcomer Data:
-        </Typography>
         <Typography
           gutterBottom
           variant="h6"
