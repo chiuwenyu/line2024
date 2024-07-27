@@ -8,6 +8,7 @@ import SelCircuitPage from "./SelCircuitPage";
 import Downcomer1 from "./Downcomer1";
 import Downcomer3 from "./Downcomer3";
 import Riser1 from "./Riser1";
+import RiserK from "./RiserK";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -234,36 +235,7 @@ const Thermo = () => {
               setCaseNo={setCaseNo}
             />
           )}
-          {activeStep === 1 &&
-            (caseNo === "D" ||
-              caseNo === "E" ||
-              caseNo === "F" ||
-              caseNo === "G") && (
-              <Downcomer1
-                downFlowRateMain={downFlowRateMain}
-                setDownFlowRateMain={setDownFlowRateMain}
-                downDensity={downDensity}
-                setDownDensity={setDownDensity}
-                downVisc={downVisc}
-                setDownVisc={setDownVisc}
-                downIDMain={downIDMain}
-                setDownIDMain={setDownIDMain}
-                downRough={downRough}
-                setDownRough={setDownRough}
-                downELMain={downELMain}
-                setDownELMain={setDownELMain}
-                downSF={downSF}
-                setDownSF={setDownSF}
-                validateInput={validateInput}
-                error101={error101}
-                error102={error102}
-                error103={error103}
-                error104={error104}
-                error105={error105}
-                error106={error106}
-                error107={error107}
-              />
-            )}
+          {/* Step 1 */}
           {activeStep === 1 &&
             (caseNo === "A" || caseNo === "B" || caseNo === "C") && (
               <Downcomer3
@@ -312,6 +284,64 @@ const Thermo = () => {
                 error114={error114}
               />
             )}
+          {activeStep === 1 &&
+            (caseNo === "D" ||
+              caseNo === "E" ||
+              caseNo === "F" ||
+              caseNo === "G") && (
+              <Downcomer1
+                downFlowRateMain={downFlowRateMain}
+                setDownFlowRateMain={setDownFlowRateMain}
+                downDensity={downDensity}
+                setDownDensity={setDownDensity}
+                downVisc={downVisc}
+                setDownVisc={setDownVisc}
+                downIDMain={downIDMain}
+                setDownIDMain={setDownIDMain}
+                downRough={downRough}
+                setDownRough={setDownRough}
+                downELMain={downELMain}
+                setDownELMain={setDownELMain}
+                downSF={downSF}
+                setDownSF={setDownSF}
+                validateInput={validateInput}
+                error101={error101}
+                error102={error102}
+                error103={error103}
+                error104={error104}
+                error105={error105}
+                error106={error106}
+                error107={error107}
+              />
+            )}
+
+          {/* Step 2 */}
+          {activeStep === 2 && caseNo === "D" && (
+            <RiserK
+              riserWGMain={riserWGMain}
+              setRiserWGMain={setRiserWGMain}
+              riserVapDensity={riserVapDensity}
+              setRiserVapDensity={setRiserVapDensity}
+              riserVapVisc={riserVapVisc}
+              setRiserVapVisc={setRiserVapVisc}
+              riserIDMain={riserIDMain}
+              setRiserIDMain={setRiserIDMain}
+              riserRough={riserRough}
+              setRiserRough={setRiserRough}
+              riserELMain={riserELMain}
+              setRiserELMain={setRiserELMain}
+              riserSF={riserSF}
+              setRiserSF={setRiserSF}
+              validateInput={validateInput}
+              error201={error201}
+              error203={error203}
+              error205={error205}
+              error207={error207}
+              error208={error208}
+              error209={error209}
+              error210={error210}
+            />
+          )}
           {activeStep === 2 &&
             (caseNo === "E" || caseNo === "F" || caseNo === "G") && (
               <Riser1
