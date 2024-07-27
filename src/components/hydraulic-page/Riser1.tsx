@@ -10,11 +10,17 @@ const Riser1 = (props: any) => {
     setRiserVapDensity,
     riserLiqDensity,
     setRiserLiqDensity,
+    riserVapVisc,
+    setRiserVapVisc,
+    riserLiqVisc,
+    setRiserLiqVisc,
     validateInput,
     error201,
     error202,
     error203,
     error204,
+    error205,
+    error206,
   } = props;
 
   return (
@@ -106,6 +112,38 @@ const Riser1 = (props: any) => {
           helperText={error204 ? "Please input correct number" : ""}
           onChange={(e) => setRiserLiqDensity(e.target.value)}
           onBlur={(e) => validateInput("204", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="riser-vapor-viscosity"
+          label="Vapor Viscosity (cP)"
+          variant="outlined"
+          value={riserVapVisc}
+          color="secondary"
+          error={error205}
+          helperText={error205 ? "Please input correct number" : ""}
+          onChange={(e) => setRiserVapVisc(e.target.value)}
+          onBlur={(e) => validateInput("205", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="riser-liquid-viscosity"
+          label="Liquid Viscosity (cP)"
+          variant="outlined"
+          value={riserLiqVisc}
+          color="secondary"
+          error={error206}
+          helperText={error206 ? "Please input correct number" : ""}
+          onChange={(e) => setRiserLiqVisc(e.target.value)}
+          onBlur={(e) => validateInput("206", e.target.value)}
           InputLabelProps={{
             sx: {
               color: "blue", // 預設顏色

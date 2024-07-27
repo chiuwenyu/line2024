@@ -38,6 +38,8 @@ const Thermo = () => {
   const [riserWLMain, setRiserWLMain] = useState(""); // Riser main pipe liquid flow rate [Kg/hr]
   const [riserVapDensity, setRiserVapDensity] = useState(""); // Riser vapor density [Kg/m^3]
   const [riserLiqDensity, setRiserLiqDensity] = useState(""); // Riser liquid density [Kg/m^3]
+  const [riserVapVisc, setRiserVapVisc] = useState(""); // Riser vapor viscosity [cP]
+  const [riserLiqVisc, setRiserLiqVisc] = useState(""); // Riser liquid viscosity [cP]
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -60,6 +62,8 @@ const Thermo = () => {
   const [error202, setError202] = useState(false); // error number for riser main pipe liquid flow rate
   const [error203, setError203] = useState(false); // error number for riser vapor density
   const [error204, setError204] = useState(false); // error number for riser liquid density
+  const [error205, setError205] = useState(false); // error number for riser vapor viscosity
+  const [error206, setError206] = useState(false); // error number for riser liquid viscosity
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -122,6 +126,12 @@ const Thermo = () => {
     id === "204" && !isPositiveFloat.test(value) && value !== ""
       ? setError204(true)
       : setError204(false);
+    id === "205" && !isPositiveFloat.test(value) && value !== ""
+      ? setError205(true)
+      : setError205(false);
+    id === "206" && !isPositiveFloat.test(value) && value !== ""
+      ? setError206(true)
+      : setError206(false);
 
     setCalState(false);
   };
@@ -293,11 +303,17 @@ const Thermo = () => {
                 setRiserVapDensity={setRiserVapDensity}
                 riserLiqDensity={riserLiqDensity}
                 setRiserLiqDensity={setRiserLiqDensity}
+                riserVapVisc={riserVapVisc}
+                setRiserVapVisc={setRiserVapVisc}
+                riserLiqVisc={riserLiqVisc}
+                setRiserLiqVisc={setRiserLiqVisc}
                 validateInput={validateInput}
                 error201={error201}
                 error202={error202}
                 error203={error203}
                 error204={error204}
+                error205={error205}
+                error206={error206}
               />
             )}
         </Grid>
