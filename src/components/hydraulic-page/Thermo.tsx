@@ -62,6 +62,9 @@ const Thermo = () => {
   // Configure J data
   const [jDownOutNozzleSize, setJDownOutNozzleSize] = useState(""); // Tower downcomer outlet nozzle size [in]
   const [jRiserInNozzleSize, setJRiserInNozzleSize] = useState(""); // Tower riser inlet nozzle size [in]
+  const [jReboInNozzleSize, setJReboInNozzleSize] = useState(""); // Reboiler inlet nozzle size [in]
+  const [jReboOutNozzleSize, setJReboOutNozzleSize] = useState(""); // Reboiler outlet nozzle size [in]
+  const [jReboDP, setJReboDP] = useState(""); // Reboiler Pressure Loss (Excl. Nozzle Loss) [Kg/cm^2]
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -103,6 +106,9 @@ const Thermo = () => {
   // 300 Error handling
   const [error301, setError301] = useState(false); // error number for tower downcomer outlet nozzle size
   const [error302, setError302] = useState(false); // error number for tower riser inlet nozzle size
+  const [error303, setError303] = useState(false); // error number for reboiler inlet nozzle size
+  const [error304, setError304] = useState(false); // error number for reboiler outlet nozzle size
+  const [error305, setError305] = useState(false); // error number for reboiler pressure loss
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -218,6 +224,15 @@ const Thermo = () => {
     id === "302" && !isPositiveFloat.test(value) && value !== ""
       ? setError302(true)
       : setError302(false);
+    id === "303" && !isPositiveFloat.test(value) && value !== ""
+      ? setError303(true)
+      : setError303(false);
+    id === "304" && !isPositiveFloat.test(value) && value !== ""
+      ? setError304(true)
+      : setError304(false);
+    id === "305" && !isPositiveFloat.test(value) && value !== ""
+      ? setError305(true)
+      : setError305(false);
 
     setCalState(false);
   };
@@ -516,9 +531,18 @@ const Thermo = () => {
                 setJDownOutNozzleSize={setJDownOutNozzleSize}
                 jRiserInNozzleSize={jRiserInNozzleSize}
                 setJRiserInNozzleSize={setJRiserInNozzleSize}
+                jReboInNozzleSize={jReboInNozzleSize}
+                setJReboInNozzleSize={setJReboInNozzleSize}
+                jReboOutNozzleSize={jReboOutNozzleSize}
+                setJReboOutNozzleSize={setJReboOutNozzleSize}
+                jReboDP={jReboDP}
+                setJReboDP={setJReboDP}
                 validateInput={validateInput}
                 error301={error301}
                 error302={error302}
+                error303={error303}
+                error304={error304}
+                error305={error305}
               />
             )}
         </Grid>

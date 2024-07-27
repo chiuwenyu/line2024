@@ -10,9 +10,18 @@ const ConfigJ = (props: any) => {
     setJDownOutNozzleSize,
     jRiserInNozzleSize,
     setJRiserInNozzleSize,
+    jReboInNozzleSize,
+    setJReboInNozzleSize,
+    jReboOutNozzleSize,
+    setJReboOutNozzleSize,
+    jReboDP,
+    setJReboDP,
     validateInput,
     error301,
     error302,
+    error303,
+    error304,
+    error305,
   } = props;
 
   return (
@@ -36,7 +45,7 @@ const ConfigJ = (props: any) => {
           display={"flex"}
           flexDirection={"column"}
           item
-          xs={3}
+          xs={4}
           gap={2}
           sx={{
             ml: 4,
@@ -75,6 +84,54 @@ const ConfigJ = (props: any) => {
               },
             }}
           />
+          <TextField
+            id="reboiler-inlet-nozzle-size"
+            label="Reboiler Inlet Nozzle Size (in)"
+            variant="outlined"
+            value={jReboInNozzleSize}
+            color="secondary"
+            error={error303}
+            helperText={error303 ? "Please input correct number" : ""}
+            onChange={(e) => setJReboInNozzleSize(e.target.value)}
+            onBlur={(e) => validateInput("303", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
+              },
+            }}
+          />
+          <TextField
+            id="reboiler-outlet-nozzle-size"
+            label="Reboiler Outlet Nozzle Size (in)"
+            variant="outlined"
+            value={jReboOutNozzleSize}
+            color="secondary"
+            error={error304}
+            helperText={error304 ? "Please input correct number" : ""}
+            onChange={(e) => setJReboOutNozzleSize(e.target.value)}
+            onBlur={(e) => validateInput("304", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
+              },
+            }}
+          />
+          <TextField
+            id="reboiler-pressure-loss"
+            label="Reboiler Press. Loss (Excl. Nozzle Loss) (Kg/cm^2)"
+            variant="outlined"
+            value={jReboDP}
+            color="secondary"
+            error={error305}
+            helperText={error305 ? "Please input correct number" : ""}
+            onChange={(e) => setJReboDP(e.target.value)}
+            onBlur={(e) => validateInput("305", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
+              },
+            }}
+          />
         </Grid>
         <Grid // This Grid is Manifold pipe column
           container
@@ -82,7 +139,7 @@ const ConfigJ = (props: any) => {
           xs={4}
           gap={2}
           sx={{
-            ml: 20,
+            ml: 15,
             width: "100%",
           }}
         >
