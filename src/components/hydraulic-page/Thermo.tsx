@@ -61,6 +61,7 @@ const Thermo = () => {
 
   // Configure J data
   const [jDownOutNozzleSize, setJDownOutNozzleSize] = useState(""); // Tower downcomer outlet nozzle size [in]
+  const [jRiserInNozzleSize, setJRiserInNozzleSize] = useState(""); // Tower riser inlet nozzle size [in]
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -101,6 +102,7 @@ const Thermo = () => {
 
   // 300 Error handling
   const [error301, setError301] = useState(false); // error number for tower downcomer outlet nozzle size
+  const [error302, setError302] = useState(false); // error number for tower riser inlet nozzle size
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -213,6 +215,9 @@ const Thermo = () => {
     id === "301" && !isPositiveFloat.test(value) && value !== ""
       ? setError301(true)
       : setError301(false);
+    id === "302" && !isPositiveFloat.test(value) && value !== ""
+      ? setError302(true)
+      : setError302(false);
 
     setCalState(false);
   };
@@ -509,8 +514,11 @@ const Thermo = () => {
                 caseNo={caseNo}
                 jDownOutNozzleSize={jDownOutNozzleSize}
                 setJDownOutNozzleSize={setJDownOutNozzleSize}
+                jRiserInNozzleSize={jRiserInNozzleSize}
+                setJRiserInNozzleSize={setJRiserInNozzleSize}
                 validateInput={validateInput}
                 error301={error301}
+                error302={error302}
               />
             )}
         </Grid>

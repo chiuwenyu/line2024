@@ -8,8 +8,11 @@ const ConfigJ = (props: any) => {
     caseNo,
     jDownOutNozzleSize,
     setJDownOutNozzleSize,
+    jRiserInNozzleSize,
+    setJRiserInNozzleSize,
     validateInput,
     error301,
+    error302,
   } = props;
 
   return (
@@ -41,7 +44,7 @@ const ConfigJ = (props: any) => {
           }}
         >
           <TextField
-            id="tower-downcomer-nozzle-size"
+            id="tower-downcomer-outlet-nozzle-size"
             label="Tower Downcomer Outlet Nozzle Size (in)"
             variant="outlined"
             value={jDownOutNozzleSize}
@@ -50,6 +53,22 @@ const ConfigJ = (props: any) => {
             helperText={error301 ? "Please input correct number" : ""}
             onChange={(e) => setJDownOutNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("301", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
+              },
+            }}
+          />
+          <TextField
+            id="tower-riser-inlet-nozzle-size"
+            label="Tower Riser Inlet Nozzle Size (in)"
+            variant="outlined"
+            value={jRiserInNozzleSize}
+            color="secondary"
+            error={error302}
+            helperText={error302 ? "Please input correct number" : ""}
+            onChange={(e) => setJRiserInNozzleSize(e.target.value)}
+            onBlur={(e) => validateInput("302", e.target.value)}
             InputLabelProps={{
               sx: {
                 color: "blue", // 預設顏色
