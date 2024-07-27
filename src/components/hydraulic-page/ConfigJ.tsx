@@ -1,5 +1,7 @@
 import { Card, CardMedia, Grid, TextField, Typography } from "@mui/material";
 import picA from "../../assets/ThermoSyphone-Case A.png";
+import picB from "../../assets/ThermoSyphone-Case B.png";
+import picC from "../../assets/ThermoSyphone-Case C.png";
 
 const ConfigJ = (props: any) => {
   const {
@@ -68,6 +70,16 @@ const ConfigJ = (props: any) => {
           {caseNo === "A" && (
             <Card sx={{ p: 4 }}>
               <CardMedia component="img" image={picA} alt="Case A" />
+            </Card>
+          )}
+          {caseNo === "B" && (
+            <Card sx={{ p: 4 }}>
+              <CardMedia component="img" image={picB} alt="Case B" />
+            </Card>
+          )}
+          {caseNo === "C" && (
+            <Card sx={{ p: 4 }}>
+              <CardMedia component="img" image={picC} alt="Case C" />
             </Card>
           )}
         </Grid>
