@@ -9,6 +9,7 @@ import Downcomer1 from "./Downcomer1";
 import Downcomer3 from "./Downcomer3";
 import Riser1 from "./Riser1";
 import RiserK from "./RiserK";
+import Riser3 from "./Riser3";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -46,6 +47,17 @@ const Thermo = () => {
   const [riserELMain, setRiserELMain] = useState(""); // Riser main pipe equivalent length [m]
   const [riserSF, setRiserSF] = useState(""); // Riser main pipe safety factor [-]
 
+  // Riser3 data
+  const [riserHR, setRiserHR] = useState(""); // Height from reboiler to manifold [m]
+  const [riserWGMF, setRiserWGMF] = useState(""); // Riser vapor flow rate for manifold [Kg/hr]
+  const [riserWGLead, setRiserWGLead] = useState(""); // Riser vapor flow rate for lead [Kg/hr]
+  const [riserWLMF, setRiserWLMF] = useState(""); // Riser liquid flow rate for manifold [Kg/hr]
+  const [riserWLLead, setRiserWLLead] = useState(""); // Riser liquid flow rate for lead [Kg/hr]
+  const [riserIDMF, setRiserIDMF] = useState(""); // Riser manifold pipe diameter [in]
+  const [riserIDLead, setRiserIDLead] = useState(""); // Riser lead pipe diameter [in]
+  const [riserELMF, setRiserELMF] = useState(""); // Riser manifold pipe equivalent length [m]
+  const [riserELLead, setRiserELLead] = useState(""); // Riser lead pipe equivalent length [m]
+
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
@@ -73,6 +85,15 @@ const Thermo = () => {
   const [error208, setError208] = useState(false); // error number for riser main pipe absolute roughness
   const [error209, setError209] = useState(false); // error number for riser main pipe equivalent length
   const [error210, setError210] = useState(false); // error number for riser main pipe safety factor
+  const [error211, setError211] = useState(false); // error number for riser height from reboiler to manifold
+  const [error212, setError212] = useState(false); // error number for riser vapor flow rate for manifold
+  const [error213, setError213] = useState(false); // error number for riser vapor flow rate for lead
+  const [error214, setError214] = useState(false); // error number for riser liquid flow rate for manifold
+  const [error215, setError215] = useState(false); // error number for riser liquid flow rate for lead
+  const [error216, setError216] = useState(false); // error number for riser manifold pipe diameter
+  const [error217, setError217] = useState(false); // error number for riser lead pipe diameter
+  const [error218, setError218] = useState(false); // error number for riser manifold pipe equivalent length
+  const [error219, setError219] = useState(false); // error number for riser lead pipe equivalent length
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -153,6 +174,33 @@ const Thermo = () => {
     id === "210" && !isPositiveFloat.test(value) && value !== ""
       ? setError210(true)
       : setError210(false);
+    id === "211" && !isPositiveFloat.test(value) && value !== ""
+      ? setError211(true)
+      : setError211(false);
+    id === "212" && !isPositiveFloat.test(value) && value !== ""
+      ? setError212(true)
+      : setError212(false);
+    id === "213" && !isPositiveFloat.test(value) && value !== ""
+      ? setError213(true)
+      : setError213(false);
+    id === "214" && !isPositiveFloat.test(value) && value !== ""
+      ? setError214(true)
+      : setError214(false);
+    id === "215" && !isPositiveFloat.test(value) && value !== ""
+      ? setError215(true)
+      : setError215(false);
+    id === "216" && !isPositiveFloat.test(value) && value !== ""
+      ? setError216(true)
+      : setError216(false);
+    id === "217" && !isPositiveFloat.test(value) && value !== ""
+      ? setError217(true)
+      : setError217(false);
+    id === "218" && !isPositiveFloat.test(value) && value !== ""
+      ? setError218(true)
+      : setError218(false);
+    id === "219" && !isPositiveFloat.test(value) && value !== ""
+      ? setError219(true)
+      : setError219(false);
 
     setCalState(false);
   };
@@ -316,6 +364,69 @@ const Thermo = () => {
             )}
 
           {/* Step 2 */}
+          {activeStep === 2 &&
+            (caseNo === "A" || caseNo === "B" || caseNo === "C") && (
+              <Riser3
+                riserWGMain={riserWGMain}
+                setRiserWGMain={setRiserWGMain}
+                riserWLMain={riserWLMain}
+                setRiserWLMain={setRiserWLMain}
+                riserVapDensity={riserVapDensity}
+                setRiserVapDensity={setRiserVapDensity}
+                riserLiqDensity={riserLiqDensity}
+                setRiserLiqDensity={setRiserLiqDensity}
+                riserVapVisc={riserVapVisc}
+                setRiserVapVisc={setRiserVapVisc}
+                riserLiqVisc={riserLiqVisc}
+                setRiserLiqVisc={setRiserLiqVisc}
+                riserIDMain={riserIDMain}
+                setRiserIDMain={setRiserIDMain}
+                riserRough={riserRough}
+                setRiserRough={setRiserRough}
+                riserELMain={riserELMain}
+                setRiserELMain={setRiserELMain}
+                riserSF={riserSF}
+                setRiserSF={setRiserSF}
+                riserHR={riserHR}
+                setRiserHR={setRiserHR}
+                riserWGMF={riserWGMF}
+                setRiserWGMF={setRiserWGMF}
+                riserWGLead={riserWGLead}
+                setRiserWGLead={setRiserWGLead}
+                riserWLMF={riserWLMF}
+                setRiserWLMF={setRiserWLMF}
+                riserWLLead={riserWLLead}
+                setRiserWLLead={setRiserWLLead}
+                riserIDMF={riserIDMF}
+                setRiserIDMF={setRiserIDMF}
+                riserIDLead={riserIDLead}
+                setRiserIDLead={setRiserIDLead}
+                riserELMF={riserELMF}
+                setRiserELMF={setRiserELMF}
+                riserELLead={riserELLead}
+                setRiserELLead={setRiserELLead}
+                validateInput={validateInput}
+                error201={error201}
+                error202={error202}
+                error203={error203}
+                error204={error204}
+                error205={error205}
+                error206={error206}
+                error207={error207}
+                error208={error208}
+                error209={error209}
+                error210={error210}
+                error211={error211}
+                error212={error212}
+                error213={error213}
+                error214={error214}
+                error215={error215}
+                error216={error216}
+                error217={error217}
+                error218={error218}
+                error219={error219}
+              />
+            )}
           {activeStep === 2 && caseNo === "D" && (
             <RiserK
               riserWGMain={riserWGMain}
