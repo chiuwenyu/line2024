@@ -106,7 +106,7 @@ const Downcomer1 = (props: any) => {
         />
         <TextField
           id="down-main-ID"
-          label="Pipe Diameter (in)"
+          label="Pipe Diameter (in) - Main"
           variant="outlined"
           value={downIDMain}
           color="secondary"
@@ -138,7 +138,7 @@ const Downcomer1 = (props: any) => {
         />
         <TextField
           id="down-main-EL"
-          label="Pipe Equivalent Length (m) excl. H"
+          label="Pipe Equivalent Length - Main (m) excl. H"
           variant="outlined"
           value={downELMain}
           color="secondary"

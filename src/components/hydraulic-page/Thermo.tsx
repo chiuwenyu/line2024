@@ -40,6 +40,10 @@ const Thermo = () => {
   const [riserLiqDensity, setRiserLiqDensity] = useState(""); // Riser liquid density [Kg/m^3]
   const [riserVapVisc, setRiserVapVisc] = useState(""); // Riser vapor viscosity [cP]
   const [riserLiqVisc, setRiserLiqVisc] = useState(""); // Riser liquid viscosity [cP]
+  const [riserIDMain, setRiserIDMain] = useState(""); // Riser main pipe diameter [in]
+  const [riserRough, setRiserRough] = useState(""); // Riser main pipe absolute roughness [mm]
+  const [riserELMain, setRiserELMain] = useState(""); // Riser main pipe equivalent length [m]
+  const [riserSF, setRiserSF] = useState(""); // Riser main pipe safety factor [-]
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -64,6 +68,10 @@ const Thermo = () => {
   const [error204, setError204] = useState(false); // error number for riser liquid density
   const [error205, setError205] = useState(false); // error number for riser vapor viscosity
   const [error206, setError206] = useState(false); // error number for riser liquid viscosity
+  const [error207, setError207] = useState(false); // error number for riser main pipe diameter
+  const [error208, setError208] = useState(false); // error number for riser main pipe absolute roughness
+  const [error209, setError209] = useState(false); // error number for riser main pipe equivalent length
+  const [error210, setError210] = useState(false); // error number for riser main pipe safety factor
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -132,6 +140,18 @@ const Thermo = () => {
     id === "206" && !isPositiveFloat.test(value) && value !== ""
       ? setError206(true)
       : setError206(false);
+    id === "207" && !isPositiveFloat.test(value) && value !== ""
+      ? setError207(true)
+      : setError207(false);
+    id === "208" && !isPositiveFloat.test(value) && value !== ""
+      ? setError208(true)
+      : setError208(false);
+    id === "209" && !isPositiveFloat.test(value) && value !== ""
+      ? setError209(true)
+      : setError209(false);
+    id === "210" && !isPositiveFloat.test(value) && value !== ""
+      ? setError210(true)
+      : setError210(false);
 
     setCalState(false);
   };
@@ -307,6 +327,14 @@ const Thermo = () => {
                 setRiserVapVisc={setRiserVapVisc}
                 riserLiqVisc={riserLiqVisc}
                 setRiserLiqVisc={setRiserLiqVisc}
+                riserIDMain={riserIDMain}
+                setRiserIDMain={setRiserIDMain}
+                riserRough={riserRough}
+                setRiserRough={setRiserRough}
+                riserELMain={riserELMain}
+                setRiserELMain={setRiserELMain}
+                riserSF={riserSF}
+                setRiserSF={setRiserSF}
                 validateInput={validateInput}
                 error201={error201}
                 error202={error202}
@@ -314,6 +342,10 @@ const Thermo = () => {
                 error204={error204}
                 error205={error205}
                 error206={error206}
+                error207={error207}
+                error208={error208}
+                error209={error209}
+                error210={error210}
               />
             )}
         </Grid>

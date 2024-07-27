@@ -14,6 +14,14 @@ const Riser1 = (props: any) => {
     setRiserVapVisc,
     riserLiqVisc,
     setRiserLiqVisc,
+    riserIDMain,
+    setRiserIDMain,
+    riserRough,
+    setRiserRough,
+    riserELMain,
+    setRiserELMain,
+    riserSF,
+    setRiserSF,
     validateInput,
     error201,
     error202,
@@ -21,6 +29,10 @@ const Riser1 = (props: any) => {
     error204,
     error205,
     error206,
+    error207,
+    error208,
+    error209,
+    error210,
   } = props;
 
   return (
@@ -144,6 +156,70 @@ const Riser1 = (props: any) => {
           helperText={error206 ? "Please input correct number" : ""}
           onChange={(e) => setRiserLiqVisc(e.target.value)}
           onBlur={(e) => validateInput("206", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="riser-pipe-diameter-main"
+          label="Pipe Diameter - Main (m)"
+          variant="outlined"
+          value={riserIDMain}
+          color="secondary"
+          error={error207}
+          helperText={error207 ? "Please input correct number" : ""}
+          onChange={(e) => setRiserIDMain(e.target.value)}
+          onBlur={(e) => validateInput("207", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="riser-absolute-roughness"
+          label="Pipe Absolute Roughness (mm)"
+          variant="outlined"
+          value={riserRough}
+          color="secondary"
+          error={error208}
+          helperText={error208 ? "Please input correct number" : ""}
+          onChange={(e) => setRiserRough(e.target.value)}
+          onBlur={(e) => validateInput("208", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="riser-elevation-length-main"
+          label="Pipe Equivalent Length - Main (m) excl. H"
+          variant="outlined"
+          value={riserELMain}
+          color="secondary"
+          error={error209}
+          helperText={error209 ? "Please input correct number" : ""}
+          onChange={(e) => setRiserELMain(e.target.value)}
+          onBlur={(e) => validateInput("209", e.target.value)}
+          InputLabelProps={{
+            sx: {
+              color: "blue", // 預設顏色
+            },
+          }}
+        />
+        <TextField
+          id="riser-safety-factor"
+          label="Safety Factor for pres. drop"
+          variant="outlined"
+          value={riserSF}
+          color="secondary"
+          error={error210}
+          helperText={error210 ? "Please input correct number" : ""}
+          onChange={(e) => setRiserSF(e.target.value)}
+          onBlur={(e) => validateInput("210", e.target.value)}
           InputLabelProps={{
             sx: {
               color: "blue", // 預設顏色
