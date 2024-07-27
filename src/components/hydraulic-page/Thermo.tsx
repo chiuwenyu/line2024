@@ -10,6 +10,7 @@ import Downcomer3 from "./Downcomer3";
 import Riser1 from "./Riser1";
 import RiserK from "./RiserK";
 import Riser3 from "./Riser3";
+import ConfigJ from "./ConfigJ";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -58,6 +59,9 @@ const Thermo = () => {
   const [riserELMF, setRiserELMF] = useState(""); // Riser manifold pipe equivalent length [m]
   const [riserELLead, setRiserELLead] = useState(""); // Riser lead pipe equivalent length [m]
 
+  // Configure J data
+  const [jDownOutNozzleSize, setJDownOutNozzleSize] = useState(""); // Tower downcomer outlet nozzle size [in]
+
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
@@ -94,6 +98,9 @@ const Thermo = () => {
   const [error217, setError217] = useState(false); // error number for riser lead pipe diameter
   const [error218, setError218] = useState(false); // error number for riser manifold pipe equivalent length
   const [error219, setError219] = useState(false); // error number for riser lead pipe equivalent length
+
+  // 300 Error handling
+  const [error301, setError301] = useState(false); // error number for tower downcomer outlet nozzle size
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -201,6 +208,11 @@ const Thermo = () => {
     id === "219" && !isPositiveFloat.test(value) && value !== ""
       ? setError219(true)
       : setError219(false);
+
+    // 300 is configure J data input validation
+    id === "301" && !isPositiveFloat.test(value) && value !== ""
+      ? setError301(true)
+      : setError301(false);
 
     setCalState(false);
   };
@@ -487,6 +499,18 @@ const Thermo = () => {
                 error208={error208}
                 error209={error209}
                 error210={error210}
+              />
+            )}
+
+          {/* Step 3 */}
+          {activeStep === 3 &&
+            (caseNo === "A" || caseNo === "B" || caseNo === "C") && (
+              <ConfigJ
+                caseNo={caseNo}
+                jDownOutNozzleSize={jDownOutNozzleSize}
+                setJDownOutNozzleSize={setJDownOutNozzleSize}
+                validateInput={validateInput}
+                error301={error301}
               />
             )}
         </Grid>
