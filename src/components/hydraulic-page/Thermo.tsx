@@ -145,166 +145,171 @@ const Thermo = () => {
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
 
-    // 100 is downcomer data input validation
-    id === "101" && !isPositiveFloat.test(value) && value !== ""
-      ? setError101(true)
-      : setError101(false);
-    id === "102" && !isPositiveFloat.test(value) && value !== ""
-      ? setError102(true)
-      : setError102(false);
-    id === "103" && !isPositiveFloat.test(value) && value !== ""
-      ? setError103(true)
-      : setError103(false);
-    id === "104" && !isPositiveFloat.test(value) && value !== ""
-      ? setError104(true)
-      : setError104(false);
-    id === "105" && !isPositiveFloat.test(value) && value !== ""
-      ? setError105(true)
-      : setError105(false);
-    id === "106" && !isPositiveFloat.test(value) && value !== ""
-      ? setError106(true)
-      : setError106(false);
-    id === "107" && !isPositiveFloat.test(value) && value !== ""
-      ? setError107(true)
-      : setError107(false);
-    id === "108" && !isPositiveFloat.test(value) && value !== ""
-      ? setError108(true)
-      : setError108(false);
-    id === "109" && !isPositiveFloat.test(value) && value !== ""
-      ? setError109(true)
-      : setError109(false);
-    id === "110" && !isPositiveFloat.test(value) && value !== ""
-      ? setError110(true)
-      : setError110(false);
-    id === "111" && !isPositiveFloat.test(value) && value !== ""
-      ? setError111(true)
-      : setError111(false);
-    id === "112" && !isPositiveFloat.test(value) && value !== ""
-      ? setError112(true)
-      : setError112(false);
-    id === "113" && !isPositiveFloat.test(value) && value !== ""
-      ? setError113(true)
-      : setError113(false);
-    id === "114" && !isPositiveFloat.test(value) && value !== ""
-      ? setError114(true)
-      : setError114(false);
-
-    // 200 is riser data input validation
-    id === "201" && !isPositiveFloat.test(value) && value !== ""
-      ? setError201(true)
-      : setError201(false);
-    id === "202" && !isPositiveFloat.test(value) && value !== ""
-      ? setError202(true)
-      : setError202(false);
-    id === "203" && !isPositiveFloat.test(value) && value !== ""
-      ? setError203(true)
-      : setError203(false);
-    id === "204" && !isPositiveFloat.test(value) && value !== ""
-      ? setError204(true)
-      : setError204(false);
-    id === "205" && !isPositiveFloat.test(value) && value !== ""
-      ? setError205(true)
-      : setError205(false);
-    id === "206" && !isPositiveFloat.test(value) && value !== ""
-      ? setError206(true)
-      : setError206(false);
-    id === "207" && !isPositiveFloat.test(value) && value !== ""
-      ? setError207(true)
-      : setError207(false);
-    id === "208" && !isPositiveFloat.test(value) && value !== ""
-      ? setError208(true)
-      : setError208(false);
-    id === "209" && !isPositiveFloat.test(value) && value !== ""
-      ? setError209(true)
-      : setError209(false);
-    id === "210" && !isPositiveFloat.test(value) && value !== ""
-      ? setError210(true)
-      : setError210(false);
-    id === "211" && !isPositiveFloat.test(value) && value !== ""
-      ? setError211(true)
-      : setError211(false);
-    id === "212" && !isPositiveFloat.test(value) && value !== ""
-      ? setError212(true)
-      : setError212(false);
-    id === "213" && !isPositiveFloat.test(value) && value !== ""
-      ? setError213(true)
-      : setError213(false);
-    id === "214" && !isPositiveFloat.test(value) && value !== ""
-      ? setError214(true)
-      : setError214(false);
-    id === "215" && !isPositiveFloat.test(value) && value !== ""
-      ? setError215(true)
-      : setError215(false);
-    id === "216" && !isPositiveFloat.test(value) && value !== ""
-      ? setError216(true)
-      : setError216(false);
-    id === "217" && !isPositiveFloat.test(value) && value !== ""
-      ? setError217(true)
-      : setError217(false);
-    id === "218" && !isPositiveFloat.test(value) && value !== ""
-      ? setError218(true)
-      : setError218(false);
-    id === "219" && !isPositiveFloat.test(value) && value !== ""
-      ? setError219(true)
-      : setError219(false);
-
-    // 300 is configure J data input validation
-    id === "301" && !isPositiveFloat.test(value) && value !== ""
-      ? setError301(true)
-      : setError301(false);
-    id === "302" && !isPositiveFloat.test(value) && value !== ""
-      ? setError302(true)
-      : setError302(false);
-    id === "303" && !isPositiveFloat.test(value) && value !== ""
-      ? setError303(true)
-      : setError303(false);
-    id === "304" && !isPositiveFloat.test(value) && value !== ""
-      ? setError304(true)
-      : setError304(false);
-    id === "305" && !isPositiveFloat.test(value) && value !== ""
-      ? setError305(true)
-      : setError305(false);
-    id === "306" && !isPositiveFloat.test(value) && value !== ""
-      ? setError306(true)
-      : setError306(false);
-    id === "307" && !isPositiveFloat.test(value) && value !== ""
-      ? setError307(true)
-      : setError307(false);
-    id === "308" && !isPositiveFloat.test(value) && value !== ""
-      ? setError308(true)
-      : setError308(false);
-    id === "309" && !isPositiveFloat.test(value) && value !== ""
-      ? setError309(true)
-      : setError309(false);
-    id === "310" && !isPositiveFloat.test(value) && value !== ""
-      ? setError310(true)
-      : setError310(false);
-
-    // 400 is configure J data input validation
-    id === "401" && !isPositiveFloat.test(value) && value !== ""
-      ? setError401(true)
-      : setError401(false);
-    id === "402" && !isPositiveFloat.test(value) && value !== ""
-      ? setError402(true)
-      : setError402(false);
-    id === "403" && !isPositiveFloat.test(value) && value !== ""
-      ? setError403(true)
-      : setError403(false);
-    id === "404" && !isPositiveFloat.test(value) && value !== ""
-      ? setError404(true)
-      : setError404(false);
-    id === "405" && !isPositiveFloat.test(value) && value !== ""
-      ? setError405(true)
-      : setError405(false);
-    id === "406" && !isPositiveFloat.test(value) && value !== ""
-      ? setError406(true)
-      : setError406(false);
-    id === "407" && !isPositiveFloat.test(value) && value !== ""
-      ? setError407(true)
-      : setError407(false);
-    id === "408" && !isPositiveFloat.test(value) && value !== ""
-      ? setError408(true)
-      : setError408(false);
+    if (id.charAt(0) === "1") {
+      // 100 is downcomer data input validation
+      id === "101" && !isPositiveFloat.test(value) && value !== ""
+        ? setError101(true)
+        : setError101(false);
+      id === "102" && !isPositiveFloat.test(value) && value !== ""
+        ? setError102(true)
+        : setError102(false);
+      id === "103" && !isPositiveFloat.test(value) && value !== ""
+        ? setError103(true)
+        : setError103(false);
+      id === "104" && !isPositiveFloat.test(value) && value !== ""
+        ? setError104(true)
+        : setError104(false);
+      id === "105" && !isPositiveFloat.test(value) && value !== ""
+        ? setError105(true)
+        : setError105(false);
+      id === "106" && !isPositiveFloat.test(value) && value !== ""
+        ? setError106(true)
+        : setError106(false);
+      id === "107" && !isPositiveFloat.test(value) && value !== ""
+        ? setError107(true)
+        : setError107(false);
+      id === "108" && !isPositiveFloat.test(value) && value !== ""
+        ? setError108(true)
+        : setError108(false);
+      id === "109" && !isPositiveFloat.test(value) && value !== ""
+        ? setError109(true)
+        : setError109(false);
+      id === "110" && !isPositiveFloat.test(value) && value !== ""
+        ? setError110(true)
+        : setError110(false);
+      id === "111" && !isPositiveFloat.test(value) && value !== ""
+        ? setError111(true)
+        : setError111(false);
+      id === "112" && !isPositiveFloat.test(value) && value !== ""
+        ? setError112(true)
+        : setError112(false);
+      id === "113" && !isPositiveFloat.test(value) && value !== ""
+        ? setError113(true)
+        : setError113(false);
+      id === "114" && !isPositiveFloat.test(value) && value !== ""
+        ? setError114(true)
+        : setError114(false);
+    } else if (id.charAt(0) === "2") {
+      // 200 is riser data input validation
+      id === "201" && !isPositiveFloat.test(value) && value !== ""
+        ? setError201(true)
+        : setError201(false);
+      id === "202" && !isPositiveFloat.test(value) && value !== ""
+        ? setError202(true)
+        : setError202(false);
+      id === "203" && !isPositiveFloat.test(value) && value !== ""
+        ? setError203(true)
+        : setError203(false);
+      id === "204" && !isPositiveFloat.test(value) && value !== ""
+        ? setError204(true)
+        : setError204(false);
+      id === "205" && !isPositiveFloat.test(value) && value !== ""
+        ? setError205(true)
+        : setError205(false);
+      id === "206" && !isPositiveFloat.test(value) && value !== ""
+        ? setError206(true)
+        : setError206(false);
+      id === "207" && !isPositiveFloat.test(value) && value !== ""
+        ? setError207(true)
+        : setError207(false);
+      id === "208" && !isPositiveFloat.test(value) && value !== ""
+        ? setError208(true)
+        : setError208(false);
+      id === "209" && !isPositiveFloat.test(value) && value !== ""
+        ? setError209(true)
+        : setError209(false);
+      id === "210" && !isPositiveFloat.test(value) && value !== ""
+        ? setError210(true)
+        : setError210(false);
+      id === "211" && !isPositiveFloat.test(value) && value !== ""
+        ? setError211(true)
+        : setError211(false);
+      id === "212" && !isPositiveFloat.test(value) && value !== ""
+        ? setError212(true)
+        : setError212(false);
+      id === "213" && !isPositiveFloat.test(value) && value !== ""
+        ? setError213(true)
+        : setError213(false);
+      id === "214" && !isPositiveFloat.test(value) && value !== ""
+        ? setError214(true)
+        : setError214(false);
+      id === "215" && !isPositiveFloat.test(value) && value !== ""
+        ? setError215(true)
+        : setError215(false);
+      id === "216" && !isPositiveFloat.test(value) && value !== ""
+        ? setError216(true)
+        : setError216(false);
+      id === "217" && !isPositiveFloat.test(value) && value !== ""
+        ? setError217(true)
+        : setError217(false);
+      id === "218" && !isPositiveFloat.test(value) && value !== ""
+        ? setError218(true)
+        : setError218(false);
+      id === "219" && !isPositiveFloat.test(value) && value !== ""
+        ? setError219(true)
+        : setError219(false);
+    } else if (id.charAt(0) === "3") {
+      // 300 is configure J data input validation
+      id === "301" && !isPositiveFloat.test(value) && value !== ""
+        ? setError301(true)
+        : setError301(false);
+      id === "302" && !isPositiveFloat.test(value) && value !== ""
+        ? setError302(true)
+        : setError302(false);
+      id === "303" && !isPositiveFloat.test(value) && value !== ""
+        ? setError303(true)
+        : setError303(false);
+      id === "304" && !isPositiveFloat.test(value) && value !== ""
+        ? setError304(true)
+        : setError304(false);
+      id === "305" && !isPositiveFloat.test(value) && value !== ""
+        ? setError305(true)
+        : setError305(false);
+      id === "306" && !isPositiveFloat.test(value) && value !== ""
+        ? setError306(true)
+        : setError306(false);
+      id === "307" && !isPositiveFloat.test(value) && value !== ""
+        ? setError307(true)
+        : setError307(false);
+      id === "308" && !isPositiveFloat.test(value) && value !== ""
+        ? setError308(true)
+        : setError308(false);
+      id === "309" && !isPositiveFloat.test(value) && value !== ""
+        ? setError309(true)
+        : setError309(false);
+      id === "310" && !isPositiveFloat.test(value) && value !== ""
+        ? setError310(true)
+        : setError310(false);
+    } else if (id.charAt(0) === "4") {
+      // 400 is configure J data input validation
+      id === "401" && !isPositiveFloat.test(value) && value !== ""
+        ? setError401(true)
+        : setError401(false);
+      id === "402" && !isPositiveFloat.test(value) && value !== ""
+        ? setError402(true)
+        : setError402(false);
+      id === "403" && !isPositiveFloat.test(value) && value !== ""
+        ? setError403(true)
+        : setError403(false);
+      id === "404" && !isPositiveFloat.test(value) && value !== ""
+        ? setError404(true)
+        : setError404(false);
+      id === "405" && !isPositiveFloat.test(value) && value !== ""
+        ? setError405(true)
+        : setError405(false);
+      id === "406" && !isPositiveFloat.test(value) && value !== ""
+        ? setError406(true)
+        : setError406(false);
+      id === "407" && !isPositiveFloat.test(value) && value !== ""
+        ? setError407(true)
+        : setError407(false);
+      id === "408" && !isPositiveFloat.test(value) && value !== ""
+        ? setError408(true)
+        : setError408(false);
+    } else if (id.charAt(0) === "5") {
+    } else {
+      console.log("Error: Invalid input ID");
+    }
 
     setCalState(false);
   };
