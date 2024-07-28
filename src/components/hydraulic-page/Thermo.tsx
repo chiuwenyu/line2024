@@ -65,7 +65,11 @@ const Thermo = () => {
   const [jReboInNozzleSize, setJReboInNozzleSize] = useState(""); // Reboiler inlet nozzle size [in]
   const [jReboOutNozzleSize, setJReboOutNozzleSize] = useState(""); // Reboiler outlet nozzle size [in]
   const [jReboDP, setJReboDP] = useState(""); // Reboiler Pressure Loss (Excl. Nozzle Loss) [Kg/cm^2]
-  const [jT, setJT] = useState(""); // Tower T.L. to C.L. of the the Riser Entering Tower <T> [m]
+  const [jT, setJT] = useState(""); // Tower T.L. to C.L. of the the Riser Entering Tower <T> [mm]
+  const [jLC, setJLC] = useState(""); // Tower outlet nozzle higher than riser distance <LC> [mm]
+  const [jL, setJL] = useState(""); // Tower baffle top lower than riser distance <L> [mm]
+  const [jRD, setJRD] = useState(""); // Reboiler shell diameter [mm]
+  const [jSF, setJSF] = useState(""); // Safety factor of riser E.L. of Homo. method [-]
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -111,6 +115,10 @@ const Thermo = () => {
   const [error304, setError304] = useState(false); // error number for reboiler outlet nozzle size
   const [error305, setError305] = useState(false); // error number for reboiler pressure loss
   const [error306, setError306] = useState(false); // error number for tower T.L. to C.L. of the the Riser Entering Tower <T>
+  const [error307, setError307] = useState(false); // error number for tower outlet nozzle higher than riser distance <LC>
+  const [error308, setError308] = useState(false); // error number for tower baffle top lower than riser distance <L>
+  const [error309, setError309] = useState(false); // error number for reboiler shell diameter [mm]
+  const [error310, setError310] = useState(false); // error number for safety factor of riser E.L. of homo method [-]
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -238,6 +246,18 @@ const Thermo = () => {
     id === "306" && !isPositiveFloat.test(value) && value !== ""
       ? setError306(true)
       : setError306(false);
+    id === "307" && !isPositiveFloat.test(value) && value !== ""
+      ? setError307(true)
+      : setError307(false);
+    id === "308" && !isPositiveFloat.test(value) && value !== ""
+      ? setError308(true)
+      : setError308(false);
+    id === "309" && !isPositiveFloat.test(value) && value !== ""
+      ? setError309(true)
+      : setError309(false);
+    id === "310" && !isPositiveFloat.test(value) && value !== ""
+      ? setError310(true)
+      : setError310(false);
 
     setCalState(false);
   };
@@ -544,6 +564,14 @@ const Thermo = () => {
                 setJReboDP={setJReboDP}
                 jT={jT}
                 setJT={setJT}
+                jLC={jLC}
+                setJLC={setJLC}
+                jL={jL}
+                setJL={setJL}
+                jRD={jRD}
+                setJRD={setJRD}
+                jSF={jSF}
+                setJSF={setJSF}
                 validateInput={validateInput}
                 error301={error301}
                 error302={error302}
@@ -551,6 +579,10 @@ const Thermo = () => {
                 error304={error304}
                 error305={error305}
                 error306={error306}
+                error307={error307}
+                error308={error308}
+                error309={error309}
+                error310={error310}
               />
             )}
         </Grid>
