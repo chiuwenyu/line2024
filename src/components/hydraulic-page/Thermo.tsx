@@ -74,6 +74,13 @@ const Thermo = () => {
 
   // Configure K data
   const [kDownOutNozzleSize, setKDownOutNozzleSize] = useState(""); // Tower downcomer outlet nozzle size [in]
+  const [kRiserInNozzleSize, setKRiserInNozzleSize] = useState(""); // Tower riser inlet nozzle size [in]
+  const [kReboInNozzleSize, setKReboInNozzleSize] = useState(""); // Reboiler inlet nozzle Size [in]
+  const [kReboOutNozzleSize, setKReboOutNozzleSize] = useState(""); // Reboiler outlet nozzle size [in]
+  const [kReboDP, setKReboDP] = useState(""); // Reboiler pressure loss (excl. nozzle loss) [Kg/cm^2]
+  const [kT, setKT] = useState(""); // Tower T.L to C.L of the riser entering tower <T> [mm]
+  const [kHV, setKHV] = useState(""); // Reboiler vapor space height (kettle) <HV> [mm]
+  const [kSF, setKSF] = useState(""); // Safety factor of riser E.L of home method [-]
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -126,6 +133,13 @@ const Thermo = () => {
 
   // 400 Error handling
   const [error401, setError401] = useState(false); // error number for Tower downcomer outlet nozzle size
+  const [error402, setError402] = useState(false); // error number for tower riser inlet nozzle size
+  const [error403, setError403] = useState(false); // error number for reboiler inlet nozzle size
+  const [error404, setError404] = useState(false); // error number for rerboiler outlet nozzle size
+  const [error405, setError405] = useState(false); // error number for reboiler pressure loss (excl. nozzle loss)
+  const [error406, setError406] = useState(false); // error number for tower T.L to C.L of the riser entering tower <T>
+  const [error407, setError407] = useState(false); // error number for reboiler vapor space height (kettle) <HV>
+  const [error408, setError408] = useState(false); // Safety factor of riser E.L of home method
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -270,6 +284,27 @@ const Thermo = () => {
     id === "401" && !isPositiveFloat.test(value) && value !== ""
       ? setError401(true)
       : setError401(false);
+    id === "402" && !isPositiveFloat.test(value) && value !== ""
+      ? setError402(true)
+      : setError402(false);
+    id === "403" && !isPositiveFloat.test(value) && value !== ""
+      ? setError403(true)
+      : setError403(false);
+    id === "404" && !isPositiveFloat.test(value) && value !== ""
+      ? setError404(true)
+      : setError404(false);
+    id === "405" && !isPositiveFloat.test(value) && value !== ""
+      ? setError405(true)
+      : setError405(false);
+    id === "406" && !isPositiveFloat.test(value) && value !== ""
+      ? setError406(true)
+      : setError406(false);
+    id === "407" && !isPositiveFloat.test(value) && value !== ""
+      ? setError407(true)
+      : setError407(false);
+    id === "408" && !isPositiveFloat.test(value) && value !== ""
+      ? setError408(true)
+      : setError408(false);
 
     setCalState(false);
   };
@@ -601,8 +636,29 @@ const Thermo = () => {
             <ConfigK
               kDownOutNozzleSize={kDownOutNozzleSize}
               setKDownOutNozzleSize={setKDownOutNozzleSize}
+              kRiserInNozzleSize={kRiserInNozzleSize}
+              setKRiserInNozzleSize={setKRiserInNozzleSize}
+              kReboInNozzleSize={kReboInNozzleSize}
+              setKReboInNozzleSize={setKReboInNozzleSize}
+              kReboOutNozzleSize={kReboOutNozzleSize}
+              setKReboOutNozzleSize={setKReboOutNozzleSize}
+              kReboDP={kReboDP}
+              setKReboDP={setKReboDP}
+              kT={kT}
+              setKT={setKT}
+              kHV={kHV}
+              setKHV={setKHV}
+              kSF={kSF}
+              setKSF={setKSF}
               validateInput={validateInput}
               error401={error401}
+              error402={error402}
+              error403={error403}
+              error404={error404}
+              error405={error405}
+              error406={error406}
+              error407={error407}
+              error408={error408}
             />
           )}
         </Grid>
