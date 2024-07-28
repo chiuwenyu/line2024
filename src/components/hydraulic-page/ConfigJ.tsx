@@ -16,12 +16,27 @@ const ConfigJ = (props: any) => {
     setJReboOutNozzleSize,
     jReboDP,
     setJReboDP,
+    jT,
+    setJT,
+    jLC,
+    setJLC,
+    jL,
+    setJL,
+    jRD,
+    setJRD,
+    jSF,
+    setJSF,
     validateInput,
     error301,
     error302,
     error303,
     error304,
     error305,
+    error306,
+    error307,
+    error308,
+    error309,
+    error310,
   } = props;
 
   return (
@@ -132,6 +147,90 @@ const ConfigJ = (props: any) => {
               },
             }}
           />
+          <TextField
+            id="j-T"
+            label="Tower T.L to C.L of the Riser Entering Tower <T> (mm)"
+            variant="outlined"
+            value={jT}
+            color="secondary"
+            error={error306}
+            helperText={error306 ? "Please input correct number" : ""}
+            onChange={(e) => setJT(e.target.value)}
+            onBlur={(e) => validateInput("306", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
+              },
+            }}
+          />
+          {caseNo === "A" && (
+            <TextField
+              id="j-LC"
+              label="Tower Outlet Nozzle Higher than Riser Distance <LC> (mm)"
+              variant="outlined"
+              value={jLC}
+              color="secondary"
+              error={error307}
+              helperText={error307 ? "Please input correct number" : ""}
+              onChange={(e) => setJLC(e.target.value)}
+              onBlur={(e) => validateInput("307", e.target.value)}
+              InputLabelProps={{
+                sx: {
+                  color: "blue", // 預設顏色
+                },
+              }}
+            />
+          )}
+          {caseNo === "C" && (
+            <TextField
+              id="j-L"
+              label="Tower Baffle Top Lower than Riser Distance <L> (mm)"
+              variant="outlined"
+              value={jL}
+              color="secondary"
+              error={error308}
+              helperText={error308 ? "Please input correct number" : ""}
+              onChange={(e) => setJL(e.target.value)}
+              onBlur={(e) => validateInput("308", e.target.value)}
+              InputLabelProps={{
+                sx: {
+                  color: "blue", // 預設顏色
+                },
+              }}
+            />
+          )}
+          <TextField
+            id="j-RD"
+            label="Reboiler Shell Diameter <RD> (mm)"
+            variant="outlined"
+            value={jRD}
+            color="secondary"
+            error={error309}
+            helperText={error309 ? "Please input correct number" : ""}
+            onChange={(e) => setJRD(e.target.value)}
+            onBlur={(e) => validateInput("309", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
+              },
+            }}
+          />
+          <TextField
+            id="j-safety-factor"
+            label="Safety Factor of Riser E.L. of Homo. Method (-)"
+            variant="outlined"
+            value={jSF}
+            color="secondary"
+            error={error310}
+            helperText={error310 ? "Please input correct number" : ""}
+            onChange={(e) => setJSF(e.target.value)}
+            onBlur={(e) => validateInput("310", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
+              },
+            }}
+          />
         </Grid>
         <Grid // This Grid is Manifold pipe column
           container
@@ -141,20 +240,21 @@ const ConfigJ = (props: any) => {
           sx={{
             ml: 15,
             width: "100%",
+            height: "40vh",
           }}
         >
           {caseNo === "A" && (
-            <Card sx={{ p: 4 }}>
+            <Card elevation={3} sx={{ p: 4 }}>
               <CardMedia component="img" image={picA} alt="Case A" />
             </Card>
           )}
           {caseNo === "B" && (
-            <Card sx={{ p: 4 }}>
+            <Card elevation={3} sx={{ p: 4 }}>
               <CardMedia component="img" image={picB} alt="Case B" />
             </Card>
           )}
           {caseNo === "C" && (
-            <Card sx={{ p: 4 }}>
+            <Card elevation={3} sx={{ p: 4 }}>
               <CardMedia component="img" image={picC} alt="Case C" />
             </Card>
           )}

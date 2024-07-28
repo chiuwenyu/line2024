@@ -65,6 +65,7 @@ const Thermo = () => {
   const [jReboInNozzleSize, setJReboInNozzleSize] = useState(""); // Reboiler inlet nozzle size [in]
   const [jReboOutNozzleSize, setJReboOutNozzleSize] = useState(""); // Reboiler outlet nozzle size [in]
   const [jReboDP, setJReboDP] = useState(""); // Reboiler Pressure Loss (Excl. Nozzle Loss) [Kg/cm^2]
+  const [jT, setJT] = useState(""); // Tower T.L. to C.L. of the the Riser Entering Tower <T> [m]
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -109,6 +110,7 @@ const Thermo = () => {
   const [error303, setError303] = useState(false); // error number for reboiler inlet nozzle size
   const [error304, setError304] = useState(false); // error number for reboiler outlet nozzle size
   const [error305, setError305] = useState(false); // error number for reboiler pressure loss
+  const [error306, setError306] = useState(false); // error number for tower T.L. to C.L. of the the Riser Entering Tower <T>
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -233,6 +235,9 @@ const Thermo = () => {
     id === "305" && !isPositiveFloat.test(value) && value !== ""
       ? setError305(true)
       : setError305(false);
+    id === "306" && !isPositiveFloat.test(value) && value !== ""
+      ? setError306(true)
+      : setError306(false);
 
     setCalState(false);
   };
@@ -537,12 +542,15 @@ const Thermo = () => {
                 setJReboOutNozzleSize={setJReboOutNozzleSize}
                 jReboDP={jReboDP}
                 setJReboDP={setJReboDP}
+                jT={jT}
+                setJT={setJT}
                 validateInput={validateInput}
                 error301={error301}
                 error302={error302}
                 error303={error303}
                 error304={error304}
                 error305={error305}
+                error306={error306}
               />
             )}
         </Grid>
