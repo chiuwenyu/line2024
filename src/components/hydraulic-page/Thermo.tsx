@@ -11,6 +11,7 @@ import Riser1 from "./Riser1";
 import RiserK from "./RiserK";
 import Riser3 from "./Riser3";
 import ConfigJ from "./ConfigJ";
+import ConfigK from "./ConfigK";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -71,6 +72,9 @@ const Thermo = () => {
   const [jRD, setJRD] = useState(""); // Reboiler shell diameter [mm]
   const [jSF, setJSF] = useState(""); // Safety factor of riser E.L. of Homo. method [-]
 
+  // Configure K data
+  const [kDownOutNozzleSize, setKDownOutNozzleSize] = useState(""); // Tower downcomer outlet nozzle size [in]
+
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
@@ -119,6 +123,9 @@ const Thermo = () => {
   const [error308, setError308] = useState(false); // error number for tower baffle top lower than riser distance <L>
   const [error309, setError309] = useState(false); // error number for reboiler shell diameter [mm]
   const [error310, setError310] = useState(false); // error number for safety factor of riser E.L. of homo method [-]
+
+  // 400 Error handling
+  const [error401, setError401] = useState(false); // error number for Tower downcomer outlet nozzle size
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -258,6 +265,11 @@ const Thermo = () => {
     id === "310" && !isPositiveFloat.test(value) && value !== ""
       ? setError310(true)
       : setError310(false);
+
+    // 400 is configure J data input validation
+    id === "401" && !isPositiveFloat.test(value) && value !== ""
+      ? setError401(true)
+      : setError401(false);
 
     setCalState(false);
   };
@@ -585,6 +597,14 @@ const Thermo = () => {
                 error310={error310}
               />
             )}
+          {activeStep === 3 && caseNo === "D" && (
+            <ConfigK
+              kDownOutNozzleSize={kDownOutNozzleSize}
+              setKDownOutNozzleSize={setKDownOutNozzleSize}
+              validateInput={validateInput}
+              error401={error401}
+            />
+          )}
         </Grid>
       </Stack>
     </>
