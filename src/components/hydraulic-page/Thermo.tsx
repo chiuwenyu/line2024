@@ -12,6 +12,7 @@ import RiserK from "./RiserK";
 import Riser3 from "./Riser3";
 import ConfigJ from "./ConfigJ";
 import ConfigK from "./ConfigK";
+import ConfigE from "./ConfigE";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -82,6 +83,9 @@ const Thermo = () => {
   const [kHV, setKHV] = useState(""); // Reboiler vapor space height (kettle) <HV> [mm]
   const [kSF, setKSF] = useState(""); // Safety factor of riser E.L of home method [-]
 
+  // Configure E data
+  const [eDownOutNozzleSize, setEDownOutNozzleSize] = useState(""); // Tower downcomer outlet nozzle size [in]
+
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
   const [error102, setError102] = useState(false); // error number for downcomer fluid density
@@ -140,6 +144,9 @@ const Thermo = () => {
   const [error406, setError406] = useState(false); // error number for tower T.L to C.L of the riser entering tower <T>
   const [error407, setError407] = useState(false); // error number for reboiler vapor space height (kettle) <HV>
   const [error408, setError408] = useState(false); // Safety factor of riser E.L of home method
+
+  // 500 Error handling
+  const [error501, setError501] = useState(false); // error number for Tower downcomer outlet nozzle size
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -307,6 +314,9 @@ const Thermo = () => {
         ? setError408(true)
         : setError408(false);
     } else if (id.charAt(0) === "5") {
+      id === "501" && !isPositiveFloat.test(value) && value !== ""
+        ? setError501(true)
+        : setError501(false);
     } else {
       console.log("Error: Invalid input ID");
     }
@@ -666,6 +676,16 @@ const Thermo = () => {
               error408={error408}
             />
           )}
+          {activeStep === 3 &&
+            (caseNo === "E" || caseNo === "F" || caseNo === "G") && (
+              <ConfigE
+                caseNo={caseNo}
+                eDownOutNozzleSize={eDownOutNozzleSize}
+                setEDownOutNozzleSize={setEDownOutNozzleSize}
+                validateInput={validateInput}
+                error301={error501}
+              />
+            )}
         </Grid>
       </Stack>
     </>
