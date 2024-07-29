@@ -1,7 +1,30 @@
-import { Card, CardMedia, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardMedia,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import picE from "../../assets/ThermoSyphone-Case E.png";
 import picF from "../../assets/ThermoSyphone-Case F.png";
 import picG from "../../assets/ThermoSyphone-Case G.png";
+import { useState } from "react";
+
+const Focus = (props: any) => {
+  const { x, y } = props;
+  return (
+    <Box
+      position="absolute"
+      top={parseInt(y)} // 設定圓形的頂部位置
+      left={parseInt(x)} // 設定圓形的左邊位置
+      width={50} // 設定圓形的寬度
+      height={50} // 設定圓形的高度
+      borderRadius="50%" // 設定圓形的邊界半徑為 50%，使其成為一個圓形
+      bgcolor="rgba(255, 0, 0, 0.5)" // 設定圓形的背景顏色為紅色，並設定透明度為 0.5
+    />
+  );
+};
 
 const ConfigE = (props: any) => {
   const {
@@ -42,6 +65,8 @@ const ConfigE = (props: any) => {
     error511,
   } = props;
 
+  const [downOutNozz, setDownOutNozz] = useState(false);
+
   return (
     <>
       <Typography
@@ -79,7 +104,11 @@ const ConfigE = (props: any) => {
             error={error501}
             helperText={error501 ? "Please input correct number" : ""}
             onChange={(e) => setEDownOutNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("501", e.target.value)}
+            onBlur={(e) => {
+              validateInput("501", e.target.value);
+              setDownOutNozz(false);
+            }}
+            onFocus={() => setDownOutNozz(true)}
           />
           <TextField
             id="tower-riser-inlet-nozzle-size"
@@ -208,9 +237,12 @@ const ConfigE = (props: any) => {
           }}
         >
           {caseNo === "E" && (
-            <Card elevation={3} sx={{ p: 4 }}>
-              <CardMedia component="img" image={picE} alt="Case E" />
-            </Card>
+            <Box position="relative">
+              <Card elevation={3} sx={{ p: 4 }}>
+                <CardMedia component="img" image={picE} alt="Case E" />
+              </Card>
+              {downOutNozz && <Focus x="42" y="224" />}
+            </Box>
           )}
           {caseNo === "F" && (
             <Card elevation={3} sx={{ p: 4 }}>
