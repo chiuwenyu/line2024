@@ -41,7 +41,7 @@ const RiserK = (props: any) => {
         display={"flex"}
         flexDirection={"column"}
         item
-        xs={3}
+        xs={4}
         gap={2}
         sx={{
           ml: 4,

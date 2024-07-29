@@ -46,11 +46,10 @@ const ConfigK = (props: any) => {
           display={"flex"}
           flexDirection={"column"}
           item
-          xs={4}
+          xs={6}
           gap={2}
           sx={{
             ml: 4,
-            width: "75%",
           }}
         >
           <TextField
@@ -63,11 +62,6 @@ const ConfigK = (props: any) => {
             helperText={error401 ? "Please input correct number" : ""}
             onChange={(e) => setKDownOutNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("401", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="tower-riser-inlet-nozzle-size"
@@ -79,11 +73,6 @@ const ConfigK = (props: any) => {
             helperText={error402 ? "Please input correct number" : ""}
             onChange={(e) => setKRiserInNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("402", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="reboiler-inlet-nozzle-size"
@@ -95,11 +84,6 @@ const ConfigK = (props: any) => {
             helperText={error403 ? "Please input correct number" : ""}
             onChange={(e) => setKReboInNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("403", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="reboiler-outlet-nozzle-size"
@@ -111,11 +95,6 @@ const ConfigK = (props: any) => {
             helperText={error404 ? "Please input correct number" : ""}
             onChange={(e) => setKReboOutNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("404", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="reboiler-pressure-loss"
@@ -127,11 +106,6 @@ const ConfigK = (props: any) => {
             helperText={error405 ? "Please input correct number" : ""}
             onChange={(e) => setKReboDP(e.target.value)}
             onBlur={(e) => validateInput("405", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="tower-T"
@@ -143,11 +117,6 @@ const ConfigK = (props: any) => {
             helperText={error406 ? "Please input correct number" : ""}
             onChange={(e) => setKT(e.target.value)}
             onBlur={(e) => validateInput("406", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="reboiler-vapor-space-height-kettle"
@@ -159,11 +128,6 @@ const ConfigK = (props: any) => {
             helperText={error407 ? "Please input correct number" : ""}
             onChange={(e) => setKHV(e.target.value)}
             onBlur={(e) => validateInput("407", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="safety-factor-kSF"
@@ -175,21 +139,14 @@ const ConfigK = (props: any) => {
             helperText={error408 ? "Please input correct number" : ""}
             onChange={(e) => setKSF(e.target.value)}
             onBlur={(e) => validateInput("408", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
         </Grid>
         <Grid // This Grid is Manifold pipe column
           container
           item
           xs={4}
-          gap={2}
           sx={{
-            ml: 15,
-            width: "100%",
+            ml: 5,
             height: "40vh",
           }}
         >

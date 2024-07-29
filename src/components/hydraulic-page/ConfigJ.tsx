@@ -60,11 +60,10 @@ const ConfigJ = (props: any) => {
           display={"flex"}
           flexDirection={"column"}
           item
-          xs={4}
+          xs={6}
           gap={2}
           sx={{
             ml: 4,
-            width: "75%",
           }}
         >
           <TextField
@@ -77,11 +76,6 @@ const ConfigJ = (props: any) => {
             helperText={error301 ? "Please input correct number" : ""}
             onChange={(e) => setJDownOutNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("301", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="tower-riser-inlet-nozzle-size"
@@ -93,11 +87,6 @@ const ConfigJ = (props: any) => {
             helperText={error302 ? "Please input correct number" : ""}
             onChange={(e) => setJRiserInNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("302", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="reboiler-inlet-nozzle-size"
@@ -109,11 +98,6 @@ const ConfigJ = (props: any) => {
             helperText={error303 ? "Please input correct number" : ""}
             onChange={(e) => setJReboInNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("303", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="reboiler-outlet-nozzle-size"
@@ -125,11 +109,6 @@ const ConfigJ = (props: any) => {
             helperText={error304 ? "Please input correct number" : ""}
             onChange={(e) => setJReboOutNozzleSize(e.target.value)}
             onBlur={(e) => validateInput("304", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="reboiler-pressure-loss"
@@ -141,11 +120,6 @@ const ConfigJ = (props: any) => {
             helperText={error305 ? "Please input correct number" : ""}
             onChange={(e) => setJReboDP(e.target.value)}
             onBlur={(e) => validateInput("305", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="j-T"
@@ -157,11 +131,6 @@ const ConfigJ = (props: any) => {
             helperText={error306 ? "Please input correct number" : ""}
             onChange={(e) => setJT(e.target.value)}
             onBlur={(e) => validateInput("306", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           {caseNo === "A" && (
             <TextField
@@ -174,11 +143,6 @@ const ConfigJ = (props: any) => {
               helperText={error307 ? "Please input correct number" : ""}
               onChange={(e) => setJLC(e.target.value)}
               onBlur={(e) => validateInput("307", e.target.value)}
-              InputLabelProps={{
-                sx: {
-                  color: "blue", // 預設顏色
-                },
-              }}
             />
           )}
           {caseNo === "C" && (
@@ -192,11 +156,6 @@ const ConfigJ = (props: any) => {
               helperText={error308 ? "Please input correct number" : ""}
               onChange={(e) => setJL(e.target.value)}
               onBlur={(e) => validateInput("308", e.target.value)}
-              InputLabelProps={{
-                sx: {
-                  color: "blue", // 預設顏色
-                },
-              }}
             />
           )}
           <TextField
@@ -209,11 +168,6 @@ const ConfigJ = (props: any) => {
             helperText={error309 ? "Please input correct number" : ""}
             onChange={(e) => setJRD(e.target.value)}
             onBlur={(e) => validateInput("309", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
           <TextField
             id="j-safety-factor"
@@ -225,20 +179,14 @@ const ConfigJ = (props: any) => {
             helperText={error310 ? "Please input correct number" : ""}
             onChange={(e) => setJSF(e.target.value)}
             onBlur={(e) => validateInput("310", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
           />
         </Grid>
         <Grid // This Grid is Manifold pipe column
           container
           item
           xs={4}
-          gap={2}
           sx={{
-            ml: 15,
+            ml: 5,
             width: "100%",
             height: "40vh",
           }}
