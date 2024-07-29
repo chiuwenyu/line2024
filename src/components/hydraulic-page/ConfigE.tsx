@@ -16,8 +16,8 @@ const Focus = (props: any) => {
   return (
     <Box
       position="absolute"
-      top={parseInt(y)} // 設定圓形的頂部位置
-      left={parseInt(x)} // 設定圓形的左邊位置
+      top={y} // 設定圓形的頂部位置
+      left={x} // 設定圓形的左邊位置
       width={50} // 設定圓形的寬度
       height={50} // 設定圓形的高度
       borderRadius="50%" // 設定圓形的邊界半徑為 50%，使其成為一個圓形
@@ -241,7 +241,7 @@ const ConfigE = (props: any) => {
               <Card elevation={3} sx={{ p: 4 }}>
                 <CardMedia component="img" image={picE} alt="Case E" />
               </Card>
-              {downOutNozz && <Focus x="42" y="224" />}
+              {downOutNozz && <Focus x="12%" y="52%" />}
             </Box>
           )}
           {caseNo === "F" && (
