@@ -85,6 +85,16 @@ const Thermo = () => {
 
   // Configure E data
   const [eDownOutNozzleSize, setEDownOutNozzleSize] = useState(""); // Tower downcomer outlet nozzle size [in]
+  const [eRiserInNozzleSize, setERiserInNozzleSize] = useState(""); // Tower riser inlet nozzle size [in]
+  const [eReboInNozzleSize, setEReboInNozzleSize] = useState(""); // Reboiler inlet nozzle size [in]
+  const [eReboOutNozzleSize, setEReboOutNozzleSize] = useState(""); // Reboiler outlet nozzle size [in]
+  const [eReboDP, setEReboDP] = useState(""); // Reboiler pressure loss (excl. nozzle loss) [Kg/cm^2]
+  const [eT, setET] = useState(""); // Tower T.L to C.L of the riser entering tower <T> [mm]
+  const [eL, setEL] = useState(""); // Tower baffle top lower than riser distance <L> [mm]
+  const [eLC, setELC] = useState(""); // Tower outlet nozzle higher than riser distance <LC> [mm]
+  const [eE, setEE] = useState(""); // Reboiler Tube Length (Vertical) <E> [mm]
+  const [eBD, setEBD] = useState(""); // Tube Length Submerge with Liquid (Vertical) <BD> [mm]
+  const [eSF, setESF] = useState(""); // Safety Factor of Riser E.L of Homo method
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -147,6 +157,16 @@ const Thermo = () => {
 
   // 500 Error handling
   const [error501, setError501] = useState(false); // error number for Tower downcomer outlet nozzle size
+  const [error502, setError502] = useState(false); // error number for tower riser inlet nozzle size
+  const [error503, setError503] = useState(false); // error number for reboiler inlet nozzle size
+  const [error504, setError504] = useState(false); // error number for reboiler outlet nozzle size
+  const [error505, setError505] = useState(false); // error number for reboiler pressure loss (excl. nozzle loss)
+  const [error506, setError506] = useState(false); // error number for tower T.L to C.L of the riser entering tower <T>
+  const [error507, setError507] = useState(false); // error number for tower baffle top lower than riser distance <L>
+  const [error508, setError508] = useState(false); // error number for tower outlet nozzle higher than riser distance <LC>
+  const [error509, setError509] = useState(false); // error number for reboiler tube length (vertical) <E>
+  const [error510, setError510] = useState(false); // error number for tube length submerge with liquid (vertical) <BD>
+  const [error511, setError511] = useState(false); // error number for safety factor of riser E.L of Home method
 
   const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
@@ -317,6 +337,36 @@ const Thermo = () => {
       id === "501" && !isPositiveFloat.test(value) && value !== ""
         ? setError501(true)
         : setError501(false);
+      id === "502" && !isPositiveFloat.test(value) && value !== ""
+        ? setError502(true)
+        : setError502(false);
+      id === "503" && !isPositiveFloat.test(value) && value !== ""
+        ? setError503(true)
+        : setError503(false);
+      id === "504" && !isPositiveFloat.test(value) && value !== ""
+        ? setError504(true)
+        : setError504(false);
+      id === "505" && !isPositiveFloat.test(value) && value !== ""
+        ? setError505(true)
+        : setError505(false);
+      id === "506" && !isPositiveFloat.test(value) && value !== ""
+        ? setError506(true)
+        : setError506(false);
+      id === "507" && !isPositiveFloat.test(value) && value !== ""
+        ? setError507(true)
+        : setError507(false);
+      id === "508" && !isPositiveFloat.test(value) && value !== ""
+        ? setError508(true)
+        : setError508(false);
+      id === "509" && !isPositiveFloat.test(value) && value !== ""
+        ? setError509(true)
+        : setError509(false);
+      id === "510" && !isPositiveFloat.test(value) && value !== ""
+        ? setError510(true)
+        : setError510(false);
+      id === "511" && !isPositiveFloat.test(value) && value !== ""
+        ? setError511(true)
+        : setError511(false);
     } else {
       console.log("Error: Invalid input ID");
     }
@@ -682,8 +732,38 @@ const Thermo = () => {
                 caseNo={caseNo}
                 eDownOutNozzleSize={eDownOutNozzleSize}
                 setEDownOutNozzleSize={setEDownOutNozzleSize}
+                eRiserInNozzleSize={eRiserInNozzleSize}
+                setERiserInNozzleSize={setERiserInNozzleSize}
+                eReboInNozzleSize={eReboInNozzleSize}
+                setEReboInNozzleSize={setEReboInNozzleSize}
+                eReboOutNozzleSize={eReboOutNozzleSize}
+                setEReboOutNozzleSize={setEReboOutNozzleSize}
+                eReboDP={eReboDP}
+                setEReboDP={setEReboDP}
+                eT={eT}
+                setET={setET}
+                eL={eL}
+                setEL={setEL}
+                eLC={eLC}
+                setELC={setELC}
+                eE={eE}
+                setEE={setEE}
+                eBD={eBD}
+                setEBD={setEBD}
+                eSF={eSF}
+                setESF={setESF}
                 validateInput={validateInput}
-                error301={error501}
+                error501={error501}
+                error502={error502}
+                error503={error503}
+                error504={error504}
+                error505={error505}
+                error506={error506}
+                error507={error507}
+                error508={error508}
+                error509={error509}
+                error510={error510}
+                error511={error511}
               />
             )}
         </Grid>
