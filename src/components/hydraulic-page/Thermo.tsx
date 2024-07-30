@@ -383,13 +383,222 @@ const Thermo = () => {
   };
 
   const onNewButtonClick = () => {
-    console.log("New button clicked");
+    // clear Misc. data
+    setFileName("");
+    setActiveStep(0);
+    setCaseNo("");
+    setCalState(false);
+    // clear Project data
+    setProjNo("");
+    setProjName("");
+    setProjDesc("");
+    // clear Downcomer1 data
+    setDownFlowRateMain("");
+    setDownDensity("");
+    setDownVisc("");
+    setDownIDMain("");
+    setDownRough("");
+    setDownELMain("");
+    setDownSF("");
+    // clear Downcomer3 data
+    setDownHD("");
+    setDownFlowRateMF("");
+    setDownFlowRateLead("");
+    setDownIDMF("");
+    setDownIDLead("");
+    setDownELMF("");
+    setDownELLead("");
+    // clear Riser1 data
+    setRiserWGMain("");
+    setRiserWLMain("");
+    setRiserVapDensity("");
+    setRiserLiqDensity("");
+    setRiserVapVisc("");
+    setRiserLiqVisc("");
+    setRiserIDMain("");
+    setRiserRough("");
+    setRiserELMain("");
+    setRiserSF("");
+    // clear Riser3 data
+    setRiserHR("");
+    setRiserWGMF("");
+    setRiserWGLead("");
+    setRiserWLMF("");
+    setRiserWLLead("");
+    setRiserIDMF("");
+    setRiserIDLead("");
+    setRiserELMF("");
+    setRiserELLead("");
+    // clear ConfigJ data
+    setJDownOutNozzleSize("");
+    setJRiserInNozzleSize("");
+    setJReboInNozzleSize("");
+    setJReboOutNozzleSize("");
+    setJReboDP("");
+    setJT("");
+    setJLC("");
+    setJL("");
+    setJRD("");
+    setJSF("");
+    // clear ConfigK data
+    setKDownOutNozzleSize("");
+    setKRiserInNozzleSize("");
+    setKReboInNozzleSize("");
+    setKReboOutNozzleSize("");
+    setKReboDP("");
+    setKT("");
+    setKHV("");
+    setKSF("");
+    // clear ConfigE data
+    setEDownOutNozzleSize("");
+    setERiserInNozzleSize("");
+    setEReboInNozzleSize("");
+    setEReboOutNozzleSize("");
+    setEReboDP("");
+    setET("");
+    setEL("");
+    setELC("");
+    setEE("");
+    setEBD("");
+    setESF("");
   };
+
   const onOpenButtonClick = () => {
     console.log("Open button clicked");
   };
-  const onSaveButtonClick = () => {
-    console.log("Save button clicked");
+  const onSaveButtonClick = async () => {
+    if (fileName !== "") {
+      try {
+        let data: any;
+
+        if (caseNo === "A" || caseNo === "B" || caseNo === "C") {
+          data = {
+            // Misc.
+            caseNo: caseNo,
+            // Project data
+            projNo: projNo,
+            projName: projName,
+            projDesc: projDesc,
+            // Downcomer3 data
+            downHD: downHD,
+            downFlowRateMF: downFlowRateMF,
+            downFlowRateLead: downFlowRateLead,
+            downIDMF: downIDMF,
+            downIDLead: downIDLead,
+            downELMF: downELMF,
+            downELLead: downELLead,
+            // Riser3 data
+            riserHR: riserHR,
+            riserWGMF: riserWGMF,
+            riserWGLead: riserWGLead,
+            riserWLMF: riserWLMF,
+            riserWLLead: riserWLLead,
+            riserIDMF: riserIDMF,
+            riserIDLead: riserIDLead,
+            riserELMF: riserELMF,
+            riserELLead: riserELLead,
+            // ConfigJ data
+            jDownOutNozzleSize: jDownOutNozzleSize,
+            jRiserInNozzleSize: jRiserInNozzleSize,
+            jReboInNozzleSize: jReboInNozzleSize,
+            jReboOutNozzleSize: jReboOutNozzleSize,
+            jReboDP: jReboDP,
+            jT: jT,
+            jLC: jLC,
+            jL: jL,
+            jRD: jRD,
+            jSF: jSF,
+          };
+        } else if (caseNo === "D") {
+          data = {
+            // Misc.
+            caseNo: caseNo,
+            // Project data
+            projNo: projNo,
+            projName: projName,
+            projDesc: projDesc,
+            // Downcomer1 data
+            downFlowRateMain: downFlowRateMain,
+            downDensity: downDensity,
+            downVisc: downVisc,
+            downIDMain: downIDMain,
+            downRough: downRough,
+            downELMain: downELMain,
+            downSF: downSF,
+            // Riser1 data
+            riserWGMain: riserWGMain,
+            riserWLMain: riserWLMain,
+            riserVapDensity: riserVapDensity,
+            riserLiqDensity: riserLiqDensity,
+            riserVapVisc: riserVapVisc,
+            riserLiqVisc: riserLiqVisc,
+            riserIDMain: riserIDMain,
+            riserRough: riserRough,
+            riserELMain: riserELMain,
+            riserSF: riserSF,
+            // ConfigK data
+            kDownOutNozzleSize: kDownOutNozzleSize,
+            kRiserInNozzleSize: kRiserInNozzleSize,
+            kReboInNozzleSize: kReboInNozzleSize,
+            kReboOutNozzleSize: kReboOutNozzleSize,
+            kReboDP: kReboDP,
+            kT: kT,
+            kHV: kHV,
+            kSF: kSF,
+          };
+        } else if (caseNo === "E" || caseNo === "F" || caseNo === "G") {
+          data = {
+            // Misc.
+            caseNo: caseNo,
+            // Project data
+            projNo: projNo,
+            projName: projName,
+            projDesc: projDesc,
+            // Downcomer1 data
+            downFlowRateMain: downFlowRateMain,
+            downDensity: downDensity,
+            downVisc: downVisc,
+            downIDMain: downIDMain,
+            downRough: downRough,
+            downELMain: downELMain,
+            downSF: downSF,
+            // Riser1 data
+            riserWGMain: riserWGMain,
+            riserWLMain: riserWLMain,
+            riserVapDensity: riserVapDensity,
+            riserLiqDensity: riserLiqDensity,
+            riserVapVisc: riserVapVisc,
+            riserLiqVisc: riserLiqVisc,
+            riserIDMain: riserIDMain,
+            riserRough: riserRough,
+            riserELMain: riserELMain,
+            riserSF: riserSF,
+            // ConfigE data
+            eDownOutNozzleSize: eDownOutNozzleSize,
+            eRiserInNozzleSize: eRiserInNozzleSize,
+            eReboInNozzleSize: eReboInNozzleSize,
+            eReboOutNozzleSize: eReboOutNozzleSize,
+            eReboDP: eReboDP,
+            eT: eT,
+            eL: eL,
+            eLC: eLC,
+            eE: eE,
+            eBD: eBD,
+            eSF: eSF,
+          };
+        }
+        const jsonData = JSON.stringify(data);
+        const filePath = fileName;
+        setFileName(filePath);
+        await writeTextFile(filePath, jsonData, {
+          dir: BaseDirectory.AppConfig,
+        });
+      } catch (error: any) {
+        console.error("Error saving data:", error.message);
+      }
+    } else {
+      onSaveAsButtonClick();
+    }
   };
   const onSaveAsButtonClick = async () => {
     dialog
@@ -410,8 +619,34 @@ const Thermo = () => {
               projName: projName,
               projDesc: projDesc,
               // Downcomer3 data
+              downHD: downHD,
+              downFlowRateMF: downFlowRateMF,
+              downFlowRateLead: downFlowRateLead,
+              downIDMF: downIDMF,
+              downIDLead: downIDLead,
+              downELMF: downELMF,
+              downELLead: downELLead,
               // Riser3 data
+              riserHR: riserHR,
+              riserWGMF: riserWGMF,
+              riserWGLead: riserWGLead,
+              riserWLMF: riserWLMF,
+              riserWLLead: riserWLLead,
+              riserIDMF: riserIDMF,
+              riserIDLead: riserIDLead,
+              riserELMF: riserELMF,
+              riserELLead: riserELLead,
               // ConfigJ data
+              jDownOutNozzleSize: jDownOutNozzleSize,
+              jRiserInNozzleSize: jRiserInNozzleSize,
+              jReboInNozzleSize: jReboInNozzleSize,
+              jReboOutNozzleSize: jReboOutNozzleSize,
+              jReboDP: jReboDP,
+              jT: jT,
+              jLC: jLC,
+              jL: jL,
+              jRD: jRD,
+              jSF: jSF,
             };
           } else if (caseNo === "D") {
             data = {
@@ -422,20 +657,73 @@ const Thermo = () => {
               projName: projName,
               projDesc: projDesc,
               // Downcomer1 data
+              downFlowRateMain: downFlowRateMain,
+              downDensity: downDensity,
+              downVisc: downVisc,
+              downIDMain: downIDMain,
+              downRough: downRough,
+              downELMain: downELMain,
+              downSF: downSF,
               // Riser1 data
+              riserWGMain: riserWGMain,
+              riserWLMain: riserWLMain,
+              riserVapDensity: riserVapDensity,
+              riserLiqDensity: riserLiqDensity,
+              riserVapVisc: riserVapVisc,
+              riserLiqVisc: riserLiqVisc,
+              riserIDMain: riserIDMain,
+              riserRough: riserRough,
+              riserELMain: riserELMain,
+              riserSF: riserSF,
               // ConfigK data
+              kDownOutNozzleSize: kDownOutNozzleSize,
+              kRiserInNozzleSize: kRiserInNozzleSize,
+              kReboInNozzleSize: kReboInNozzleSize,
+              kReboOutNozzleSize: kReboOutNozzleSize,
+              kReboDP: kReboDP,
+              kT: kT,
+              kHV: kHV,
+              kSF: kSF,
             };
           } else if (caseNo === "E" || caseNo === "F" || caseNo === "G") {
             data = {
               // Misc.
               caseNo: caseNo,
+              // Project data
               projNo: projNo,
               projName: projName,
               projDesc: projDesc,
-              // Project data
               // Downcomer1 data
+              downFlowRateMain: downFlowRateMain,
+              downDensity: downDensity,
+              downVisc: downVisc,
+              downIDMain: downIDMain,
+              downRough: downRough,
+              downELMain: downELMain,
+              downSF: downSF,
               // Riser1 data
+              riserWGMain: riserWGMain,
+              riserWLMain: riserWLMain,
+              riserVapDensity: riserVapDensity,
+              riserLiqDensity: riserLiqDensity,
+              riserVapVisc: riserVapVisc,
+              riserLiqVisc: riserLiqVisc,
+              riserIDMain: riserIDMain,
+              riserRough: riserRough,
+              riserELMain: riserELMain,
+              riserSF: riserSF,
               // ConfigE data
+              eDownOutNozzleSize: eDownOutNozzleSize,
+              eRiserInNozzleSize: eRiserInNozzleSize,
+              eReboInNozzleSize: eReboInNozzleSize,
+              eReboOutNozzleSize: eReboOutNozzleSize,
+              eReboDP: eReboDP,
+              eT: eT,
+              eL: eL,
+              eLC: eLC,
+              eE: eE,
+              eBD: eBD,
+              eSF: eSF,
             };
           }
           const jsonData = JSON.stringify(data);
