@@ -1,7 +1,16 @@
-import { Card, CardMedia, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardMedia,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import picA from "../../assets/ThermoSyphone-Case A.png";
 import picB from "../../assets/ThermoSyphone-Case B.png";
 import picC from "../../assets/ThermoSyphone-Case C.png";
+import Focus from "./Focus";
+import { useState } from "react";
 
 const ConfigJ = (props: any) => {
   const {
@@ -39,6 +48,16 @@ const ConfigJ = (props: any) => {
     error310,
   } = props;
 
+  // Focus state
+  const [downOutNozz, setDownOutNozz] = useState(false);
+  const [riserInNozz, setRiserInNozz] = useState(false);
+  const [reboInNozz, setReboInNozz] = useState(false);
+  const [reboOutNozz, setReboOutNozz] = useState(false);
+  const [jRT, setJRT] = useState(false);
+  const [jRLC, setJRLC] = useState(false);
+  const [jRL, setJRL] = useState(false);
+  const [jRSD, setJRSD] = useState(false);
+
   return (
     <>
       <Typography
@@ -75,7 +94,11 @@ const ConfigJ = (props: any) => {
             error={error301}
             helperText={error301 ? "Please input correct number" : ""}
             onChange={(e) => setJDownOutNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("301", e.target.value)}
+            onBlur={(e) => {
+              validateInput("301", e.target.value);
+              setDownOutNozz(false);
+            }}
+            onFocus={() => setDownOutNozz(true)}
           />
           <TextField
             id="tower-riser-inlet-nozzle-size"
@@ -86,7 +109,11 @@ const ConfigJ = (props: any) => {
             error={error302}
             helperText={error302 ? "Please input correct number" : ""}
             onChange={(e) => setJRiserInNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("302", e.target.value)}
+            onBlur={(e) => {
+              validateInput("302", e.target.value);
+              setRiserInNozz(false);
+            }}
+            onFocus={() => setRiserInNozz(true)}
           />
           <TextField
             id="reboiler-inlet-nozzle-size"
@@ -97,7 +124,11 @@ const ConfigJ = (props: any) => {
             error={error303}
             helperText={error303 ? "Please input correct number" : ""}
             onChange={(e) => setJReboInNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("303", e.target.value)}
+            onBlur={(e) => {
+              validateInput("303", e.target.value);
+              setReboInNozz(false);
+            }}
+            onFocus={() => setReboInNozz(true)}
           />
           <TextField
             id="reboiler-outlet-nozzle-size"
@@ -108,7 +139,11 @@ const ConfigJ = (props: any) => {
             error={error304}
             helperText={error304 ? "Please input correct number" : ""}
             onChange={(e) => setJReboOutNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("304", e.target.value)}
+            onBlur={(e) => {
+              validateInput("304", e.target.value);
+              setReboOutNozz(false);
+            }}
+            onFocus={() => setReboOutNozz(true)}
           />
           <TextField
             id="reboiler-pressure-loss"
@@ -130,7 +165,11 @@ const ConfigJ = (props: any) => {
             error={error306}
             helperText={error306 ? "Please input correct number" : ""}
             onChange={(e) => setJT(e.target.value)}
-            onBlur={(e) => validateInput("306", e.target.value)}
+            onBlur={(e) => {
+              validateInput("306", e.target.value);
+              setJRT(false);
+            }}
+            onFocus={() => setJRT(true)}
           />
           {caseNo === "A" && (
             <TextField
@@ -142,7 +181,11 @@ const ConfigJ = (props: any) => {
               error={error307}
               helperText={error307 ? "Please input correct number" : ""}
               onChange={(e) => setJLC(e.target.value)}
-              onBlur={(e) => validateInput("307", e.target.value)}
+              onBlur={(e) => {
+                validateInput("307", e.target.value);
+                setJRLC(false);
+              }}
+              onFocus={() => setJRLC(true)}
             />
           )}
           {caseNo === "C" && (
@@ -155,7 +198,11 @@ const ConfigJ = (props: any) => {
               error={error308}
               helperText={error308 ? "Please input correct number" : ""}
               onChange={(e) => setJL(e.target.value)}
-              onBlur={(e) => validateInput("308", e.target.value)}
+              onBlur={(e) => {
+                validateInput("308", e.target.value);
+                setJRL(false);
+              }}
+              onFocus={() => setJRL(true)}
             />
           )}
           <TextField
@@ -167,7 +214,11 @@ const ConfigJ = (props: any) => {
             error={error309}
             helperText={error309 ? "Please input correct number" : ""}
             onChange={(e) => setJRD(e.target.value)}
-            onBlur={(e) => validateInput("309", e.target.value)}
+            onBlur={(e) => {
+              validateInput("309", e.target.value);
+              setJRSD(false);
+            }}
+            onFocus={() => setJRSD(true)}
           />
           <TextField
             id="j-safety-factor"
@@ -192,19 +243,45 @@ const ConfigJ = (props: any) => {
           }}
         >
           {caseNo === "A" && (
-            <Card elevation={3} sx={{ p: 4 }}>
-              <CardMedia component="img" image={picA} alt="Case A" />
-            </Card>
+            <Box position="relative">
+              <Card elevation={3} sx={{ p: 4 }}>
+                <CardMedia component="img" image={picA} alt="Case A" />
+              </Card>
+              {downOutNozz && <Focus x="12%" y="53%" />}
+              {riserInNozz && <Focus x="22%" y="17%" />}
+              {reboInNozz && <Focus x="63.5%" y="80%" />}
+              {reboOutNozz && <Focus x="64%" y="56%" />}
+              {jRT && <Focus x="40%" y="34%" />}
+              {jRLC && <Focus x="39%" y="14%" />}
+              {jRSD && <Focus x="80%" y="68%" />}
+            </Box>
           )}
           {caseNo === "B" && (
-            <Card elevation={3} sx={{ p: 4 }}>
-              <CardMedia component="img" image={picB} alt="Case B" />
-            </Card>
+            <Box position="relative">
+              <Card elevation={3} sx={{ p: 4 }}>
+                <CardMedia component="img" image={picB} alt="Case B" />
+              </Card>
+              {downOutNozz && <Focus x="12%" y="53%" />}
+              {riserInNozz && <Focus x="22%" y="17%" />}
+              {reboInNozz && <Focus x="63.5%" y="80%" />}
+              {reboOutNozz && <Focus x="64%" y="56%" />}
+              {jRT && <Focus x="40%" y="34%" />}
+              {jRSD && <Focus x="80%" y="68%" />}
+            </Box>
           )}
           {caseNo === "C" && (
-            <Card elevation={3} sx={{ p: 4 }}>
-              <CardMedia component="img" image={picC} alt="Case C" />
-            </Card>
+            <Box position="relative">
+              <Card elevation={3} sx={{ p: 4 }}>
+                <CardMedia component="img" image={picC} alt="Case C" />
+              </Card>
+              {downOutNozz && <Focus x="12%" y="53%" />}
+              {riserInNozz && <Focus x="22%" y="17%" />}
+              {reboInNozz && <Focus x="63.5%" y="80%" />}
+              {reboOutNozz && <Focus x="64%" y="56%" />}
+              {jRT && <Focus x="40%" y="34%" />}
+              {jRL && <Focus x="29%" y="23.5%" />}
+              {jRSD && <Focus x="80%" y="68%" />}
+            </Box>
           )}
         </Grid>
       </Grid>
