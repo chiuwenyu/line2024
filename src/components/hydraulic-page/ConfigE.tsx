@@ -10,21 +10,7 @@ import picE from "../../assets/ThermoSyphone-Case E.png";
 import picF from "../../assets/ThermoSyphone-Case F.png";
 import picG from "../../assets/ThermoSyphone-Case G.png";
 import { useState } from "react";
-
-const Focus = (props: any) => {
-  const { x, y } = props;
-  return (
-    <Box
-      position="absolute"
-      top={y} // 設定圓形的頂部位置
-      left={x} // 設定圓形的左邊位置
-      width={50} // 設定圓形的寬度
-      height={50} // 設定圓形的高度
-      borderRadius="50%" // 設定圓形的邊界半徑為 50%，使其成為一個圓形
-      bgcolor="rgba(255, 0, 0, 0.5)" // 設定圓形的背景顏色為紅色，並設定透明度為 0.5
-    />
-  );
-};
+import Focus from "./Focus";
 
 const ConfigE = (props: any) => {
   const {
@@ -65,7 +51,15 @@ const ConfigE = (props: any) => {
     error511,
   } = props;
 
+  // Focus state
   const [downOutNozz, setDownOutNozz] = useState(false);
+  const [riserInNozz, setRiserInNozz] = useState(false);
+  const [reboInNozz, setReboInNozz] = useState(false);
+  const [reboOutNozz, setReboOutNozz] = useState(false);
+  const [eRT, setERT] = useState(false);
+  const [eRL, setERL] = useState(false);
+  const [eRLC, setERLC] = useState(false);
+  const [eRE, setERE] = useState(false);
 
   return (
     <>
@@ -119,7 +113,11 @@ const ConfigE = (props: any) => {
             error={error502}
             helperText={error502 ? "Please input correct number" : ""}
             onChange={(e) => setERiserInNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("502", e.target.value)}
+            onBlur={(e) => {
+              validateInput("502", e.target.value);
+              setRiserInNozz(false);
+            }}
+            onFocus={() => setRiserInNozz(true)}
           />
           <TextField
             id="reboiler-inlet-nozzle-size"
@@ -130,7 +128,11 @@ const ConfigE = (props: any) => {
             error={error503}
             helperText={error503 ? "Please input correct number" : ""}
             onChange={(e) => setEReboInNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("503", e.target.value)}
+            onBlur={(e) => {
+              validateInput("503", e.target.value);
+              setReboInNozz(false);
+            }}
+            onFocus={() => setReboInNozz(true)}
           />
           <TextField
             id="reboiler-outlet-nozzle-size"
@@ -141,7 +143,11 @@ const ConfigE = (props: any) => {
             error={error504}
             helperText={error504 ? "Please input correct number" : ""}
             onChange={(e) => setEReboOutNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("504", e.target.value)}
+            onBlur={(e) => {
+              validateInput("504", e.target.value);
+              setReboOutNozz(false);
+            }}
+            onFocus={() => setReboOutNozz(true)}
           />
           <TextField
             id="reboiler-pressure-loss"
@@ -163,7 +169,11 @@ const ConfigE = (props: any) => {
             error={error506}
             helperText={error506 ? "Please input correct number" : ""}
             onChange={(e) => setET(e.target.value)}
-            onBlur={(e) => validateInput("506", e.target.value)}
+            onBlur={(e) => {
+              validateInput("506", e.target.value);
+              setERT(false);
+            }}
+            onFocus={() => setERT(true)}
           />
           {caseNo === "G" && (
             <TextField
@@ -175,7 +185,11 @@ const ConfigE = (props: any) => {
               error={error507}
               helperText={error507 ? "Please input correct number" : ""}
               onChange={(e) => setEL(e.target.value)}
-              onBlur={(e) => validateInput("507", e.target.value)}
+              onBlur={(e) => {
+                validateInput("507", e.target.value);
+                setERL(false);
+              }}
+              onFocus={() => setERL(true)}
             />
           )}
           {caseNo === "F" && (
@@ -188,7 +202,11 @@ const ConfigE = (props: any) => {
               error={error508}
               helperText={error508 ? "Please input correct number" : ""}
               onChange={(e) => setELC(e.target.value)}
-              onBlur={(e) => validateInput("508", e.target.value)}
+              onBlur={(e) => {
+                validateInput("508", e.target.value);
+                setERLC(false);
+              }}
+              onFocus={() => setERLC(true)}
             />
           )}
           <TextField
@@ -200,7 +218,11 @@ const ConfigE = (props: any) => {
             error={error509}
             helperText={error509 ? "Please input correct number" : ""}
             onChange={(e) => setEE(e.target.value)}
-            onBlur={(e) => validateInput("509", e.target.value)}
+            onBlur={(e) => {
+              validateInput("509", e.target.value);
+              setERE(false);
+            }}
+            onFocus={() => setERE(true)}
           />
           <TextField
             id="E-BD"
@@ -242,17 +264,40 @@ const ConfigE = (props: any) => {
                 <CardMedia component="img" image={picE} alt="Case E" />
               </Card>
               {downOutNozz && <Focus x="12%" y="52%" />}
+              {riserInNozz && <Focus x="22%" y="17%" />}
+              {reboInNozz && <Focus x="58%" y="84%" />}
+              {reboOutNozz && <Focus x="64%" y="42%" />}
+              {eRT && <Focus x="40%" y="32%" />}
+              {eRE && <Focus x="78%" y="65.5%" />}
             </Box>
           )}
           {caseNo === "F" && (
-            <Card elevation={3} sx={{ p: 4 }}>
-              <CardMedia component="img" image={picF} alt="Case F" />
-            </Card>
+            <Box position="relative">
+              <Card elevation={3} sx={{ p: 4 }}>
+                <CardMedia component="img" image={picF} alt="Case F" />
+              </Card>
+              {downOutNozz && <Focus x="12%" y="52%" />}
+              {riserInNozz && <Focus x="22%" y="17%" />}
+              {reboInNozz && <Focus x="58%" y="84%" />}
+              {reboOutNozz && <Focus x="64%" y="42%" />}
+              {eRT && <Focus x="40%" y="32%" />}
+              {eRLC && <Focus x="38%" y="14%" />}
+              {eRE && <Focus x="78%" y="65.5%" />}
+            </Box>
           )}
           {caseNo === "G" && (
-            <Card elevation={3} sx={{ p: 4 }}>
-              <CardMedia component="img" image={picG} alt="Case G" />
-            </Card>
+            <Box position="relative">
+              <Card elevation={3} sx={{ p: 4 }}>
+                <CardMedia component="img" image={picG} alt="Case G" />
+              </Card>
+              {downOutNozz && <Focus x="12%" y="52%" />}
+              {riserInNozz && <Focus x="22%" y="17%" />}
+              {reboInNozz && <Focus x="58%" y="84%" />}
+              {reboOutNozz && <Focus x="64%" y="42%" />}
+              {eRT && <Focus x="40%" y="32%" />}
+              {eRL && <Focus x="26%" y="23%" />}
+              {eRE && <Focus x="78%" y="65.5%" />}
+            </Box>
           )}
         </Grid>
       </Grid>
