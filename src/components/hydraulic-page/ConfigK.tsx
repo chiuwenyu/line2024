@@ -40,12 +40,12 @@ const ConfigK = (props: any) => {
   } = props;
 
   // Focus state
-  const [downOutNozz, setDownOutNozz] = useState(false);
-  const [riserInNozz, setRiserInNozz] = useState(false);
-  const [reboInNozz, setReboInNozz] = useState(false);
-  const [reboOutNozz, setReboOutNozz] = useState(false);
-  const [kRT, setKRT] = useState(false);
-  const [rKHV, setRKHV] = useState(false);
+  const [downOutNozz, setDownOutNozz] = useState(false); // Tower downcomer outlet nozzle focus state
+  const [riserInNozz, setRiserInNozz] = useState(false); // Tower riser inlet nozzle focus state
+  const [reboInNozz, setReboInNozz] = useState(false); // Reboiler inlet nozzle focus state
+  const [reboOutNozz, setReboOutNozz] = useState(false); // Reboiler outlet nozzle focus state
+  const [kRT, setKRT] = useState(false); // Tower T.L to C.L of the Riser Entering Tower <T> focus state
+  const [rKHV, setRKHV] = useState(false); // Reboiler Vapor Space Height (Kettle) <HV> focus state
 
   return (
     <>

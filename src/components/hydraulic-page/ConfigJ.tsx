@@ -49,14 +49,14 @@ const ConfigJ = (props: any) => {
   } = props;
 
   // Focus state
-  const [downOutNozz, setDownOutNozz] = useState(false);
-  const [riserInNozz, setRiserInNozz] = useState(false);
-  const [reboInNozz, setReboInNozz] = useState(false);
-  const [reboOutNozz, setReboOutNozz] = useState(false);
-  const [jRT, setJRT] = useState(false);
-  const [jRLC, setJRLC] = useState(false);
-  const [jRL, setJRL] = useState(false);
-  const [jRSD, setJRSD] = useState(false);
+  const [downOutNozz, setDownOutNozz] = useState(false); // Tower downcomer outlet nozzle focus state
+  const [riserInNozz, setRiserInNozz] = useState(false); // Tower riser inlet nozzle focus state
+  const [reboInNozz, setReboInNozz] = useState(false); // Reboiler inlet nozzle focus state
+  const [reboOutNozz, setReboOutNozz] = useState(false); // Reboiler outlet nozzle focus state
+  const [jRT, setJRT] = useState(false); // Tower T.L to C.L of the Riser Entering Tower <T> focus state
+  const [jRLC, setJRLC] = useState(false); // Tower Outlet Nozzle Higher than Riser Distance <LC> focus state
+  const [jRL, setJRL] = useState(false); // Tower Baffle Top Lower than Riser Distance <L> focus state
+  const [jRSD, setJRSD] = useState(false); // Reboiler Shell Diameter <RD> focus state
 
   return (
     <>

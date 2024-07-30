@@ -52,14 +52,14 @@ const ConfigE = (props: any) => {
   } = props;
 
   // Focus state
-  const [downOutNozz, setDownOutNozz] = useState(false);
-  const [riserInNozz, setRiserInNozz] = useState(false);
-  const [reboInNozz, setReboInNozz] = useState(false);
-  const [reboOutNozz, setReboOutNozz] = useState(false);
-  const [eRT, setERT] = useState(false);
-  const [eRL, setERL] = useState(false);
-  const [eRLC, setERLC] = useState(false);
-  const [eRE, setERE] = useState(false);
+  const [downOutNozz, setDownOutNozz] = useState(false); // Tower downcomer outlet nozzle focus state
+  const [riserInNozz, setRiserInNozz] = useState(false); // Tower riser inlet nozzle focus state
+  const [reboInNozz, setReboInNozz] = useState(false); // Reboiler inlet nozzle focus state
+  const [reboOutNozz, setReboOutNozz] = useState(false); // Reboiler outlet nozzle focus state
+  const [eRT, setERT] = useState(false); // Tower T.L to C.L of the Riser Entering Tower <T> focus state
+  const [eRL, setERL] = useState(false); // Tower Baffle Top lower than Riser Distance <L> focus state
+  const [eRLC, setERLC] = useState(false); // Tower Outlet Nozzle Higher than Riser Distance <LC> focus state
+  const [eRE, setERE] = useState(false); // Reboileer Tube Length (Vertical) <E>focus state
 
   return (
     <>
