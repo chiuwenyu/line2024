@@ -1,5 +1,14 @@
-import { Card, CardMedia, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardMedia,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import picD from "../../assets/ThermoSyphone-Case D.png";
+import Focus from "./Focus";
+import { useState } from "react";
 
 const ConfigK = (props: any) => {
   const {
@@ -29,6 +38,14 @@ const ConfigK = (props: any) => {
     error407,
     error408,
   } = props;
+
+  // Focus state
+  const [downOutNozz, setDownOutNozz] = useState(false);
+  const [riserInNozz, setRiserInNozz] = useState(false);
+  const [reboInNozz, setReboInNozz] = useState(false);
+  const [reboOutNozz, setReboOutNozz] = useState(false);
+  const [kRT, setKRT] = useState(false);
+  const [rKHV, setRKHV] = useState(false);
 
   return (
     <>
@@ -61,7 +78,11 @@ const ConfigK = (props: any) => {
             error={error401}
             helperText={error401 ? "Please input correct number" : ""}
             onChange={(e) => setKDownOutNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("401", e.target.value)}
+            onBlur={(e) => {
+              validateInput("401", e.target.value);
+              setDownOutNozz(false);
+            }}
+            onFocus={() => setDownOutNozz(true)}
           />
           <TextField
             id="tower-riser-inlet-nozzle-size"
@@ -72,7 +93,11 @@ const ConfigK = (props: any) => {
             error={error402}
             helperText={error402 ? "Please input correct number" : ""}
             onChange={(e) => setKRiserInNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("402", e.target.value)}
+            onBlur={(e) => {
+              validateInput("402", e.target.value);
+              setRiserInNozz(false);
+            }}
+            onFocus={() => setRiserInNozz(true)}
           />
           <TextField
             id="reboiler-inlet-nozzle-size"
@@ -83,7 +108,11 @@ const ConfigK = (props: any) => {
             error={error403}
             helperText={error403 ? "Please input correct number" : ""}
             onChange={(e) => setKReboInNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("403", e.target.value)}
+            onBlur={(e) => {
+              validateInput("403", e.target.value);
+              setReboInNozz(false);
+            }}
+            onFocus={() => setReboInNozz(true)}
           />
           <TextField
             id="reboiler-outlet-nozzle-size"
@@ -94,7 +123,11 @@ const ConfigK = (props: any) => {
             error={error404}
             helperText={error404 ? "Please input correct number" : ""}
             onChange={(e) => setKReboOutNozzleSize(e.target.value)}
-            onBlur={(e) => validateInput("404", e.target.value)}
+            onBlur={(e) => {
+              validateInput("404", e.target.value);
+              setReboOutNozz(false);
+            }}
+            onFocus={() => setReboOutNozz(true)}
           />
           <TextField
             id="reboiler-pressure-loss"
@@ -116,7 +149,11 @@ const ConfigK = (props: any) => {
             error={error406}
             helperText={error406 ? "Please input correct number" : ""}
             onChange={(e) => setKT(e.target.value)}
-            onBlur={(e) => validateInput("406", e.target.value)}
+            onBlur={(e) => {
+              validateInput("406", e.target.value);
+              setKRT(false);
+            }}
+            onFocus={() => setKRT(true)}
           />
           <TextField
             id="reboiler-vapor-space-height-kettle"
@@ -127,7 +164,11 @@ const ConfigK = (props: any) => {
             error={error407}
             helperText={error407 ? "Please input correct number" : ""}
             onChange={(e) => setKHV(e.target.value)}
-            onBlur={(e) => validateInput("407", e.target.value)}
+            onBlur={(e) => {
+              validateInput("407", e.target.value);
+              setRKHV(false);
+            }}
+            onFocus={() => setRKHV(true)}
           />
           <TextField
             id="safety-factor-kSF"
@@ -150,9 +191,17 @@ const ConfigK = (props: any) => {
             height: "40vh",
           }}
         >
-          <Card elevation={3} sx={{ p: 4 }}>
-            <CardMedia component="img" image={picD} alt="Case D" />
-          </Card>
+          <Box position="relative">
+            <Card elevation={3} sx={{ p: 4 }}>
+              <CardMedia component="img" image={picD} alt="Case D" />
+            </Card>
+            {downOutNozz && <Focus x="11%" y="53%" />}
+            {riserInNozz && <Focus x="20%" y="17%" />}
+            {reboInNozz && <Focus x="58.5%" y="79%" />}
+            {reboOutNozz && <Focus x="68%" y="66%" />}
+            {kRT && <Focus x="27%" y="35%" />}
+            {rKHV && <Focus x="82%" y="69%" />}
+          </Box>
         </Grid>
       </Grid>
     </>
