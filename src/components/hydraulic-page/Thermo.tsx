@@ -13,12 +13,20 @@ import Riser3 from "./Riser3";
 import ConfigJ from "./ConfigJ";
 import ConfigK from "./ConfigK";
 import ConfigE from "./ConfigE";
+import { dialog } from "@tauri-apps/api";
+import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
+import Thermoproject from "./Thermoproject";
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
   const [activeStep, setActiveStep] = useState(0); // track stepper progress step, 0 = step 1, 4 = step 5
   const [caseNo, setCaseNo] = useState(""); // track selected thermosyphon circuit case number; A~F
   const [calState, setCalState] = useState(false);
+
+  // Project data
+  const [projNo, setProjNo] = useState(""); // Project number
+  const [projName, setProjName] = useState(""); // Project name
+  const [projDesc, setProjDesc] = useState(""); // Project description
 
   // DownComer1 data
   const [downFlowRateMain, setDownFlowRateMain] = useState(""); // Downcomer total flow Rate [Kg/hr]
@@ -383,8 +391,65 @@ const Thermo = () => {
   const onSaveButtonClick = () => {
     console.log("Save button clicked");
   };
-  const onSaveAsButtonClick = () => {
-    console.log("Save As button clicked");
+  const onSaveAsButtonClick = async () => {
+    dialog
+      .save({
+        defaultPath: "thermodata1.tms", // 預設檔案名稱
+        filters: [{ name: "Thermosyphon Files", extensions: ["tms"] }], // 檔案類型過濾器
+        title: "Save File As",
+      })
+      .then(async (result) => {
+        let data: any;
+        if (result !== null) {
+          if (caseNo === "A" || caseNo === "B" || caseNo === "C") {
+            data = {
+              // Misc.
+              caseNo: caseNo,
+              // Project data
+              projNo: projNo,
+              projName: projName,
+              projDesc: projDesc,
+              // Downcomer3 data
+              // Riser3 data
+              // ConfigJ data
+            };
+          } else if (caseNo === "D") {
+            data = {
+              // Misc.
+              caseNo: caseNo,
+              // Project data
+              projNo: projNo,
+              projName: projName,
+              projDesc: projDesc,
+              // Downcomer1 data
+              // Riser1 data
+              // ConfigK data
+            };
+          } else if (caseNo === "E" || caseNo === "F" || caseNo === "G") {
+            data = {
+              // Misc.
+              caseNo: caseNo,
+              projNo: projNo,
+              projName: projName,
+              projDesc: projDesc,
+              // Project data
+              // Downcomer1 data
+              // Riser1 data
+              // ConfigE data
+            };
+          }
+          const jsonData = JSON.stringify(data);
+          setFileName(result);
+          await writeTextFile(result, jsonData, {
+            dir: BaseDirectory.AppConfig,
+          });
+        } else {
+          console.log("Cancelled by user.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error.message);
+      });
   };
   const onExportButtonClick = () => {
     console.log("Export button clicked");
@@ -766,6 +831,16 @@ const Thermo = () => {
                 error511={error511}
               />
             )}
+          {activeStep === 4 && (
+            <Thermoproject
+              projNo={projNo}
+              setProjNo={setProjNo}
+              projName={projName}
+              setProjName={setProjName}
+              projDesc={projDesc}
+              setProjDesc={setProjDesc}
+            />
+          )}
         </Grid>
       </Stack>
     </>
