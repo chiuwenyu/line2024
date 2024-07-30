@@ -463,8 +463,56 @@ const Thermo = () => {
     setESF("");
   };
 
-  const onOpenButtonClick = () => {
-    console.log("Open button clicked");
+  const onOpenButtonClick = async () => {
+    dialog
+      .open({
+        filters: [{ name: "Thermosyphon Files", extensions: ["tms"] }], // 檔案類型過濾器
+        title: "Open File",
+      })
+      .then(async (result) => {
+        if (result !== null) {
+          setFileName(result as string);
+          await readTextFile(result as string, {
+            dir: BaseDirectory.AppConfig,
+          }).then((data) => {
+            const jsonData = data as string;
+            const objData = JSON.parse(jsonData);
+
+            // Read Misc.
+            setCaseNo(objData.caseNo);
+            // Read Project data
+            setProjNo(objData.projNo);
+            setProjName(objData.projName);
+            setProjDesc(projDesc);
+            if (
+              objData.caseNo === "A" ||
+              objData.caseNo === "B" ||
+              objData.caseNo === "C"
+            ) {
+              // read Downcomer3 data
+              // read Riser3 data
+              // read Config j data
+            } else if (objData.caseNo === "D") {
+              // read Downcomer1 data
+              // read Riser1 data
+              // read Config K data
+            } else if (
+              objData.caseNo === "E" ||
+              objData.caseNo === "F" ||
+              objData.caseNo === "G"
+            ) {
+              // read Downcomer1 data
+              // read Riser1 data
+              // read Config E data
+            }
+          });
+        } else {
+          console.log("Cancelled by user.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error reading data:", error.message);
+      });
   };
   const onSaveButtonClick = async () => {
     if (fileName !== "") {
