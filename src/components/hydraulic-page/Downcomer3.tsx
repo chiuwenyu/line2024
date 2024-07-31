@@ -190,22 +190,6 @@ const Downcomer3 = (props: any) => {
               },
             }}
           />
-          <TextField
-            id="down-main-HD"
-            label="HD (Height from mainfold to reboiler) (m)"
-            variant="outlined"
-            value={downHD}
-            color="secondary"
-            error={error108}
-            helperText={error108 ? "Please input correct number" : ""}
-            onChange={(e) => setDownHD(e.target.value)}
-            onBlur={(e) => validateInput("108", e.target.value)}
-            InputLabelProps={{
-              sx: {
-                color: "blue", // 預設顏色
-              },
-            }}
-          />
         </Grid>
         <Grid // This Grid is Manifold pipe column
           container
@@ -274,6 +258,23 @@ const Downcomer3 = (props: any) => {
             InputLabelProps={{
               sx: {
                 color: "red", // 預設顏色
+              },
+            }}
+            sx={{ mt: 9 }}
+          />
+          <TextField
+            id="down-HD"
+            label="HD (Height from mainfold to reboiler) (m)"
+            variant="outlined"
+            value={downHD}
+            color="secondary"
+            error={error108}
+            helperText={error108 ? "Please input correct number" : ""}
+            onChange={(e) => setDownHD(e.target.value)}
+            onBlur={(e) => validateInput("108", e.target.value)}
+            InputLabelProps={{
+              sx: {
+                color: "blue", // 預設顏色
               },
             }}
             sx={{ mt: 9 }}
