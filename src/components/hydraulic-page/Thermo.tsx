@@ -489,21 +489,119 @@ const Thermo = () => {
               objData.caseNo === "B" ||
               objData.caseNo === "C"
             ) {
+              // read Downcomer1 data
+              setDownFlowRateMain(downFlowRateMain);
+              setDownDensity(downDensity);
+              setDownVisc(downVisc);
+              setDownIDMain(downIDMain);
+              setDownRough(downRough);
+              setDownELMain(downELMain);
+              setDownSF(downSF);
               // read Downcomer3 data
+              setDownHD(objData.downHD);
+              setDownFlowRateMF(objData.downFlowRateMF);
+              setDownFlowRateLead(objData.downFlowRateLead);
+              setDownIDMF(objData.downIDMF);
+              setDownIDLead(objData.downIDLead);
+              setDownELMF(objData.downELMF);
+              setDownELLead(objData.downELLead);
+              // read Riser1 data
+              setRiserWGMain(objData.riserWGMain);
+              setRiserWLMain(objData.riserWLMain);
+              setRiserVapDensity(objData.riserVapDensity);
+              setRiserLiqDensity(objData.riserLiqDensity);
+              setRiserVapVisc(objData.riserVapVisc);
+              setRiserLiqVisc(objData.riserLiqVisc);
+              setRiserIDMain(objData.riserIDMain);
+              setRiserRough(objData.riserRough);
+              setRiserELMain(objData.riserELMain);
+              setRiserSF(objData.riserSF);
               // read Riser3 data
+              setRiserHR(objData.riserHR);
+              setRiserWGMF(objData.riserWGMF);
+              setRiserWGLead(objData.riserWGLead);
+              setRiserWLMF(objData.riserWLMF);
+              setRiserWLLead(objData.riserWLLead);
+              setRiserIDMF(objData.riserIDMF);
+              setRiserIDLead(objData.riserIDLead);
+              setRiserELMF(objData.riserELMF);
+              setRiserELLead(objData.riserELLead);
               // read Config j data
+              setJDownOutNozzleSize(objData.jDownOutNozzleSize);
+              setJRiserInNozzleSize(objData.jRiserInNozzleSize);
+              setJReboInNozzleSize(objData.jReboInNozzleSize);
+              setJReboOutNozzleSize(objData.jReboOutNozzleSize);
+              setJReboDP(objData.jReboDP);
+              setJT(objData.jT);
+              setJLC(objData.jLC);
+              setJL(objData.jL);
+              setJRD(objData.jRD);
+              setJSF(objData.jSF);
             } else if (objData.caseNo === "D") {
               // read Downcomer1 data
+              setDownFlowRateMain(downFlowRateMain);
+              setDownDensity(downDensity);
+              setDownVisc(downVisc);
+              setDownIDMain(downIDMain);
+              setDownRough(downRough);
+              setDownELMain(downELMain);
+              setDownSF(downSF);
               // read Riser1 data
+              setRiserWGMain(objData.riserWGMain);
+              setRiserWLMain(objData.riserWLMain);
+              setRiserVapDensity(objData.riserVapDensity);
+              setRiserLiqDensity(objData.riserLiqDensity);
+              setRiserVapVisc(objData.riserVapVisc);
+              setRiserLiqVisc(objData.riserLiqVisc);
+              setRiserIDMain(objData.riserIDMain);
+              setRiserRough(objData.riserRough);
+              setRiserELMain(objData.riserELMain);
+              setRiserSF(objData.riserSF);
               // read Config K data
+              setKDownOutNozzleSize(objData.kDownOutNozzleSize);
+              setKRiserInNozzleSize(objData.kRiserInNozzleSize);
+              setKReboInNozzleSize(objData.kReboInNozzleSize);
+              setKReboOutNozzleSize(objData.kReboOutNozzleSize);
+              setKReboDP(objData.kReboDP);
+              setKT(objData.kT);
+              setKHV(objData.kHV);
+              setKSF(objData.kSF);
             } else if (
               objData.caseNo === "E" ||
               objData.caseNo === "F" ||
               objData.caseNo === "G"
             ) {
               // read Downcomer1 data
+              setDownFlowRateMain(downFlowRateMain);
+              setDownDensity(downDensity);
+              setDownVisc(downVisc);
+              setDownIDMain(downIDMain);
+              setDownRough(downRough);
+              setDownELMain(downELMain);
+              setDownSF(downSF);
               // read Riser1 data
+              setRiserWGMain(objData.riserWGMain);
+              setRiserWLMain(objData.riserWLMain);
+              setRiserVapDensity(objData.riserVapDensity);
+              setRiserLiqDensity(objData.riserLiqDensity);
+              setRiserVapVisc(objData.riserVapVisc);
+              setRiserLiqVisc(objData.riserLiqVisc);
+              setRiserIDMain(objData.riserIDMain);
+              setRiserRough(objData.riserRough);
+              setRiserELMain(objData.riserELMain);
+              setRiserSF(objData.riserSF);
               // read Config E data
+              setEDownOutNozzleSize(objData.eDownOutNozzleSize);
+              setERiserInNozzleSize(objData.eRiserInNozzleSize);
+              setEReboInNozzleSize(objData.eReboInNozzleSize);
+              setEReboOutNozzleSize(objData.eReboOutNozzleSize);
+              setEReboDP(objData.eReboDP);
+              setET(objData.eT);
+              setEL(objData.eL);
+              setELC(objData.eLC);
+              setEE(objData.eE);
+              setEBD(objData.eBD);
+              setESF(objData.eSF);
             }
           });
         } else {
@@ -527,6 +625,14 @@ const Thermo = () => {
             projNo: projNo,
             projName: projName,
             projDesc: projDesc,
+            // Downcomer1 data
+            downFlowRateMain: downFlowRateMain,
+            downDensity: downDensity,
+            downVisc: downVisc,
+            downIDMain: downIDMain,
+            downRough: downRough,
+            downELMain: downELMain,
+            downSF: downSF,
             // Downcomer3 data
             downHD: downHD,
             downFlowRateMF: downFlowRateMF,
@@ -535,6 +641,17 @@ const Thermo = () => {
             downIDLead: downIDLead,
             downELMF: downELMF,
             downELLead: downELLead,
+            // Riser1 data
+            riserWGMain: riserWGMain,
+            riserWLMain: riserWLMain,
+            riserVapDensity: riserVapDensity,
+            riserLiqDensity: riserLiqDensity,
+            riserVapVisc: riserVapVisc,
+            riserLiqVisc: riserLiqVisc,
+            riserIDMain: riserIDMain,
+            riserRough: riserRough,
+            riserELMain: riserELMain,
+            riserSF: riserSF,
             // Riser3 data
             riserHR: riserHR,
             riserWGMF: riserWGMF,
@@ -666,6 +783,14 @@ const Thermo = () => {
               projNo: projNo,
               projName: projName,
               projDesc: projDesc,
+              // Downcomer1 data
+              downFlowRateMain: downFlowRateMain,
+              downDensity: downDensity,
+              downVisc: downVisc,
+              downIDMain: downIDMain,
+              downRough: downRough,
+              downELMain: downELMain,
+              downSF: downSF,
               // Downcomer3 data
               downHD: downHD,
               downFlowRateMF: downFlowRateMF,
@@ -674,6 +799,17 @@ const Thermo = () => {
               downIDLead: downIDLead,
               downELMF: downELMF,
               downELLead: downELLead,
+              // Riser1 data
+              riserWGMain: riserWGMain,
+              riserWLMain: riserWLMain,
+              riserVapDensity: riserVapDensity,
+              riserLiqDensity: riserLiqDensity,
+              riserVapVisc: riserVapVisc,
+              riserLiqVisc: riserLiqVisc,
+              riserIDMain: riserIDMain,
+              riserRough: riserRough,
+              riserELMain: riserELMain,
+              riserSF: riserSF,
               // Riser3 data
               riserHR: riserHR,
               riserWGMF: riserWGMF,
