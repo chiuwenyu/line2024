@@ -490,13 +490,13 @@ const Thermo = () => {
               objData.caseNo === "C"
             ) {
               // read Downcomer1 data
-              setDownFlowRateMain(downFlowRateMain);
-              setDownDensity(downDensity);
-              setDownVisc(downVisc);
-              setDownIDMain(downIDMain);
-              setDownRough(downRough);
-              setDownELMain(downELMain);
-              setDownSF(downSF);
+              setDownFlowRateMain(objData.downFlowRateMain);
+              setDownDensity(objData.downDensity);
+              setDownVisc(objData.downVisc);
+              setDownIDMain(objData.downIDMain);
+              setDownRough(objData.downRough);
+              setDownELMain(objData.downELMain);
+              setDownSF(objData.downSF);
               // read Downcomer3 data
               setDownHD(objData.downHD);
               setDownFlowRateMF(objData.downFlowRateMF);
@@ -539,13 +539,13 @@ const Thermo = () => {
               setJSF(objData.jSF);
             } else if (objData.caseNo === "D") {
               // read Downcomer1 data
-              setDownFlowRateMain(downFlowRateMain);
-              setDownDensity(downDensity);
-              setDownVisc(downVisc);
-              setDownIDMain(downIDMain);
-              setDownRough(downRough);
-              setDownELMain(downELMain);
-              setDownSF(downSF);
+              setDownFlowRateMain(objData.downFlowRateMain);
+              setDownDensity(objData.downDensity);
+              setDownVisc(objData.downVisc);
+              setDownIDMain(objData.downIDMain);
+              setDownRough(objData.downRough);
+              setDownELMain(objData.downELMain);
+              setDownSF(objData.downSF);
               // read Riser1 data
               setRiserWGMain(objData.riserWGMain);
               setRiserWLMain(objData.riserWLMain);
@@ -572,13 +572,13 @@ const Thermo = () => {
               objData.caseNo === "G"
             ) {
               // read Downcomer1 data
-              setDownFlowRateMain(downFlowRateMain);
-              setDownDensity(downDensity);
-              setDownVisc(downVisc);
-              setDownIDMain(downIDMain);
-              setDownRough(downRough);
-              setDownELMain(downELMain);
-              setDownSF(downSF);
+              setDownFlowRateMain(objData.downFlowRateMain);
+              setDownDensity(objData.downDensity);
+              setDownVisc(objData.downVisc);
+              setDownIDMain(objData.downIDMain);
+              setDownRough(objData.downRough);
+              setDownELMain(objData.downELMain);
+              setDownSF(objData.downSF);
               // read Riser1 data
               setRiserWGMain(objData.riserWGMain);
               setRiserWLMain(objData.riserWLMain);
