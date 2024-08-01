@@ -931,6 +931,24 @@ const Thermo = () => {
     setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
   };
 
+  const onExecuteButtonClick = () => {
+    if (caseNo === "A") {
+    } else if (caseNo === "B") {
+    } else if (caseNo === "C") {
+    } else if (caseNo === "D") {
+    } else if (caseNo === "E") {
+      calCaseE();
+    } else if (caseNo === "F") {
+    } else if (caseNo === "G") {
+    } else {
+      console.log("Error: Invalid case number");
+    }
+  };
+
+  const calCaseE = () => {
+    console.log("Case E calculation");
+  };
+
   return (
     <>
       <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
@@ -977,6 +995,7 @@ const Thermo = () => {
               <VerticalLinearStepper
                 activeStep={activeStep}
                 setActiveStep={setActiveStep}
+                onExecuteButtonClick={onExecuteButtonClick}
               />
             </StyledEngineProvider>
           </Box>
@@ -989,6 +1008,7 @@ const Thermo = () => {
               setCaseNo={setCaseNo}
             />
           )}
+
           {/* Step 1 */}
           {activeStep === 1 &&
             (caseNo === "A" || caseNo === "B" || caseNo === "C") && (

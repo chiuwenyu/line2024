@@ -37,10 +37,13 @@ const steps = [
 ];
 
 const VerticalLinearStepper = (props: any) => {
-  const { activeStep, setActiveStep } = props;
+  const { activeStep, setActiveStep, onExecuteButtonClick } = props;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
+    if (activeStep === steps.length - 1) {
+      onExecuteButtonClick();
+    }
   };
 
   const handleBack = () => {

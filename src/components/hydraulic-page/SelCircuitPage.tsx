@@ -1,5 +1,4 @@
 import { Grid } from "@mui/material";
-import React from "react";
 import ActionAreaCard from "./ActionAreaCard";
 import imageA from "../../assets/ThermoSyphon-Case A.svg";
 import imageB from "../../assets/ThermoSyphon-Case B.svg";
@@ -75,6 +74,7 @@ const SelCircuitPage = (props: any) => {
       >
         {cards.map((card) => (
           <ActionAreaCard
+            key={card.id}
             id={card.id}
             cardimage={card.cardimage}
             title={card.title}
