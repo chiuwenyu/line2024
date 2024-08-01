@@ -49,3 +49,17 @@ export function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+export function parseFloatWithErrorHandling(input: string): number {
+  try {
+    const result = parseFloat(input);
+    if (isNaN(result)) {
+      throw new Error("Invalid number format");
+    }
+    return result;
+  } catch (error) {
+    console.error("Error:", (error as Error).message);
+    // Handle the error (e.g., return a default value or rethrow the error)
+    return -999;
+  }
+}

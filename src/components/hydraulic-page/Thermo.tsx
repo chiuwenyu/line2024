@@ -16,6 +16,13 @@ import ConfigE from "./ConfigE";
 import { dialog } from "@tauri-apps/api";
 import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import Thermoproject from "./Thermoproject";
+import { parseFloatWithErrorHandling } from "../utils/utility";
+
+export interface ThermoResult {
+  id: number;
+  title: string;
+  value: string;
+}
 
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
@@ -103,6 +110,10 @@ const Thermo = () => {
   const [eE, setEE] = useState(""); // Reboiler Tube Length (Vertical) <E> [mm]
   const [eBD, setEBD] = useState(""); // Tube Length Submerge with Liquid (Vertical) <BD> [mm]
   const [eSF, setESF] = useState(""); // Safety Factor of Riser E.L of Homo method
+
+  // Calculate Result
+  const [homeResData, setHomeResData] = useState<ThermoResult[]>([]);
+  const [dukResData, setDukResData] = useState<ThermoResult[]>([]);
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -946,7 +957,32 @@ const Thermo = () => {
   };
 
   const calCaseE = () => {
-    console.log("Case E calculation");
+    let homoRes: ThermoResult[] = [];
+    let dukRes: ThermoResult[] = [];
+
+    //(0) Try and Parse all the parameters
+    const LoL = parseFloatWithErrorHandling(downDensity);
+    const EQD1 = parseFloatWithErrorHandling(downELMain);
+
+    //(1) Static Head Gain
+    let a1 = 0.0;
+    let b1 = LoL / 10000.0;
+    homoRes.push({
+      id: 101,
+      title: "STATIC HEAD GAIN",
+      value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
+    });
+    dukRes.push({
+      id: 101,
+      title: "STATIC HEAD GAIN",
+      value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
+    });
+
+    //(2) Downcomer Line Loss
+
+    // finial works
+    setHomeResData(homoRes);
+    setDukResData(dukRes);
   };
 
   return (
