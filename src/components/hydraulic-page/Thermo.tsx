@@ -965,19 +965,25 @@ const Thermo = () => {
 
     //(0) Try and Parse all the parameters
     const W = parseFloatWithErrorHandling(downFlowRateMain);
-    const LoL = parseFloatWithErrorHandling(downDensity);
+    const Lo = parseFloatWithErrorHandling(downDensity);
     const mu = parseFloatWithErrorHandling(downVisc);
     const id = parseFloatWithErrorHandling(downIDMain);
     const e = parseFloatWithErrorHandling(downRough);
     const sf = parseFloatWithErrorHandling(downSF);
     const EQD1 = parseFloatWithErrorHandling(downELMain);
     const ReDP = parseFloatWithErrorHandling(eReboDP);
+    const WG = parseFloatWithErrorHandling(riserWGMain);
+    const WL = parseFloatWithErrorHandling(riserWLMain);
+    const LoG = parseFloatWithErrorHandling(riserVapDensity);
+    const LoL = parseFloatWithErrorHandling(riserLiqDensity);
+    const E = parseFloatWithErrorHandling(eE);
+    const T = parseFloatWithErrorHandling(eT);
 
     // Handle single phase and two phase line hydraulic calculation
     // handle single phase
     const result = await invoke<Result>("invoke_hydraulic", {
       W,
-      LoL,
+      Lo,
       mu,
       id,
       e,
@@ -989,7 +995,7 @@ const Thermo = () => {
 
     //(1) Static Head Gain
     let a1 = 0.0;
-    let b1 = LoL / 10000.0;
+    let b1 = Lo / 10000.0;
     homoRes.push({
       id: 101,
       title: "(1) STATIC HEAD GAIN",
@@ -1016,8 +1022,8 @@ const Thermo = () => {
     });
 
     // (3) Tower Downcomer Outlet Nozzle Loss
-    const a3 = (0.5 * LoL * DV1 * DV1) / (2 * 9.80665) / 10000;
-    const b3 = 0.0;
+    const a3 = (0.5 * Lo * DV1 * DV1) / (2 * 9.80665) / 10000;
+    // const b3 = 0.0;
     homoRes.push({
       id: 103,
       title: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
@@ -1030,8 +1036,8 @@ const Thermo = () => {
     });
 
     // (4) Reboiler Inlet Nozzle Loss
-    const a4 = (0.5 * LoL * DV1 * DV1) / (2 * 9.80665) / 10000;
-    const b4 = 0.0;
+    const a4 = (0.5 * Lo * DV1 * DV1) / (2 * 9.80665) / 10000;
+    // const b4 = 0.0;
     homoRes.push({
       id: 104,
       title: "(4) REBOILER INLET NOZZLE LOSS",
@@ -1045,7 +1051,7 @@ const Thermo = () => {
 
     // (5) Reboiler Pressure Loss
     const a5 = ReDP;
-    const b5 = 0.0;
+    // const b5 = 0.0;
     homoRes.push({
       id: 105,
       title: "(5) REBOILER PRESSURE LOSS",
@@ -1059,10 +1065,102 @@ const Thermo = () => {
 
     // (6) Riser Static Head Loss
     // (6.1) Homogeneois Model
+    const x = WG / (WG + WL);
+    const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
+    const ha6 = (homoLo * (T / 1000 - E / 1000)) / 10000;
+    const hb6 = homoLo / 10000;
+    homoRes.push({
+      id: 1061,
+      title: "(6) RISER STATIC HEAD LOSS (HOMO.)",
+      value: ha6.toFixed(6) + " + " + hb6.toFixed(6) + " * H",
+    });
+    // (6.2) Dukler Model
+    const IDM = (parseFloatWithErrorHandling(riserIDMain) * 2.54) / 100;
+    const WGM = parseFloatWithErrorHandling(riserWGMain);
+    const WLM = parseFloatWithErrorHandling(riserWLMain);
+    const LoGM = parseFloatWithErrorHandling(riserVapDensity);
+    const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
+    const muGM = parseFloatWithErrorHandling(riserVapVisc) * 0.001;
+    const muLM = parseFloatWithErrorHandling(riserLiqVisc) * 0.001;
+    const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
+    const da6 = (dukLo * (T / 1000 - E / 1000)) / 10000;
+    const db6 = dukLo / 10000;
+    dukRes.push({
+      id: 1062,
+      title: "(6) RISER STATIC HEAD LOSS (DUKLER.)",
+      value: da6.toFixed(6) + " + " + db6.toFixed(6) + " * H",
+    });
+
+    // (7) Riser Line Loss
 
     // finial works
     setHomeResData(homoRes);
     setDukResData(dukRes);
+  };
+
+  const InplaceDensity = (
+    WL: number,
+    WG: number,
+    LoL: number,
+    LoG: number,
+    muL: number,
+    muG: number,
+    ID: number
+  ) => {
+    const area = (Math.PI * ID * ID) / 4; // pipe area [m^2]
+    const Gt = (WL + WG) / area / 3600; // Eq (22)
+
+    const UGS = WG / LoG / area / 3600; // Vapor Velocity [m/s]
+    const ULS = WL / LoL / area / 3600; // Liquid Velocity [m/s]
+    const UTP = UGS + ULS; // Two Phase Velocity [m/s], Eq (23)
+
+    const lamda = ULS / (ULS + UGS); // Liquid Volume Fraction [-], Eq (24)
+    let Rgi = 0.5; // Gas Hold-up (Rg) initial value [-]
+    const eps = 1e-4; // allowable tolerance
+    const np = 100; // trial number
+    let i; // loop counter
+    const g = 9.81; // gravity acceleration [m/s^2]
+
+    for (i = 0; i < np; i++) {
+      // (5) Calc. Re and Fr
+      const Re = (ID * Gt) / (Rgi * muG + (1 - Rgi) * muL); // Eq. (25)
+      const Fr = (UTP * UTP) / (g * ID); // Froude Number, Eq. (26)
+
+      // (6) Calc. Z and K
+      const Z =
+        (Math.pow(Re, 0.167) * Math.pow(Fr, 0.125)) / Math.pow(lamda, 0.25); // Eq.(27)
+      let K;
+      if (Z < 10) {
+        K = -0.16367 + 0.31037 * Z - 0.03525 * Z * Z + 0.001366 * Z * Z * Z;
+      } else {
+        K = 0.75545 + 0.003585 * Z - 0.1436e-4 * Z * Z;
+      }
+
+      // (7) Calc Rg (cal.)
+      const x = WG / (WG + WL);
+      const Rgcal = K / ((1.0 / x - 1) * (LoG / LoL) + 1); // Eq. (28)
+
+      // (8) Calc delta and judgement convergence condition
+      const delta = Math.abs(Rgcal - Rgi);
+      if (delta > eps) {
+        Rgi = (Rgcal + Rgi) / 2;
+        // Repeat calc (5), (6), (7)
+      } else {
+        break;
+      }
+    }
+
+    let Rg;
+    if (i < np) {
+      Rg = Rgi; // certain Rg
+    } else {
+      Rg = 0; // no convergence
+      return 0;
+    }
+
+    // Calc Result
+    const Loip = LoL * (1 - Rg) + LoG * Rg;
+    return Loip;
   };
 
   return (
