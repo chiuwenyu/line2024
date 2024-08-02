@@ -20,6 +20,7 @@ import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import Thermoproject from "./Thermoproject";
 import { parseFloatWithErrorHandling } from "../utils/utility";
 import { Result } from "../single-page/SingleDataType";
+import ThermoResultPage from "./ThermoResultPage";
 
 export interface ThermoResult {
   id: number;
@@ -964,8 +965,8 @@ const Thermo = () => {
     let dukRes: ThermoResult[] = [];
 
     //(0) Try and Parse all the parameters
-    const W = parseFloatWithErrorHandling(downFlowRateMain);
-    const Lo = parseFloatWithErrorHandling(downDensity);
+    const w = parseFloatWithErrorHandling(downFlowRateMain);
+    const rho = parseFloatWithErrorHandling(downDensity);
     const mu = parseFloatWithErrorHandling(downVisc);
     const id = parseFloatWithErrorHandling(downIDMain);
     const e = parseFloatWithErrorHandling(downRough);
@@ -982,8 +983,8 @@ const Thermo = () => {
     // Handle single phase and two phase line hydraulic calculation
     // handle single phase
     const result = await invoke<Result>("invoke_hydraulic", {
-      W,
-      Lo,
+      w,
+      rho,
       mu,
       id,
       e,
@@ -995,7 +996,7 @@ const Thermo = () => {
 
     //(1) Static Head Gain
     let a1 = 0.0;
-    let b1 = Lo / 10000.0;
+    let b1 = rho / 10000.0;
     homoRes.push({
       id: 101,
       title: "(1) STATIC HEAD GAIN",
@@ -1022,7 +1023,7 @@ const Thermo = () => {
     });
 
     // (3) Tower Downcomer Outlet Nozzle Loss
-    const a3 = (0.5 * Lo * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const a3 = (0.5 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
     // const b3 = 0.0;
     homoRes.push({
       id: 103,
@@ -1036,7 +1037,7 @@ const Thermo = () => {
     });
 
     // (4) Reboiler Inlet Nozzle Loss
-    const a4 = (0.5 * Lo * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const a4 = (0.5 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
     // const b4 = 0.0;
     homoRes.push({
       id: 104,
@@ -1092,10 +1093,22 @@ const Thermo = () => {
     });
 
     // (7) Riser Line Loss
+    // const SFDP = parseFloatWithErrorHandling(riserSF);
+    // const SFEL = parseFloatWithErrorHandling(eSF);
+    // const SF = (SFDP * Math.max(SFEL, SFDP)) / SFDP; // Total Safety Factor
+    // const EQR1 = parseFloatWithErrorHandling(riserELMain);
+    // const ha7 = (SF * HDP1 * (EQR1 + T / 1000 - E / 1000)) / 100;
+    // const hb7 = (SF * HDP1) / 100;
+    // homoRes.push({
+    //   id: 1071,
+    //   title: "(7) RISER LINE LOSS (HOMO.)",
+    //   value: ha7.toFixed(6) + " + " + hb7.toFixed(6) + " * H",
+    // });
 
     // finial works
     setHomeResData(homoRes);
     setDukResData(dukRes);
+    setCalState(true);
   };
 
   const InplaceDensity = (
@@ -1547,6 +1560,7 @@ const Thermo = () => {
               setProjDesc={setProjDesc}
             />
           )}
+          {calState && <ThermoResultPage caseNo={caseNo} />}
         </Grid>
       </Stack>
     </>
