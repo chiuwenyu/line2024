@@ -1223,6 +1223,7 @@ const Thermo = () => {
                 activeStep={activeStep}
                 setActiveStep={setActiveStep}
                 onExecuteButtonClick={onExecuteButtonClick}
+                setCalState={setCalState}
               />
             </StyledEngineProvider>
           </Box>

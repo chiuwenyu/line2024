@@ -37,7 +37,8 @@ const steps = [
 ];
 
 const VerticalLinearStepper = (props: any) => {
-  const { activeStep, setActiveStep, onExecuteButtonClick } = props;
+  const { activeStep, setActiveStep, onExecuteButtonClick, setCalState } =
+    props;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
@@ -85,7 +86,13 @@ const VerticalLinearStepper = (props: any) => {
       {activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
           <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+          <Button
+            onClick={() => {
+              setCalState(false);
+              handleBack();
+            }}
+            sx={{ mt: 1, mr: 1 }}
+          >
             Back
           </Button>
         </Paper>
