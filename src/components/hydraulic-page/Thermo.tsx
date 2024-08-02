@@ -971,6 +971,7 @@ const Thermo = () => {
     const e = parseFloatWithErrorHandling(downRough);
     const sf = parseFloatWithErrorHandling(downSF);
     const EQD1 = parseFloatWithErrorHandling(downELMain);
+    const ReDP = parseFloatWithErrorHandling(eReboDP);
 
     // Handle single phase and two phase line hydraulic calculation
     // handle single phase
@@ -984,22 +985,80 @@ const Thermo = () => {
     });
     const res = result as Result;
     const DP1 = res.dp100;
+    const DV1 = res.v;
 
     //(1) Static Head Gain
     let a1 = 0.0;
     let b1 = LoL / 10000.0;
     homoRes.push({
       id: 101,
-      title: "STATIC HEAD GAIN",
+      title: "(1) STATIC HEAD GAIN",
       value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
     });
     dukRes.push({
       id: 101,
-      title: "STATIC HEAD GAIN",
+      title: "(1) STATIC HEAD GAIN",
       value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
     });
 
-    //(2) Downcomer Line Loss
+    //(2) Downcomer Line Loss'=
+    let a2 = (DP1 * EQD1) / 100.0;
+    let b2 = DP1 / 100.0;
+    homoRes.push({
+      id: 102,
+      title: "(2) DOWNCOMER LINE LOSS",
+      value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
+    });
+    dukRes.push({
+      id: 102,
+      title: "(2) DOWNCOMER LINE LOSS",
+      value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
+    });
+
+    // (3) Tower Downcomer Outlet Nozzle Loss
+    const a3 = (0.5 * LoL * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const b3 = 0.0;
+    homoRes.push({
+      id: 103,
+      title: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      value: a3.toFixed(6),
+    });
+    dukRes.push({
+      id: 103,
+      title: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      value: a3.toFixed(6),
+    });
+
+    // (4) Reboiler Inlet Nozzle Loss
+    const a4 = (0.5 * LoL * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const b4 = 0.0;
+    homoRes.push({
+      id: 104,
+      title: "(4) REBOILER INLET NOZZLE LOSS",
+      value: a4.toFixed(6),
+    });
+    dukRes.push({
+      id: 104,
+      title: "(4) REBOILER INLET NOZZLE LOSS",
+      value: a4.toFixed(6),
+    });
+
+    // (5) Reboiler Pressure Loss
+    const a5 = ReDP;
+    const b5 = 0.0;
+    homoRes.push({
+      id: 105,
+      title: "(5) REBOILER PRESSURE LOSS",
+      value: a5.toFixed(6),
+    });
+    dukRes.push({
+      id: 105,
+      title: "(5) REBOILER PRESSURE LOSS",
+      value: a5.toFixed(6),
+    });
+
+    // (6) Riser Static Head Loss
+    // (6.1) Homogeneois Model
 
     // finial works
     setHomeResData(homoRes);
