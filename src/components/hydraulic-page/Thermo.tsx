@@ -1,3 +1,5 @@
+import { invoke } from "@tauri-apps/api/tauri";
+
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import VerticalLinearStepper from "./VerticalLinearStepper";
 import FileButton from "../single-page/FileButton";
@@ -17,6 +19,7 @@ import { dialog } from "@tauri-apps/api";
 import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import Thermoproject from "./Thermoproject";
 import { parseFloatWithErrorHandling } from "../utils/utility";
+import { Result } from "../single-page/SingleDataType";
 
 export interface ThermoResult {
   id: number;
@@ -956,13 +959,31 @@ const Thermo = () => {
     }
   };
 
-  const calCaseE = () => {
+  const calCaseE = async () => {
     let homoRes: ThermoResult[] = [];
     let dukRes: ThermoResult[] = [];
 
     //(0) Try and Parse all the parameters
+    const W = parseFloatWithErrorHandling(downFlowRateMain);
     const LoL = parseFloatWithErrorHandling(downDensity);
+    const mu = parseFloatWithErrorHandling(downVisc);
+    const id = parseFloatWithErrorHandling(downIDMain);
+    const e = parseFloatWithErrorHandling(downRough);
+    const sf = parseFloatWithErrorHandling(downSF);
     const EQD1 = parseFloatWithErrorHandling(downELMain);
+
+    // Handle single phase and two phase line hydraulic calculation
+    // handle single phase
+    const result = await invoke<Result>("invoke_hydraulic", {
+      W,
+      LoL,
+      mu,
+      id,
+      e,
+      sf,
+    });
+    const res = result as Result;
+    const DP1 = res.dp100;
 
     //(1) Static Head Gain
     let a1 = 0.0;
