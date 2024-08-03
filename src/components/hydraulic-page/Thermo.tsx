@@ -992,6 +992,14 @@ const Thermo = () => {
       ((muG * WG) / LoG + (muL * WL) / LoL) / (WG / LoG + WL / LoL);
     const x = WG / (WG + WL);
     const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
+    const IDM = (parseFloatWithErrorHandling(riserIDMain) * 2.54) / 100;
+    const WGM = parseFloatWithErrorHandling(riserWGMain);
+    const WLM = parseFloatWithErrorHandling(riserWLMain);
+    const LoGM = parseFloatWithErrorHandling(riserVapDensity);
+    const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
+    const muGM = parseFloatWithErrorHandling(riserVapVisc) * 0.001;
+    const muLM = parseFloatWithErrorHandling(riserLiqVisc) * 0.001;
+    const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
 
     // Render downRes
     downRes.push({
@@ -1162,6 +1170,14 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
+    riserRes.push({
+      id: "11",
+      item: "INPLACE DENSITY",
+      unit: "(KG/M^3)",
+      main: dukLo.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
 
     //(1) Static Head Gain
     let a1 = 0.0;
@@ -1235,7 +1251,6 @@ const Thermo = () => {
 
     // (6) Riser Static Head Loss
     // (6.1) Homogeneois Model
-
     const ha6 = (homoLo * (T / 1000 - E / 1000)) / 10000;
     const hb6 = homoLo / 10000;
     homoRes.push({
@@ -1244,14 +1259,7 @@ const Thermo = () => {
       value: ha6.toFixed(6) + " + " + hb6.toFixed(6) + " * H",
     });
     // (6.2) Dukler Model
-    const IDM = (parseFloatWithErrorHandling(riserIDMain) * 2.54) / 100;
-    const WGM = parseFloatWithErrorHandling(riserWGMain);
-    const WLM = parseFloatWithErrorHandling(riserWLMain);
-    const LoGM = parseFloatWithErrorHandling(riserVapDensity);
-    const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
-    const muGM = parseFloatWithErrorHandling(riserVapVisc) * 0.001;
-    const muLM = parseFloatWithErrorHandling(riserLiqVisc) * 0.001;
-    const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
+
     const da6 = (dukLo * (T / 1000 - E / 1000)) / 10000;
     const db6 = dukLo / 10000;
     dukRes.push({
