@@ -957,7 +957,9 @@ const Thermo = () => {
     } else if (caseNo === "G") {
     } else {
       console.log("Error: Invalid case number");
+      return;
     }
+    setCalState(true);
   };
 
   const calCaseE = async () => {
@@ -1108,7 +1110,6 @@ const Thermo = () => {
     // finial works
     setHomeResData(homoRes);
     setDukResData(dukRes);
-    setCalState(true);
   };
 
   const InplaceDensity = (
