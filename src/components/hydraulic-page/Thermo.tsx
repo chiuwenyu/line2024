@@ -21,7 +21,7 @@ import Thermoproject from "./Thermoproject";
 import { parseFloatWithErrorHandling } from "../utils/utility";
 import { Result } from "../single-page/SingleDataType";
 import ThermoResultPage from "./ThermoResultPage";
-import { DowncomerData } from "./ThermoResultPage";
+import { DownAndRiserData } from "./ThermoResultPage";
 
 export interface ThermoResult {
   id: number;
@@ -117,7 +117,8 @@ const Thermo = () => {
   const [eSF, setESF] = useState(""); // Safety Factor of Riser E.L of Homo method
 
   // Calculate Result
-  const [downResData, setDownResData] = useState<DowncomerData[]>([]);
+  const [downResData, setDownResData] = useState<DownAndRiserData[]>([]);
+  const [riserResData, setRiserResData] = useState<DownAndRiserData[]>([]);
   const [homeResData, setHomeResData] = useState<ThermoResult[]>([]);
   const [dukResData, setDukResData] = useState<ThermoResult[]>([]);
 
@@ -965,9 +966,10 @@ const Thermo = () => {
   };
 
   const calCaseE = async () => {
+    let downRes: DownAndRiserData[] = [];
+    let riserRes: DownAndRiserData[] = [];
     let homoRes: ThermoResult[] = [];
     let dukRes: ThermoResult[] = [];
-    let downRes: DowncomerData[] = [];
 
     //(0) Try and Parse all the parameters
     const w = parseFloatWithErrorHandling(downFlowRateMain);
@@ -982,8 +984,14 @@ const Thermo = () => {
     const WL = parseFloatWithErrorHandling(riserWLMain);
     const LoG = parseFloatWithErrorHandling(riserVapDensity);
     const LoL = parseFloatWithErrorHandling(riserLiqDensity);
+    const muG = parseFloatWithErrorHandling(riserVapVisc);
+    const muL = parseFloatWithErrorHandling(riserLiqVisc);
     const E = parseFloatWithErrorHandling(eE);
     const T = parseFloatWithErrorHandling(eT);
+    const homoVisc =
+      ((muG * WG) / LoG + (muL * WL) / LoL) / (WG / LoG + WL / LoL);
+    const x = WG / (WG + WL);
+    const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
 
     // Render downRes
     downRes.push({
@@ -1073,6 +1081,88 @@ const Thermo = () => {
       lead: "",
     });
 
+    // Render riserRes
+    riserRes.push({
+      id: "1",
+      item: "VAPOR FLOWRATE",
+      unit: "(Kg/HR)",
+      main: riserWGMain,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "2",
+      item: "LIQUID FLOWRATE",
+      unit: "(Kg/HR)",
+      main: riserWLMain,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "3",
+      item: "VAPOR DENSITY",
+      unit: "(KG/M^3)",
+      main: riserVapDensity,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "4",
+      item: "LIQUID DENSITY",
+      unit: "(KG/M^3)",
+      main: riserLiqDensity,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "5",
+      item: "VAPOR VISCOSITY",
+      unit: "(cP)",
+      main: riserVapVisc,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "6",
+      item: "LIQUID VISCOSITY",
+      unit: "(cP)",
+      main: riserLiqVisc,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "7",
+      item: "HOMOGENEOUS VISCOSITY",
+      unit: "(cP)",
+      main: homoVisc.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "8",
+      item: "PIPE DIAMETER",
+      unit: "(IN)",
+      main: riserIDMain,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "9",
+      item: "ABSOLUTE ROUGHNESS",
+      unit: "(MM)",
+      main: riserRough,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "10",
+      item: "HOMOGENEOUS DENSITY",
+      unit: "(KG/M^3)",
+      main: homoLo.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
+
     //(1) Static Head Gain
     let a1 = 0.0;
     let b1 = rho / 10000.0;
@@ -1145,8 +1235,7 @@ const Thermo = () => {
 
     // (6) Riser Static Head Loss
     // (6.1) Homogeneois Model
-    const x = WG / (WG + WL);
-    const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
+
     const ha6 = (homoLo * (T / 1000 - E / 1000)) / 10000;
     const hb6 = homoLo / 10000;
     homoRes.push({
@@ -1186,6 +1275,7 @@ const Thermo = () => {
 
     // finial works
     setDownResData(downRes);
+    setRiserResData(riserRes);
     setHomeResData(homoRes);
     setDukResData(dukRes);
   };
@@ -1641,7 +1731,11 @@ const Thermo = () => {
             />
           )}
           {calState && (
-            <ThermoResultPage caseNo={caseNo} downResData={downResData} />
+            <ThermoResultPage
+              caseNo={caseNo}
+              downResData={downResData}
+              riserResData={riserResData}
+            />
           )}
         </Grid>
       </Stack>

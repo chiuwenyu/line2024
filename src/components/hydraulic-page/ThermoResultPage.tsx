@@ -15,8 +15,11 @@ import picF from "../../assets/ThermoSyphone-Case F.png";
 import picG from "../../assets/ThermoSyphone-Case G.png";
 import { a11yProps, CustomTabPanel } from "../utils/utility";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { purple } from "@mui/material/colors";
 
-export interface DowncomerData {
+let pcolor = purple[700];
+
+export interface DownAndRiserData {
   id: string;
   item: string;
   unit: string;
@@ -25,7 +28,7 @@ export interface DowncomerData {
   lead: string;
 }
 
-const columns: GridColDef<DowncomerData>[] = [
+const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "id",
     headerName: "No.",
@@ -38,7 +41,7 @@ const columns: GridColDef<DowncomerData>[] = [
   },
   {
     field: "item",
-    headerName: "DOWNCOMER",
+    headerName: "ITEMS",
     width: 280,
     resizable: false,
     sortable: false,
@@ -93,7 +96,7 @@ const columns: GridColDef<DowncomerData>[] = [
 ];
 
 const ThermoResultPage = (props: any) => {
-  const { caseNo, downResData } = props;
+  const { caseNo, downResData, riserResData } = props;
   const [value, setValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -199,10 +202,41 @@ const ThermoResultPage = (props: any) => {
                 <DataGrid
                   rows={downResData}
                   autoHeight={true}
-                  columns={columns as GridColDef<DowncomerData>[]}
+                  columns={columns as GridColDef<DownAndRiserData>[]}
                   sx={{
                     "& .MuiDataGrid-columnHeader": {
                       backgroundColor: "primary.main",
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "0.8rem",
+                      height: "50",
+                    },
+                    "& .MuiDataGrid-columnSeparator": {
+                      display: "none",
+                    },
+                    mt: 1,
+                  }}
+                  hideFooter={true}
+                />
+              </Box>
+            </CustomTabPanel>
+            {/* riser result tab */}
+            <CustomTabPanel value={value} index={1}>
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                sx={{
+                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
+                }}
+              >
+                <DataGrid
+                  rows={riserResData}
+                  autoHeight={true}
+                  columns={columns as GridColDef<DownAndRiserData>[]}
+                  sx={{
+                    "& .MuiDataGrid-columnHeader": {
+                      backgroundColor: pcolor,
                       color: "white",
                       fontWeight: "bold",
                       fontSize: "0.8rem",
