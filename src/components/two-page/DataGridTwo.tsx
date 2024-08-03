@@ -105,7 +105,7 @@ export default function DataGridTwo(props: any) {
         </Stack>
         <DataGrid
           rows={rows}
-          autoHeight={false}
+          autoHeight={true}
           columns={columns as GridColDef<TwoSizingData>[]}
           sx={{
             "& .MuiDataGrid-columnHeader": {

@@ -21,7 +21,6 @@ import Thermoproject from "./Thermoproject";
 import { parseFloatWithErrorHandling } from "../utils/utility";
 import { Result } from "../single-page/SingleDataType";
 import ThermoResultPage from "./ThermoResultPage";
-import { userInfo } from "os";
 import { DowncomerData } from "./ThermoResultPage";
 
 export interface ThermoResult {
@@ -1011,7 +1010,22 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
-
+    downRes.push({
+      id: "4",
+      item: "PIPE DIAMETER",
+      unit: "(IN)",
+      main: downIDMain,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "5",
+      item: "ABSOLUTE ROUGHNESS",
+      unit: "(MM)",
+      main: downRough,
+      manifold: "",
+      lead: "",
+    });
     // Handle single phase and two phase line hydraulic calculation
     // handle single phase
     const result = await invoke<Result>("invoke_hydraulic", {
@@ -1025,6 +1039,39 @@ const Thermo = () => {
     const res = result as Result;
     const DP1 = res.dp100;
     const DV1 = res.v;
+
+    downRes.push({
+      id: "6",
+      item: "FLUID VELOCITY",
+      unit: "(M/S)",
+      main: DV1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "7",
+      item: "EQUIVALENT LENGTH -- EXCLUDING H",
+      unit: "(M)",
+      main: downELMain,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "8",
+      item: "UNIT PRESSURE DROP",
+      unit: "(KG/CM^2/100M)",
+      main: DP1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "9",
+      item: "SAFETY FACTOR OF UNIT PRESS. DROP",
+      unit: "(--)",
+      main: downSF,
+      manifold: "",
+      lead: "",
+    });
 
     //(1) Static Head Gain
     let a1 = 0.0;

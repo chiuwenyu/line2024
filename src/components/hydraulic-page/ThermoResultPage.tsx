@@ -29,7 +29,7 @@ const columns: GridColDef<DowncomerData>[] = [
   {
     field: "id",
     headerName: "No.",
-    width: 20,
+    width: 15,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -186,7 +186,7 @@ const ThermoResultPage = (props: any) => {
                 <Tab label="Dukler" {...a11yProps(4)} />
               </Tabs>
             </Box>
-            {/* process data input page */}
+            {/* downcomer result tab */}
             <CustomTabPanel value={value} index={0}>
               <Box
                 component="form"
@@ -198,36 +198,22 @@ const ThermoResultPage = (props: any) => {
               >
                 <DataGrid
                   rows={downResData}
-                  autoHeight={false}
+                  autoHeight={true}
                   columns={columns as GridColDef<DowncomerData>[]}
                   sx={{
-                    "& .MuiDataGrid-footerContainer": {
-                      fontWeight: "bold", // 變更 footer font weight
-                      // backgroundColor: "success.main", // 變更 footer background color
-                      color: "primary.main", // 變更 footer font color
-                      fontSize: "0.9rem", // 變更 footer font size
-                    },
                     "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: "success.main",
+                      backgroundColor: "primary.main",
                       color: "white",
                       fontWeight: "bold",
                       fontSize: "0.8rem",
                       height: "50",
                     },
-                    "& .MuiDataGrid-columnHeaderTitle": {
-                      whiteSpace: "pre-wrap",
-                    },
-                    "& .MuiDataGrid-columnHeaders": {
-                      maxHeight: "180px !important",
-                    },
                     "& .MuiDataGrid-columnSeparator": {
                       display: "none",
                     },
-
                     mt: 1,
                   }}
-                  pageSizeOptions={[]}
-                  hideFooterPagination={true}
+                  hideFooter={true}
                 />
               </Box>
             </CustomTabPanel>
