@@ -21,6 +21,8 @@ import Thermoproject from "./Thermoproject";
 import { parseFloatWithErrorHandling } from "../utils/utility";
 import { Result } from "../single-page/SingleDataType";
 import ThermoResultPage from "./ThermoResultPage";
+import { userInfo } from "os";
+import { DowncomerData } from "./ThermoResultPage";
 
 export interface ThermoResult {
   id: number;
@@ -116,6 +118,7 @@ const Thermo = () => {
   const [eSF, setESF] = useState(""); // Safety Factor of Riser E.L of Homo method
 
   // Calculate Result
+  const [downResData, setDownResData] = useState<DowncomerData[]>([]);
   const [homeResData, setHomeResData] = useState<ThermoResult[]>([]);
   const [dukResData, setDukResData] = useState<ThermoResult[]>([]);
 
@@ -965,6 +968,7 @@ const Thermo = () => {
   const calCaseE = async () => {
     let homoRes: ThermoResult[] = [];
     let dukRes: ThermoResult[] = [];
+    let downRes: DowncomerData[] = [];
 
     //(0) Try and Parse all the parameters
     const w = parseFloatWithErrorHandling(downFlowRateMain);
@@ -981,6 +985,32 @@ const Thermo = () => {
     const LoL = parseFloatWithErrorHandling(riserLiqDensity);
     const E = parseFloatWithErrorHandling(eE);
     const T = parseFloatWithErrorHandling(eT);
+
+    // Render downRes
+    downRes.push({
+      id: "1",
+      item: "TOTAL FLOW RATE",
+      unit: "(Kg/HR)",
+      main: downFlowRateMain,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "2",
+      item: "FLUID DENSITY",
+      unit: "(KG/M^3)",
+      main: downDensity,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "3",
+      item: "VISCOSITY",
+      unit: "(CP)",
+      main: downVisc,
+      manifold: "",
+      lead: "",
+    });
 
     // Handle single phase and two phase line hydraulic calculation
     // handle single phase
@@ -1108,6 +1138,7 @@ const Thermo = () => {
     // });
 
     // finial works
+    setDownResData(downRes);
     setHomeResData(homoRes);
     setDukResData(dukRes);
   };
@@ -1562,7 +1593,9 @@ const Thermo = () => {
               setProjDesc={setProjDesc}
             />
           )}
-          {calState && <ThermoResultPage caseNo={caseNo} />}
+          {calState && (
+            <ThermoResultPage caseNo={caseNo} downResData={downResData} />
+          )}
         </Grid>
       </Stack>
     </>

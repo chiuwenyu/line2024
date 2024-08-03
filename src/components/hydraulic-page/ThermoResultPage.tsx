@@ -14,9 +14,86 @@ import picE from "../../assets/ThermoSyphone-Case E.png";
 import picF from "../../assets/ThermoSyphone-Case F.png";
 import picG from "../../assets/ThermoSyphone-Case G.png";
 import { a11yProps, CustomTabPanel } from "../utils/utility";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+export interface DowncomerData {
+  id: string;
+  item: string;
+  unit: string;
+  main: string;
+  manifold: string;
+  lead: string;
+}
+
+const columns: GridColDef<DowncomerData>[] = [
+  {
+    field: "id",
+    headerName: "No.",
+    width: 20,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "item",
+    headerName: "DOWNCOMER",
+    width: 280,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "left",
+    align: "left",
+  },
+  {
+    field: "unit",
+    headerName: "UNIT",
+    width: 128,
+    editable: false,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "left",
+    align: "left",
+  },
+  {
+    field: "main",
+    headerName: "MAIN",
+    width: 90,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    editable: false,
+    headerAlign: "center",
+    align: "right",
+  },
+  {
+    field: "manifold",
+    headerName: "MANIFOLD",
+    width: 90,
+    resizable: false,
+    editable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "right",
+  },
+  {
+    field: "lead",
+    headerName: "LEAD",
+    width: 90,
+    resizable: false,
+    editable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "right",
+  },
+];
 
 const ThermoResultPage = (props: any) => {
-  const { caseNo } = props;
+  const { caseNo, downResData } = props;
   const [value, setValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -91,8 +168,8 @@ const ThermoResultPage = (props: any) => {
             {"Minimum Required Static Head (m): 6.43"}
           </Typography>
         </Grid>
-        <Grid item xs={6} sx={{ ml: 1 }}>
-          <Box sx={{ width: "100%", height: "550px" }}>
+        <Grid item xs={6}>
+          <Box sx={{ width: "114%", height: "550px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -100,6 +177,7 @@ const ThermoResultPage = (props: any) => {
                 indicatorColor="primary"
                 onChange={handleChange}
                 aria-label="basic tabs"
+                centered
               >
                 <Tab label="Downcomer" {...a11yProps(0)} />
                 <Tab label="Riser" {...a11yProps(1)} />
@@ -115,9 +193,43 @@ const ThermoResultPage = (props: any) => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "25ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
                 }}
-              ></Box>
+              >
+                <DataGrid
+                  rows={downResData}
+                  autoHeight={false}
+                  columns={columns as GridColDef<DowncomerData>[]}
+                  sx={{
+                    "& .MuiDataGrid-footerContainer": {
+                      fontWeight: "bold", // 變更 footer font weight
+                      // backgroundColor: "success.main", // 變更 footer background color
+                      color: "primary.main", // 變更 footer font color
+                      fontSize: "0.9rem", // 變更 footer font size
+                    },
+                    "& .MuiDataGrid-columnHeader": {
+                      backgroundColor: "success.main",
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "0.8rem",
+                      height: "50",
+                    },
+                    "& .MuiDataGrid-columnHeaderTitle": {
+                      whiteSpace: "pre-wrap",
+                    },
+                    "& .MuiDataGrid-columnHeaders": {
+                      maxHeight: "180px !important",
+                    },
+                    "& .MuiDataGrid-columnSeparator": {
+                      display: "none",
+                    },
+
+                    mt: 1,
+                  }}
+                  pageSizeOptions={[]}
+                  hideFooterPagination={true}
+                />
+              </Box>
             </CustomTabPanel>
           </Box>
         </Grid>
