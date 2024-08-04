@@ -42,7 +42,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "item",
     headerName: "ITEMS",
-    width: 280,
+    width: 265,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -52,7 +52,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "unit",
     headerName: "UNIT",
-    width: 113,
+    width: 135,
     editable: false,
     resizable: false,
     sortable: false,
@@ -172,7 +172,7 @@ const ThermoResultPage = (props: any) => {
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          <Box sx={{ width: "114%" }}>
+          <Box sx={{ width: "120%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -229,7 +229,7 @@ const ThermoResultPage = (props: any) => {
                 component="form"
                 display="flex"
                 flexDirection="column"
-                height={534}
+                height={584}
                 sx={{
                   "& .MuiTextField-root": {
                     mt: 2,
@@ -251,6 +251,9 @@ const ThermoResultPage = (props: any) => {
                     },
                     "& .MuiDataGrid-columnSeparator": {
                       display: "none",
+                    },
+                    "& .MuiDataGrid-filler": {
+                      backgroundColor: pcolor,
                     },
                     "& .MuiDataGrid-scrollbarFiller": {
                       backgroundColor: pcolor,

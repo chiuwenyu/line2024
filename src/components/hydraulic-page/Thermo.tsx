@@ -22,6 +22,7 @@ import { parseFloatWithErrorHandling } from "../utils/utility";
 import { Result } from "../single-page/SingleDataType";
 import ThermoResultPage from "./ThermoResultPage";
 import { DownAndRiserData } from "./ThermoResultPage";
+import { VUResult } from "../two-page/TwoDataType";
 
 export interface ThermoResult {
   id: number;
@@ -1008,17 +1009,47 @@ const Thermo = () => {
     const x = WG / (WG + WL);
     const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
     // handle riser data parse
-    const IDM = (parseFloatWithErrorHandling(riserIDMain) * 2.54) / 100;
+    const IDM = parseFloatWithErrorHandling(riserIDMain);
     const WGM = parseFloatWithErrorHandling(riserWGMain);
     const WLM = parseFloatWithErrorHandling(riserWLMain);
     const LoGM = parseFloatWithErrorHandling(riserVapDensity);
     const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
-    const muGM = parseFloatWithErrorHandling(riserVapVisc) * 0.001;
-    const muLM = parseFloatWithErrorHandling(riserLiqVisc) * 0.001;
+    const muGM = parseFloatWithErrorHandling(riserVapVisc);
+    const muLM = parseFloatWithErrorHandling(riserLiqVisc);
+    const rough = parseFloatWithErrorHandling(riserRough);
     // handle in-place density calculation
     const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
     // handle riser homogeneous two phase velocity
     const V1 = homoTwoPhaseVelocity(IDM, WGM, WLM, LoGM, LoLM);
+    // handle riser two phase hydraulic calculation
+    // Homogeneous method
+    const hresult = await invoke<Result>("invoke_hydraulic", {
+      w: WGM + WLM,
+      rho: homoLo,
+      mu: homoVisc,
+      id: IDM,
+      e: rough,
+      sf: 1.0,
+    });
+    const hres = hresult as Result;
+    const HDP1 = hres.dp100;
+    // Dukler method
+    const rresult = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
+      wl: WLM,
+      wg: WGM,
+      lol: LoLM,
+      logg: LoGM,
+      mul: muLM,
+      mug: muGM,
+      st: 40,
+      rough: rough,
+      sf: 1.0,
+      id: IDM,
+      degree: 0,
+    });
+    const rres = rresult as VUResult;
+    const DDP1 = rres.Pfric;
+    const flow_regime = rres.flow_regime;
 
     // (1) Render downRes
     downRes.push({
@@ -1200,6 +1231,48 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
+    riserRes.push({
+      id: "14",
+      item: "UNIT PRESSURE DROP (HOMO.)",
+      unit: "(KG/CM^2/100M)",
+      main: HDP1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    const fg =
+      flow_regime === "Vertical Up Annular Flow"
+        ? "Annular"
+        : flow_regime === "Vertical Up Bubble Flow"
+        ? "Bubble"
+        : flow_regime === "Vertical Up Slug and Churn Flow"
+        ? "Slug Flow"
+        : flow_regime === "Vertical Up Finely Dispersed Bubble Flow"
+        ? "FD Bubble"
+        : "";
+    riserRes.push({
+      id: "15",
+      item: "TWO PHASE FLOW REGIME",
+      unit: "(--)",
+      main: fg,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "16",
+      item: "UNIT PRESSURE DROP (DUKLER.)",
+      unit: "(KG/CM^2/100M)",
+      main: DDP1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "17",
+      item: "SAFETY FACTOR OF UNIT PRESS. DROP",
+      unit: "(--)",
+      main: riserSF,
+      manifold: "",
+      lead: "",
+    });
 
     // (3) Render configuration data
     // (4) Render thermosyphon hydraulic Result
@@ -1313,16 +1386,15 @@ const Thermo = () => {
   };
 
   const homoTwoPhaseVelocity = (
-    ID: number,
+    IDD: number,
     WG: number,
     WL: number,
     LoG: number,
     LoL: number
   ) => {
     // calculate the homogeneous velocity (two phase velocity) for riser
+    const ID = (IDD * 2.54) / 100;
     const area = (Math.PI * ID * ID) / 4; // pipe area [m^2]
-    const Gt = (WL + WG) / area / 3600; // Eq (22)
-
     const UGS = WG / LoG / area / 3600; // Vapor Velocity [m/s]
     const ULS = WL / LoL / area / 3600; // Liquid Velocity [m/s]
     const UTP = UGS + ULS; // Two Phase Velocity [m/s], Eq (23)
@@ -1334,10 +1406,13 @@ const Thermo = () => {
     WG: number,
     LoL: number,
     LoG: number,
-    muL: number,
-    muG: number,
-    ID: number
+    muLL: number,
+    muGG: number,
+    IDD: number
   ) => {
+    const ID = (IDD * 2.54) / 100; // [in] -> m^2
+    const muL = muLL * 0.001;
+    const muG = muGG * 0.001;
     const area = (Math.PI * ID * ID) / 4; // pipe area [m^2]
     const Gt = (WL + WG) / area / 3600; // Eq (22)
 
