@@ -971,7 +971,8 @@ const Thermo = () => {
     let homoRes: ThermoResult[] = [];
     let dukRes: ThermoResult[] = [];
 
-    //(0) Try and Parse all the parameters
+    //(0) Parse and calculate all the parameters
+    // handle downcomer data parse
     const w = parseFloatWithErrorHandling(downFlowRateMain);
     const rho = parseFloatWithErrorHandling(downDensity);
     const mu = parseFloatWithErrorHandling(downVisc);
@@ -988,10 +989,25 @@ const Thermo = () => {
     const muL = parseFloatWithErrorHandling(riserLiqVisc);
     const E = parseFloatWithErrorHandling(eE);
     const T = parseFloatWithErrorHandling(eT);
+    // handle single phase hydraulic calculation
+    const result = await invoke<Result>("invoke_hydraulic", {
+      w,
+      rho,
+      mu,
+      id,
+      e,
+      sf,
+    });
+    const res = result as Result;
+    const DP1 = res.dp100;
+    const DV1 = res.v;
+    // handle homogeneous viscosity calculation
     const homoVisc =
       ((muG * WG) / LoG + (muL * WL) / LoL) / (WG / LoG + WL / LoL);
+    // handle homogeneous density calculation
     const x = WG / (WG + WL);
     const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
+    // handle riser data parse
     const IDM = (parseFloatWithErrorHandling(riserIDMain) * 2.54) / 100;
     const WGM = parseFloatWithErrorHandling(riserWGMain);
     const WLM = parseFloatWithErrorHandling(riserWLMain);
@@ -999,9 +1015,10 @@ const Thermo = () => {
     const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
     const muGM = parseFloatWithErrorHandling(riserVapVisc) * 0.001;
     const muLM = parseFloatWithErrorHandling(riserLiqVisc) * 0.001;
+    // handle in-place density calculation
     const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
 
-    // Render downRes
+    // (1) Render downRes
     downRes.push({
       id: "1",
       item: "TOTAL FLOW RATE",
@@ -1042,19 +1059,6 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
-    // Handle single phase and two phase line hydraulic calculation
-    // handle single phase
-    const result = await invoke<Result>("invoke_hydraulic", {
-      w,
-      rho,
-      mu,
-      id,
-      e,
-      sf,
-    });
-    const res = result as Result;
-    const DP1 = res.dp100;
-    const DV1 = res.v;
 
     downRes.push({
       id: "6",
@@ -1089,7 +1093,7 @@ const Thermo = () => {
       lead: "",
     });
 
-    // Render riserRes
+    // (2) Render riserRes
     riserRes.push({
       id: "1",
       item: "VAPOR FLOWRATE",
@@ -1179,6 +1183,8 @@ const Thermo = () => {
       lead: "",
     });
 
+    // (3) Render configuration data
+    // (4) Render thermosyphon hydraulic Result
     //(1) Static Head Gain
     let a1 = 0.0;
     let b1 = rho / 10000.0;

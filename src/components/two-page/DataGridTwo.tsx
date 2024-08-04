@@ -14,7 +14,7 @@ const columns: GridColDef<TwoSizingData>[] = [
   {
     field: "id",
     headerName: "Norm. ID\n     (in)",
-    width: 90,
+    width: 93,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -105,7 +105,7 @@ export default function DataGridTwo(props: any) {
         </Stack>
         <DataGrid
           rows={rows}
-          autoHeight={true}
+          autoHeight={false}
           columns={columns as GridColDef<TwoSizingData>[]}
           sx={{
             "& .MuiDataGrid-columnHeader": {
@@ -123,6 +123,9 @@ export default function DataGridTwo(props: any) {
             },
             "& .MuiDataGrid-columnSeparator": {
               display: "none",
+            },
+            "& .MuiDataGrid-scrollbarFiller": {
+              backgroundColor: directColor,
             },
 
             mt: 1,

@@ -52,7 +52,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "unit",
     headerName: "UNIT",
-    width: 128,
+    width: 113,
     editable: false,
     resizable: false,
     sortable: false,
@@ -172,7 +172,7 @@ const ThermoResultPage = (props: any) => {
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          <Box sx={{ width: "114%", height: "550px" }}>
+          <Box sx={{ width: "114%" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -214,6 +214,9 @@ const ThermoResultPage = (props: any) => {
                     "& .MuiDataGrid-columnSeparator": {
                       display: "none",
                     },
+                    "& .MuiDataGrid-filler": {
+                      backgroundColor: "primary.main",
+                    },
                     mt: 1,
                   }}
                   hideFooter={true}
@@ -226,13 +229,17 @@ const ThermoResultPage = (props: any) => {
                 component="form"
                 display="flex"
                 flexDirection="column"
+                height={534}
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
+                  "& .MuiTextField-root": {
+                    mt: 2,
+                    width: "35ch",
+                  },
                 }}
               >
                 <DataGrid
                   rows={riserResData}
-                  autoHeight={true}
+                  autoHeight={false}
                   columns={columns as GridColDef<DownAndRiserData>[]}
                   sx={{
                     "& .MuiDataGrid-columnHeader": {
@@ -244,6 +251,9 @@ const ThermoResultPage = (props: any) => {
                     },
                     "& .MuiDataGrid-columnSeparator": {
                       display: "none",
+                    },
+                    "& .MuiDataGrid-scrollbarFiller": {
+                      backgroundColor: pcolor,
                     },
                     mt: 1,
                   }}
