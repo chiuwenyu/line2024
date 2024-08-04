@@ -1017,6 +1017,8 @@ const Thermo = () => {
     const muLM = parseFloatWithErrorHandling(riserLiqVisc) * 0.001;
     // handle in-place density calculation
     const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
+    // handle riser homogeneous two phase velocity
+    const V1 = homoTwoPhaseVelocity(IDM, WGM, WLM, LoGM, LoLM);
 
     // (1) Render downRes
     downRes.push({
@@ -1182,6 +1184,22 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
+    riserRes.push({
+      id: "12",
+      item: "TWO PHASE VELOCITY (HOMO)",
+      unit: "(M/S)",
+      main: V1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "13",
+      item: "EQUIVALENT LENGTH -- EXCLUDING H",
+      unit: "(M)",
+      main: riserELMain,
+      manifold: "",
+      lead: "",
+    });
 
     // (3) Render configuration data
     // (4) Render thermosyphon hydraulic Result
@@ -1292,6 +1310,23 @@ const Thermo = () => {
     setRiserResData(riserRes);
     setHomeResData(homoRes);
     setDukResData(dukRes);
+  };
+
+  const homoTwoPhaseVelocity = (
+    ID: number,
+    WG: number,
+    WL: number,
+    LoG: number,
+    LoL: number
+  ) => {
+    // calculate the homogeneous velocity (two phase velocity) for riser
+    const area = (Math.PI * ID * ID) / 4; // pipe area [m^2]
+    const Gt = (WL + WG) / area / 3600; // Eq (22)
+
+    const UGS = WG / LoG / area / 3600; // Vapor Velocity [m/s]
+    const ULS = WL / LoL / area / 3600; // Liquid Velocity [m/s]
+    const UTP = UGS + ULS; // Two Phase Velocity [m/s], Eq (23)
+    return UTP;
   };
 
   const InplaceDensity = (
