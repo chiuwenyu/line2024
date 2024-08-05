@@ -20,7 +20,7 @@ import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import Thermoproject from "./Thermoproject";
 import { parseFloatWithErrorHandling } from "../utils/utility";
 import { Result } from "../single-page/SingleDataType";
-import ThermoResultPage from "./ThermoResultPage";
+import ThermoResultPage, { ConfigData } from "./ThermoResultPage";
 import { DownAndRiserData } from "./ThermoResultPage";
 import { VUResult } from "../two-page/TwoDataType";
 
@@ -120,6 +120,7 @@ const Thermo = () => {
   // Calculate Result
   const [downResData, setDownResData] = useState<DownAndRiserData[]>([]);
   const [riserResData, setRiserResData] = useState<DownAndRiserData[]>([]);
+  const [configResData, setConfigResData] = useState<ConfigData[]>([]);
   const [homeResData, setHomeResData] = useState<ThermoResult[]>([]);
   const [dukResData, setDukResData] = useState<ThermoResult[]>([]);
 
@@ -966,9 +967,11 @@ const Thermo = () => {
     setCalState(true);
   };
 
+  // Case E calculation
   const calCaseE = async () => {
     let downRes: DownAndRiserData[] = [];
     let riserRes: DownAndRiserData[] = [];
+    let conRes: ConfigData[] = [];
     let homoRes: ThermoResult[] = [];
     let dukRes: ThermoResult[] = [];
 
@@ -1275,6 +1278,67 @@ const Thermo = () => {
     });
 
     // (3) Render configuration data
+    conRes.push({
+      id: "1",
+      item: "REBOILER TYPE",
+      unit: "--",
+      value: "Vertical E",
+    });
+    conRes.push({
+      id: "2",
+      item: "TOWER DOWNCOMER OUTLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eDownOutNozzleSize,
+    });
+    conRes.push({
+      id: "3",
+      item: "TOWER RISER INLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eRiserInNozzleSize,
+    });
+    conRes.push({
+      id: "4",
+      item: "REBOILER INLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eReboInNozzleSize,
+    });
+    conRes.push({
+      id: "5",
+      item: "REBOILER OUTLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eReboOutNozzleSize,
+    });
+    conRes.push({
+      id: "6",
+      item: "REBOILER PRESSURE DROP (EXCL. NOZZLE LOSS)",
+      unit: "(KG/CM^2)",
+      value: eReboDP,
+    });
+    conRes.push({
+      id: "7",
+      item: "TOWER T.L. To C.L. OF RISER ENTERING TOWER <T>",
+      unit: "(MM)",
+      value: eT,
+    });
+    conRes.push({
+      id: "8",
+      item: "REBOILER TUBE LENGTH (VERTICAL) <E>",
+      unit: "(MM)",
+      value: eE,
+    });
+    conRes.push({
+      id: "9",
+      item: "TUBE LENGTH SUBMERGE WITH LIQUID (VERTICAL) <BD>",
+      unit: "(MM)",
+      value: eBD,
+    });
+    conRes.push({
+      id: "10",
+      item: "SAFETY FACTOR RISER E.L. OF HOMO. METHOD",
+      unit: "(--)",
+      value: eSF,
+    });
+
     // (4) Render thermosyphon hydraulic Result
     //(1) Static Head Gain
     let a1 = 0.0;
@@ -1381,6 +1445,7 @@ const Thermo = () => {
     // finial works
     setDownResData(downRes);
     setRiserResData(riserRes);
+    setConfigResData(conRes);
     setHomeResData(homoRes);
     setDukResData(dukRes);
   };
@@ -1859,6 +1924,7 @@ const Thermo = () => {
               caseNo={caseNo}
               downResData={downResData}
               riserResData={riserResData}
+              configResData={configResData}
             />
           )}
         </Grid>

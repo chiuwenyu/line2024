@@ -28,6 +28,13 @@ export interface DownAndRiserData {
   lead: string;
 }
 
+export interface ConfigData {
+  id: string;
+  item: string;
+  unit: string;
+  value: string;
+}
+
 const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "id",
@@ -95,8 +102,53 @@ const columns: GridColDef<DownAndRiserData>[] = [
   },
 ];
 
+const configColumns: GridColDef<ConfigData>[] = [
+  {
+    field: "id",
+    headerName: "No.",
+    width: 15,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "item",
+    headerName: "ITEMS",
+    width: 400,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "left",
+    align: "left",
+  },
+  {
+    field: "unit",
+    headerName: "UNIT",
+    width: 100,
+    editable: false,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "left",
+    align: "left",
+  },
+  {
+    field: "value",
+    headerName: "VALUE",
+    width: 100,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    editable: false,
+    headerAlign: "right",
+    align: "right",
+  },
+];
+
 const ThermoResultPage = (props: any) => {
-  const { caseNo, downResData, riserResData } = props;
+  const { caseNo, downResData, riserResData, configResData } = props;
   const [value, setValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -257,6 +309,40 @@ const ThermoResultPage = (props: any) => {
                     },
                     "& .MuiDataGrid-scrollbarFiller": {
                       backgroundColor: pcolor,
+                    },
+                    mt: 1,
+                  }}
+                  hideFooter={true}
+                />
+              </Box>
+            </CustomTabPanel>
+            {/* configuration result tab */}
+            <CustomTabPanel value={value} index={2}>
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                sx={{
+                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
+                }}
+              >
+                <DataGrid
+                  rows={configResData}
+                  autoHeight={true}
+                  columns={configColumns as GridColDef<ConfigData>[]}
+                  sx={{
+                    "& .MuiDataGrid-columnHeader": {
+                      backgroundColor: "info.main",
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "0.8rem",
+                      height: "50",
+                    },
+                    "& .MuiDataGrid-columnSeparator": {
+                      display: "none",
+                    },
+                    "& .MuiDataGrid-filler": {
+                      backgroundColor: "info.main",
                     },
                     mt: 1,
                   }}
