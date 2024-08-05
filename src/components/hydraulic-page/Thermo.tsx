@@ -20,7 +20,10 @@ import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import Thermoproject from "./Thermoproject";
 import { parseFloatWithErrorHandling } from "../utils/utility";
 import { Result } from "../single-page/SingleDataType";
-import ThermoResultPage, { ConfigData } from "./ThermoResultPage";
+import ThermoResultPage, {
+  ConfigData,
+  HomoAndDukData,
+} from "./ThermoResultPage";
 import { DownAndRiserData } from "./ThermoResultPage";
 import { VUResult } from "../two-page/TwoDataType";
 
@@ -121,8 +124,8 @@ const Thermo = () => {
   const [downResData, setDownResData] = useState<DownAndRiserData[]>([]);
   const [riserResData, setRiserResData] = useState<DownAndRiserData[]>([]);
   const [configResData, setConfigResData] = useState<ConfigData[]>([]);
-  const [homeResData, setHomeResData] = useState<ThermoResult[]>([]);
-  const [dukResData, setDukResData] = useState<ThermoResult[]>([]);
+  const [homeResData, setHomeResData] = useState<HomoAndDukData[]>([]);
+  const [dukResData, setDukResData] = useState<HomoAndDukData[]>([]);
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -972,8 +975,8 @@ const Thermo = () => {
     let downRes: DownAndRiserData[] = [];
     let riserRes: DownAndRiserData[] = [];
     let conRes: ConfigData[] = [];
-    let homoRes: ThermoResult[] = [];
-    let dukRes: ThermoResult[] = [];
+    let homoRes: HomoAndDukData[] = [];
+    let dukRes: HomoAndDukData[] = [];
 
     //(0) Parse and calculate all the parameters
     // handle downcomer data parse
@@ -1344,13 +1347,13 @@ const Thermo = () => {
     let a1 = 0.0;
     let b1 = rho / 10000.0;
     homoRes.push({
-      id: 101,
-      title: "(1) STATIC HEAD GAIN",
+      id: "1",
+      item: "(1) STATIC HEAD GAIN",
       value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
     });
     dukRes.push({
-      id: 101,
-      title: "(1) STATIC HEAD GAIN",
+      id: "1",
+      item: "(1) STATIC HEAD GAIN",
       value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
     });
 
@@ -1358,13 +1361,13 @@ const Thermo = () => {
     let a2 = (DP1 * EQD1) / 100.0;
     let b2 = DP1 / 100.0;
     homoRes.push({
-      id: 102,
-      title: "(2) DOWNCOMER LINE LOSS",
+      id: "2",
+      item: "(2) DOWNCOMER LINE LOSS",
       value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
     });
     dukRes.push({
-      id: 102,
-      title: "(2) DOWNCOMER LINE LOSS",
+      id: "2",
+      item: "(2) DOWNCOMER LINE LOSS",
       value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
     });
 
@@ -1372,27 +1375,27 @@ const Thermo = () => {
     const a3 = (0.5 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
     // const b3 = 0.0;
     homoRes.push({
-      id: 103,
-      title: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      id: "3",
+      item: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
       value: a3.toFixed(6),
     });
     dukRes.push({
-      id: 103,
-      title: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      id: "3",
+      item: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
       value: a3.toFixed(6),
     });
 
     // (4) Reboiler Inlet Nozzle Loss
-    const a4 = (0.5 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const a4 = (1.0 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
     // const b4 = 0.0;
     homoRes.push({
-      id: 104,
-      title: "(4) REBOILER INLET NOZZLE LOSS",
+      id: "4",
+      item: "(4) REBOILER INLET NOZZLE LOSS",
       value: a4.toFixed(6),
     });
     dukRes.push({
-      id: 104,
-      title: "(4) REBOILER INLET NOZZLE LOSS",
+      id: "4",
+      item: "(4) REBOILER INLET NOZZLE LOSS",
       value: a4.toFixed(6),
     });
 
@@ -1400,13 +1403,13 @@ const Thermo = () => {
     const a5 = ReDP;
     // const b5 = 0.0;
     homoRes.push({
-      id: 105,
-      title: "(5) REBOILER PRESSURE LOSS",
+      id: "5",
+      item: "(5) REBOILER PRESSURE LOSS",
       value: a5.toFixed(6),
     });
     dukRes.push({
-      id: 105,
-      title: "(5) REBOILER PRESSURE LOSS",
+      id: "5",
+      item: "(5) REBOILER PRESSURE LOSS",
       value: a5.toFixed(6),
     });
 
@@ -1415,8 +1418,8 @@ const Thermo = () => {
     const ha6 = (homoLo * (T / 1000 - E / 1000)) / 10000;
     const hb6 = homoLo / 10000;
     homoRes.push({
-      id: 1061,
-      title: "(6) RISER STATIC HEAD LOSS (HOMO.)",
+      id: "6",
+      item: "(6) RISER STATIC HEAD LOSS (HOMO.)",
       value: ha6.toFixed(6) + " + " + hb6.toFixed(6) + " * H",
     });
     // (6.2) Dukler Model
@@ -1424,8 +1427,8 @@ const Thermo = () => {
     const da6 = (dukLo * (T / 1000 - E / 1000)) / 10000;
     const db6 = dukLo / 10000;
     dukRes.push({
-      id: 1062,
-      title: "(6) RISER STATIC HEAD LOSS (DUKLER.)",
+      id: "6",
+      item: "(6) RISER STATIC HEAD LOSS (DUKLER.)",
       value: da6.toFixed(6) + " + " + db6.toFixed(6) + " * H",
     });
 
@@ -1925,6 +1928,8 @@ const Thermo = () => {
               downResData={downResData}
               riserResData={riserResData}
               configResData={configResData}
+              homeResData={homeResData}
+              dukResData={dukResData}
             />
           )}
         </Grid>

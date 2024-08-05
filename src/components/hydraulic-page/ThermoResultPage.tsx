@@ -35,6 +35,12 @@ export interface ConfigData {
   value: string;
 }
 
+export interface HomoAndDukData {
+  id: string;
+  item: string;
+  value: string;
+}
+
 const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "id",
@@ -147,8 +153,39 @@ const configColumns: GridColDef<ConfigData>[] = [
   },
 ];
 
+const hdColumns: GridColDef<HomoAndDukData>[] = [
+  {
+    field: "item",
+    headerName: "ITEMS",
+    width: 400,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    headerAlign: "left",
+    align: "left",
+  },
+  {
+    field: "value",
+    headerName: "VALUE",
+    width: 200,
+    resizable: false,
+    sortable: false,
+    disableColumnMenu: true,
+    editable: false,
+    headerAlign: "center",
+    align: "left",
+  },
+];
+
 const ThermoResultPage = (props: any) => {
-  const { caseNo, downResData, riserResData, configResData } = props;
+  const {
+    caseNo,
+    downResData,
+    riserResData,
+    configResData,
+    homeResData,
+    dukResData,
+  } = props;
   const [value, setValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -332,7 +369,7 @@ const ThermoResultPage = (props: any) => {
                   columns={configColumns as GridColDef<ConfigData>[]}
                   sx={{
                     "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: "info.main",
+                      backgroundColor: "error.main",
                       color: "white",
                       fontWeight: "bold",
                       fontSize: "0.8rem",
@@ -342,7 +379,75 @@ const ThermoResultPage = (props: any) => {
                       display: "none",
                     },
                     "& .MuiDataGrid-filler": {
-                      backgroundColor: "info.main",
+                      backgroundColor: "error.main",
+                    },
+                    mt: 1,
+                  }}
+                  hideFooter={true}
+                />
+              </Box>
+            </CustomTabPanel>
+            {/* Homogeneous result tab */}
+            <CustomTabPanel value={value} index={3}>
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                sx={{
+                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
+                }}
+              >
+                <DataGrid
+                  rows={homeResData}
+                  autoHeight={true}
+                  columns={hdColumns as GridColDef<HomoAndDukData>[]}
+                  sx={{
+                    "& .MuiDataGrid-columnHeader": {
+                      backgroundColor: "success.main",
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "0.8rem",
+                      height: "50",
+                    },
+                    "& .MuiDataGrid-columnSeparator": {
+                      display: "none",
+                    },
+                    "& .MuiDataGrid-filler": {
+                      backgroundColor: "success.main",
+                    },
+                    mt: 1,
+                  }}
+                  hideFooter={true}
+                />
+              </Box>
+            </CustomTabPanel>
+            {/* Dukler result tab */}
+            <CustomTabPanel value={value} index={4}>
+              <Box
+                component="form"
+                display="flex"
+                flexDirection="column"
+                sx={{
+                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
+                }}
+              >
+                <DataGrid
+                  rows={dukResData}
+                  autoHeight={true}
+                  columns={hdColumns as GridColDef<HomoAndDukData>[]}
+                  sx={{
+                    "& .MuiDataGrid-columnHeader": {
+                      backgroundColor: "warning.main",
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "0.8rem",
+                      height: "50",
+                    },
+                    "& .MuiDataGrid-columnSeparator": {
+                      display: "none",
+                    },
+                    "& .MuiDataGrid-filler": {
+                      backgroundColor: "warning.main",
                     },
                     mt: 1,
                   }}
