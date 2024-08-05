@@ -1265,7 +1265,7 @@ const Thermo = () => {
     });
     riserRes.push({
       id: "16",
-      item: "UNIT PRESSURE DROP (DUKLER.)",
+      item: "UNIT PRESSURE DROP (DUKLER)",
       unit: "(KG/CM^2/100M)",
       main: DDP1.toFixed(4),
       manifold: "",
@@ -1433,18 +1433,38 @@ const Thermo = () => {
     });
 
     // (7) Riser Line Loss
-    // const SFDP = parseFloatWithErrorHandling(riserSF);
-    // const SFEL = parseFloatWithErrorHandling(eSF);
-    // const SF = (SFDP * Math.max(SFEL, SFDP)) / SFDP; // Total Safety Factor
-    // const EQR1 = parseFloatWithErrorHandling(riserELMain);
-    // const ha7 = (SF * HDP1 * (EQR1 + T / 1000 - E / 1000)) / 100;
-    // const hb7 = (SF * HDP1) / 100;
-    // homoRes.push({
-    //   id: 1071,
-    //   title: "(7) RISER LINE LOSS (HOMO.)",
-    //   value: ha7.toFixed(6) + " + " + hb7.toFixed(6) + " * H",
-    // });
+    const SFDP = parseFloatWithErrorHandling(riserSF);
+    const SFEL = parseFloatWithErrorHandling(eSF);
+    const SF = (SFDP * Math.max(SFEL, SFDP)) / SFDP; // Total Safety Factor
+    const EQR1 = parseFloatWithErrorHandling(riserELMain);
+    const ha7 = (SF * HDP1 * (EQR1 + T / 1000 - E / 1000)) / 100;
+    const hb7 = (SF * HDP1) / 100;
+    homoRes.push({
+      id: "7",
+      item: "(7) RISER LINE LOSS (HOMO.)",
+      value: ha7.toFixed(6) + " + " + hb7.toFixed(6) + " * H",
+    });
 
+    const da7 = (SFDP * DDP1 * (EQR1 + T / 1000 - E / 1000)) / 100;
+    const db7 = (SFDP * DDP1) / 100;
+    dukRes.push({
+      id: "7",
+      item: "(7) RISER LINE LOSS (DUKLER)",
+      value: da7.toFixed(6) + " + " + db7.toFixed(6) + " * H",
+    });
+    // (8) Tower Riser Inlet Nozzle Loss
+    const a8 = (1.0 * homoLo * V1 * V1) / (2 * 9.80665) / 10000;
+    const b8 = 0.0;
+    homoRes.push({
+      id: "8",
+      item: "(8) TOWER RISER INLET NOZZLE LOSS",
+      value: a8.toFixed(6),
+    });
+    dukRes.push({
+      id: "8",
+      item: "(8) TOWER RISER INLET NOZZLE LOSS",
+      value: a8.toFixed(6),
+    });
     // finial works
     setDownResData(downRes);
     setRiserResData(riserRes);

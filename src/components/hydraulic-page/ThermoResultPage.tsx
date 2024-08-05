@@ -15,10 +15,11 @@ import picF from "../../assets/ThermoSyphone-Case F.png";
 import picG from "../../assets/ThermoSyphone-Case G.png";
 import { a11yProps, CustomTabPanel } from "../utils/utility";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { purple } from "@mui/material/colors";
+import { purple, cyan, pink } from "@mui/material/colors";
 
-let pcolor = purple[700];
-
+let purplecolor = purple[700];
+let ccolor = cyan[700];
+let pinkcolor = pink[700];
 export interface DownAndRiserData {
   id: string;
   item: string;
@@ -332,7 +333,7 @@ const ThermoResultPage = (props: any) => {
                   columns={columns as GridColDef<DownAndRiserData>[]}
                   sx={{
                     "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: pcolor,
+                      backgroundColor: purplecolor,
                       color: "white",
                       fontWeight: "bold",
                       fontSize: "0.8rem",
@@ -342,10 +343,10 @@ const ThermoResultPage = (props: any) => {
                       display: "none",
                     },
                     "& .MuiDataGrid-filler": {
-                      backgroundColor: pcolor,
+                      backgroundColor: purplecolor,
                     },
                     "& .MuiDataGrid-scrollbarFiller": {
-                      backgroundColor: pcolor,
+                      backgroundColor: purplecolor,
                     },
                     mt: 1,
                   }}
@@ -369,7 +370,7 @@ const ThermoResultPage = (props: any) => {
                   columns={configColumns as GridColDef<ConfigData>[]}
                   sx={{
                     "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: "error.main",
+                      backgroundColor: pinkcolor,
                       color: "white",
                       fontWeight: "bold",
                       fontSize: "0.8rem",
@@ -379,7 +380,7 @@ const ThermoResultPage = (props: any) => {
                       display: "none",
                     },
                     "& .MuiDataGrid-filler": {
-                      backgroundColor: "error.main",
+                      backgroundColor: pinkcolor,
                     },
                     mt: 1,
                   }}
@@ -437,7 +438,7 @@ const ThermoResultPage = (props: any) => {
                   columns={hdColumns as GridColDef<HomoAndDukData>[]}
                   sx={{
                     "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: "warning.main",
+                      backgroundColor: ccolor,
                       color: "white",
                       fontWeight: "bold",
                       fontSize: "0.8rem",
@@ -447,7 +448,7 @@ const ThermoResultPage = (props: any) => {
                       display: "none",
                     },
                     "& .MuiDataGrid-filler": {
-                      backgroundColor: "warning.main",
+                      backgroundColor: ccolor,
                     },
                     mt: 1,
                   }}
