@@ -1465,6 +1465,19 @@ const Thermo = () => {
       item: "(8) TOWER RISER INLET NOZZLE LOSS",
       value: a8.toFixed(6),
     });
+    // (9) Tower Riser Inlet Nozzle Loss
+    const a9 = (0.5 * homoLo * V1 * V1) / (2 * 9.80665) / 10000;
+    const b9 = 0.0;
+    homoRes.push({
+      id: "9",
+      item: "(9) REBOILER OUTLET NOZZLE LOSS",
+      value: a9.toFixed(6),
+    });
+    dukRes.push({
+      id: "8",
+      item: "(9) REBOILER OUTLET NOZZLE LOSS",
+      value: a9.toFixed(6),
+    });
     // finial works
     setDownResData(downRes);
     setRiserResData(riserRes);
