@@ -1476,7 +1476,7 @@ const Thermo = () => {
       value: a9.toFixed(6),
     });
     dukRes.push({
-      id: "8",
+      id: "9",
       item: "(9) REBOILER OUTLET NOZZLE LOSS",
       value: a9.toFixed(6),
     });
