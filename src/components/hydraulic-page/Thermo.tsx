@@ -963,6 +963,7 @@ const Thermo = () => {
     } else if (caseNo === "E") {
       calCaseE();
     } else if (caseNo === "F") {
+      calCaseF();
     } else if (caseNo === "G") {
     } else {
       console.log("Error: Invalid case number");
@@ -973,6 +974,540 @@ const Thermo = () => {
 
   // Case E calculation
   const calCaseE = async () => {
+    let downRes: DownAndRiserData[] = [];
+    let riserRes: DownAndRiserData[] = [];
+    let conRes: ConfigData[] = [];
+    let homoRes: HomoAndDukData[] = [];
+    let dukRes: HomoAndDukData[] = [];
+
+    //(0) Parse and calculate all the parameters
+    // handle downcomer data parse
+    const w = parseFloatWithErrorHandling(downFlowRateMain);
+    const rho = parseFloatWithErrorHandling(downDensity);
+    const mu = parseFloatWithErrorHandling(downVisc);
+    const id = parseFloatWithErrorHandling(downIDMain);
+    const e = parseFloatWithErrorHandling(downRough);
+    const sf = parseFloatWithErrorHandling(downSF);
+    const EQD1 = parseFloatWithErrorHandling(downELMain);
+    const ReDP = parseFloatWithErrorHandling(eReboDP);
+    const WG = parseFloatWithErrorHandling(riserWGMain);
+    const WL = parseFloatWithErrorHandling(riserWLMain);
+    const LoG = parseFloatWithErrorHandling(riserVapDensity);
+    const LoL = parseFloatWithErrorHandling(riserLiqDensity);
+    const muG = parseFloatWithErrorHandling(riserVapVisc);
+    const muL = parseFloatWithErrorHandling(riserLiqVisc);
+    const E = parseFloatWithErrorHandling(eE);
+    const T = parseFloatWithErrorHandling(eT);
+    // handle single phase hydraulic calculation
+    const result = await invoke<Result>("invoke_hydraulic", {
+      w,
+      rho,
+      mu,
+      id,
+      e,
+      sf,
+    });
+    const res = result as Result;
+    const DP1 = res.dp100;
+    const DV1 = res.v;
+    // handle homogeneous viscosity calculation
+    const homoVisc =
+      ((muG * WG) / LoG + (muL * WL) / LoL) / (WG / LoG + WL / LoL);
+    // handle homogeneous density calculation
+    const x = WG / (WG + WL);
+    const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
+    // handle riser data parse
+    const IDM = parseFloatWithErrorHandling(riserIDMain);
+    const WGM = parseFloatWithErrorHandling(riserWGMain);
+    const WLM = parseFloatWithErrorHandling(riserWLMain);
+    const LoGM = parseFloatWithErrorHandling(riserVapDensity);
+    const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
+    const muGM = parseFloatWithErrorHandling(riserVapVisc);
+    const muLM = parseFloatWithErrorHandling(riserLiqVisc);
+    const rough = parseFloatWithErrorHandling(riserRough);
+    // handle in-place density calculation
+    const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
+    // handle riser homogeneous two phase velocity
+    const V1 = homoTwoPhaseVelocity(IDM, WGM, WLM, LoGM, LoLM);
+    // handle riser two phase hydraulic calculation
+    // Homogeneous method
+    const hresult = await invoke<Result>("invoke_hydraulic", {
+      w: WGM + WLM,
+      rho: homoLo,
+      mu: homoVisc,
+      id: IDM,
+      e: rough,
+      sf: 1.0,
+    });
+    const hres = hresult as Result;
+    const HDP1 = hres.dp100;
+    // Dukler method
+    const rresult = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
+      wl: WLM,
+      wg: WGM,
+      lol: LoLM,
+      logg: LoGM,
+      mul: muLM,
+      mug: muGM,
+      st: 40,
+      rough: rough,
+      sf: 1.0,
+      id: IDM,
+      degree: 0,
+    });
+    const rres = rresult as VUResult;
+    const DDP1 = rres.Pfric;
+    const flow_regime = rres.flow_regime;
+
+    // (1) Render downRes
+    downRes.push({
+      id: "1",
+      item: "TOTAL FLOW RATE",
+      unit: "(Kg/HR)",
+      main: downFlowRateMain,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "2",
+      item: "FLUID DENSITY",
+      unit: "(KG/M^3)",
+      main: downDensity,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "3",
+      item: "VISCOSITY",
+      unit: "(CP)",
+      main: downVisc,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "4",
+      item: "PIPE DIAMETER",
+      unit: "(IN)",
+      main: downIDMain,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "5",
+      item: "ABSOLUTE ROUGHNESS",
+      unit: "(MM)",
+      main: downRough,
+      manifold: "",
+      lead: "",
+    });
+
+    downRes.push({
+      id: "6",
+      item: "FLUID VELOCITY",
+      unit: "(M/S)",
+      main: DV1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "7",
+      item: "EQUIVALENT LENGTH -- EXCLUDING H",
+      unit: "(M)",
+      main: downELMain,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "8",
+      item: "UNIT PRESSURE DROP",
+      unit: "(KG/CM^2/100M)",
+      main: DP1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "9",
+      item: "SAFETY FACTOR OF UNIT PRESS. DROP",
+      unit: "(--)",
+      main: downSF,
+      manifold: "",
+      lead: "",
+    });
+
+    // (2) Render riserRes
+    riserRes.push({
+      id: "1",
+      item: "VAPOR FLOWRATE",
+      unit: "(Kg/HR)",
+      main: riserWGMain,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "2",
+      item: "LIQUID FLOWRATE",
+      unit: "(Kg/HR)",
+      main: riserWLMain,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "3",
+      item: "VAPOR DENSITY",
+      unit: "(KG/M^3)",
+      main: riserVapDensity,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "4",
+      item: "LIQUID DENSITY",
+      unit: "(KG/M^3)",
+      main: riserLiqDensity,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "5",
+      item: "VAPOR VISCOSITY",
+      unit: "(cP)",
+      main: riserVapVisc,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "6",
+      item: "LIQUID VISCOSITY",
+      unit: "(cP)",
+      main: riserLiqVisc,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "7",
+      item: "HOMOGENEOUS VISCOSITY",
+      unit: "(cP)",
+      main: homoVisc.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "8",
+      item: "PIPE DIAMETER",
+      unit: "(IN)",
+      main: riserIDMain,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "9",
+      item: "ABSOLUTE ROUGHNESS",
+      unit: "(MM)",
+      main: riserRough,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "10",
+      item: "HOMOGENEOUS DENSITY",
+      unit: "(KG/M^3)",
+      main: homoLo.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "11",
+      item: "INPLACE DENSITY",
+      unit: "(KG/M^3)",
+      main: dukLo.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "12",
+      item: "TWO PHASE VELOCITY (HOMO)",
+      unit: "(M/S)",
+      main: V1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "13",
+      item: "EQUIVALENT LENGTH -- EXCLUDING H",
+      unit: "(M)",
+      main: riserELMain,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "14",
+      item: "UNIT PRESSURE DROP (HOMO.)",
+      unit: "(KG/CM^2/100M)",
+      main: HDP1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    const fg =
+      flow_regime === "Vertical Up Annular Flow"
+        ? "Annular"
+        : flow_regime === "Vertical Up Bubble Flow"
+        ? "Bubble"
+        : flow_regime === "Vertical Up Slug and Churn Flow"
+        ? "Slug Flow"
+        : flow_regime === "Vertical Up Finely Dispersed Bubble Flow"
+        ? "FD Bubble"
+        : "";
+    riserRes.push({
+      id: "15",
+      item: "TWO PHASE FLOW REGIME",
+      unit: "(--)",
+      main: fg,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "16",
+      item: "UNIT PRESSURE DROP (DUKLER)",
+      unit: "(KG/CM^2/100M)",
+      main: DDP1.toFixed(4),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "17",
+      item: "SAFETY FACTOR OF UNIT PRESS. DROP",
+      unit: "(--)",
+      main: riserSF,
+      manifold: "",
+      lead: "",
+    });
+
+    // (3) Render configuration data
+    conRes.push({
+      id: "1",
+      item: "REBOILER TYPE",
+      unit: "--",
+      value: "Vertical E",
+    });
+    conRes.push({
+      id: "2",
+      item: "TOWER DOWNCOMER OUTLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eDownOutNozzleSize,
+    });
+    conRes.push({
+      id: "3",
+      item: "TOWER RISER INLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eRiserInNozzleSize,
+    });
+    conRes.push({
+      id: "4",
+      item: "REBOILER INLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eReboInNozzleSize,
+    });
+    conRes.push({
+      id: "5",
+      item: "REBOILER OUTLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: eReboOutNozzleSize,
+    });
+    conRes.push({
+      id: "6",
+      item: "REBOILER PRESSURE DROP (EXCL. NOZZLE LOSS)",
+      unit: "(KG/CM^2)",
+      value: eReboDP,
+    });
+    conRes.push({
+      id: "7",
+      item: "TOWER T.L. To C.L. OF RISER ENTERING TOWER <T>",
+      unit: "(MM)",
+      value: eT,
+    });
+    conRes.push({
+      id: "8",
+      item: "REBOILER TUBE LENGTH (VERTICAL) <E>",
+      unit: "(MM)",
+      value: eE,
+    });
+    conRes.push({
+      id: "9",
+      item: "TUBE LENGTH SUBMERGE WITH LIQUID (VERTICAL) <BD>",
+      unit: "(MM)",
+      value: eBD,
+    });
+    conRes.push({
+      id: "10",
+      item: "SAFETY FACTOR RISER E.L. OF HOMO. METHOD",
+      unit: "(--)",
+      value: eSF,
+    });
+
+    // (4) Render thermosyphon hydraulic Result
+    //(1) Static Head Gain
+    let a1 = 0.0;
+    let b1 = rho / 10000.0;
+    homoRes.push({
+      id: "1",
+      item: "(1) STATIC HEAD GAIN",
+      value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
+    });
+    dukRes.push({
+      id: "1",
+      item: "(1) STATIC HEAD GAIN",
+      value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
+    });
+
+    //(2) Downcomer Line Loss'=
+    let a2 = (DP1 * EQD1) / 100.0;
+    let b2 = DP1 / 100.0;
+    homoRes.push({
+      id: "2",
+      item: "(2) DOWNCOMER LINE LOSS",
+      value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
+    });
+    dukRes.push({
+      id: "2",
+      item: "(2) DOWNCOMER LINE LOSS",
+      value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
+    });
+
+    // (3) Tower Downcomer Outlet Nozzle Loss
+    const a3 = (0.5 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const b3 = 0.0;
+    homoRes.push({
+      id: "3",
+      item: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      value: a3.toFixed(6),
+    });
+    dukRes.push({
+      id: "3",
+      item: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      value: a3.toFixed(6),
+    });
+
+    // (4) Reboiler Inlet Nozzle Loss
+    const a4 = (1.0 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const b4 = 0.0;
+    homoRes.push({
+      id: "4",
+      item: "(4) REBOILER INLET NOZZLE LOSS",
+      value: a4.toFixed(6),
+    });
+    dukRes.push({
+      id: "4",
+      item: "(4) REBOILER INLET NOZZLE LOSS",
+      value: a4.toFixed(6),
+    });
+
+    // (5) Reboiler Pressure Loss
+    const a5 = ReDP;
+    const b5 = 0.0;
+    homoRes.push({
+      id: "5",
+      item: "(5) REBOILER PRESSURE LOSS",
+      value: a5.toFixed(6),
+    });
+    dukRes.push({
+      id: "5",
+      item: "(5) REBOILER PRESSURE LOSS",
+      value: a5.toFixed(6),
+    });
+
+    // (6) Riser Static Head Loss
+    // (6.1) Homogeneois Model
+    const ha6 = (homoLo * (T / 1000 - E / 1000)) / 10000;
+    const hb6 = homoLo / 10000;
+    homoRes.push({
+      id: "6",
+      item: "(6) RISER STATIC HEAD LOSS (HOMO.)",
+      value: ha6.toFixed(6) + " + " + hb6.toFixed(6) + " * H",
+    });
+    // (6.2) Dukler Model
+
+    const da6 = (dukLo * (T / 1000 - E / 1000)) / 10000;
+    const db6 = dukLo / 10000;
+    dukRes.push({
+      id: "6",
+      item: "(6) RISER STATIC HEAD LOSS (DUKLER.)",
+      value: da6.toFixed(6) + " + " + db6.toFixed(6) + " * H",
+    });
+
+    // (7) Riser Line Loss
+    const SFDP = parseFloatWithErrorHandling(riserSF);
+    const SFEL = parseFloatWithErrorHandling(eSF);
+    const SF = (SFDP * Math.max(SFEL, SFDP)) / SFDP; // Total Safety Factor
+    const EQR1 = parseFloatWithErrorHandling(riserELMain);
+    const ha7 = (SF * HDP1 * (EQR1 + T / 1000 - E / 1000)) / 100;
+    const hb7 = (SF * HDP1) / 100;
+    homoRes.push({
+      id: "7",
+      item: "(7) RISER LINE LOSS (HOMO.)",
+      value: ha7.toFixed(6) + " + " + hb7.toFixed(6) + " * H",
+    });
+
+    const da7 = (SFDP * DDP1 * (EQR1 + T / 1000 - E / 1000)) / 100;
+    const db7 = (SFDP * DDP1) / 100;
+    dukRes.push({
+      id: "7",
+      item: "(7) RISER LINE LOSS (DUKLER)",
+      value: da7.toFixed(6) + " + " + db7.toFixed(6) + " * H",
+    });
+    // (8) Tower Riser Inlet Nozzle Loss
+    const a8 = (1.0 * homoLo * V1 * V1) / (2 * 9.80665) / 10000;
+    const b8 = 0.0;
+    homoRes.push({
+      id: "8",
+      item: "(8) TOWER RISER INLET NOZZLE LOSS",
+      value: a8.toFixed(6),
+    });
+    dukRes.push({
+      id: "8",
+      item: "(8) TOWER RISER INLET NOZZLE LOSS",
+      value: a8.toFixed(6),
+    });
+    // (9) Tower Riser Inlet Nozzle Loss
+    const a9 = (0.5 * homoLo * V1 * V1) / (2 * 9.80665) / 10000;
+    const b9 = 0.0;
+    homoRes.push({
+      id: "9",
+      item: "(9) REBOILER OUTLET NOZZLE LOSS",
+      value: a9.toFixed(6),
+    });
+    dukRes.push({
+      id: "8",
+      item: "(9) REBOILER OUTLET NOZZLE LOSS",
+      value: a9.toFixed(6),
+    });
+
+    // (10) Static Head Requirement
+    let lf = b1 - b2 - b3 - b4 - b5 - hb6 - hb7 - b8 - b9;
+    let rt = a2 + a3 + a4 + a5 + ha6 + ha7 + a8 + a9 - a1;
+    const H1 = rt / lf;
+    homoRes.push({
+      id: "10",
+      item: "(10) STATIC HEAD REQUIREMENT (HOMO.) (M)",
+      value: H1.toFixed(4),
+    });
+    lf = b1 - b2 - b3 - b4 - b5 - db6 - db7 - b8 - b9;
+    rt = a2 + a3 + a4 + a5 + da6 + da7 + a8 + a9 - a1;
+    const H2 = rt / lf;
+    dukRes.push({
+      id: "10",
+      item: "(10) STATIC HEAD REQUIREMENT (DUKLER) (M)",
+      value: H2.toFixed(4),
+    });
+    setMinStaticHead(Math.max(H1, H2));
+    // finial works
+    setDownResData(downRes);
+    setRiserResData(riserRes);
+    setConfigResData(conRes);
+    setHomeResData(homoRes);
+    setDukResData(dukRes);
+  };
+
+  const calCaseF = async () => {
     let downRes: DownAndRiserData[] = [];
     let riserRes: DownAndRiserData[] = [];
     let conRes: ConfigData[] = [];
