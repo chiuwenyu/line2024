@@ -1861,18 +1861,24 @@ const Thermo = () => {
     });
     conRes.push({
       id: "8",
+      item: "TOWER OUTLET NOZZLE HIGHER THAN RISER DISTANCE <LC>",
+      unit: "(MM)",
+      value: eLC,
+    });
+    conRes.push({
+      id: "9",
       item: "REBOILER TUBE LENGTH (VERTICAL) <E>",
       unit: "(MM)",
       value: eE,
     });
     conRes.push({
-      id: "9",
+      id: "10",
       item: "TUBE LENGTH SUBMERGE WITH LIQUID (VERTICAL) <BD>",
       unit: "(MM)",
       value: eBD,
     });
     conRes.push({
-      id: "10",
+      id: "11",
       item: "SAFETY FACTOR RISER E.L. OF HOMO. METHOD",
       unit: "(--)",
       value: eSF,
@@ -1880,7 +1886,8 @@ const Thermo = () => {
 
     // (4) Render thermosyphon hydraulic Result
     //(1) Static Head Gain
-    let a1 = 0.0;
+    const LC = parseFloatWithErrorHandling(eLC);
+    let a1 = (rho * (LC + T)) / 1000 / 10000;
     let b1 = rho / 10000.0;
     homoRes.push({
       id: "1",
@@ -2010,7 +2017,7 @@ const Thermo = () => {
       value: a9.toFixed(6),
     });
     dukRes.push({
-      id: "8",
+      id: "9",
       item: "(9) REBOILER OUTLET NOZZLE LOSS",
       value: a9.toFixed(6),
     });
