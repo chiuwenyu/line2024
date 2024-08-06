@@ -87,7 +87,6 @@ const SelCircuitPage = (props: any) => {
             }}
           />
         ))}
-        ;
       </Grid>
     </>
   );
