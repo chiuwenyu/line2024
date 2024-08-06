@@ -126,6 +126,7 @@ const Thermo = () => {
   const [configResData, setConfigResData] = useState<ConfigData[]>([]);
   const [homeResData, setHomeResData] = useState<HomoAndDukData[]>([]);
   const [dukResData, setDukResData] = useState<HomoAndDukData[]>([]);
+  const [minStaticHead, setMinStaticHead] = useState(0);
 
   // 100 Error handling
   const [error101, setError101] = useState(false); // error number for downcomer total flow rate
@@ -1373,7 +1374,7 @@ const Thermo = () => {
 
     // (3) Tower Downcomer Outlet Nozzle Loss
     const a3 = (0.5 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
-    // const b3 = 0.0;
+    const b3 = 0.0;
     homoRes.push({
       id: "3",
       item: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
@@ -1387,7 +1388,7 @@ const Thermo = () => {
 
     // (4) Reboiler Inlet Nozzle Loss
     const a4 = (1.0 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
-    // const b4 = 0.0;
+    const b4 = 0.0;
     homoRes.push({
       id: "4",
       item: "(4) REBOILER INLET NOZZLE LOSS",
@@ -1401,7 +1402,7 @@ const Thermo = () => {
 
     // (5) Reboiler Pressure Loss
     const a5 = ReDP;
-    // const b5 = 0.0;
+    const b5 = 0.0;
     homoRes.push({
       id: "5",
       item: "(5) REBOILER PRESSURE LOSS",
@@ -1478,6 +1479,25 @@ const Thermo = () => {
       item: "(9) REBOILER OUTLET NOZZLE LOSS",
       value: a9.toFixed(6),
     });
+
+    // (10) Static Head Requirement
+    let lf = b1 - b2 - b3 - b4 - b5 - hb6 - hb7 - b8 - b9;
+    let rt = a2 + a3 + a4 + a5 + ha6 + ha7 + a8 + a9 - a1;
+    const H1 = rt / lf;
+    homoRes.push({
+      id: "10",
+      item: "(10) STATIC HEAD REQUIREMENT (HOMO.) (M)",
+      value: H1.toFixed(4),
+    });
+    lf = b1 - b2 - b3 - b4 - b5 - db6 - db7 - b8 - b9;
+    rt = a2 + a3 + a4 + a5 + da6 + da7 + a8 + a9 - a1;
+    const H2 = rt / lf;
+    dukRes.push({
+      id: "10",
+      item: "(10) STATIC HEAD REQUIREMENT (DUKLER) (M)",
+      value: H2.toFixed(4),
+    });
+    setMinStaticHead(Math.max(H1, H2));
     // finial works
     setDownResData(downRes);
     setRiserResData(riserRes);
@@ -1963,6 +1983,7 @@ const Thermo = () => {
               configResData={configResData}
               homeResData={homeResData}
               dukResData={dukResData}
+              minStaticHead={minStaticHead}
             />
           )}
         </Grid>

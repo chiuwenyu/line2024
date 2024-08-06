@@ -186,6 +186,7 @@ const ThermoResultPage = (props: any) => {
     configResData,
     homeResData,
     dukResData,
+    minStaticHead,
   } = props;
   const [value, setValue] = useState(0);
 
@@ -257,8 +258,8 @@ const ThermoResultPage = (props: any) => {
               </Typography>
             </CardContent>
           </Card>
-          <Typography variant="h6" gutterBottom color="primary.main">
-            {"Minimum Required Static Head (m): 6.43"}
+          <Typography variant="h6" gutterBottom color="warning.main">
+            {"Minimum Required Static Head (m): " + minStaticHead.toFixed(3)}
           </Typography>
         </Grid>
         <Grid item xs={6}>
