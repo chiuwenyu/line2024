@@ -965,6 +965,7 @@ const Thermo = () => {
     } else if (caseNo === "F") {
       calCaseF();
     } else if (caseNo === "G") {
+      calCaseG();
     } else {
       console.log("Error: Invalid case number");
       return;
