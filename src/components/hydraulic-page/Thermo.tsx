@@ -958,6 +958,7 @@ const Thermo = () => {
   const onExecuteButtonClick = () => {
     if (caseNo === "A") {
     } else if (caseNo === "B") {
+      calCaseB();
     } else if (caseNo === "C") {
     } else if (caseNo === "D") {
       calCaseD();
@@ -972,6 +973,15 @@ const Thermo = () => {
       return;
     }
     setCalState(true);
+  };
+
+  // Case B calculation
+  const calCaseB = async () => {
+    let downRes: DownAndRiserData[] = [];
+    let riserRes: DownAndRiserData[] = [];
+    let conRes: ConfigData[] = [];
+    let homoRes: HomoAndDukData[] = [];
+    let dukRes: HomoAndDukData[] = [];
   };
 
   // Case D calculation
