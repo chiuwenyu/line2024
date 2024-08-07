@@ -208,7 +208,7 @@ const ThermoResultPage = (props: any) => {
         <Grid
           container
           item
-          xs={4}
+          xs={3}
           gap={2}
           sx={{
             ml: 4,
@@ -258,7 +258,13 @@ const ThermoResultPage = (props: any) => {
               </Typography>
             </CardContent>
           </Card>
-          <Typography variant="h6" gutterBottom color="warning.main">
+          <Typography
+            variant="h6"
+            fontSize={15}
+            fontWeight="bold"
+            gutterBottom
+            color="warning.main"
+          >
             {"Minimum Required Static Head (m): " + minStaticHead.toFixed(3)}
           </Typography>
         </Grid>
