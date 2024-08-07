@@ -10,6 +10,7 @@ import {
 import CardContent from "@mui/material/CardContent";
 import { useState } from "react";
 
+import picD from "../../assets/ThermoSyphone-Case D.png";
 import picE from "../../assets/ThermoSyphone-Case E.png";
 import picF from "../../assets/ThermoSyphone-Case F.png";
 import picG from "../../assets/ThermoSyphone-Case G.png";
@@ -217,6 +218,9 @@ const ThermoResultPage = (props: any) => {
           }}
         >
           <Card sx={{ p: 4, height: 540 }}>
+            {caseNo === "D" && (
+              <CardMedia component="img" image={picD} alt="Case D" />
+            )}
             {caseNo === "E" && (
               <CardMedia component="img" image={picE} alt="Case E" />
             )}
@@ -234,7 +238,9 @@ const ThermoResultPage = (props: any) => {
                 color="primary"
                 sx={{ mt: 2 }}
               >
-                {caseNo === "E"
+                {caseNo === "D"
+                  ? "Case D"
+                  : caseNo === "E"
                   ? "Case E"
                   : caseNo === "F"
                   ? "Case F"
@@ -245,10 +251,14 @@ const ThermoResultPage = (props: any) => {
               <Typography variant="subtitle1" gutterBottom>
                 {caseNo === "E" || caseNo === "F" || caseNo === "G"
                   ? "Reboiler Type: E type"
+                  : caseNo === "D"
+                  ? "Reboiler Type: Kettle"
                   : ""}
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                {caseNo === "E"
+                {caseNo === "D"
+                  ? "Circuit Type: Circulating"
+                  : caseNo === "E"
                   ? "Circuit Type: Circulating"
                   : caseNo === "F"
                   ? "Circuit Type: Preference"
@@ -283,7 +293,7 @@ const ThermoResultPage = (props: any) => {
                 <Tab label="Riser" {...a11yProps(1)} />
                 <Tab label="Configration" {...a11yProps(2)} />
                 <Tab label="Homogeneous" {...a11yProps(3)} />
-                <Tab label="Dukler" {...a11yProps(4)} />
+                {caseNo !== "D" && <Tab label="Dukler" {...a11yProps(4)} />}
               </Tabs>
             </Box>
             {/* downcomer result tab */}
@@ -326,7 +336,7 @@ const ThermoResultPage = (props: any) => {
                 component="form"
                 display="flex"
                 flexDirection="column"
-                height={584}
+                // height={584}
                 sx={{
                   "& .MuiTextField-root": {
                     mt: 2,
