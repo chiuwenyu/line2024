@@ -200,18 +200,18 @@ const ThermoResultPage = (props: any) => {
         gutterBottom
         variant="h6"
         component="div"
-        sx={{ fontWeight: "medium", ml: 4 }}
+        sx={{ fontWeight: "medium" }}
       >
         Thermosyphon Hydraulic Check Result :
       </Typography>
-      <Grid container display={"flex"} flexDirection={"row"}>
+      <Grid container display={"flex"} flexDirection={"row"} gap={2}>
         <Grid
           container
           item
           xs={3}
           gap={2}
           sx={{
-            ml: 4,
+            ml: 1,
             mt: 3,
             width: "100%",
           }}
@@ -229,7 +229,7 @@ const ThermoResultPage = (props: any) => {
             <CardContent>
               <Typography
                 gutterBottom
-                variant="h5"
+                variant="h6"
                 component="div"
                 color="primary"
                 sx={{ mt: 2 }}
@@ -256,17 +256,17 @@ const ThermoResultPage = (props: any) => {
                   ? "Circuit Type: One Through"
                   : ""}
               </Typography>
+              <Typography
+                variant="h6"
+                fontSize={14}
+                fontWeight="bold"
+                gutterBottom
+                color="warning.main"
+              >
+                {"Min. Required Static Head (m): " + minStaticHead.toFixed(3)}
+              </Typography>
             </CardContent>
           </Card>
-          <Typography
-            variant="h6"
-            fontSize={15}
-            fontWeight="bold"
-            gutterBottom
-            color="warning.main"
-          >
-            {"Minimum Required Static Head (m): " + minStaticHead.toFixed(3)}
-          </Typography>
         </Grid>
         <Grid item xs={6}>
           <Box sx={{ width: "120%" }}>
