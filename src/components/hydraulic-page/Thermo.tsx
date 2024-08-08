@@ -1952,7 +1952,7 @@ const Thermo = () => {
 
     // (7) Riser Line Loss
     const SFDP = parseFloatWithErrorHandling(riserSF);
-    const SFEL = parseFloatWithErrorHandling(eSF);
+    const SFEL = parseFloatWithErrorHandling(kSF);
     const SF = (SFDP * Math.max(SFEL, SFDP)) / SFDP; // Total Safety Factor
     const EQR1 = parseFloatWithErrorHandling(riserELMain);
     const HV = parseFloatWithErrorHandling(kHV);
