@@ -1023,7 +1023,7 @@ const Thermo = () => {
     const muG = parseFloatWithErrorHandling(riserVapVisc);
     const muL = parseFloatWithErrorHandling(riserLiqVisc);
     const rough = parseFloatWithErrorHandling(riserRough);
-    const T = parseFloatWithErrorHandling(jT);
+
     const HR = parseFloatWithErrorHandling(riserHR);
     // handle downcomer single phase hydraulic calculation
     // Main
@@ -1454,19 +1454,27 @@ const Thermo = () => {
     });
     conRes.push({
       id: "8",
+      item: "TOWER OUTLET NOZZLE HIGHER THAN RISER DISTANCE <LC>",
+      unit: "(MM)",
+      value: jLC,
+    });
+    conRes.push({
+      id: "9",
       item: "REBOILER SHELL DIAMETER <RD>",
       unit: "(MM)",
       value: jRD,
     });
     conRes.push({
-      id: "9",
+      id: "10",
       item: "SAFETY FACTOR RISER E.L. OF HOMO. METHOD",
       unit: "(--)",
       value: parseFloatWithErrorHandling(jSF).toFixed(4),
     });
     // (4) Render thermosyphon hydraulic Result
     //(1) Static Head Gain
-    let a1 = 0.0;
+    const LC = parseFloatWithErrorHandling(jLC);
+    const T = parseFloatWithErrorHandling(jT);
+    let a1 = (rho * (LC + T)) / 1000 / 10000;
     let b1 = rho / 10000.0;
     homoRes.push({
       id: "1",
@@ -2282,7 +2290,7 @@ const Thermo = () => {
     setDukResData(dukRes);
   };
 
-  // Case B calculation
+  // Case C calculation
   const calCaseC = async () => {
     let downRes: DownAndRiserData[] = [];
     let riserRes: DownAndRiserData[] = [];
