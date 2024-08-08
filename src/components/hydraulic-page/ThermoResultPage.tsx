@@ -10,6 +10,7 @@ import {
 import CardContent from "@mui/material/CardContent";
 import { useState } from "react";
 
+import picB from "../../assets/ThermoSyphone-Case B.png";
 import picD from "../../assets/ThermoSyphone-Case D.png";
 import picE from "../../assets/ThermoSyphone-Case E.png";
 import picF from "../../assets/ThermoSyphone-Case F.png";
@@ -84,7 +85,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
     disableColumnMenu: true,
     editable: false,
     headerAlign: "center",
-    align: "right",
+    align: "center",
   },
   {
     field: "manifold",
@@ -95,7 +96,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
     sortable: false,
     disableColumnMenu: true,
     headerAlign: "center",
-    align: "right",
+    align: "center",
   },
   {
     field: "lead",
@@ -106,7 +107,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
     sortable: false,
     disableColumnMenu: true,
     headerAlign: "center",
-    align: "right",
+    align: "center",
   },
 ];
 
@@ -218,6 +219,9 @@ const ThermoResultPage = (props: any) => {
           }}
         >
           <Card sx={{ p: 4, height: 540 }}>
+            {caseNo === "B" && (
+              <CardMedia component="img" image={picB} alt="Case B" />
+            )}
             {caseNo === "D" && (
               <CardMedia component="img" image={picD} alt="Case D" />
             )}
@@ -238,7 +242,9 @@ const ThermoResultPage = (props: any) => {
                 color="primary"
                 sx={{ mt: 2 }}
               >
-                {caseNo === "D"
+                {caseNo === "B"
+                  ? "Case B"
+                  : caseNo === "D"
                   ? "Case D"
                   : caseNo === "E"
                   ? "Case E"
@@ -253,10 +259,14 @@ const ThermoResultPage = (props: any) => {
                   ? "Reboiler Type: E type"
                   : caseNo === "D"
                   ? "Reboiler Type: Kettle"
+                  : caseNo === "A" || caseNo === "B" || caseNo === "C"
+                  ? "Reboiler Type: J type"
                   : ""}
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                {caseNo === "D"
+                {caseNo === "B"
+                  ? "Circuit Type: Circulating"
+                  : caseNo === "D"
                   ? "Circuit Type: Circulating"
                   : caseNo === "E"
                   ? "Circuit Type: Circulating"
