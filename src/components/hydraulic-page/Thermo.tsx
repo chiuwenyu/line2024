@@ -33,6 +33,17 @@ export interface ThermoResult {
   value: string;
 }
 
+const flow_regime_abs = (fg: string) =>
+  fg === "Vertical Up Annular Flow"
+    ? "Annular"
+    : fg === "Vertical Up Bubble Flow"
+    ? "Bubble"
+    : fg === "Vertical Up Slug and Churn Flow"
+    ? "Slug Flow"
+    : fg === "Vertical Up Finely Dispersed Bubble Flow"
+    ? "FD Bubble"
+    : "";
+
 const Thermo = () => {
   const [fileName, setFileName] = useState("");
   const [activeStep, setActiveStep] = useState(0); // track stepper progress step, 0 = step 1, 4 = step 5
@@ -1072,35 +1083,96 @@ const Thermo = () => {
     const V1 = homoTwoPhaseVelocity(IDM, WGMain, WLMain, LoG, LoL);
     const V2 = homoTwoPhaseVelocity(IDMF, WGMF, WLMF, LoG, LoL);
     const V3 = homoTwoPhaseVelocity(IDLead, WGLead, WLLead, LoG, LoL);
-    // // handle riser two phase hydraulic calculation
-    // // Homogeneous method
-    // const hresult = await invoke<Result>("invoke_hydraulic", {
-    //   w: WGM + WLM,
-    //   rho: homoLo,
-    //   mu: homoVisc,
-    //   id: IDM,
-    //   e: rough,
-    //   sf: 1.0,
-    // });
-    // const hres = hresult as Result;
-    // const HDP1 = hres.dp100;
-    // // Dukler method
-    // const rresult = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
-    //   wl: WLM,
-    //   wg: WGM,
-    //   lol: LoLM,
-    //   logg: LoGM,
-    //   mul: muLM,
-    //   mug: muGM,
-    //   st: 40,
-    //   rough: rough,
-    //   sf: 1.0,
-    //   id: IDM,
-    //   degree: 0,
-    // });
-    // const rres = rresult as VUResult;
-    // const DDP1 = rres.Pfric;
-    // const flow_regime = rres.flow_regime;
+    // handle riser two phase hydraulic calculation
+    // Homogeneous method
+    // Main
+    let hresult = await invoke<Result>("invoke_hydraulic", {
+      w: WGMain + WLMain,
+      rho: homoLo,
+      mu: homoVisc,
+      id: IDM,
+      e: rough,
+      sf: 1.0,
+    });
+    let hres = hresult as Result;
+    const HDP1 = hres.dp100;
+    // Manifold
+    hresult = await invoke<Result>("invoke_hydraulic", {
+      w: WGMF + WLMF,
+      rho: homoLo,
+      mu: homoVisc,
+      id: IDMF,
+      e: rough,
+      sf: 1.0,
+    });
+    hres = hresult as Result;
+    const HDP2 = hres.dp100;
+    // Lead
+    hresult = await invoke<Result>("invoke_hydraulic", {
+      w: WGLead + WLLead,
+      rho: homoLo,
+      mu: homoVisc,
+      id: IDLead,
+      e: rough,
+      sf: 1.0,
+    });
+    hres = hresult as Result;
+    const HDP3 = hres.dp100;
+
+    // Dukler method
+    // Main
+    let rresult = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
+      wl: WLMain,
+      wg: WGMain,
+      lol: LoL,
+      logg: LoG,
+      mul: muL,
+      mug: muG,
+      st: 40,
+      rough: rough,
+      sf: 1.0,
+      id: IDM,
+      degree: 0,
+    });
+    let rres = rresult as VUResult;
+    const DDP1 = rres.Pfric;
+    const flow_regime1 = rres.flow_regime;
+
+    // Manifold
+    rresult = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
+      wl: WLMF,
+      wg: WGMF,
+      lol: LoL,
+      logg: LoG,
+      mul: muL,
+      mug: muG,
+      st: 40,
+      rough: rough,
+      sf: 1.0,
+      id: IDMF,
+      degree: 0,
+    });
+    rres = rresult as VUResult;
+    const DDP2 = rres.Pfric;
+    const flow_regime2 = rres.flow_regime;
+
+    // Lead
+    rresult = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
+      wl: WLLead,
+      wg: WGLead,
+      lol: LoL,
+      logg: LoG,
+      mul: muL,
+      mug: muG,
+      st: 40,
+      rough: rough,
+      sf: 1.0,
+      id: IDLead,
+      degree: 0,
+    });
+    rres = rresult as VUResult;
+    const DDP3 = rres.Pfric;
+    const flow_regime3 = rres.flow_regime;
 
     // (1) Render downRes
     downRes.push({
@@ -1288,6 +1360,47 @@ const Thermo = () => {
       main: riserELMain,
       manifold: riserELMF,
       lead: riserELLead,
+    });
+    riserRes.push({
+      id: "14",
+      item: "UNIT PRESSURE DROP (HOMO.)",
+      unit: "(KG/CM^2/100M)",
+      main: HDP1.toFixed(4),
+      manifold: HDP2.toFixed(4),
+      lead: HDP3.toFixed(4),
+    });
+
+    riserRes.push({
+      id: "15",
+      item: "TWO PHASE FLOW REGIME (DUKLER)",
+      unit: "(--)",
+      main: flow_regime_abs(flow_regime1),
+      manifold: flow_regime_abs(flow_regime2),
+      lead: flow_regime_abs(flow_regime3),
+    });
+    riserRes.push({
+      id: "16",
+      item: "UNIT PRESSURE DROP (DUKLER)",
+      unit: "(KG/CM^2/100M)",
+      main: DDP1.toFixed(4),
+      manifold: DDP2.toFixed(4),
+      lead: DDP3.toFixed(4),
+    });
+    riserRes.push({
+      id: "17",
+      item: "SAFETY FACTOR OF UNIT PRESSURE DROP",
+      unit: "(--)",
+      main: riserSF,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "18",
+      item: "HEIGHT FROM REBOILER TO MAINFOLD <HR>",
+      unit: "(M)",
+      main: "",
+      manifold: riserHR,
+      lead: "",
     });
 
     // setMinStaticHead(Math.max(H1, H2));
@@ -1946,21 +2059,12 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
-    const fg =
-      flow_regime === "Vertical Up Annular Flow"
-        ? "Annular"
-        : flow_regime === "Vertical Up Bubble Flow"
-        ? "Bubble"
-        : flow_regime === "Vertical Up Slug and Churn Flow"
-        ? "Slug Flow"
-        : flow_regime === "Vertical Up Finely Dispersed Bubble Flow"
-        ? "FD Bubble"
-        : "";
+
     riserRes.push({
       id: "15",
       item: "TWO PHASE FLOW REGIME",
       unit: "(--)",
-      main: fg,
+      main: flow_regime_abs(flow_regime),
       manifold: "",
       lead: "",
     });
@@ -2481,21 +2585,12 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
-    const fg =
-      flow_regime === "Vertical Up Annular Flow"
-        ? "Annular"
-        : flow_regime === "Vertical Up Bubble Flow"
-        ? "Bubble"
-        : flow_regime === "Vertical Up Slug and Churn Flow"
-        ? "Slug Flow"
-        : flow_regime === "Vertical Up Finely Dispersed Bubble Flow"
-        ? "FD Bubble"
-        : "";
+
     riserRes.push({
       id: "15",
       item: "TWO PHASE FLOW REGIME",
       unit: "(--)",
-      main: fg,
+      main: flow_regime_abs(flow_regime),
       manifold: "",
       lead: "",
     });
@@ -3023,21 +3118,12 @@ const Thermo = () => {
       manifold: "",
       lead: "",
     });
-    const fg =
-      flow_regime === "Vertical Up Annular Flow"
-        ? "Annular"
-        : flow_regime === "Vertical Up Bubble Flow"
-        ? "Bubble"
-        : flow_regime === "Vertical Up Slug and Churn Flow"
-        ? "Slug Flow"
-        : flow_regime === "Vertical Up Finely Dispersed Bubble Flow"
-        ? "FD Bubble"
-        : "";
+
     riserRes.push({
       id: "15",
       item: "TWO PHASE FLOW REGIME",
       unit: "(--)",
-      main: fg,
+      main: flow_regime_abs(flow_regime),
       manifold: "",
       lead: "",
     });
