@@ -1021,8 +1021,8 @@ const Thermo = () => {
     const muG = parseFloatWithErrorHandling(riserVapVisc);
     const muL = parseFloatWithErrorHandling(riserLiqVisc);
     const rough = parseFloatWithErrorHandling(riserRough);
-    // const E = parseFloatWithErrorHandling(eE);
-    // const T = parseFloatWithErrorHandling(eT);
+    const T = parseFloatWithErrorHandling(jT);
+    const HR = parseFloatWithErrorHandling(riserHR);
     // handle downcomer single phase hydraulic calculation
     // Main
     let result = await invoke<Result>("invoke_hydraulic", {
@@ -1531,7 +1531,100 @@ const Thermo = () => {
       value: a5.toFixed(6),
     });
 
-    // setMinStaticHead(Math.max(H1, H2));
+    // (6) Riser Static Head Loss
+    // (6.1) Homogeneois Model
+    const ha6 = (homoLo * (T / 1000)) / 10000;
+    const hb6 = homoLo / 10000;
+    homoRes.push({
+      id: "6",
+      item: "(6) RISER STATIC HEAD LOSS (HOMO.)",
+      value: ha6.toFixed(6) + " + " + hb6.toFixed(6) + " * H",
+    });
+    // (6.2) Dukler Model
+    const da6 = (dukLoMain * (T / 1000 - HR) + dukLoLead * HR) / 10000;
+    const db6 = dukLoMain / 10000;
+    dukRes.push({
+      id: "6",
+      item: "(6) RISER STATIC HEAD LOSS (DUKLER.)",
+      value: da6.toFixed(6) + " + " + db6.toFixed(6) + " * H",
+    });
+    // (7) Riser Line Loss
+    const SFDP = parseFloatWithErrorHandling(riserSF);
+    const SFEL = parseFloatWithErrorHandling(jSF);
+    const SF = (SFDP * Math.max(SFEL, SFDP)) / SFDP; // Total Safety Factor
+    const EQR1 = parseFloatWithErrorHandling(riserELMain);
+    const EQR2 = parseFloatWithErrorHandling(riserELMF);
+    const EQR3 = parseFloatWithErrorHandling(riserELLead);
+    const RD = parseFloatWithErrorHandling(jRD);
+    const ha7 =
+      (SF *
+        (HDP1 * (EQR1 + T / 1000 - HR - (0.5 * RD) / 1000) +
+          HDP2 * EQR2 +
+          HDP3 * EQR3)) /
+      100;
+    const hb7 = (SF * HDP1) / 100;
+    homoRes.push({
+      id: "7",
+      item: "(7) RISER LINE LOSS (HOMO.)",
+      value: ha7.toFixed(6) + " + " + hb7.toFixed(6) + " * H",
+    });
+
+    const da7 =
+      (SFDP *
+        (DDP1 * (EQR1 + T / 1000 - HR - (0.5 * RD) / 1000) +
+          DDP2 * EQR2 +
+          DDP3 * EQR3)) /
+      100;
+    const db7 = (SFDP * DDP1) / 100;
+    dukRes.push({
+      id: "7",
+      item: "(7) RISER LINE LOSS (DUKLER)",
+      value: da7.toFixed(6) + " + " + db7.toFixed(6) + " * H",
+    });
+    // (8) Tower Riser Inlet Nozzle Loss
+    const a8 = (1.0 * homoLo * V1 * V1) / (2 * 9.80665) / 10000;
+    const b8 = 0.0;
+    homoRes.push({
+      id: "8",
+      item: "(8) TOWER RISER INLET NOZZLE LOSS",
+      value: a8.toFixed(6),
+    });
+    dukRes.push({
+      id: "8",
+      item: "(8) TOWER RISER INLET NOZZLE LOSS",
+      value: a8.toFixed(6),
+    });
+    // (9) Tower Riser Inlet Nozzle Loss
+    const a9 = (0.5 * homoLo * V3 * V3) / (2 * 9.80665) / 10000;
+    const b9 = 0.0;
+    homoRes.push({
+      id: "9",
+      item: "(9) REBOILER OUTLET NOZZLE LOSS",
+      value: a9.toFixed(6),
+    });
+    dukRes.push({
+      id: "9",
+      item: "(9) REBOILER OUTLET NOZZLE LOSS",
+      value: a9.toFixed(6),
+    });
+    // (10) Static Head Requirement
+    let lf = b1 - b2 - b3 - b4 - b5 - hb6 - hb7 - b8 - b9;
+    let rt = a2 + a3 + a4 + a5 + ha6 + ha7 + a8 + a9 - a1;
+    const H1 = rt / lf;
+    homoRes.push({
+      id: "10",
+      item: "(10) STATIC HEAD REQUIREMENT (HOMO.) (M)",
+      value: H1.toFixed(4),
+    });
+    lf = b1 - b2 - b3 - b4 - b5 - db6 - db7 - b8 - b9;
+    rt = a2 + a3 + a4 + a5 + da6 + da7 + a8 + a9 - a1;
+    const H2 = rt / lf;
+    dukRes.push({
+      id: "10",
+      item: "(10) STATIC HEAD REQUIREMENT (DUKLER) (M)",
+      value: H2.toFixed(4),
+    });
+    setMinStaticHead(Math.max(H1, H2));
     // finial works
     setDownResData(downRes);
     setRiserResData(riserRes);
@@ -2356,7 +2449,6 @@ const Thermo = () => {
       value: ha6.toFixed(6) + " + " + hb6.toFixed(6) + " * H",
     });
     // (6.2) Dukler Model
-
     const da6 = (dukLo * (T / 1000 - E / 1000)) / 10000;
     const db6 = dukLo / 10000;
     dukRes.push({
