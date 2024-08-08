@@ -982,6 +982,202 @@ const Thermo = () => {
     let conRes: ConfigData[] = [];
     let homoRes: HomoAndDukData[] = [];
     let dukRes: HomoAndDukData[] = [];
+
+    //(0) Parse and calculate all the parameters
+    // handle downcomer data parse
+    const downWLMain = parseFloatWithErrorHandling(downFlowRateMain);
+    const downWLMF = parseFloatWithErrorHandling(downFlowRateMF);
+    const downWLLead = parseFloatWithErrorHandling(downFlowRateLead);
+    const rho = parseFloatWithErrorHandling(downDensity);
+    const mu = parseFloatWithErrorHandling(downVisc);
+    const idMain = parseFloatWithErrorHandling(downIDMain);
+    const idMF = parseFloatWithErrorHandling(downIDMF);
+    const idLead = parseFloatWithErrorHandling(downIDLead);
+    const e = parseFloatWithErrorHandling(downRough);
+    const sf = parseFloatWithErrorHandling(downSF);
+    // const EQD1 = parseFloatWithErrorHandling(downELMain);
+    // const ReDP = parseFloatWithErrorHandling(eReboDP);
+    // const WG = parseFloatWithErrorHandling(riserWGMain);
+    // const WL = parseFloatWithErrorHandling(riserWLMain);
+    // const LoG = parseFloatWithErrorHandling(riserVapDensity);
+    // const LoL = parseFloatWithErrorHandling(riserLiqDensity);
+    // const muG = parseFloatWithErrorHandling(riserVapVisc);
+    // const muL = parseFloatWithErrorHandling(riserLiqVisc);
+    // const E = parseFloatWithErrorHandling(eE);
+    // const T = parseFloatWithErrorHandling(eT);
+    // handle downcomer single phase hydraulic calculation
+    let result = await invoke<Result>("invoke_hydraulic", {
+      w: downWLMain,
+      rho,
+      mu,
+      id: idMain,
+      e,
+      sf,
+    });
+    let res = result as Result;
+    const DP1 = res.dp100;
+    const DV1 = res.v;
+    result = await invoke<Result>("invoke_hydraulic", {
+      w: downWLMF,
+      rho,
+      mu,
+      id: idMF,
+      e,
+      sf,
+    });
+    res = result as Result;
+    const DP2 = res.dp100;
+    const DV2 = res.v;
+    result = await invoke<Result>("invoke_hydraulic", {
+      w: downWLLead,
+      rho,
+      mu,
+      id: idLead,
+      e,
+      sf,
+    });
+    res = result as Result;
+    const DP3 = res.dp100;
+    const DV3 = res.v;
+
+    // // handle homogeneous viscosity calculation
+    // const homoVisc =
+    //   ((muG * WG) / LoG + (muL * WL) / LoL) / (WG / LoG + WL / LoL);
+    // // handle homogeneous density calculation
+    // const x = WG / (WG + WL);
+    // const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
+    // // handle riser data parse
+    // const IDM = parseFloatWithErrorHandling(riserIDMain);
+    // const WGM = parseFloatWithErrorHandling(riserWGMain);
+    // const WLM = parseFloatWithErrorHandling(riserWLMain);
+    // const LoGM = parseFloatWithErrorHandling(riserVapDensity);
+    // const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
+    // const muGM = parseFloatWithErrorHandling(riserVapVisc);
+    // const muLM = parseFloatWithErrorHandling(riserLiqVisc);
+    // const rough = parseFloatWithErrorHandling(riserRough);
+    // // handle in-place density calculation
+    // const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
+    // // handle riser homogeneous two phase velocity
+    // const V1 = homoTwoPhaseVelocity(IDM, WGM, WLM, LoGM, LoLM);
+    // // handle riser two phase hydraulic calculation
+    // // Homogeneous method
+    // const hresult = await invoke<Result>("invoke_hydraulic", {
+    //   w: WGM + WLM,
+    //   rho: homoLo,
+    //   mu: homoVisc,
+    //   id: IDM,
+    //   e: rough,
+    //   sf: 1.0,
+    // });
+    // const hres = hresult as Result;
+    // const HDP1 = hres.dp100;
+    // // Dukler method
+    // const rresult = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
+    //   wl: WLM,
+    //   wg: WGM,
+    //   lol: LoLM,
+    //   logg: LoGM,
+    //   mul: muLM,
+    //   mug: muGM,
+    //   st: 40,
+    //   rough: rough,
+    //   sf: 1.0,
+    //   id: IDM,
+    //   degree: 0,
+    // });
+    // const rres = rresult as VUResult;
+    // const DDP1 = rres.Pfric;
+    // const flow_regime = rres.flow_regime;
+
+    // (1) Render downRes
+    downRes.push({
+      id: "1",
+      item: "TOTAL FLOW RATE",
+      unit: "(Kg/HR)",
+      main: downFlowRateMain,
+      manifold: downFlowRateMF,
+      lead: downFlowRateLead,
+    });
+    downRes.push({
+      id: "2",
+      item: "FLUID DENSITY",
+      unit: "(KG/M^3)",
+      main: downDensity,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "3",
+      item: "FLUID VISCOSITY",
+      unit: "(CP)",
+      main: downVisc,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "4",
+      item: "PIPE DIAMETER",
+      unit: "(IN)",
+      main: idMain.toFixed(3),
+      manifold: idMF.toFixed(3),
+      lead: idLead.toFixed(3),
+    });
+    downRes.push({
+      id: "5",
+      item: "ABSOLUTE ROUGHNESS",
+      unit: "(MM)",
+      main: downRough,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "6",
+      item: "FLUID VELOCITY",
+      unit: "(M/S)",
+      main: DV1.toFixed(4),
+      manifold: DV2.toFixed(4),
+      lead: DV3.toFixed(4),
+    });
+    downRes.push({
+      id: "7",
+      item: "EQUIVALENT LENGTH -- EXCLUDING H",
+      unit: "(M)",
+      main: downELMain,
+      manifold: downELMF,
+      lead: downELLead,
+    });
+    downRes.push({
+      id: "8",
+      item: "UNIT PRESSURE DROP",
+      unit: "(KG/CM^2/100M)",
+      main: DP1.toFixed(4),
+      manifold: DP2.toFixed(4),
+      lead: DP3.toFixed(4),
+    });
+    downRes.push({
+      id: "9",
+      item: "SAFETY FACTOR OF UNIT PRESS. DROP",
+      unit: "(--)",
+      main: downSF,
+      manifold: "",
+      lead: "",
+    });
+    downRes.push({
+      id: "10",
+      item: "HEIGHT FROM MANIFOLD TO REBOILER",
+      unit: "(M)",
+      main: "",
+      manifold: downHD,
+      lead: "",
+    });
+
+    // setMinStaticHead(Math.max(H1, H2));
+    // finial works
+    setDownResData(downRes);
+    setRiserResData(riserRes);
+    setConfigResData(conRes);
+    setHomeResData(homoRes);
+    setDukResData(dukRes);
   };
 
   // Case D calculation
