@@ -10,7 +10,9 @@ import {
 import CardContent from "@mui/material/CardContent";
 import { useState } from "react";
 
+import picA from "../../assets/ThermoSyphone-Case A.png";
 import picB from "../../assets/ThermoSyphone-Case B.png";
+import picC from "../../assets/ThermoSyphone-Case C.png";
 import picD from "../../assets/ThermoSyphone-Case D.png";
 import picE from "../../assets/ThermoSyphone-Case E.png";
 import picF from "../../assets/ThermoSyphone-Case F.png";
@@ -219,8 +221,14 @@ const ThermoResultPage = (props: any) => {
           }}
         >
           <Card sx={{ p: 4, height: 540 }}>
+            {caseNo === "A" && (
+              <CardMedia component="img" image={picA} alt="Case A" />
+            )}
             {caseNo === "B" && (
               <CardMedia component="img" image={picB} alt="Case B" />
+            )}
+            {caseNo === "C" && (
+              <CardMedia component="img" image={picC} alt="Case C" />
             )}
             {caseNo === "D" && (
               <CardMedia component="img" image={picD} alt="Case D" />
@@ -242,8 +250,12 @@ const ThermoResultPage = (props: any) => {
                 color="primary"
                 sx={{ mt: 2 }}
               >
-                {caseNo === "B"
+                {caseNo === "A"
+                  ? "Case A"
+                  : caseNo === "B"
                   ? "Case B"
+                  : caseNo === "C"
+                  ? "Case C"
                   : caseNo === "D"
                   ? "Case D"
                   : caseNo === "E"
@@ -264,8 +276,12 @@ const ThermoResultPage = (props: any) => {
                   : ""}
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                {caseNo === "B"
+                {caseNo === "A"
+                  ? "Circuit Type: Preference"
+                  : caseNo === "B"
                   ? "Circuit Type: Circulating"
+                  : caseNo === "C"
+                  ? "Circuit Type: One Through"
                   : caseNo === "D"
                   ? "Circuit Type: Circulating"
                   : caseNo === "E"
