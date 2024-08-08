@@ -1402,6 +1402,61 @@ const Thermo = () => {
       manifold: riserHR,
       lead: "",
     });
+    // (3) Render configuration data
+    conRes.push({
+      id: "1",
+      item: "REBOILER TYPE",
+      unit: "--",
+      value: "HORIZONTAL J",
+    });
+    conRes.push({
+      id: "2",
+      item: "TOWER DOWNCOMER OUTLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: parseFloatWithErrorHandling(jDownOutNozzleSize).toFixed(3),
+    });
+    conRes.push({
+      id: "3",
+      item: "TOWER RISER INLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: parseFloatWithErrorHandling(jRiserInNozzleSize).toFixed(3),
+    });
+    conRes.push({
+      id: "4",
+      item: "REBOILER INLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: parseFloatWithErrorHandling(jReboInNozzleSize).toFixed(3),
+    });
+    conRes.push({
+      id: "5",
+      item: "REBOILER OUTLET NOZZLE SIZE",
+      unit: "(IN)",
+      value: parseFloatWithErrorHandling(jReboOutNozzleSize).toFixed(3),
+    });
+    conRes.push({
+      id: "6",
+      item: "REBOILER PRESSURE DROP (EXCL. NOZZLE LOSS)",
+      unit: "(KG/CM^2)",
+      value: parseFloatWithErrorHandling(jReboDP).toFixed(4),
+    });
+    conRes.push({
+      id: "7",
+      item: "TOWER T.L. To C.L. OF RISER ENTERING TOWER <T>",
+      unit: "(MM)",
+      value: jT,
+    });
+    conRes.push({
+      id: "8",
+      item: "REBOILER SHELL DIAMETER <RD>",
+      unit: "(MM)",
+      value: jRD,
+    });
+    conRes.push({
+      id: "9",
+      item: "SAFETY FACTOR RISER E.L. OF HOMO. METHOD",
+      unit: "(--)",
+      value: parseFloatWithErrorHandling(jSF).toFixed(4),
+    });
 
     // setMinStaticHead(Math.max(H1, H2));
     // finial works
