@@ -1006,8 +1006,10 @@ const Thermo = () => {
     const idLead = parseFloatWithErrorHandling(downIDLead);
     const e = parseFloatWithErrorHandling(downRough);
     const sf = parseFloatWithErrorHandling(downSF);
-    // const EQD1 = parseFloatWithErrorHandling(downELMain);
-    // const ReDP = parseFloatWithErrorHandling(eReboDP);
+    const EQD1 = parseFloatWithErrorHandling(downELMain);
+    const EQD2 = parseFloatWithErrorHandling(downELMF);
+    const EQD3 = parseFloatWithErrorHandling(downELLead);
+    const ReDP = parseFloatWithErrorHandling(jReboDP);
     const WGMain = parseFloatWithErrorHandling(riserWGMain);
     const WGMF = parseFloatWithErrorHandling(riserWGMF);
     const WGLead = parseFloatWithErrorHandling(riserWGLead);
@@ -1022,6 +1024,7 @@ const Thermo = () => {
     // const E = parseFloatWithErrorHandling(eE);
     // const T = parseFloatWithErrorHandling(eT);
     // handle downcomer single phase hydraulic calculation
+    // Main
     let result = await invoke<Result>("invoke_hydraulic", {
       w: downWLMain,
       rho,
@@ -1033,6 +1036,7 @@ const Thermo = () => {
     let res = result as Result;
     const DP1 = res.dp100;
     const DV1 = res.v;
+    // Manifold
     result = await invoke<Result>("invoke_hydraulic", {
       w: downWLMF,
       rho,
@@ -1044,6 +1048,7 @@ const Thermo = () => {
     res = result as Result;
     const DP2 = res.dp100;
     const DV2 = res.v;
+    // Lead
     result = await invoke<Result>("invoke_hydraulic", {
       w: downWLLead,
       rho,
@@ -1456,6 +1461,74 @@ const Thermo = () => {
       item: "SAFETY FACTOR RISER E.L. OF HOMO. METHOD",
       unit: "(--)",
       value: parseFloatWithErrorHandling(jSF).toFixed(4),
+    });
+    // (4) Render thermosyphon hydraulic Result
+    //(1) Static Head Gain
+    let a1 = 0.0;
+    let b1 = rho / 10000.0;
+    homoRes.push({
+      id: "1",
+      item: "(1) STATIC HEAD GAIN",
+      value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
+    });
+    dukRes.push({
+      id: "1",
+      item: "(1) STATIC HEAD GAIN",
+      value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
+    });
+    //(2) Downcomer Line Loss
+    let a2 = (DP1 * EQD1 + DP2 * EQD2 + DP3 * EQD3) / 100.0;
+    let b2 = DP1 / 100.0;
+    homoRes.push({
+      id: "2",
+      item: "(2) DOWNCOMER LINE LOSS",
+      value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
+    });
+    dukRes.push({
+      id: "2",
+      item: "(2) DOWNCOMER LINE LOSS",
+      value: a2.toFixed(6) + " + " + b2.toFixed(6) + " * H",
+    });
+    // (3) Tower Downcomer Outlet Nozzle Loss
+    const a3 = (0.5 * rho * DV1 * DV1) / (2 * 9.80665) / 10000;
+    const b3 = 0.0;
+    homoRes.push({
+      id: "3",
+      item: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      value: a3.toFixed(6),
+    });
+    dukRes.push({
+      id: "3",
+      item: "(3) TOWER DOWNCOMER OUTLET NOZZLE LOSS",
+      value: a3.toFixed(6),
+    });
+
+    // (4) Reboiler Inlet Nozzle Loss
+    const a4 = (1.0 * rho * DV3 * DV3) / (2 * 9.80665) / 10000;
+    const b4 = 0.0;
+    homoRes.push({
+      id: "4",
+      item: "(4) REBOILER INLET NOZZLE LOSS",
+      value: a4.toFixed(6),
+    });
+    dukRes.push({
+      id: "4",
+      item: "(4) REBOILER INLET NOZZLE LOSS",
+      value: a4.toFixed(6),
+    });
+
+    // (5) Reboiler Pressure Loss
+    const a5 = ReDP;
+    const b5 = 0.0;
+    homoRes.push({
+      id: "5",
+      item: "(5) REBOILER PRESSURE LOSS",
+      value: a5.toFixed(6),
+    });
+    dukRes.push({
+      id: "5",
+      item: "(5) REBOILER PRESSURE LOSS",
+      value: a5.toFixed(6),
     });
 
     // setMinStaticHead(Math.max(H1, H2));
@@ -2217,7 +2290,7 @@ const Thermo = () => {
       value: a1.toFixed(6) + " + " + b1.toFixed(6) + " * H",
     });
 
-    //(2) Downcomer Line Loss'=
+    //(2) Downcomer Line Loss
     let a2 = (DP1 * EQD1) / 100.0;
     let b2 = DP1 / 100.0;
     homoRes.push({
