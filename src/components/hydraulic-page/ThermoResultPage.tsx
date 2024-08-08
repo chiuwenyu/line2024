@@ -146,7 +146,7 @@ const configColumns: GridColDef<ConfigData>[] = [
   {
     field: "value",
     headerName: "VALUE",
-    width: 100,
+    width: 120,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
