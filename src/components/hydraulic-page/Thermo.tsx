@@ -997,12 +997,17 @@ const Thermo = () => {
     const sf = parseFloatWithErrorHandling(downSF);
     // const EQD1 = parseFloatWithErrorHandling(downELMain);
     // const ReDP = parseFloatWithErrorHandling(eReboDP);
-    // const WG = parseFloatWithErrorHandling(riserWGMain);
-    // const WL = parseFloatWithErrorHandling(riserWLMain);
-    // const LoG = parseFloatWithErrorHandling(riserVapDensity);
-    // const LoL = parseFloatWithErrorHandling(riserLiqDensity);
-    // const muG = parseFloatWithErrorHandling(riserVapVisc);
-    // const muL = parseFloatWithErrorHandling(riserLiqVisc);
+    const WGMain = parseFloatWithErrorHandling(riserWGMain);
+    const WGMF = parseFloatWithErrorHandling(riserWGMF);
+    const WGLead = parseFloatWithErrorHandling(riserWGLead);
+    const WLMain = parseFloatWithErrorHandling(riserWLMain);
+    const WLMF = parseFloatWithErrorHandling(riserWLMF);
+    const WLLead = parseFloatWithErrorHandling(riserWLLead);
+    const LoG = parseFloatWithErrorHandling(riserVapDensity);
+    const LoL = parseFloatWithErrorHandling(riserLiqDensity);
+    const muG = parseFloatWithErrorHandling(riserVapVisc);
+    const muL = parseFloatWithErrorHandling(riserLiqVisc);
+    const rough = parseFloatWithErrorHandling(riserRough);
     // const E = parseFloatWithErrorHandling(eE);
     // const T = parseFloatWithErrorHandling(eT);
     // handle downcomer single phase hydraulic calculation
@@ -1040,25 +1045,33 @@ const Thermo = () => {
     const DP3 = res.dp100;
     const DV3 = res.v;
 
-    // // handle homogeneous viscosity calculation
-    // const homoVisc =
-    //   ((muG * WG) / LoG + (muL * WL) / LoL) / (WG / LoG + WL / LoL);
-    // // handle homogeneous density calculation
-    // const x = WG / (WG + WL);
-    // const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
+    // handle homogeneous viscosity calculation
+    const homoVisc =
+      ((muG * WGMain) / LoG + (muL * WLMain) / LoL) /
+      (WGMain / LoG + WLMain / LoL);
+    // handle homogeneous density calculation
+    let x = WGMain / (WGMain + WLMain);
+    const homoLo = 1.0 / (x / LoG + (1 - x) / LoL);
     // // handle riser data parse
-    // const IDM = parseFloatWithErrorHandling(riserIDMain);
-    // const WGM = parseFloatWithErrorHandling(riserWGMain);
-    // const WLM = parseFloatWithErrorHandling(riserWLMain);
-    // const LoGM = parseFloatWithErrorHandling(riserVapDensity);
-    // const LoLM = parseFloatWithErrorHandling(riserLiqDensity);
-    // const muGM = parseFloatWithErrorHandling(riserVapVisc);
-    // const muLM = parseFloatWithErrorHandling(riserLiqVisc);
-    // const rough = parseFloatWithErrorHandling(riserRough);
-    // // handle in-place density calculation
-    // const dukLo = InplaceDensity(WLM, WGM, LoLM, LoGM, muLM, muGM, IDM);
-    // // handle riser homogeneous two phase velocity
-    // const V1 = homoTwoPhaseVelocity(IDM, WGM, WLM, LoGM, LoLM);
+    const IDM = parseFloatWithErrorHandling(riserIDMain);
+    const IDMF = parseFloatWithErrorHandling(riserIDMF);
+    const IDLead = parseFloatWithErrorHandling(riserIDLead);
+    // handle in-place density calculation
+    const dukLoMain = InplaceDensity(WLMain, WGMain, LoL, LoG, muL, muG, IDM);
+    const dukLoMF = InplaceDensity(WLMF, WGMF, LoL, LoG, muL, muG, IDMF);
+    const dukLoLead = InplaceDensity(
+      WLLead,
+      WGLead,
+      LoL,
+      LoG,
+      muL,
+      muG,
+      IDLead
+    );
+    // handle riser homogeneous two phase flow velocity
+    const V1 = homoTwoPhaseVelocity(IDM, WGMain, WLMain, LoG, LoL);
+    const V2 = homoTwoPhaseVelocity(IDMF, WGMF, WLMF, LoG, LoL);
+    const V3 = homoTwoPhaseVelocity(IDLead, WGLead, WLLead, LoG, LoL);
     // // handle riser two phase hydraulic calculation
     // // Homogeneous method
     // const hresult = await invoke<Result>("invoke_hydraulic", {
@@ -1169,6 +1182,112 @@ const Thermo = () => {
       main: "",
       manifold: downHD,
       lead: "",
+    });
+
+    // (2) Render riserRes
+    riserRes.push({
+      id: "1",
+      item: "VAPOR FLOWRATE",
+      unit: "(Kg/HR)",
+      main: riserWGMain,
+      manifold: riserWGMF,
+      lead: riserWGLead,
+    });
+    riserRes.push({
+      id: "2",
+      item: "LIQUID FLOWRATE",
+      unit: "(Kg/HR)",
+      main: riserWLMain,
+      manifold: riserWLMF,
+      lead: riserWLLead,
+    });
+    riserRes.push({
+      id: "3",
+      item: "VAPOR DENSITY",
+      unit: "(KG/M^3)",
+      main: riserVapDensity,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "4",
+      item: "LIQUID DENSITY",
+      unit: "(KG/M^3)",
+      main: riserLiqDensity,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "5",
+      item: "VAPOR VISCOSITY",
+      unit: "(cP)",
+      main: riserVapVisc,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "6",
+      item: "LIQUID VISCOSITY",
+      unit: "(cP)",
+      main: riserLiqVisc,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "7",
+      item: "HOMOGENEOUS VISCOSITY",
+      unit: "(cP)",
+      main: homoVisc.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "8",
+      item: "PIPE DIAMETER",
+      unit: "(IN)",
+      main: parseFloatWithErrorHandling(riserIDMain).toFixed(3),
+      manifold: parseFloatWithErrorHandling(riserIDMF).toFixed(3),
+      lead: parseFloatWithErrorHandling(riserIDLead).toFixed(3),
+    });
+    riserRes.push({
+      id: "9",
+      item: "ABSOLUTE ROUGHNESS",
+      unit: "(MM)",
+      main: riserRough,
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "10",
+      item: "HOMOGENEOUS DENSITY",
+      unit: "(KG/M^3)",
+      main: homoLo.toFixed(3),
+      manifold: "",
+      lead: "",
+    });
+    riserRes.push({
+      id: "11",
+      item: "IN-PLACE DENSITY",
+      unit: "(KG/M^3)",
+      main: dukLoMain.toFixed(3),
+      manifold: dukLoMF.toFixed(3),
+      lead: dukLoLead.toFixed(3),
+    });
+    riserRes.push({
+      id: "12",
+      item: "TWO-PHASE FLOW VELOCITY",
+      unit: "(M/S)",
+      main: V1.toFixed(4),
+      manifold: V2.toFixed(4),
+      lead: V3.toFixed(4),
+    });
+    riserRes.push({
+      id: "13",
+      item: "EQUIVALENT LENGTH -- EXCLUDING H",
+      unit: "(M)",
+      main: riserELMain,
+      manifold: riserELMF,
+      lead: riserELLead,
     });
 
     // setMinStaticHead(Math.max(H1, H2));

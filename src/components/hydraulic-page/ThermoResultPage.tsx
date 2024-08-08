@@ -346,7 +346,7 @@ const ThermoResultPage = (props: any) => {
                 component="form"
                 display="flex"
                 flexDirection="column"
-                // height={584}
+                height={534}
                 sx={{
                   "& .MuiTextField-root": {
                     mt: 2,
