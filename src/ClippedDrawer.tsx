@@ -67,11 +67,12 @@ export default function ClippedDrawer() {
   const [steamState, setSteamState] = useState(0);
   const [temp, setTemp] = useState("0");
   const [pres, setPres] = useState("0");
+  const [textFontSize, setTextFontSize] = useState(12);
   const [calState, setCalState] = useState(false);
 
   const theme = createTheme({
     typography: {
-      fontSize: 12,
+      fontSize: textFontSize,
     },
   });
 
@@ -149,7 +150,12 @@ export default function ClippedDrawer() {
           {appNo === 2 && <Single />}
           {appNo === 3 && <TwoPhase />}
           {appNo === 4 && <Thermo />}
-          {appNo === SetupIndex && <Setup />}
+          {appNo === SetupIndex && (
+            <Setup
+              textFontSize={textFontSize}
+              setTextFontSize={setTextFontSize}
+            />
+          )}
         </Box>
       </Box>
     </ThemeProvider>

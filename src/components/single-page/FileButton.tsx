@@ -31,7 +31,7 @@ const FileButton = (props: any) => {
       <Button
         variant="outlined"
         {...bindTrigger(popupState)}
-        size="small"
+        size="medium"
         endIcon={<KeyboardArrowDownIcon />}
         sx={{
           borderRadius: "25px",
