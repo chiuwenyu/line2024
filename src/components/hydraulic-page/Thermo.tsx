@@ -26,6 +26,7 @@ import ThermoResultPage, {
 } from "./ThermoResultPage";
 import { DownAndRiserData } from "./ThermoResultPage";
 import { VUResult } from "../two-page/TwoDataType";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export interface ThermoResult {
   id: number;
@@ -958,8 +959,86 @@ const Thermo = () => {
         console.error("Error saving data:", error.message);
       });
   };
-  const onExportButtonClick = () => {
-    console.log("Export button clicked");
+  const onExportButtonClick = async () => {
+    const pdfDoc = await PDFDocument.create();
+    const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const page = pdfDoc.addPage();
+    const { width, height } = page.getSize();
+    // **** Print Header (Application Name) ****
+    let fontSize = 16;
+    let dy = height - 3 * fontSize;
+    let dx = 450;
+    let textStr = "Line2024";
+    let textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
+    page.drawText(textStr, {
+      x: dx,
+      y: dy,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0, 0),
+    });
+    fontSize = 6;
+    page.drawText("   Ver 1.0.0", {
+      x: dx + textWidth,
+      y: dy,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0, 0),
+    });
+    // draw a thick red line at the bottom of header
+    const widthMargin = 30;
+    page.drawLine({
+      start: { x: widthMargin, y: dy - 5 },
+      end: { x: width - widthMargin, y: dy - 5 },
+      thickness: 1,
+      color: rgb(1, 0, 0),
+    });
+
+    // **** Print Input Data ****
+    let txtStrs: string[] = [
+      `Project No. : ${projNo}`,
+      `Project Name : ${projName}`,
+      `Description : ${projDesc}`,
+      ``,
+      `               >>>> CALCULATION RESULT <<<<`,
+      ``,
+      `******************* DOWNCOMER *******************       MAIN       MANIFOLD      LEAD`,
+    ];
+    dy = dy - 5;
+    const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
+    const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
+    fontSize = 8;
+    const lineSpacing = 2;
+    const lineHeight = fontSize + lineSpacing;
+    dx = widthMargin + 5;
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      if (i === 7 || i === 8 || i === 12 || i === 17 || i === 24 || i === 28) {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
+    }
+
+    // **** Print Result Data ****
+
+    const pdfBytes = await pdfDoc.save();
+    const pdfDataUrl = URL.createObjectURL(
+      new Blob([pdfBytes], { type: "application/pdf" })
+    );
+    window.open(pdfDataUrl);
   };
 
   const goNextStepbySelectCircuit = () => {
