@@ -27,6 +27,13 @@ import ThermoResultPage, {
 import { DownAndRiserData } from "./ThermoResultPage";
 import { VUResult } from "../two-page/TwoDataType";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import picA from "../../assets/ThermoSyphone-Case A.png";
+import picB from "../../assets/ThermoSyphone-Case B.png";
+import picC from "../../assets/ThermoSyphone-Case C.png";
+import picD from "../../assets/ThermoSyphone-Case D.png";
+import picE from "../../assets/ThermoSyphone-Case E.png";
+import picF from "../../assets/ThermoSyphone-Case F.png";
+import picG from "../../assets/ThermoSyphone-Case G.png";
 
 export interface ThermoResult {
   id: number;
@@ -986,7 +993,7 @@ const Thermo = () => {
       color: rgb(0, 0, 0),
     });
     // draw a thick red line at the bottom of header
-    const widthMargin = 30;
+    let widthMargin = 30;
     page.drawLine({
       start: { x: widthMargin, y: dy - 5 },
       end: { x: width - widthMargin, y: dy - 5 },
@@ -1002,18 +1009,19 @@ const Thermo = () => {
       ``,
       `               >>>> CALCULATION RESULT <<<<`,
       ``,
-      `******************* DOWNCOMER *******************       MAIN       MANIFOLD      LEAD`,
+      `*********************** DOWNCOMER ***********************         MAIN        MANIFOLD       LEAD`,
     ];
     dy = dy - 5;
     const courierFont = await pdfDoc.embedFont(StandardFonts.Courier);
     const courierBoldFont = await pdfDoc.embedFont(StandardFonts.CourierBold);
     fontSize = 8;
-    const lineSpacing = 2;
+    const lineSpacing = 1.5;
     const lineHeight = fontSize + lineSpacing;
     dx = widthMargin + 5;
+    // print downcomer title
     for (let i = 0; i < txtStrs.length; i++) {
       dy = dy - lineHeight * 1.5;
-      if (i === 7 || i === 8 || i === 12 || i === 17 || i === 24 || i === 28) {
+      if (i === 4 || i === 6) {
         page.drawText(txtStrs[i], {
           x: dx,
           y: dy,
@@ -1031,8 +1039,403 @@ const Thermo = () => {
         });
       }
     }
+    // print downcomer result
+    for (let i = 0; i < downResData.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      page.drawText(downResData[i].item, {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      page.drawText(downResData[i].unit, {
+        x: dx + 200,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      let textWidth = courierFont.widthOfTextAtSize(
+        downResData[i].main,
+        fontSize
+      );
+      const xMain = dx + 340 - textWidth;
+      page.drawText(downResData[i].main, {
+        x: xMain,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      textWidth = courierFont.widthOfTextAtSize(
+        downResData[i].manifold,
+        fontSize
+      );
+      const xMF = dx + 408 - textWidth;
+      page.drawText(downResData[i].manifold, {
+        x: xMF,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      textWidth = courierFont.widthOfTextAtSize(downResData[i].lead, fontSize);
+      const xLead = dx + 470 - textWidth;
+      page.drawText(downResData[i].lead, {
+        x: xLead,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    }
 
-    // **** Print Result Data ****
+    // print riser data
+    // print riser title
+    txtStrs = [
+      ``,
+      `************************* RISER *************************         MAIN        MANIFOLD       LEAD`,
+    ];
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      if (i === 1) {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
+    }
+    // print riser result
+    for (let i = 0; i < riserResData.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      page.drawText(riserResData[i].item, {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      page.drawText(riserResData[i].unit, {
+        x: dx + 200,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      let textWidth = courierFont.widthOfTextAtSize(
+        riserResData[i].main,
+        fontSize
+      );
+      const xMain = dx + 340 - textWidth;
+      page.drawText(riserResData[i].main, {
+        x: xMain,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      textWidth = courierFont.widthOfTextAtSize(
+        riserResData[i].manifold,
+        fontSize
+      );
+      const xMF = dx + 408 - textWidth;
+      page.drawText(riserResData[i].manifold, {
+        x: xMF,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      textWidth = courierFont.widthOfTextAtSize(riserResData[i].lead, fontSize);
+      const xLead = dx + 470 - textWidth;
+      page.drawText(riserResData[i].lead, {
+        x: xLead,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    }
+
+    // print Configuration data
+    // print configuration title
+    txtStrs = [``, `********** CONFIGURATION OF TOWER AND REBOILER **********`];
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      if (i === 1) {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
+    }
+    // print configuration result
+    for (let i = 0; i < configResData.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      page.drawText(configResData[i].item, {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      page.drawText(configResData[i].unit, {
+        x: dx + 320,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      let textWidth = courierFont.widthOfTextAtSize(
+        configResData[i].value,
+        fontSize
+      );
+      const xc = dx + 420 - textWidth;
+      page.drawText(configResData[i].value, {
+        x: xc,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    }
+    // print footer
+    page.drawText("File Name: " + fileName, {
+      x: dx,
+      y: 25,
+      size: 6,
+      font: courierFont,
+      color: rgb(0, 0, 0),
+    });
+    textWidth = courierFont.widthOfTextAtSize("Page 1 of 2", 6);
+    page.drawText("Page 1 of 2", {
+      x: width - widthMargin - textWidth,
+      y: 25,
+      size: 6,
+      font: courierFont,
+      color: rgb(0, 0, 0),
+    });
+
+    // print page 2
+    const page2 = pdfDoc.addPage();
+    // **** Print Header (Application Name) ****
+    fontSize = 16;
+    dy = height - 3 * fontSize;
+    dx = 450;
+    textStr = "Line2024";
+    textWidth = timesRomanFont.widthOfTextAtSize(textStr, fontSize);
+    page2.drawText(textStr, {
+      x: dx,
+      y: dy,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0, 0),
+    });
+    fontSize = 6;
+    page2.drawText("   Ver 1.0.0", {
+      x: dx + textWidth,
+      y: dy,
+      size: fontSize,
+      font: timesRomanFont,
+      color: rgb(0, 0, 0),
+    });
+    // draw a thick red line at the bottom of header
+    widthMargin = 30;
+    page2.drawLine({
+      start: { x: widthMargin, y: dy - 5 },
+      end: { x: width - widthMargin, y: dy - 5 },
+      thickness: 1,
+      color: rgb(1, 0, 0),
+    });
+
+    // print homogeneous method data
+    // print homogeneous method title
+    dx = widthMargin + 5;
+    txtStrs = [``, `******************* HOMOGENEOUS METHOD ******************`];
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      if (i === 1) {
+        page2.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page2.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
+    }
+    // print homogeneous method result
+    for (let i = 0; i < homeResData.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      page2.drawText(homeResData[i].item, {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      page2.drawText(homeResData[i].value, {
+        x: dx + 210,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    }
+
+    // print dukler method data
+    // print dukler method title
+    dx = widthMargin + 5;
+    txtStrs = [``, `********************** DUKLER METHOD ********************`];
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      if (i === 1) {
+        page2.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierBoldFont,
+          color: rgb(0, 0, 0),
+        });
+      } else {
+        page2.drawText(txtStrs[i], {
+          x: dx,
+          y: dy,
+          size: fontSize,
+          font: courierFont,
+          color: rgb(0, 0, 0),
+        });
+      }
+    }
+    // print dukler method result
+    for (let i = 0; i < dukResData.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      page2.drawText(dukResData[i].item, {
+        x: dx,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+      page2.drawText(dukResData[i].value, {
+        x: dx + 210,
+        y: dy,
+        size: fontSize,
+        font: courierFont,
+        color: rgb(0, 0, 0),
+      });
+    }
+
+    // print finial result
+    const reboilerType =
+      caseNo === "E" || caseNo === "F" || caseNo === "G"
+        ? "REBOILER TYPE: E TYPE"
+        : caseNo === "D"
+        ? "REBOILER TYPE: KETTLE TYPE"
+        : caseNo === "A" || caseNo === "B" || caseNo === "C"
+        ? "REBOILER TYPE: J type"
+        : "";
+    const circuitType =
+      caseNo === "A"
+        ? "CIRCUIT TYPE: PREFERENCE"
+        : caseNo === "B"
+        ? "CIRCUIT TYPE: CIRCULATING"
+        : caseNo === "C"
+        ? "CIRCUIT TYPE: ONE THROUGH"
+        : caseNo === "D"
+        ? "CIRCUIT TYPE: Circulating"
+        : caseNo === "E"
+        ? "CIRCUIT TYPE: CIRCULATING"
+        : caseNo === "F"
+        ? "CIRCUIT TYPE: PREFERENCE"
+        : caseNo === "G"
+        ? "CIRCUIT TYPE: ONE THROUGH"
+        : "";
+    txtStrs = [
+      ``,
+      reboilerType,
+      circuitType,
+      ``,
+      `MINIMUM STATIC HEAD REQUIREMENT(M): ${minStaticHead.toFixed(3)}`,
+    ];
+    for (let i = 0; i < txtStrs.length; i++) {
+      dy = dy - lineHeight * 1.5;
+      page2.drawText(txtStrs[i], {
+        x: dx,
+        y: dy,
+        size: 9,
+        font: courierBoldFont,
+        color: rgb(0, 0, 0),
+      });
+    }
+
+    // print picture
+    let pngImageBytes: ArrayBuffer = new ArrayBuffer(0);
+    if (caseNo === "A") {
+      pngImageBytes = await fetch(picA).then((res) => res.arrayBuffer());
+    } else if (caseNo === "B") {
+      pngImageBytes = await fetch(picB).then((res) => res.arrayBuffer());
+    } else if (caseNo === "C") {
+      pngImageBytes = await fetch(picC).then((res) => res.arrayBuffer());
+    } else if (caseNo === "D") {
+      pngImageBytes = await fetch(picD).then((res) => res.arrayBuffer());
+    } else if (caseNo === "E") {
+      pngImageBytes = await fetch(picE).then((res) => res.arrayBuffer());
+    } else if (caseNo === "F") {
+      pngImageBytes = await fetch(picF).then((res) => res.arrayBuffer());
+    } else if (caseNo === "G") {
+      pngImageBytes = await fetch(picG).then((res) => res.arrayBuffer());
+    }
+
+    const pngImage = await pdfDoc.embedPng(pngImageBytes);
+    const imgScale = pngImage.scale(0.7);
+    page2.drawImage(pngImage, {
+      x: dx + 50,
+      y: 100,
+      width: imgScale.width,
+      height: imgScale.height,
+    });
+
+    // print page 2 footer
+    textWidth = courierFont.widthOfTextAtSize("Page 2 of 2", 6);
+    page2.drawText("Page 2 of 2", {
+      x: width - widthMargin - textWidth,
+      y: 25,
+      size: 6,
+      font: courierFont,
+      color: rgb(0, 0, 0),
+    });
 
     const pdfBytes = await pdfDoc.save();
     const pdfDataUrl = URL.createObjectURL(
@@ -1492,7 +1895,7 @@ const Thermo = () => {
     conRes.push({
       id: "1",
       item: "REBOILER TYPE",
-      unit: "--",
+      unit: "(--)",
       value: "HORIZONTAL J",
     });
     conRes.push({
