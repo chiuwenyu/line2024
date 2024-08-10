@@ -38,7 +38,7 @@
     },
     "windows": [
       {
-        "title": "TransEnergy App",
+        "title": "Line 2024",
         "maximized": true,
         "minWidth": 1500,
         "minHeight": 900
@@ -51,7 +51,13 @@
       "active": true,
       "targets": "all",
       "identifier": "com.transenergy.dev",
-      "icon": []
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ]
     }
   }
 }
