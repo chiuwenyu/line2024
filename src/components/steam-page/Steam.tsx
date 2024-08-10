@@ -15,6 +15,7 @@ import {
   MenuItem,
   FormControl,
   Link,
+  NativeSelect,
 } from "@mui/material";
 import { useState } from "react";
 import { deepPurple } from "@mui/material/colors";
@@ -76,19 +77,23 @@ export const Steam = (props: any) => {
   } = props;
 
   const [error, setError] = useState(false);
+  const [presUnit, setPresUnit] = useState(10);
 
   const pcolor = deepPurple[500];
 
   async function rust_satTemp() {
     await invoke<Result>("invoke_seuif", {
-      pressure: parseFloat(pres),
+      pressure:
+        presUnit === 10
+          ? parseFloat(pres)
+          : presUnit === 20
+          ? (parseFloat(pres) + 1) * 0.0980665
+          : parseFloat(pres) * 0.0980665,
       temperature: parseFloat(temp),
       mode: steamState,
     })
       .then((result) => {
         res = result as Result;
-        // console.log(res.d);
-        // console.log(res.h);
         setCalState(true);
       })
       .catch((e) => {
@@ -108,6 +113,11 @@ export const Steam = (props: any) => {
       setError(false);
       setCalState(false);
     }
+  };
+
+  const handlePresUnitChange = (e: any) => {
+    setPresUnit(e.target.value);
+    setCalState(false);
   };
 
   // 處理壓力輸入值
@@ -225,15 +235,43 @@ export const Steam = (props: any) => {
               {steamState === 10 ||
               steamState === 30 ||
               steamState === 0 ? undefined : (
-                <TextField
-                  id="outlined-basic"
-                  label="Pressure (MPa)"
-                  variant="outlined"
-                  value={pres}
-                  error={error}
-                  helperText={error ? "Please input correct number" : ""}
-                  onChange={handlePresChange}
-                />
+                <Grid
+                  display="flex"
+                  flexDirection="row"
+                  container
+                  spacing={2}
+                  alignItems="center"
+                  sx={{ mt: 2, ml: 0.5 }}
+                >
+                  <TextField
+                    id="outlined-basic"
+                    label="Pressure"
+                    variant="outlined"
+                    value={pres}
+                    error={error}
+                    helperText={error ? "Please input correct number" : ""}
+                    onChange={handlePresChange}
+                  />
+                  <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={presUnit}
+                    label="Age"
+                    onChange={handlePresUnitChange}
+                    sx={{
+                      width: "20ch",
+                      mt: 2,
+                      ml: 1,
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        border: "none", // 移除外框
+                      },
+                    }}
+                  >
+                    <MenuItem value={10}>Mpa</MenuItem>
+                    <MenuItem value={20}>Kg/cm^2 (gauge)</MenuItem>
+                    <MenuItem value={30}>Kg/cm^2 (abs)</MenuItem>
+                  </Select>
+                </Grid>
               )}
             </Box>
           </CardContent>
@@ -285,29 +323,65 @@ export const Steam = (props: any) => {
                     ? `Saturated Steam properties @${temp} °C :`
                     : undefined}
                   {steamState === 20
-                    ? `Saturated Steam properties @${pres} MPa :`
+                    ? `Saturated Steam properties @${pres}` +
+                      (presUnit === 10
+                        ? " MPa"
+                        : presUnit === 20
+                        ? " Kg/cm² (gauge)"
+                        : " Kg/cm² (abs)") +
+                      ` :`
                     : undefined}
                   {steamState === 30
                     ? `Saturated Water properties @${temp} °C :`
                     : undefined}
                   {steamState === 40
-                    ? `Saturated Water properties @${pres} MPa:`
+                    ? `Saturated Water properties @${pres}` +
+                      (presUnit === 10
+                        ? " MPa"
+                        : presUnit === 20
+                        ? " Kg/cm² (gauge)"
+                        : " Kg/cm² (abs)") +
+                      ` :`
                     : undefined}
                   {steamState === 50
-                    ? `Superheated Steam properties @${temp} °C and ${pres} MPa :`
+                    ? `Superheated Steam properties @${temp} °C and ${pres}` +
+                      (presUnit === 10
+                        ? " MPa"
+                        : presUnit === 20
+                        ? " Kg/cm² (gauge)"
+                        : " Kg/cm² (abs)") +
+                      ` :`
                     : undefined}
                   {steamState === 60
-                    ? `Subcool water properties @${temp} °C and ${pres} MPa :`
+                    ? `Subcool water properties @${temp} °C and ${pres} MPa` +
+                      (presUnit === 10
+                        ? " MPa"
+                        : presUnit === 20
+                        ? " Kg/cm² (gauge)"
+                        : " Kg/cm² (abs)") +
+                      ` :`
                     : undefined}
                   <br />
                   {steamState === 10
-                    ? `Sat. Pressure, p = ${Conv(res.p, 4)} MPa`
+                    ? `Sat. Pressure, p = ` +
+                      (presUnit === 10
+                        ? Conv(res.p, 4) + " MPa"
+                        : presUnit === 20
+                        ? Conv(res.p * 10.1972 - 1, 4) + " Kg/cm² (gauge)"
+                        : Conv(res.p * 10.1972, 4) + " Kg/cm² (abs)") +
+                      ` :`
                     : undefined}
                   {steamState === 20
                     ? `Sat. Temp., t = ${Conv(res.t, 4)} °C`
                     : undefined}
                   {steamState === 30
-                    ? `Sat. Pressure, p = ${Conv(res.p, 4)} MPa`
+                    ? `Sat. Pressure, p = ${Conv(res.p, 4)}` +
+                      (presUnit === 10
+                        ? " MPa"
+                        : presUnit === 20
+                        ? " Kg/cm² (gauge)"
+                        : " Kg/cm² (abs)") +
+                      ` :`
                     : undefined}
                   {steamState === 40
                     ? `Sat. Temp., t = ${Conv(res.t, 4)} °C`
@@ -340,7 +414,7 @@ export const Steam = (props: any) => {
                   <br />
                   Surface tension, st = {Conv(res.st, 4)} N/m
                   <br />
-                  Latent Hea, lat = {Conv(res.lat / 4.1868, 4)} kJ/kg
+                  Latent Hea, lat = {Conv(res.lat / 4.1868, 4)} kCal/kg
                 </Typography>
               )}
             </CardContent>

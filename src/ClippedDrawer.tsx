@@ -61,7 +61,7 @@ const drawerItems1: DrawerStyle[] = [
 const SetupIndex = drawerItems1[drawerItems1.length - 1].Index + 1;
 
 export default function ClippedDrawer() {
-  const [appNo, setAppNo] = useState(4);
+  const [appNo, setAppNo] = useState(1);
 
   // steam component states
   const [steamState, setSteamState] = useState(0);
