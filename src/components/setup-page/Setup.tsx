@@ -1,4 +1,4 @@
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
 const Setup = (props: any) => {
