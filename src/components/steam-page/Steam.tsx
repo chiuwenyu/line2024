@@ -15,8 +15,6 @@ import {
   MenuItem,
   FormControl,
   Link,
-  NativeSelect,
-  CardMedia,
 } from "@mui/material";
 import { useState } from "react";
 import { grey } from "@mui/material/colors";
