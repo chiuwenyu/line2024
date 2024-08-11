@@ -12,6 +12,7 @@ import workID from "../../assets/PipeWork.json";
 import { dialog } from "@tauri-apps/api";
 import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import pipelinePNG from "../../assets/pipeline sizing.png";
 
 import {
   Button,
@@ -996,7 +997,7 @@ export const Single = () => {
           <Grid display={"flex"} flexDirection={"row"}>
             <Button
               variant="contained"
-              color="success"
+              color="primary"
               onClick={handleExecuteButtonClick}
               sx={{ borderRadius: "20px", width: "120px", minWidth: "120px" }}
             >
@@ -1015,6 +1016,11 @@ export const Single = () => {
           />
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
+          {calState === false && (
+            <Grid sx={{ mt: 20, ml: -10 }}>
+              <img src={pipelinePNG} alt="pipeline" style={{ width: "120%" }} />
+            </Grid>
+          )}
           {calState && (
             <DataGridSingle
               rows={resData}

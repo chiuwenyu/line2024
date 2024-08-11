@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 export interface SizingData {
   id: string;
@@ -81,6 +82,7 @@ const columns: GridColDef<SizingData>[] = [
 
 export default function DataGridSingle(props: any) {
   const { rows, selectId, setSelectId } = props;
+  const gcolor = grey[800];
 
   return (
     <Box sx={{ minWidth: "702px", height: "600px" }}>
@@ -102,13 +104,14 @@ export default function DataGridSingle(props: any) {
         }}
         columns={columns as GridColDef<SizingData>[]}
         sx={{
+          borderRadius: 3,
           "& .MuiDataGrid-footerContainer": {
             fontWeight: "bold", // 變更 footer font weight
-            color: "primary.main", // 變更 footer font color
+            color: gcolor, // 變更 footer font color
             fontSize: "0.9rem", // 變更 footer font size
           },
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "success.main",
+            backgroundColor: "primary.main",
             color: "white",
             fontWeight: "bold",
             fontSize: "0.8rem",
@@ -124,7 +127,7 @@ export default function DataGridSingle(props: any) {
             display: "none",
           },
           "& .MuiDataGrid-scrollbarFiller": {
-            backgroundColor: "success.main",
+            backgroundColor: "primary.main",
           },
           mt: 1,
         }}
