@@ -316,7 +316,7 @@ export const Steam = (props: any) => {
                   gutterBottom
                   variant="h5"
                   component="div"
-                  sx={{ ml: 1 }}
+                  sx={{ ml: 1, fontFamily: "serif", fontStyle: "italic" }}
                 >
                   Steam-water property
                 </Typography>
