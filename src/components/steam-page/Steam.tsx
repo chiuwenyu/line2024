@@ -16,9 +16,11 @@ import {
   FormControl,
   Link,
   NativeSelect,
+  CardMedia,
 } from "@mui/material";
 import { useState } from "react";
-import { deepPurple } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
+import steamPNG from "../../assets/steam.png";
 
 // declare the result type
 type Result = {
@@ -79,7 +81,7 @@ export const Steam = (props: any) => {
   const [error, setError] = useState(false);
   const [presUnit, setPresUnit] = useState(10);
 
-  const pcolor = deepPurple[500];
+  const pcolor = grey[800];
 
   async function rust_satTemp() {
     await invoke<Result>("invoke_seuif", {
@@ -307,23 +309,32 @@ export const Steam = (props: any) => {
         <Grid item xs={6} sx={{ ml: 2 }}>
           <Card
             style={{ backgroundColor: pcolor, color: "white" }}
-            sx={{ maxWidth: 500 }}
+            sx={{ maxWidth: 400, borderRadius: 2 }}
           >
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Calculated Property
-              </Typography>
+              <Grid display="flex" flexDirection="row" sx={{ mb: 2 }}>
+                <img src={steamPNG} alt="STEAM" width="30" height="30" />
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  sx={{ ml: 1 }}
+                >
+                  Steam-water property
+                </Typography>
+              </Grid>
               {steamState != 0 && (
                 <Typography
                   variant="body1"
                   color="white"
-                  style={{ lineHeight: 2 }}
+                  style={{ lineHeight: 2.5 }}
+                  sx={{ ml: 3 }}
                 >
                   {steamState === 10
-                    ? `Saturated Steam properties @${temp} °C :`
+                    ? `Saturated Steam properties @ ${temp} °C :`
                     : undefined}
                   {steamState === 20
-                    ? `Saturated Steam properties @${pres}` +
+                    ? `Saturated Steam properties @ ${pres}` +
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
@@ -332,10 +343,10 @@ export const Steam = (props: any) => {
                       ` :`
                     : undefined}
                   {steamState === 30
-                    ? `Saturated Water properties @${temp} °C :`
+                    ? `Saturated Water properties @ ${temp} °C :`
                     : undefined}
                   {steamState === 40
-                    ? `Saturated Water properties @${pres}` +
+                    ? `Saturated Water properties @ ${pres}` +
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
@@ -344,7 +355,7 @@ export const Steam = (props: any) => {
                       ` :`
                     : undefined}
                   {steamState === 50
-                    ? `Superheated Steam properties @${temp} °C and ${pres}` +
+                    ? `Superheated Steam properties @ ${temp} °C and ${pres}` +
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
@@ -353,7 +364,7 @@ export const Steam = (props: any) => {
                       ` :`
                     : undefined}
                   {steamState === 60
-                    ? `Subcool water properties @${temp} °C and ${pres} MPa` +
+                    ? `Subcool water properties @ ${temp} °C and ${pres} MPa` +
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
@@ -363,19 +374,18 @@ export const Steam = (props: any) => {
                     : undefined}
                   <br />
                   {steamState === 10
-                    ? `Sat. Pressure, p = ` +
+                    ? `Sat. Pressure, p =` +
                       (presUnit === 10
                         ? Conv(res.p, 4) + " MPa"
                         : presUnit === 20
                         ? Conv(res.p * 10.1972 - 1, 4) + " Kg/cm² (gauge)"
-                        : Conv(res.p * 10.1972, 4) + " Kg/cm² (abs)") +
-                      ` :`
+                        : Conv(res.p * 10.1972, 4) + " Kg/cm² (abs)")
                     : undefined}
                   {steamState === 20
-                    ? `Sat. Temp., t = ${Conv(res.t, 4)} °C`
+                    ? `Sat. Temp.,  t = ${Conv(res.t, 4)} °C`
                     : undefined}
                   {steamState === 30
-                    ? `Sat. Pressure, p = ${Conv(res.p, 4)}` +
+                    ? `Sat. Pressure,  p = ${Conv(res.p, 4)}` +
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
@@ -384,7 +394,7 @@ export const Steam = (props: any) => {
                       ` :`
                     : undefined}
                   {steamState === 40
-                    ? `Sat. Temp., t = ${Conv(res.t, 4)} °C`
+                    ? `Sat. Temp.,  t = ${Conv(res.t, 4)} °C`
                     : undefined}
                   {steamState === 10 ||
                   steamState === 20 ||
@@ -392,29 +402,41 @@ export const Steam = (props: any) => {
                   steamState === 40 ? (
                     <br />
                   ) : undefined}
-                  Density, d = {Conv(res.d, 4)} kg/m³
+                  &bull;&nbsp;&nbsp;&nbsp;Density,&nbsp;&nbsp; d ={" "}
+                  {Conv(res.d, 4)} kg/m³
                   <br />
-                  Specific Volume, v = {Conv(res.v, 6)} m³/kg
+                  &bull;&nbsp;&nbsp;&nbsp;Specific Volume,&nbsp;&nbsp; v ={" "}
+                  {Conv(res.v, 6)} m³/kg
                   <br />
-                  Specific enthalpy, h = {Conv(res.h, 4)} kJ/kg
+                  &bull;&nbsp;&nbsp;&nbsp;Specific enthalpy,&nbsp;&nbsp; h ={" "}
+                  {Conv(res.h, 4)} kJ/kg
                   <br />
-                  Specific entropy, s = {Conv(res.s, 4)} kJ/(kg·K)
+                  &bull;&nbsp;&nbsp;&nbsp;Specific entropy,&nbsp;&nbsp; s ={" "}
+                  {Conv(res.s, 4)} kJ/(kg·K)
                   <br />
-                  Specific internal energy, u = {Conv(res.u, 4)} kJ/kg
+                  &bull;&nbsp;&nbsp;&nbsp;Specific internal energy,&nbsp;&nbsp;
+                  u = {Conv(res.u, 4)} kJ/kg
                   <br />
-                  Steam quality, x = {Conv(res.x, 2)}
+                  &bull;&nbsp;&nbsp;&nbsp;Steam quality,&nbsp;&nbsp; x ={" "}
+                  {Conv(res.x, 2)}
                   <br />
-                  Dynamic viscosity, dv = {Conv(res.dv * 1000.0, 4)} cP
+                  &bull;&nbsp;&nbsp;&nbsp;Dynamic viscosity,&nbsp;&nbsp; dv ={" "}
+                  {Conv(res.dv * 1000.0, 4)} cP
                   <br />
-                  Kinematic viscosity, kv = {Conv(res.kv, 8)} m²/s
+                  &bull;&nbsp;&nbsp;&nbsp;Kinematic viscosity,&nbsp;&nbsp; kv ={" "}
+                  {Conv(res.kv, 8)} m²/s
                   <br />
-                  Thermal conductivity, k = {Conv(res.k, 8)} W/(m·K)
+                  &bull;&nbsp;&nbsp;&nbsp;Thermal conductivity,&nbsp;&nbsp; k ={" "}
+                  {Conv(res.k, 8)} W/(m·K)
                   <br />
-                  Thermal diffusivity, td = {Conv(res.td, 8)} m²/s
+                  &bull;&nbsp;&nbsp;&nbsp;Thermal diffusivity,&nbsp;&nbsp; td ={" "}
+                  {Conv(res.td, 8)} m²/s
                   <br />
-                  Surface tension, st = {Conv(res.st, 4)} N/m
+                  &bull;&nbsp;&nbsp;&nbsp;Surface tension,&nbsp;&nbsp; st ={" "}
+                  {Conv(res.st, 4)} N/m
                   <br />
-                  Latent Hea, lat = {Conv(res.lat / 4.1868, 4)} kCal/kg
+                  &bull;&nbsp;&nbsp;&nbsp;Latent Hea,&nbsp;&nbsp; lat ={" "}
+                  {Conv(res.lat / 4.1868, 4)} kCal/kg
                 </Typography>
               )}
             </CardContent>
