@@ -652,7 +652,6 @@ export const Single = () => {
       </Stack>
       <Grid
         container
-        // alignItems="center"
         gap={6}
         sx={{
           bgcolor: "background.default",

@@ -130,22 +130,26 @@ export default function DataGridSingle(props: any) {
           "& .MuiDataGrid-columnSeparator": {
             display: "none",
           },
-
+          "& .MuiDataGrid-scrollbarFiller": {
+            backgroundColor: "success.main",
+          },
           mt: 1,
         }}
-        // initialState={{
-        //   pagination: {
-        //     paginationModel: {
-        //       pageSize: 10,
-        //     },
-        //   },
-        // }}
         pageSizeOptions={[]}
         hideFooterPagination={true}
         onRowSelectionModelChange={(newSelection) => {
           setSelectId(newSelection[0] as string);
         }}
       />
+      <Typography
+        gutterBottom
+        variant="subtitle1"
+        component="div"
+        sx={{ mt: 1 }}
+      >
+        Note: Please click the pipe size will be choiced and displayed in the
+        footer.
+      </Typography>
     </Box>
   );
 }
