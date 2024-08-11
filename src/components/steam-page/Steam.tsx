@@ -333,6 +333,8 @@ export const Steam = (props: any) => {
                   sx={{
                     "&:hover": {
                       transform: "scale(1.2)", // 設置 hover 時的縮放效果
+                      backgroundColor: "red",
+                      color: "white",
                     },
                     mr: -1,
                     mt: -1,
