@@ -391,6 +391,7 @@ export const Steam = (props: any) => {
                   <br />
                   {steamState === 10
                     ? `Sat. Pressure, p =` +
+                      "  " +
                       (presUnit === 10
                         ? Conv(res.p, 4) + " MPa"
                         : presUnit === 20
