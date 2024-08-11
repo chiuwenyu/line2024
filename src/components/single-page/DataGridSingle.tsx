@@ -70,7 +70,6 @@ const columns: GridColDef<SizingData>[] = [
     field: "reynoldNo",
     headerName: "Reynold No.",
     flex: 1,
-    // width: 140,
     resizable: false,
     editable: false,
     sortable: false,
@@ -85,21 +84,16 @@ export default function DataGridSingle(props: any) {
 
   return (
     <Box sx={{ minWidth: "702px", height: "600px" }}>
-      <Stack display={"flex"} justifyContent={"flex-end"}>
-        <span>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="span"
-            sx={{
-              fontWeight: "medium",
-            }}
-          >
-            Sizing Result :
-          </Typography>
-          <Box sx={{ float: "right" }}></Box>
-        </span>
-      </Stack>
+      <Typography
+        gutterBottom
+        variant="h5"
+        component="span"
+        sx={{
+          fontWeight: "medium",
+        }}
+      >
+        Sizing Result
+      </Typography>
       <DataGrid
         rows={rows}
         autoHeight={false}
@@ -110,7 +104,6 @@ export default function DataGridSingle(props: any) {
         sx={{
           "& .MuiDataGrid-footerContainer": {
             fontWeight: "bold", // 變更 footer font weight
-            // backgroundColor: "success.main", // 變更 footer background color
             color: "primary.main", // 變更 footer font color
             fontSize: "0.9rem", // 變更 footer font size
           },
