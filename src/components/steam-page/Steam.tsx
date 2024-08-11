@@ -88,7 +88,7 @@ export const Steam = (props: any) => {
         presUnit === 10
           ? parseFloat(pres) // MPa
           : presUnit === 20
-          ? (parseFloat(pres) + 1) * 0.0980665 // Kg/cm² (gauge)
+          ? (parseFloat(pres) + 1.0332) * 0.0980665 // Kg/cm² (gauge)
           : parseFloat(pres) * 0.0980665, // Kg/cm² (abs)
       temperature: parseFloat(temp),
       mode: steamState,
@@ -150,7 +150,12 @@ export const Steam = (props: any) => {
       <Grid item xs={4} sx={{ ml: 1 }}>
         <Card sx={{ maxWidth: 550 }}>
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{ fontWeight: "medium" }}
+            >
               Steam Property Calculator
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -312,7 +317,7 @@ export const Steam = (props: any) => {
           >
             <CardContent>
               <Grid display="flex" flexDirection="row" sx={{ mb: 2 }}>
-                <img src={steamPNG} alt="STEAM" width="30" height="30" />
+                <img src={steamPNG} alt="STEAM" width="40" height="40" />
 
                 <Typography
                   gutterBottom
@@ -389,7 +394,7 @@ export const Steam = (props: any) => {
                       (presUnit === 10
                         ? Conv(res.p, 4) + " MPa"
                         : presUnit === 20
-                        ? Conv(res.p * 10.1972 - 1, 4) + " Kg/cm² (gauge)"
+                        ? Conv(res.p * 10.1972 - 1.0332, 4) + " Kg/cm² (gauge)"
                         : Conv(res.p * 10.1972, 4) + " Kg/cm² (abs)")
                     : undefined}
                   {steamState === 20
