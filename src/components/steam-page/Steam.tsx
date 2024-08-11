@@ -19,6 +19,7 @@ import {
 import { useState } from "react";
 import { grey } from "@mui/material/colors";
 import steamPNG from "../../assets/steam.png";
+import CloseIcon from "@mui/icons-material/Close";
 
 // declare the result type
 type Result = {
@@ -85,10 +86,10 @@ export const Steam = (props: any) => {
     await invoke<Result>("invoke_seuif", {
       pressure:
         presUnit === 10
-          ? parseFloat(pres)
+          ? parseFloat(pres) // MPa
           : presUnit === 20
-          ? (parseFloat(pres) + 1) * 0.0980665
-          : parseFloat(pres) * 0.0980665,
+          ? (parseFloat(pres) + 1) * 0.0980665 // Kg/cm² (gauge)
+          : parseFloat(pres) * 0.0980665, // Kg/cm² (abs)
       temperature: parseFloat(temp),
       mode: steamState,
     })
@@ -101,7 +102,7 @@ export const Steam = (props: any) => {
       });
   }
 
-  // 處理溫度輸入值
+  // 處理溫度輸入值驗證
   const handleTempChange = (e: any) => {
     const newValue = e.target.value;
     setTemp(newValue);
@@ -115,12 +116,13 @@ export const Steam = (props: any) => {
     }
   };
 
+  // 處理壓力單位變換
   const handlePresUnitChange = (e: any) => {
     setPresUnit(e.target.value);
     setCalState(false);
   };
 
-  // 處理壓力輸入值
+  // 處理壓力輸入值驗證
   const handlePresChange = (e: any) => {
     const newValue = e.target.value;
     setPres(newValue);
@@ -137,7 +139,6 @@ export const Steam = (props: any) => {
   return (
     <Grid
       container
-      // alignItems="center"
       gap={6}
       sx={{
         height: "100%",
@@ -268,8 +269,8 @@ export const Steam = (props: any) => {
                     }}
                   >
                     <MenuItem value={10}>Mpa</MenuItem>
-                    <MenuItem value={20}>Kg/cm^2 (gauge)</MenuItem>
-                    <MenuItem value={30}>Kg/cm^2 (abs)</MenuItem>
+                    <MenuItem value={20}>Kg/cm² (gauge)</MenuItem>
+                    <MenuItem value={30}>Kg/cm² (abs)</MenuItem>
                   </Select>
                 </Grid>
               )}
@@ -307,11 +308,12 @@ export const Steam = (props: any) => {
         <Grid item xs={6} sx={{ ml: 2 }}>
           <Card
             style={{ backgroundColor: pcolor, color: "white" }}
-            sx={{ maxWidth: 400, borderRadius: 2 }}
+            sx={{ maxWidth: 450, borderRadius: 2 }}
           >
             <CardContent>
               <Grid display="flex" flexDirection="row" sx={{ mb: 2 }}>
                 <img src={steamPNG} alt="STEAM" width="30" height="30" />
+
                 <Typography
                   gutterBottom
                   variant="h5"
@@ -320,6 +322,17 @@ export const Steam = (props: any) => {
                 >
                   Steam-water property
                 </Typography>
+                <CloseIcon
+                  style={{ marginLeft: "auto", cursor: "pointer" }}
+                  onClick={() => setCalState(false)}
+                  sx={{
+                    "&:hover": {
+                      transform: "scale(1.2)", // 設置 hover 時的縮放效果
+                    },
+                    mr: -1,
+                    mt: -1,
+                  }}
+                />
               </Grid>
               {steamState != 0 && (
                 <Typography
