@@ -19,6 +19,7 @@ import {
 import { useState } from "react";
 import { grey } from "@mui/material/colors";
 import steamPNG from "../../assets/steam.png";
+import seuif97 from "../../assets/seuif97.png";
 import CloseIcon from "@mui/icons-material/Close";
 
 // declare the result type
@@ -309,6 +310,11 @@ export const Steam = (props: any) => {
       </Grid>
 
       {/* 輸出結果 */}
+      {calState === false && (
+        <Grid sx={{ mt: 10, ml: 10 }}>
+          <img src={seuif97} alt="seuif97" style={{ width: "70%" }} />
+        </Grid>
+      )}
       {calState && (
         <Grid item xs={6} sx={{ ml: 2 }}>
           <Card
@@ -317,7 +323,7 @@ export const Steam = (props: any) => {
           >
             <CardContent>
               <Grid display="flex" flexDirection="row" sx={{ mb: 2 }}>
-                <img src={steamPNG} alt="STEAM" width="40" height="40" />
+                <img src={steamPNG} alt="STEAM" width="24" height="24" />
 
                 <Typography
                   gutterBottom
