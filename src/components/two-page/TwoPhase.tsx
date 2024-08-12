@@ -33,7 +33,11 @@ import {
 import { TwoData, VUResult, HORIResult, VDResult } from "./TwoDataType";
 import FileButton from "../single-page/FileButton";
 
-import { CustomTabPanel, a11yProps } from "../utils/utility";
+import {
+  CustomTabPanel,
+  a11yProps,
+  parseFloatWithErrorHandling,
+} from "../utils/utility";
 import FlowDirToggleButton from "./FlowDirToggleButton";
 import DataGridTwo, { TwoSizingData } from "./DataGridTwo";
 import DataListVU from "./DataListVU";
@@ -223,17 +227,17 @@ const TwoPhase = () => {
           const result = await invoke<VUResult>(
             "invoke_vertical_up_hydraulic",
             {
-              wl: parseFloat(liquidFlowRate),
-              wg: parseFloat(vaporFlowRate),
-              lol: parseFloat(liquidDensity),
-              logg: parseFloat(vaporDensity),
-              mul: parseFloat(liquidViscosity),
-              mug: parseFloat(vaporViscosity),
-              st: parseFloat(surfaceTension),
-              rough: parseFloat(roughness),
-              sf: parseFloat(safeFactor),
+              wl: parseFloatWithErrorHandling(liquidFlowRate),
+              wg: parseFloatWithErrorHandling(vaporFlowRate),
+              lol: parseFloatWithErrorHandling(liquidDensity),
+              logg: parseFloatWithErrorHandling(vaporDensity),
+              mul: parseFloatWithErrorHandling(liquidViscosity),
+              mug: parseFloatWithErrorHandling(vaporViscosity),
+              st: parseFloatWithErrorHandling(surfaceTension),
+              rough: parseFloatWithErrorHandling(roughness),
+              sf: parseFloatWithErrorHandling(safeFactor),
               id: actID,
-              degree: parseFloat(slope),
+              degree: parseFloatWithErrorHandling(slope),
             }
           );
           const res = result as VUResult;
@@ -268,17 +272,17 @@ const TwoPhase = () => {
           const result = await invoke<HORIResult>(
             "invoke_horizontal_hydraulic",
             {
-              wl: parseFloat(liquidFlowRate),
-              wg: parseFloat(vaporFlowRate),
-              lol: parseFloat(liquidDensity),
-              logg: parseFloat(vaporDensity),
-              mul: parseFloat(liquidViscosity),
-              mug: parseFloat(vaporViscosity),
-              st: parseFloat(surfaceTension),
-              rough: parseFloat(roughness),
-              sf: parseFloat(safeFactor),
+              wl: parseFloatWithErrorHandling(liquidFlowRate),
+              wg: parseFloatWithErrorHandling(vaporFlowRate),
+              lol: parseFloatWithErrorHandling(liquidDensity),
+              logg: parseFloatWithErrorHandling(vaporDensity),
+              mul: parseFloatWithErrorHandling(liquidViscosity),
+              mug: parseFloatWithErrorHandling(vaporViscosity),
+              st: parseFloatWithErrorHandling(surfaceTension),
+              rough: parseFloatWithErrorHandling(roughness),
+              sf: parseFloatWithErrorHandling(safeFactor),
               id: actID,
-              degree: parseFloat(slope),
+              degree: parseFloatWithErrorHandling(slope),
             }
           );
           const res = result as HORIResult;
@@ -314,17 +318,17 @@ const TwoPhase = () => {
           const result = await invoke<VDResult>(
             "invoke_vertical_down_hydraulic",
             {
-              wl: parseFloat(liquidFlowRate),
-              wg: parseFloat(vaporFlowRate),
-              lol: parseFloat(liquidDensity),
-              logg: parseFloat(vaporDensity),
-              mul: parseFloat(liquidViscosity),
-              mug: parseFloat(vaporViscosity),
-              st: parseFloat(surfaceTension),
-              rough: parseFloat(roughness),
-              sf: parseFloat(safeFactor),
+              wl: parseFloatWithErrorHandling(liquidFlowRate),
+              wg: parseFloatWithErrorHandling(vaporFlowRate),
+              lol: parseFloatWithErrorHandling(liquidDensity),
+              logg: parseFloatWithErrorHandling(vaporDensity),
+              mul: parseFloatWithErrorHandling(liquidViscosity),
+              mug: parseFloatWithErrorHandling(vaporViscosity),
+              st: parseFloatWithErrorHandling(surfaceTension),
+              rough: parseFloatWithErrorHandling(roughness),
+              sf: parseFloatWithErrorHandling(safeFactor),
               id: actID,
-              degree: parseFloat(slope),
+              degree: parseFloatWithErrorHandling(slope),
             }
           );
           const res = result as VDResult;
@@ -466,8 +470,8 @@ const TwoPhase = () => {
       }
       if (optValue === "3") {
         // implement by pressure drop range
-        let lowDP = parseFloat(lowPres);
-        let highDP = parseFloat(highPres);
+        let lowDP = parseFloatWithErrorHandling(lowPres);
+        let highDP = parseFloatWithErrorHandling(highPres);
         if (lowDP >= highDP) {
           setOptPresErrOpen(true);
           return;
@@ -477,7 +481,10 @@ const TwoPhase = () => {
           workID.map(async (item) => {
             let [flow_regime, Pfric, Ef] =
               await rust_vertical_up_hydraulic_byid(item.ID);
-            if (parseFloat(Pfric) > lowDP && parseFloat(Pfric) < highDP) {
+            if (
+              parseFloatWithErrorHandling(Pfric) > lowDP &&
+              parseFloatWithErrorHandling(Pfric) < highDP
+            ) {
               newResData.push({
                 id: item.SIZE,
                 actID: item.ID.toString(),
@@ -499,7 +506,7 @@ const TwoPhase = () => {
           workID.map(async (item) => {
             let [flow_regime, Pfric, Ef] =
               await rust_vertical_up_hydraulic_byid(item.ID);
-            if (parseFloat(Ef) <= 1.0) {
+            if (parseFloatWithErrorHandling(Ef) <= 1.0) {
               newResData.push({
                 id: item.SIZE,
                 actID: item.ID.toString(),
@@ -565,8 +572,8 @@ const TwoPhase = () => {
       }
       if (optValue === "3") {
         // implement by pressure drop range
-        let lowDP = parseFloat(lowPres);
-        let highDP = parseFloat(highPres);
+        let lowDP = parseFloatWithErrorHandling(lowPres);
+        let highDP = parseFloatWithErrorHandling(highPres);
         if (lowDP >= highDP) {
           setOptPresErrOpen(true);
           return;
@@ -577,7 +584,10 @@ const TwoPhase = () => {
             let [flow_regime, Pfric, Ef] = await rust_horizontal_hydraulic_byid(
               item.ID
             );
-            if (parseFloat(Pfric) > lowDP && parseFloat(Pfric) < highDP) {
+            if (
+              parseFloatWithErrorHandling(Pfric) > lowDP &&
+              parseFloatWithErrorHandling(Pfric) < highDP
+            ) {
               newResData.push({
                 id: item.SIZE,
                 actID: item.ID.toString(),
@@ -600,7 +610,7 @@ const TwoPhase = () => {
             let [flow_regime, Pfric, Ef] = await rust_horizontal_hydraulic_byid(
               item.ID
             );
-            if (parseFloat(Ef) <= 1.0) {
+            if (parseFloatWithErrorHandling(Ef) <= 1.0) {
               newResData.push({
                 id: item.SIZE,
                 actID: item.ID.toString(),
@@ -664,8 +674,8 @@ const TwoPhase = () => {
       }
       if (optValue === "3") {
         // implement by pressure drop range
-        let lowDP = parseFloat(lowPres);
-        let highDP = parseFloat(highPres);
+        let lowDP = parseFloatWithErrorHandling(lowPres);
+        let highDP = parseFloatWithErrorHandling(highPres);
         if (lowDP >= highDP) {
           setOptPresErrOpen(true);
           return;
@@ -675,7 +685,10 @@ const TwoPhase = () => {
           workID.map(async (item) => {
             let [flow_regime, Pfric, Ef] =
               await rust_vertical_down_hydraulic_byid(item.ID);
-            if (parseFloat(Pfric) > lowDP && parseFloat(Pfric) < highDP) {
+            if (
+              parseFloatWithErrorHandling(Pfric) > lowDP &&
+              parseFloatWithErrorHandling(Pfric) < highDP
+            ) {
               newResData.push({
                 id: item.SIZE,
                 actID: item.ID.toString(),
@@ -697,7 +710,7 @@ const TwoPhase = () => {
           workID.map(async (item) => {
             let [flow_regime, Pfric, Ef] =
               await rust_vertical_down_hydraulic_byid(item.ID);
-            if (parseFloat(Ef) <= 1.0) {
+            if (parseFloatWithErrorHandling(Ef) <= 1.0) {
               newResData.push({
                 id: item.SIZE,
                 actID: item.ID.toString(),
@@ -722,17 +735,17 @@ const TwoPhase = () => {
   ): Promise<[string, string, string]> {
     try {
       const result = await invoke<VUResult>("invoke_vertical_up_hydraulic", {
-        wl: parseFloat(liquidFlowRate),
-        wg: parseFloat(vaporFlowRate),
-        lol: parseFloat(liquidDensity),
-        logg: parseFloat(vaporDensity),
-        mul: parseFloat(liquidViscosity),
-        mug: parseFloat(vaporViscosity),
-        st: parseFloat(surfaceTension),
-        rough: parseFloat(roughness),
-        sf: parseFloat(safeFactor),
+        wl: parseFloatWithErrorHandling(liquidFlowRate),
+        wg: parseFloatWithErrorHandling(vaporFlowRate),
+        lol: parseFloatWithErrorHandling(liquidDensity),
+        logg: parseFloatWithErrorHandling(vaporDensity),
+        mul: parseFloatWithErrorHandling(liquidViscosity),
+        mug: parseFloatWithErrorHandling(vaporViscosity),
+        st: parseFloatWithErrorHandling(surfaceTension),
+        rough: parseFloatWithErrorHandling(roughness),
+        sf: parseFloatWithErrorHandling(safeFactor),
         id: actID,
-        degree: parseFloat(slope),
+        degree: parseFloatWithErrorHandling(slope),
       });
       const res = result as VUResult;
       return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];
@@ -747,17 +760,17 @@ const TwoPhase = () => {
   ): Promise<[string, string, string]> {
     try {
       const result = await invoke<VDResult>("invoke_vertical_down_hydraulic", {
-        wl: parseFloat(liquidFlowRate),
-        wg: parseFloat(vaporFlowRate),
-        lol: parseFloat(liquidDensity),
-        logg: parseFloat(vaporDensity),
-        mul: parseFloat(liquidViscosity),
-        mug: parseFloat(vaporViscosity),
-        st: parseFloat(surfaceTension),
-        rough: parseFloat(roughness),
-        sf: parseFloat(safeFactor),
+        wl: parseFloatWithErrorHandling(liquidFlowRate),
+        wg: parseFloatWithErrorHandling(vaporFlowRate),
+        lol: parseFloatWithErrorHandling(liquidDensity),
+        logg: parseFloatWithErrorHandling(vaporDensity),
+        mul: parseFloatWithErrorHandling(liquidViscosity),
+        mug: parseFloatWithErrorHandling(vaporViscosity),
+        st: parseFloatWithErrorHandling(surfaceTension),
+        rough: parseFloatWithErrorHandling(roughness),
+        sf: parseFloatWithErrorHandling(safeFactor),
         id: actID,
-        degree: parseFloat(slope),
+        degree: parseFloatWithErrorHandling(slope),
       });
       const res = result as VDResult;
       return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];
@@ -772,17 +785,17 @@ const TwoPhase = () => {
   ): Promise<[string, string, string]> {
     try {
       const result = await invoke<HORIResult>("invoke_horizontal_hydraulic", {
-        wl: parseFloat(liquidFlowRate),
-        wg: parseFloat(vaporFlowRate),
-        lol: parseFloat(liquidDensity),
-        logg: parseFloat(vaporDensity),
-        mul: parseFloat(liquidViscosity),
-        mug: parseFloat(vaporViscosity),
-        st: parseFloat(surfaceTension),
-        rough: parseFloat(roughness),
-        sf: parseFloat(safeFactor),
+        wl: parseFloatWithErrorHandling(liquidFlowRate),
+        wg: parseFloatWithErrorHandling(vaporFlowRate),
+        lol: parseFloatWithErrorHandling(liquidDensity),
+        logg: parseFloatWithErrorHandling(vaporDensity),
+        mul: parseFloatWithErrorHandling(liquidViscosity),
+        mug: parseFloatWithErrorHandling(vaporViscosity),
+        st: parseFloatWithErrorHandling(surfaceTension),
+        rough: parseFloatWithErrorHandling(roughness),
+        sf: parseFloatWithErrorHandling(safeFactor),
         id: actID,
-        degree: parseFloat(slope),
+        degree: parseFloatWithErrorHandling(slope),
       });
       const res = result as HORIResult;
       return [res.flow_regime, res.Pfric.toFixed(4), res.Ef.toFixed(4)];

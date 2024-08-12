@@ -21,6 +21,7 @@ import { grey } from "@mui/material/colors";
 import steamPNG from "../../assets/steam.png";
 import seuif97 from "../../assets/seuif97.png";
 import CloseIcon from "@mui/icons-material/Close";
+import { parseFloatWithErrorHandling } from "../utils/utility";
 
 // declare the result type
 type Result = {
@@ -87,11 +88,11 @@ export const Steam = (props: any) => {
     await invoke<Result>("invoke_seuif", {
       pressure:
         presUnit === 10
-          ? parseFloat(pres) // MPa
+          ? parseFloatWithErrorHandling(pres) // MPa
           : presUnit === 20
-          ? (parseFloat(pres) + 1.0332) * 0.0980665 // Kg/cm² (gauge)
-          : parseFloat(pres) * 0.0980665, // Kg/cm² (abs)
-      temperature: parseFloat(temp),
+          ? (parseFloatWithErrorHandling(pres) + 1.0332) * 0.0980665 // Kg/cm² (gauge)
+          : parseFloatWithErrorHandling(pres) * 0.0980665, // Kg/cm² (abs)
+      temperature: parseFloatWithErrorHandling(temp),
       mode: steamState,
     })
       .then((result) => {
