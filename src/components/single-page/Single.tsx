@@ -1017,8 +1017,8 @@ export const Single = () => {
         </Grid>
         <Grid item xs={4} sx={{ width: "100%" }}>
           {calState === false && (
-            <Grid sx={{ mt: 20, ml: -10 }}>
-              <img src={pipelinePNG} alt="pipeline" style={{ width: "120%" }} />
+            <Grid sx={{ mt: 20 }}>
+              <img src={pipelinePNG} alt="pipeline" style={{ width: "90%" }} />
             </Grid>
           )}
           {calState && (
