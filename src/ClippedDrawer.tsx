@@ -1,6 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
-import { createTheme, ThemeProvider } from "@mui/material";
+import {
+  Collapse,
+  createTheme,
+  IconButton,
+  ThemeProvider,
+} from "@mui/material";
 
 // import MUI components
 import Drawer from "@mui/material/Drawer";
@@ -23,6 +28,11 @@ import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import RepeatIcon from "@mui/icons-material/Repeat";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import { GiRollingEnergy } from "react-icons/gi";
+import {
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from "@mui/icons-material";
 
 // import my components
 import Steam from "./components/steam-page/Steam";
@@ -70,21 +80,36 @@ export default function ClippedDrawer() {
   const [textFontSize, setTextFontSize] = useState(12);
   const [calState, setCalState] = useState(false);
 
+  const [open, setOpen] = React.useState(true);
+
   const theme = createTheme({
     typography: {
       fontSize: textFontSize,
     },
   });
 
+  const handleDrawerToggle = () => {
+    setOpen(!open);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
-        <CssBaseline />
         <AppBar
           position="fixed"
           sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
           <Toolbar sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerToggle}
+              edge="start"
+            >
+              <Box sx={{ mr: 2, mt: 1 }}>
+                {open ? <ChevronLeftIcon /> : <MenuIcon />}
+              </Box>
+            </IconButton>
             <GiRollingEnergy fontSize="24px" />
             <Typography variant="h6" noWrap component="div" sx={{ ml: "8px" }}>
               Line2024 App
@@ -94,12 +119,14 @@ export default function ClippedDrawer() {
         <Drawer
           variant="permanent"
           sx={{
-            width: drawerWidth,
+            width: open ? drawerWidth : 60,
             flexShrink: 0,
             [`& .MuiDrawer-paper`]: {
-              width: drawerWidth,
+              width: open ? drawerWidth : 60,
               boxSizing: "border-box",
               bgcolor: "primary.dark",
+              transition: "width 0.3s",
+              overflowX: "hidden", // 隱藏水平卷軸
             },
           }}
         >
@@ -110,13 +137,15 @@ export default function ClippedDrawer() {
                 {drawerItems1.map((item) => (
                   <ListItem key={item.Index} disablePadding>
                     <ListItemButton onClick={() => setAppNo(item.Index)}>
-                      <ListItemIcon sx={{ color: "white", mr: -3 }}>
+                      <ListItemIcon sx={{ color: "white", mr: open ? -3 : 0 }}>
                         {item.Icon}
                       </ListItemIcon>
-                      <ListItemText
-                        sx={{ color: "white" }}
-                        primary={item.Text}
-                      />
+                      <Collapse in={open} orientation="horizontal">
+                        <ListItemText
+                          sx={{ color: "white" }}
+                          primary={item.Text}
+                        />
+                      </Collapse>
                     </ListItemButton>
                   </ListItem>
                 ))}
@@ -125,10 +154,12 @@ export default function ClippedDrawer() {
             </Box>
             <Box sx={{ mb: 1 }}>
               <ListItemButton onClick={() => setAppNo(SetupIndex)}>
-                <ListItemIcon sx={{ color: "white", mr: -3 }}>
+                <ListItemIcon sx={{ color: "white", mr: open ? -3 : 0 }}>
                   <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText sx={{ color: "white" }} primary="Setup" />
+                <Collapse in={open} orientation="horizontal">
+                  <ListItemText sx={{ color: "white" }} primary="Setup" />
+                </Collapse>
               </ListItemButton>
             </Box>
           </Box>

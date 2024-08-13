@@ -660,7 +660,7 @@ export const Single = () => {
           marginLeft: "8px",
         }}
       >
-        <Grid item xs={4} sx={{ ml: 1 }}>
+        <Grid item xs={3} sx={{ ml: 1 }}>
           <Typography
             gutterBottom
             variant="h5"
@@ -779,7 +779,7 @@ export const Single = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "16ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "12ch" },
                 }}
               >
                 <FormControl>
