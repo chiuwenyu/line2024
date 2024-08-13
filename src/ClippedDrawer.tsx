@@ -31,7 +31,6 @@ import { GiRollingEnergy } from "react-icons/gi";
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
 } from "@mui/icons-material";
 
 // import my components
@@ -41,7 +40,7 @@ import TwoPhase from "./components/two-page/TwoPhase";
 import Thermo from "./components/hydraulic-page/Thermo";
 import Setup from "./components/setup-page/Setup";
 
-const drawerWidth = 170;
+const drawerWidth = 180;
 
 interface DrawerStyle {
   Text: String;
@@ -136,8 +135,18 @@ export default function ClippedDrawer() {
               <List>
                 {drawerItems1.map((item) => (
                   <ListItem key={item.Index} disablePadding>
-                    <ListItemButton onClick={() => setAppNo(item.Index)}>
-                      <ListItemIcon sx={{ color: "white", mr: open ? -3 : 0 }}>
+                    <ListItemButton
+                      onClick={() => setAppNo(item.Index)}
+                      sx={{ display: "flex", alignItems: "center" }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          color: "white",
+                          ml: -2,
+                          mr: open ? 0 : "auto",
+                          justifyContent: "center",
+                        }}
+                      >
                         {item.Icon}
                       </ListItemIcon>
                       <Collapse in={open} orientation="horizontal">
@@ -153,8 +162,18 @@ export default function ClippedDrawer() {
               <Divider />
             </Box>
             <Box sx={{ mb: 1 }}>
-              <ListItemButton onClick={() => setAppNo(SetupIndex)}>
-                <ListItemIcon sx={{ color: "white", mr: open ? -3 : 0 }}>
+              <ListItemButton
+                onClick={() => setAppNo(SetupIndex)}
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                <ListItemIcon
+                  sx={{
+                    color: "white",
+                    ml: -2,
+                    mr: open ? 0 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
                   <SettingsIcon />
                 </ListItemIcon>
                 <Collapse in={open} orientation="horizontal">
