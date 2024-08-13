@@ -5508,7 +5508,7 @@ const Thermo = () => {
           </Typography>
           <Box
             border={1}
-            width={275}
+            width={250}
             sx={{ borderColor: "grey.400", boxShadow: 3, padding: 2, mt: 3 }}
           >
             <Typography variant="h6" color="primary.main" sx={{ ml: 2, mb: 1 }}>
