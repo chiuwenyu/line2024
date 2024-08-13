@@ -74,13 +74,13 @@ export default function ClippedDrawer() {
   const [appNo, setAppNo] = useState(1);
 
   // steam component states
-  const [steamState, setSteamState] = useState(0);
+  const [steamState, setSteamState] = useState(0); // calculate mode
   const [temp, setTemp] = useState("0");
   const [pres, setPres] = useState("0");
-  const [textFontSize, setTextFontSize] = useState(12);
+  const [textFontSize, setTextFontSize] = useState(12); // text font size, default 12 px
   const [calState, setCalState] = useState(false);
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(true); // drawer open/close
 
   const theme = createTheme({
     typography: {
