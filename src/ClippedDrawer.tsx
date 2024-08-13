@@ -51,12 +51,12 @@ interface DrawerStyle {
 const drawerItems1: DrawerStyle[] = [
   { Text: "Steam", Icon: <DeviceThermostatIcon />, Index: 1 },
   {
-    Text: "SinglePhase",
+    Text: "Single Phase",
     Icon: <LooksOneIcon />,
     Index: 2,
   },
   {
-    Text: "TwoPhase",
+    Text: "Two Phase",
     Icon: <LooksTwoIcon />,
     Index: 3,
   },
