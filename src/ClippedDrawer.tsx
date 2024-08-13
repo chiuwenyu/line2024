@@ -10,7 +10,6 @@ import {
 // import MUI components
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
-import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
