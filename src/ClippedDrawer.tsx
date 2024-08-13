@@ -31,7 +31,7 @@ import TwoPhase from "./components/two-page/TwoPhase";
 import Thermo from "./components/hydraulic-page/Thermo";
 import Setup from "./components/setup-page/Setup";
 
-const drawerWidth = 200;
+const drawerWidth = 170;
 
 interface DrawerStyle {
   Text: String;
@@ -110,7 +110,7 @@ export default function ClippedDrawer() {
                 {drawerItems1.map((item) => (
                   <ListItem key={item.Index} disablePadding>
                     <ListItemButton onClick={() => setAppNo(item.Index)}>
-                      <ListItemIcon sx={{ color: "white", mr: -1 }}>
+                      <ListItemIcon sx={{ color: "white", mr: -3 }}>
                         {item.Icon}
                       </ListItemIcon>
                       <ListItemText
@@ -125,7 +125,7 @@ export default function ClippedDrawer() {
             </Box>
             <Box sx={{ mb: 1 }}>
               <ListItemButton onClick={() => setAppNo(SetupIndex)}>
-                <ListItemIcon sx={{ color: "white", mr: -1 }}>
+                <ListItemIcon sx={{ color: "white", mr: -3 }}>
                   <SettingsIcon />
                 </ListItemIcon>
                 <ListItemText sx={{ color: "white" }} primary="Setup" />
