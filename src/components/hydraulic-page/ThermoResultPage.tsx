@@ -206,50 +206,47 @@ const ThermoResultPage = (props: any) => {
         component="div"
         sx={{ fontWeight: "medium" }}
       >
-        Thermosyphon Hydraulic Check Result :
+        Check Result :
       </Typography>
-      <Grid container display={"flex"} flexDirection={"row"} gap={2}>
-        <Grid
-          container
-          item
-          xs={3}
-          gap={2}
-          sx={{
-            ml: 1,
-            mt: 3,
-            width: "100%",
-          }}
-        >
-          <Card sx={{ p: 4, height: 540 }}>
-            {caseNo === "A" && (
-              <CardMedia component="img" image={picA} alt="Case A" />
-            )}
-            {caseNo === "B" && (
-              <CardMedia component="img" image={picB} alt="Case B" />
-            )}
-            {caseNo === "C" && (
-              <CardMedia component="img" image={picC} alt="Case C" />
-            )}
-            {caseNo === "D" && (
-              <CardMedia component="img" image={picD} alt="Case D" />
-            )}
-            {caseNo === "E" && (
-              <CardMedia component="img" image={picE} alt="Case E" />
-            )}
-            {caseNo === "F" && (
-              <CardMedia component="img" image={picF} alt="Case E" />
-            )}
-            {caseNo === "G" && (
-              <CardMedia component="img" image={picG} alt="Case E" />
-            )}
-            <CardContent>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="div"
-                color="primary"
-                sx={{ mt: 2 }}
-              >
+      <Box sx={{ width: "60%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            textColor="primary"
+            indicatorColor="primary"
+            onChange={handleChange}
+            aria-label="basic tabs"
+            centered
+          >
+            <Tab label="Summary" {...a11yProps(0)} />
+            <Tab label="Downcomer" {...a11yProps(1)} />
+            <Tab label="Riser" {...a11yProps(2)} />
+            <Tab label="Configration" {...a11yProps(3)} />
+            <Tab label="Homogeneous" {...a11yProps(4)} />
+            {caseNo !== "D" && <Tab label="Dukler" {...a11yProps(5)} />}
+          </Tabs>
+        </Box>
+        {/* summary tab */}
+        <CustomTabPanel value={value} index={0}>
+          <Box
+            component="form"
+            display="flex"
+            flexDirection="row"
+            sx={{
+              "& .MuiTextField-root": { mt: 2, width: "35ch" },
+            }}
+          >
+            <Grid sx={{ mt: 2, ml: 3 }}>
+              {caseNo === "A" && <img src={picA} alt="Case A" />}
+              {caseNo === "B" && <img src={picB} alt="Case B" />}
+              {caseNo === "C" && <img src={picC} alt="Case C" />}
+              {caseNo === "D" && <img src={picD} alt="Case D" />}
+              {caseNo === "E" && <img src={picE} alt="Case E" />}
+              {caseNo === "F" && <img src={picF} alt="Case F" />}
+              {caseNo === "G" && <img src={picG} alt="Case G" />}
+            </Grid>
+            <Grid sx={{ mt: 2, ml: 3 }}>
+              <Typography gutterBottom variant="h5" component="div">
                 {caseNo === "A"
                   ? "Case A"
                   : caseNo === "B"
@@ -266,16 +263,16 @@ const ThermoResultPage = (props: any) => {
                   ? "Case G"
                   : ""}
               </Typography>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
                 {caseNo === "E" || caseNo === "F" || caseNo === "G"
-                  ? "Reboiler Type: E type"
+                  ? "Reboiler Type:  E type"
                   : caseNo === "D"
-                  ? "Reboiler Type: Kettle"
+                  ? "Reboiler Type:  Kettle"
                   : caseNo === "A" || caseNo === "B" || caseNo === "C"
-                  ? "Reboiler Type: J type"
+                  ? "Reboiler Type:  J type"
                   : ""}
               </Typography>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 {caseNo === "A"
                   ? "Circuit Type: Preference"
                   : caseNo === "B"
@@ -294,214 +291,194 @@ const ThermoResultPage = (props: any) => {
               </Typography>
               <Typography
                 variant="h6"
-                fontSize={14}
+                fontSize={16}
                 fontWeight="bold"
                 gutterBottom
                 color="warning.main"
               >
-                {"Min. Required Static Head (m): " + minStaticHead.toFixed(3)}
+                Minimum Required Static Head = {minStaticHead.toFixed(3)} m
               </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={6}>
-          <Box sx={{ width: "120%" }}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs
-                value={value}
-                textColor="primary"
-                indicatorColor="primary"
-                onChange={handleChange}
-                aria-label="basic tabs"
-                centered
-              >
-                <Tab label="Downcomer" {...a11yProps(0)} />
-                <Tab label="Riser" {...a11yProps(1)} />
-                <Tab label="Configration" {...a11yProps(2)} />
-                <Tab label="Homogeneous" {...a11yProps(3)} />
-                {caseNo !== "D" && <Tab label="Dukler" {...a11yProps(4)} />}
-              </Tabs>
-            </Box>
-            {/* downcomer result tab */}
-            <CustomTabPanel value={value} index={0}>
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
-                }}
-              >
-                <DataGrid
-                  rows={downResData}
-                  autoHeight={true}
-                  columns={columns as GridColDef<DownAndRiserData>[]}
-                  sx={{
-                    "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: "primary.main",
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "0.8rem",
-                      height: "50",
-                    },
-                    "& .MuiDataGrid-columnSeparator": {
-                      display: "none",
-                    },
-                    "& .MuiDataGrid-filler": {
-                      backgroundColor: "primary.main",
-                    },
-                    mt: 1,
-                  }}
-                  hideFooter={true}
-                />
-              </Box>
-            </CustomTabPanel>
-            {/* riser result tab */}
-            <CustomTabPanel value={value} index={1}>
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                height={534}
-                sx={{
-                  "& .MuiTextField-root": {
-                    mt: 2,
-                    width: "35ch",
-                  },
-                }}
-              >
-                <DataGrid
-                  rows={riserResData}
-                  autoHeight={false}
-                  columns={columns as GridColDef<DownAndRiserData>[]}
-                  sx={{
-                    "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: purplecolor,
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "0.8rem",
-                      height: "50",
-                    },
-                    "& .MuiDataGrid-columnSeparator": {
-                      display: "none",
-                    },
-                    "& .MuiDataGrid-filler": {
-                      backgroundColor: purplecolor,
-                    },
-                    "& .MuiDataGrid-scrollbarFiller": {
-                      backgroundColor: purplecolor,
-                    },
-                    mt: 1,
-                  }}
-                  hideFooter={true}
-                />
-              </Box>
-            </CustomTabPanel>
-            {/* configuration result tab */}
-            <CustomTabPanel value={value} index={2}>
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
-                }}
-              >
-                <DataGrid
-                  rows={configResData}
-                  autoHeight={true}
-                  columns={configColumns as GridColDef<ConfigData>[]}
-                  sx={{
-                    "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: pinkcolor,
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "0.8rem",
-                      height: "50",
-                    },
-                    "& .MuiDataGrid-columnSeparator": {
-                      display: "none",
-                    },
-                    "& .MuiDataGrid-filler": {
-                      backgroundColor: pinkcolor,
-                    },
-                    mt: 1,
-                  }}
-                  hideFooter={true}
-                />
-              </Box>
-            </CustomTabPanel>
-            {/* Homogeneous result tab */}
-            <CustomTabPanel value={value} index={3}>
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
-                }}
-              >
-                <DataGrid
-                  rows={homeResData}
-                  autoHeight={true}
-                  columns={hdColumns as GridColDef<HomoAndDukData>[]}
-                  sx={{
-                    "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: "success.main",
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "0.8rem",
-                      height: "50",
-                    },
-                    "& .MuiDataGrid-columnSeparator": {
-                      display: "none",
-                    },
-                    "& .MuiDataGrid-filler": {
-                      backgroundColor: "success.main",
-                    },
-                    mt: 1,
-                  }}
-                  hideFooter={true}
-                />
-              </Box>
-            </CustomTabPanel>
-            {/* Dukler result tab */}
-            <CustomTabPanel value={value} index={4}>
-              <Box
-                component="form"
-                display="flex"
-                flexDirection="column"
-                sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "35ch" },
-                }}
-              >
-                <DataGrid
-                  rows={dukResData}
-                  autoHeight={true}
-                  columns={hdColumns as GridColDef<HomoAndDukData>[]}
-                  sx={{
-                    "& .MuiDataGrid-columnHeader": {
-                      backgroundColor: ccolor,
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "0.8rem",
-                      height: "50",
-                    },
-                    "& .MuiDataGrid-columnSeparator": {
-                      display: "none",
-                    },
-                    "& .MuiDataGrid-filler": {
-                      backgroundColor: ccolor,
-                    },
-                    mt: 1,
-                  }}
-                  hideFooter={true}
-                />
-              </Box>
-            </CustomTabPanel>
+            </Grid>
           </Box>
-        </Grid>
-      </Grid>
+        </CustomTabPanel>
+        {/* downcomer result tab */}
+        <CustomTabPanel value={value} index={1}>
+          <Box
+            component="form"
+            display="flex"
+            flexDirection="column"
+            sx={{
+              "& .MuiTextField-root": { mt: 2, width: "35ch" },
+            }}
+          >
+            <DataGrid
+              rows={downResData}
+              autoHeight={true}
+              columns={columns as GridColDef<DownAndRiserData>[]}
+              sx={{
+                "& .MuiDataGrid-columnHeader": {
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "0.8rem",
+                  height: "50",
+                },
+                "& .MuiDataGrid-columnSeparator": {
+                  display: "none",
+                },
+                "& .MuiDataGrid-filler": {
+                  backgroundColor: "primary.main",
+                },
+                mt: 1,
+              }}
+              hideFooter={true}
+            />
+          </Box>
+        </CustomTabPanel>
+        {/* riser result tab */}
+        <CustomTabPanel value={value} index={2}>
+          <Box
+            component="form"
+            display="flex"
+            flexDirection="column"
+            height={534}
+            sx={{
+              "& .MuiTextField-root": {
+                mt: 2,
+                width: "35ch",
+              },
+            }}
+          >
+            <DataGrid
+              rows={riserResData}
+              autoHeight={false}
+              columns={columns as GridColDef<DownAndRiserData>[]}
+              sx={{
+                "& .MuiDataGrid-columnHeader": {
+                  backgroundColor: purplecolor,
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "0.8rem",
+                  height: "50",
+                },
+                "& .MuiDataGrid-columnSeparator": {
+                  display: "none",
+                },
+                "& .MuiDataGrid-filler": {
+                  backgroundColor: purplecolor,
+                },
+                "& .MuiDataGrid-scrollbarFiller": {
+                  backgroundColor: purplecolor,
+                },
+                mt: 1,
+              }}
+              hideFooter={true}
+            />
+          </Box>
+        </CustomTabPanel>
+        {/* configuration result tab */}
+        <CustomTabPanel value={value} index={3}>
+          <Box
+            component="form"
+            display="flex"
+            flexDirection="column"
+            sx={{
+              "& .MuiTextField-root": { mt: 2, width: "35ch" },
+            }}
+          >
+            <DataGrid
+              rows={configResData}
+              autoHeight={true}
+              columns={configColumns as GridColDef<ConfigData>[]}
+              sx={{
+                "& .MuiDataGrid-columnHeader": {
+                  backgroundColor: pinkcolor,
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "0.8rem",
+                  height: "50",
+                },
+                "& .MuiDataGrid-columnSeparator": {
+                  display: "none",
+                },
+                "& .MuiDataGrid-filler": {
+                  backgroundColor: pinkcolor,
+                },
+                mt: 1,
+              }}
+              hideFooter={true}
+            />
+          </Box>
+        </CustomTabPanel>
+        {/* Homogeneous result tab */}
+        <CustomTabPanel value={value} index={4}>
+          <Box
+            component="form"
+            display="flex"
+            flexDirection="column"
+            sx={{
+              "& .MuiTextField-root": { mt: 2, width: "35ch" },
+            }}
+          >
+            <DataGrid
+              rows={homeResData}
+              autoHeight={true}
+              columns={hdColumns as GridColDef<HomoAndDukData>[]}
+              sx={{
+                "& .MuiDataGrid-columnHeader": {
+                  backgroundColor: "success.main",
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "0.8rem",
+                  height: "50",
+                },
+                "& .MuiDataGrid-columnSeparator": {
+                  display: "none",
+                },
+                "& .MuiDataGrid-filler": {
+                  backgroundColor: "success.main",
+                },
+                mt: 1,
+              }}
+              hideFooter={true}
+            />
+          </Box>
+        </CustomTabPanel>
+        {/* Dukler result tab */}
+        <CustomTabPanel value={value} index={5}>
+          <Box
+            component="form"
+            display="flex"
+            flexDirection="column"
+            sx={{
+              "& .MuiTextField-root": { mt: 2, width: "35ch" },
+            }}
+          >
+            <DataGrid
+              rows={dukResData}
+              autoHeight={true}
+              columns={hdColumns as GridColDef<HomoAndDukData>[]}
+              sx={{
+                "& .MuiDataGrid-columnHeader": {
+                  backgroundColor: ccolor,
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "0.8rem",
+                  height: "50",
+                },
+                "& .MuiDataGrid-columnSeparator": {
+                  display: "none",
+                },
+                "& .MuiDataGrid-filler": {
+                  backgroundColor: ccolor,
+                },
+                mt: 1,
+              }}
+              hideFooter={true}
+            />
+          </Box>
+        </CustomTabPanel>
+      </Box>
     </>
   );
 };
