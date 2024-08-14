@@ -19,11 +19,12 @@ import picF from "../../assets/ThermoSyphone-Case F.png";
 import picG from "../../assets/ThermoSyphone-Case G.png";
 import { a11yProps, CustomTabPanel } from "../utils/utility";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { purple, cyan, pink } from "@mui/material/colors";
+import { purple, cyan, brown, lightGreen } from "@mui/material/colors";
 
 let purplecolor = purple[700];
 let ccolor = cyan[700];
-let pinkcolor = pink[700];
+let gcolor = lightGreen[800];
+let browncolor = brown[600];
 export interface DownAndRiserData {
   id: string;
   item: string;
@@ -402,7 +403,7 @@ const ThermoResultPage = (props: any) => {
               columns={configColumns as GridColDef<ConfigData>[]}
               sx={{
                 "& .MuiDataGrid-columnHeader": {
-                  backgroundColor: pinkcolor,
+                  backgroundColor: browncolor,
                   color: "white",
                   fontWeight: "bold",
                   fontSize: "0.8rem",
@@ -412,7 +413,7 @@ const ThermoResultPage = (props: any) => {
                   display: "none",
                 },
                 "& .MuiDataGrid-filler": {
-                  backgroundColor: pinkcolor,
+                  backgroundColor: browncolor,
                 },
                 mt: 1,
               }}
@@ -436,7 +437,7 @@ const ThermoResultPage = (props: any) => {
               columns={hdColumns as GridColDef<HomoAndDukData>[]}
               sx={{
                 "& .MuiDataGrid-columnHeader": {
-                  backgroundColor: "success.main",
+                  backgroundColor: gcolor,
                   color: "white",
                   fontWeight: "bold",
                   fontSize: "0.8rem",
@@ -446,7 +447,7 @@ const ThermoResultPage = (props: any) => {
                   display: "none",
                 },
                 "& .MuiDataGrid-filler": {
-                  backgroundColor: "success.main",
+                  backgroundColor: gcolor,
                 },
                 mt: 1,
               }}
