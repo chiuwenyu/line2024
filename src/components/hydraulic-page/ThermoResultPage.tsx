@@ -246,7 +246,17 @@ const ThermoResultPage = (props: any) => {
               {caseNo === "G" && <img src={picG} alt="Case G" />}
             </Grid>
             <Grid sx={{ mt: 2, ml: 3 }}>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{
+                  backgroundColor: "primary.main",
+                  color: "white",
+                  width: "35%",
+                  textAlign: "center",
+                }}
+              >
                 {caseNo === "A"
                   ? "Case A"
                   : caseNo === "B"
