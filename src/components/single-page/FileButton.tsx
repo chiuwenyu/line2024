@@ -29,13 +29,13 @@ const FileButton = (props: any) => {
   return (
     <>
       <Button
-        variant="outlined"
+        variant="text"
         {...bindTrigger(popupState)}
-        size="medium"
+        size="large"
         endIcon={<KeyboardArrowDownIcon />}
         sx={{
           borderRadius: "25px",
-          minWidth: "80px",
+          minWidth: "100px",
           bgcolor: "#f7f7f7",
           color: "#191919",
           borderColor: "#757575",
