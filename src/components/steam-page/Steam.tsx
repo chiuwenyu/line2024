@@ -19,7 +19,7 @@ import {
 import { useState } from "react";
 import { grey } from "@mui/material/colors";
 import steamPNG from "../../assets/steam.png";
-import seuif97 from "../../assets/seuif97.png";
+import seuif97 from "../../assets/SEUIF97.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { parseFloatWithErrorHandling } from "../utils/utility";
 
