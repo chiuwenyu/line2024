@@ -307,7 +307,7 @@ const ThermoResultPage = (props: any) => {
                 gutterBottom
                 color="warning.main"
               >
-                Minimum Required Static Head = {minStaticHead.toFixed(3)} m
+                Minimum Required Static Head , H = {minStaticHead.toFixed(3)} m
               </Typography>
             </Grid>
           </Box>
