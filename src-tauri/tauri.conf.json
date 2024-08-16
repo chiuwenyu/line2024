@@ -51,13 +51,39 @@
       "active": true,
       "targets": "all",
       "identifier": "com.transenergy.dev",
+      "resources": [
+        "./examples/data1.lns",
+        "./examples/VD-Annular-01.tps",
+        "./examples/VD-DispersedBubble-01.tps",
+        "./examples/VD-Slug-01.tps",
+        "./examples/VU-Annular-01.tps",
+        "./examples/VU-Bubble-01.tps",
+        "./examples/VU-Slug-01.tps",
+        "./examples/Hori-Annular-01.tps",
+        "./examples/Hori-Slug-01.tps",
+        "./examples/Hori-SW-01.tps",
+        "./examples/thermo-case A-1.tms",
+        "./examples/thermo-case B-2.tms",
+        "./examples/thermo-case C-1.tms",
+        "./examples/thermo-case D-1.tms",
+        "./examples/thermo-case E-1.tms",
+        "./examples/thermo-case E-2.tms",
+        "./examples/thermo-case F-1.tms",
+        "./examples/thermo-case G-1.tms"
+      ],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+
+      "windows": {
+        "wix": {
+          "language": "zh-TW"
+        }
+      }
     }
   }
 }

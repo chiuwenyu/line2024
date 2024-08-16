@@ -1,13 +1,4 @@
-import {
-  Box,
-  Card,
-  CardMedia,
-  Grid,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
-import CardContent from "@mui/material/CardContent";
+import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 
 import picA from "../../assets/ThermoSyphone-Case A.png";
