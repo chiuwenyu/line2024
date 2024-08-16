@@ -656,7 +656,6 @@ export const Single = () => {
         gap={6}
         sx={{
           bgcolor: "background.default",
-          minHeight: "80vh",
           marginLeft: "8px",
         }}
       >
@@ -787,9 +786,14 @@ export const Single = () => {
                     Design Criteria :
                   </FormLabel>
                   <Box
-                    height="42ch"
+                    height="35vh"
                     boxShadow={1}
-                    sx={{ border: "1px solid lightgrey", mt: 1, pl: 2 }}
+                    sx={{
+                      border: "1px solid lightgrey",
+                      mt: 1,
+                      pl: 2,
+                      width: 300,
+                    }}
                   >
                     <RadioGroup
                       aria-labelledby="radio-buttons-group-label"
@@ -811,7 +815,7 @@ export const Single = () => {
                       />
                       <Grid>
                         <FormControl
-                          sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                          sx={{ ml: 4, mt: 2, width: 100 }}
                           size="medium"
                           disabled={optValue !== "2"}
                         >
@@ -827,7 +831,7 @@ export const Single = () => {
                           </Select>
                         </FormControl>
                         <FormControl
-                          sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                          sx={{ ml: 4, mt: 2, width: 100 }}
                           size="medium"
                           disabled={optValue !== "2"}
                         >
@@ -847,7 +851,7 @@ export const Single = () => {
                       <FormControlLabel
                         value="3"
                         control={<Radio />}
-                        label="by Pressure Drop (Kg/cm^2/100m) range"
+                        label="by Pressure Drop (Kg/cm^2/100m)"
                         sx={{ mt: 2 }}
                       />
                       <Grid
@@ -867,7 +871,7 @@ export const Single = () => {
                           }
                           onChange={(e) => setLowPres(e.target.value)}
                           onBlur={(e) => validateInput("201", e.target.value)}
-                          sx={{ ml: 4 }}
+                          sx={{ ml: 4, width: 130 }}
                           disabled={optValue !== "3"}
                         />
                         <TextField
@@ -882,7 +886,7 @@ export const Single = () => {
                           }
                           onChange={(e) => setHighPres(e.target.value)}
                           onBlur={(e) => validateInput("202", e.target.value)}
-                          sx={{ ml: 4 }}
+                          sx={{ ml: 4, width: 130 }}
                           disabled={optValue !== "3"}
                         />
                       </Grid>
