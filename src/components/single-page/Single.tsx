@@ -668,7 +668,7 @@ export const Single = () => {
           >
             Single Phase Line Sizing App
           </Typography>
-          <Box sx={{ width: "100%", height: "550px" }}>
+          <Box sx={{ width: "110%", height: "525px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -786,7 +786,7 @@ export const Single = () => {
                     Design Criteria :
                   </FormLabel>
                   <Box
-                    height="35vh"
+                    height="350px"
                     boxShadow={1}
                     sx={{
                       border: "1px solid lightgrey",
@@ -1022,7 +1022,7 @@ export const Single = () => {
         <Grid item xs={4} sx={{ width: "100%" }}>
           {calState === false && (
             <Grid sx={{ mt: 5, ml: 10 }}>
-              <img src={pipelinePNG} alt="pipeline" style={{ width: "120%" }} />
+              <img src={pipelinePNG} alt="pipeline" style={{ width: "45vh" }} />
             </Grid>
           )}
           {calState && (

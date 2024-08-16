@@ -313,7 +313,7 @@ export const Steam = (props: any) => {
       {/* 輸出結果 */}
       {calState === false && (
         <Grid sx={{ mt: 5, ml: 4 }}>
-          <img src={seuif97} alt="seuif97" style={{ width: "60%" }} />
+          <img src={seuif97} alt="seuif97" style={{ width: "50vh" }} />
         </Grid>
       )}
       {calState && (

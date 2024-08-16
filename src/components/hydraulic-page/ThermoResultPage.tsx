@@ -149,7 +149,7 @@ const configColumns: GridColDef<ConfigData>[] = [
   {
     field: "value",
     headerName: "VALUE",
-    width: 120,
+    width: 90,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -209,7 +209,7 @@ const ThermoResultPage = (props: any) => {
       >
         Check Result :
       </Typography>
-      <Box sx={{ width: "60%" }}>
+      <Box sx={{ width: "80vh" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
@@ -237,16 +237,16 @@ const ThermoResultPage = (props: any) => {
               "& .MuiTextField-root": { mt: 2, width: "35ch" },
             }}
           >
-            <Grid sx={{ mt: 2, ml: 3 }}>
-              {caseNo === "A" && <img src={picA} alt="Case A" />}
-              {caseNo === "B" && <img src={picB} alt="Case B" />}
-              {caseNo === "C" && <img src={picC} alt="Case C" />}
-              {caseNo === "D" && <img src={picD} alt="Case D" />}
-              {caseNo === "E" && <img src={picE} alt="Case E" />}
-              {caseNo === "F" && <img src={picF} alt="Case F" />}
-              {caseNo === "G" && <img src={picG} alt="Case G" />}
+            <Grid sx={{ mt: 2, ml: 1 }}>
+              {caseNo === "A" && <img src={picA} alt="Case A" width="100%" />}
+              {caseNo === "B" && <img src={picB} alt="Case B" width="100%" />}
+              {caseNo === "C" && <img src={picC} alt="Case C" width="100%" />}
+              {caseNo === "D" && <img src={picD} alt="Case D" width="100%" />}
+              {caseNo === "E" && <img src={picE} alt="Case E" width="100%" />}
+              {caseNo === "F" && <img src={picF} alt="Case F" width="100%" />}
+              {caseNo === "G" && <img src={picG} alt="Case G" width="100%" />}
             </Grid>
-            <Grid sx={{ mt: 2, ml: 3 }}>
+            <Grid sx={{ mt: 2, ml: 4 }}>
               <Typography
                 gutterBottom
                 variant="h6"
@@ -256,6 +256,7 @@ const ThermoResultPage = (props: any) => {
                   color: "white",
                   width: "35%",
                   textAlign: "center",
+                  fontSize: 14,
                 }}
               >
                 {caseNo === "A"
@@ -274,7 +275,11 @@ const ThermoResultPage = (props: any) => {
                   ? "Case G"
                   : ""}
               </Typography>
-              <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{ mt: 2, fontSize: 14 }}
+              >
                 {caseNo === "E" || caseNo === "F" || caseNo === "G"
                   ? "Reboiler Type:  E type"
                   : caseNo === "D"
@@ -283,7 +288,7 @@ const ThermoResultPage = (props: any) => {
                   ? "Reboiler Type:  J type"
                   : ""}
               </Typography>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" gutterBottom sx={{ fontSize: 14 }}>
                 {caseNo === "A"
                   ? "Circuit Type: Preference"
                   : caseNo === "B"
@@ -302,12 +307,12 @@ const ThermoResultPage = (props: any) => {
               </Typography>
               <Typography
                 variant="h6"
-                fontSize={16}
+                fontSize={14}
                 fontWeight="bold"
                 gutterBottom
                 color="warning.main"
               >
-                Minimum Required Static Head , H = {minStaticHead.toFixed(3)} m
+                Min. Required Static Head , H = {minStaticHead.toFixed(2)} m
               </Typography>
             </Grid>
           </Box>
