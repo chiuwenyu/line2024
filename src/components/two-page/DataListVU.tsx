@@ -9,7 +9,7 @@ const DataListVU = (props: any) => {
 
   return (
     <>
-      <Box sx={{ minWidth: "730px", height: "ˇ360px", mt: 8 }}>
+      <Box sx={{ width: "auto", minWidth: "730px", height: "ˇ360px", mt: 8 }}>
         <Typography
           gutterBottom
           variant="h5"
@@ -20,7 +20,7 @@ const DataListVU = (props: any) => {
         </Typography>
         <Card
           style={{ backgroundColor: pcolor, color: "white" }}
-          sx={{ maxWidth: 730 }}
+          sx={{ width: "auto" }}
         >
           <CardContent>
             {

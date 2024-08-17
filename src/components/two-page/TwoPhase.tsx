@@ -1862,7 +1862,7 @@ const TwoPhase = () => {
             setOptErrOpen={setOptPresErrOpen}
           />
         </Grid>
-        <Grid item xs={4} sx={{ width: "100%" }}>
+        <Grid item xs={4} sm={4} md={4} lg={6} xl={7} sx={{ width: "100%" }}>
           {calState && (
             <DataGridTwo
               rows={resData}

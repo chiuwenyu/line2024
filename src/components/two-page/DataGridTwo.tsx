@@ -87,7 +87,7 @@ export default function DataGridTwo(props: any) {
 
   return (
     direct != "" && (
-      <Box sx={{ minWidth: "750px", height: "370px" }}>
+      <Box sx={{ width: "100%", minWidth: "750px", height: "370px" }}>
         <Stack display={"flex"} justifyContent={"flex-end"}>
           <span>
             <Typography
@@ -106,7 +106,10 @@ export default function DataGridTwo(props: any) {
         <DataGrid
           rows={rows}
           autoHeight={false}
-          columns={columns as GridColDef<TwoSizingData>[]}
+          columns={columns.map((column) => ({
+            ...column,
+            flex: 1, // 設置列的 flex 屬性
+          }))}
           sx={{
             "& .MuiDataGrid-columnHeader": {
               backgroundColor: directColor,
