@@ -1,0 +1,702 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Two Phase Flow Introduction</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="844519d1-dd71-4ce4-b9d0-9535aef62974" class="page sans"><header><h1 class="page-title">Two Phase Flow Introduction</h1></header><div class="page-body"><h1 id="76b864ec-28de-4b8c-b416-2c8d14190d05" class="">氣液二相流簡介</h1><p id="0049c197-fe57-46c8-a5b4-cf0a1eb0c4c1" class="">
+</p><h2 id="48b1df53-8155-4a7e-80ad-8e43476eb133" class="">前言</h2><p id="2f443a8b-fd26-4cee-9036-22aca3450601" class="">於化工廠的操作中，熱虹吸再沸器 (Thermosiphon Reboiler) 及某些化學反應器 (Chemical Reactor) 等，常會涉及管線中氣液兩相系統的流動，設計這類系統的流出管時，必須掌握管線中流動型態、二相流密度及壓力損失 (Pressure Head Loss) 等相關資料，才得以決定管徑大小以及是否需要特別注意管線的支撐。</p><p id="f6bf062e-f8db-4f52-8d30-3e95cfb15e3f" class="">
+</p><h2 id="05d75fb2-dab6-4180-bd46-1b84137caa3c" class="">設計理念</h2><p id="99118634-5bf6-408c-8187-697d93949f58" class="">過去計算二相流系統都使用單相系統的 “均勻模型” (Homogeneous Model)，而在均勻模型中氣液混合物均視為 “擬流體” (Pseudo-Fluid) 而具有相應之單相性質。但此均勻模型有其使用範圍的限制，因此當系統超過限制範圍或是非空氣–水的系統，則所得到的數據就值得懷疑。這可能因為利用單一模型解釋不同流動型態所致，因此了解目前系統的流態顯然要比計算流體力學參數優先；其次， 選擇適合該流動型態的流體力學模型也是相當重要。</p><p id="ce2c495b-1b7c-4b6e-b770-7e014617ccd4" class="">
+</p><p id="2e0fed18-2daf-4d24-a931-6147ec1cffc9" class="">以上流態分類的觀念首先由 AIChE Design Insitute for Multiphase Processing (DIMP) 採用，他們發展出一套思維方法，區分流態並依據各流態所相應的二相流模型計算其壓降及相關的二相流參數。本文也採用這種將之程式化，並賦予視窗及圖形化使用者介面外觀，使程式於執行過程中或可避免塊狀流動 (Slug Flow) 而不致使管線因塊狀流態之水捶效應 (Water Hammering Effect) 必須在強度上作特殊考慮。然而如果仍無法避免這種震盪式 (Oscillation) 塊狀流動，就應該通知相關部門在管線結構及彎管處強化支撐。</p><p id="b5304535-2cc4-4d98-873f-7a9e95efdc98" class="">
+</p><h2 id="a10befe8-727f-4b3f-b662-bb70be6bea23" class="">流態分類</h2><p id="fb55a2e9-2c7b-4ae9-8868-5596c5cd7ee9" class="">觀察氣液二相流系統，因氣液分佈不同而有不同流態，但因流態的界定仍相當模糊且眾說紛紜，故流態的分類至今仍未標準化。以下的定義依據 DIMP 對流態的觀察，同時也是本文中所採用的分類方式。</p><p id="39fb48b3-f1a6-493d-afce-0487d9e1e018" class="">
+</p><h3 id="dfd7a0d4-9312-41df-a1fc-4c8c5fb624c5" class="">氣液二相水平流動</h3><p id="dbe07ee9-2ef7-4c24-bc54-312201921bcb" class="">氣液二相水平流動的流動型態如附圖所示，依據過渡模型所建立之流態分佈圖如附圖所示。附圖的座標系統分別為 Lockkhart-Martinelli 參數 (X) 及其他無因次參數 (K, T or F)。各流態的特徵分述如下：</p><ul id="38708644-26f3-4905-b7b6-dffd3fb6e34b" class="bulleted-list"><li style="list-style-type:disc"><strong>平滑二層流 (Stratified Smooth Flow) ： </strong>平滑二層流流動型態多發現於氣體流速較低的情況下，此時液體沿管內底部流動，且氣液界面相當平滑。</li></ul><ul id="d89a01cb-c70f-484b-a90c-1f37c9213006" class="bulleted-list"><li style="list-style-type:disc"><strong>波狀二層流 (Stratified Wavy Flow) ：</strong> 波狀二層流與平滑二層流相當類似，但氣液界面則是呈波浪狀。</li></ul><ul id="45294541-ea2d-4a99-ab96-5177decf21ed" class="bulleted-list"><li style="list-style-type:disc"><strong>中介流動 (Intermittent Flow) (塊狀流動及加長型氣泡流動 (Slug and Elongated Bubble Flow))：</strong>氣體流速增加，液體橫斷管子形成塊狀 (Slug) 或栓塞 (Plug)。此時管內存在一段氣體將連續液相分開，在氣泡區下端與管底間充塞液體層流，塊狀液體前端與管內頂端部分則存有小氣泡。中介流動型態可再區分塊狀及加長型氣泡流動，而加長型氣泡流動則可視為塊狀流動小氣泡消失的一種極限情況。</li></ul><ul id="6ee85eea-be62-4bfb-9ca2-befe9f11cb0d" class="bulleted-list"><li style="list-style-type:disc"><strong>套管流動 (Annular Flow)：</strong>在管壁形成套管狀的液膜流動，此液膜將高速氣核圍繞，而在氣核中則挾帶有液滴 (Entrained Liquid Droplets)。底部液膜厚度通常會比頂部液膜厚。</li></ul><ul id="d4202f33-340d-40c2-bba3-73856693cdf3" class="bulleted-list"><li style="list-style-type:disc"><strong>分散氣泡流動 (Dispersed Bubble Flow)：</strong>於連續的液相中分佈極小的氣泡。大部分的氣泡會集中在管內頂端附近，而且當液體速度增加，氣泡將會分散地更均勻。</li></ul><p id="6f2e733f-4a56-479e-a604-80c653455d75" class="">
+</p><figure id="538c1903-96ce-4a43-8b35-7b82b4036ef1" class="image"><a href="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled.png"><img style="width:576px" src="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled.png"/></a><figcaption>氣液二相流水平流動的流動型態</figcaption></figure><p id="5549c798-4724-4602-9d28-83882cc3146c" class="">
+</p><figure id="fb0c04b0-c1c0-42ee-8371-bddcae840586" class="image"><a href="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%201.png"><img style="width:806px" src="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%201.png"/></a><figcaption>依據過渡模型建立的二相流水平流動流態分佈圖</figcaption></figure><p id="2875f359-6986-4147-acca-a83d27a393b0" class="">
+</p><p id="85c3f36b-8017-412a-971e-719a3898fcdb" class="">
+</p><h3 id="f35764d2-4195-413d-8658-53648e455285" class="">氣液二相垂直向上</h3><p id="b4b09224-add7-4d98-99dd-14011819b043" class="">氣液二相垂直向上流動的流動型態與依據過渡模型建立的流態分佈圖如附圖所示：</p><p id="3c016535-bfe2-402f-84f7-cb50fc4b2953" class="">
+</p><ul id="303f1bc8-f667-4170-bd7b-1039bc823464" class="bulleted-list"><li style="list-style-type:disc"><strong>氣泡流動 (Bubble Flow)：</strong>氣體以分散的小氣泡均勻地分佈於連續的液相中。這種分散程度會隨著液體流速之不同而稍有差異，當液體流速較低時，流動型態為氣泡流動；然而當液體流速增加時，將使氣體分散地更細。雖然有分散程度的區分，但二者之間的過渡並非很清楚。</li></ul><ul id="a70c1e0c-4314-4763-ba2e-c4cd7c624bd7" class="bulleted-list"><li style="list-style-type:disc"><strong>塊狀流動 (Slug Flow)：</strong>於塊狀流動中，大部份的氣體充塞於大的子彈型氣泡內隨氣泡向上移動，此時氣泡的直徑大約等於管徑大小，稱為 “泰勒氣泡” (Taylor Bubble) 。泰勒氣泡將連續液體橫斷形成塊狀液體，通常在塊狀液體中包含許多小氣泡，而在泰勒氣泡與管壁間形成液膜向下移動。這種流態有時稱為塊狀流動 (Slug Flow)，有時稱為栓塞流動 (Plug Flow)，當低流速時，氣液界面很清楚，塊狀液體中亦無氣泡產生，這種流態稱為栓塞流動；若液體流速加快，氣液邊界不再清楚，則稱為塊狀流動。</li></ul><ul id="e129fa81-ea97-4d76-8b0d-25de68954c4d" class="bulleted-list"><li style="list-style-type:disc"><strong>攪拌流動 (Churn Flow)：</strong>攪拌流動有點類似塊狀流動，但較混亂沒有秩序且多泡沫。子彈型泰勒氣泡變得較為狹長且形狀較扭曲，兩連續的泰勒氣泡間的塊狀液體遭塊狀液體中的高濃度氣體破壞，當破壞的情形加劇時，塊狀液體便崩潰往下掉，崩潰的液體因累積而再度形成架橋而被氣泡往上舉起。這種塊狀液體崩潰又重建的週期性往復運動即是攪拌流動的重要特徵。當氣體流動速度增加時，流動變得更混亂，此時則稱為泡沫流動 (Forth Flow)。<p id="0b4f8d30-6c7f-46a7-8bd3-dcba7fe0fab2" class="">攪拌流動通常為塊狀流動的入口現象，沿著管內流動至某一長度而發展呈塊狀流動。於入口區域所產生的塊狀液體及泰勒氣泡較短，彼此以不同的流速向上移動，因此當後面的泰勒氣泡超過崩潰的塊狀液體而與前面的泰勒氣泡結合時，氣泡的長度變為兩倍，崩潰的液體落至下一層塊狀液體而累積，便發生攪拌流動的混亂特性。當氣泡與塊狀液體因結合愈來愈大，速度變得愈來愈均一，超越的情形越來越少，並於某一段長度之後，結合（超越）的情形停止，即產生穩定的塊狀流動。</p></li></ul><ul id="76f55203-e349-480a-8aee-3d7f62d281b7" class="bulleted-list"><li style="list-style-type:disc"><strong>套管流動 (Annular Flow)：</strong>這種流態的特徵是管內存有氣核向下游 (Down Stream) 流動，部份液體以波浪液膜向上移動，而部份液體則以液滴形式被氣核挾帶向上。</li></ul><p id="00caffab-2fe0-48a4-b44e-fab571aad51d" class="">
+</p><figure id="4c1f7ed6-7ecd-4098-8fe3-87e0fa8139b8" class="image"><a href="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%202.png"><img style="width:432px" src="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%202.png"/></a><figcaption>氣液二相垂直向上流動型態</figcaption></figure><figure id="9dd28ee9-9014-4a38-aea1-b5c2dd1340c8" class="image"><a href="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%203.png"><img style="width:528px" src="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%203.png"/></a><figcaption>依據過渡模型建立的二相流垂直向上流動流態分佈圖 (TBD Model)</figcaption></figure><p id="8dd4c283-0a51-456b-bf4c-4af24633ce00" class="">
+</p><figure id="7bce1dcf-6d13-4d17-a3cb-fad9d342c449" class="image"><a href="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%204.png"><img style="width:576px" src="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Untitled%204.png"/></a><figcaption>依據過渡模型建立的二相流垂直向上流動流態分佈圖 (Tulsa99  Model)</figcaption></figure><p id="c7663e19-b38d-41c8-abb2-cbb74d849ec8" class="">
+</p><p id="1ef5b758-8c96-45d6-b789-a800ade6d6cd" class="">
+</p><p id="33afe0c1-2d6e-41ff-8216-2cd6f322fecd" class="">
+</p><h3 id="7446516b-3acc-4ae7-a945-352b1ba9845a" class="">氣液二相流垂直向下</h3><p id="ac8f7414-5b0a-477a-a726-bd84c4dada3c" class="">氣液二相垂直向下流動的流動型態與依據過渡模型建立的流態分佈圖如附圖所示：</p><p id="53480abd-d326-44fc-98a5-07ca1ad79639" class="">
+</p><ul id="82b51620-7274-49cd-b5fb-e48ff34a653e" class="bulleted-list"><li style="list-style-type:disc"><strong>套管流動 (Annular Flow)：</strong>氣液二相垂直向下流動中最自然的流態即是套管流動。其流態特徵類似垂直向上的套管流動，即管中存在氣核，部份的液體以液膜向下流動，而部份則以液滴的形式被氣核挾帶。</li></ul><ul id="a4cd22c6-28a3-4a30-83f5-ea068d500361" class="bulleted-list"><li style="list-style-type:disc"><strong>塊狀流動 (Slug Flow)：</strong>當液體流速增加，流態過渡至塊狀流動。其流態類似垂直向上塊狀流動，唯一不同是泰勒氣泡不再呈子彈型也比較偏離管中央。</li></ul><ul id="b2277e95-8b68-4edc-a80a-88a950718542" class="bulleted-list"><li style="list-style-type:disc"><strong>氣泡流動 (Bubble Flow)：</strong>類似垂直向上的氣泡流動，其特徵是氣泡均勻地分佈在連續的液相中。</li></ul><p id="798e8a64-6a74-4755-b4b6-60eeba2f2866" class="">
+</p><figure id="6d1d4f61-9560-4d58-9510-03bc13217c6a" class="image"><a href="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Vertical_Down_Figure_1.png"><img style="width:332px" src="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Vertical_Down_Figure_1.png"/></a><figcaption>氣液二相垂直向下流動型態</figcaption></figure><p id="10fbb1c3-964f-4ca5-b0ce-bfa831c280e4" class="">
+</p><p id="1b436e77-d6f0-49f2-9d14-fd171ff1d8f0" class="">
+</p><figure id="86e47a35-96ae-462e-a1ec-081205df805f" class="image"><a href="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Vertical_Down_Two_Phase_Flow_Regime.png"><img style="width:713px" src="Two%20Phase%20Flow%20Introduction%20538c190396ce4a438b357b82b4036ef1/Vertical_Down_Two_Phase_Flow_Regime.png"/></a><figcaption>依據過渡模型建立的二相流垂直向下流動流態分佈圖</figcaption></figure><p id="ea5d6f80-4f98-455b-9617-a035b494104d" class="">
+</p><p id="fa08c34d-48ba-4b32-8128-41646da03cd5" class="">
+</p><h2 id="3ac35329-8e32-43e3-99f5-f89fe2f0a47d" class="">討論</h2><h3 id="1e21bbb8-5335-4122-8093-86f07b68ea0d" class="">水平管流態過渡模型之比較</h3><p id="208a3bfe-e246-454f-899f-63479ee944f7" class="">至今水平及傾斜管的流態有兩種較重要的理論，其一為  Baker (1954) 所提出的 Baker Flow Map，另一則是由 Taitel and Dukler (1976) 所提出的 Taitel-Dukle</p><p id="b6b6a69f-0c3f-4810-bc2c-04d5e664f551" class="">其次，嘗試與傳統的壓降計算方式 (相似性模型) 比較，於相似性模型中並不區分水平或垂直流動，而是分別針對兩種定義：</p><p id="ae68850f-58f8-4c2b-af80-e86e3f9c18ba" class="">(1) 非脫滑情況 (No-Slip Condition) 或稱均勻情形 (Homogeneous Condition)</p><p id="4bfde042-014e-4164-8d2e-bff567686015" class="">(2) 恆定脫滑情況 (Constant-Slip Condition)</p><p id="f2adbca1-1f0c-4a3d-9613-fabc0c0e3b77" class="">
+</p><h3 id="f685dfaa-53be-4015-a166-7203da7a199b" class="">如何選擇適合的管徑</h3><p id="9e459097-95d0-498d-9521-4ed6baf75ab4" class=""><strong>(1) 避免沖蝕— 腐蝕 (Errosion-Corrosion) 現象</strong></p><p id="e4f714ea-f830-4d24-be91-170c4ac9fde5" class="">依據不同的流態，二相流系統的液體可能會被加速至氣體的速度，甚至超越氣體的速度。於某種情況下，二相流速度可能比設計管線蝕所考慮的速度高，這種加速效應將導致沖蝕— 腐蝕的現象。</p><p id="4400c33e-160f-4f32-94ed-b9c97a263764" class="">有一個以速度頭 (Velocity Head) 建立的指標可以指出當小於某個臨界值時，就不會發生沖蝕，這指標定義如下：</p><p id="9c77efd0-f95c-4d86-9e84-3e8be653cd64" class="">
+</p><p id="278e4a2e-86db-4ebf-af29-4efeb56fd225" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mi>M</mi></msub><msubsup><mi>U</mi><mi>M</mi><mn>2</mn></msubsup><mo>≤</mo><mn>10</mn><mo separator="true">,</mo><mn>000</mn></mrow><annotation encoding="application/x-tex"> 
+      \rho_MU_M^2 \le  10,000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.089439em;vertical-align:-0.275331em;"></span><span class="mord"><span class="mord mathnormal">ρ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-2.424669em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.275331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">10</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">000</span></span></span></span></span><span>﻿</span></span></p><p id="af43b790-ed26-4793-b8ef-09f10476b686" class="">
+</p><p id="65225969-8eb1-4bf8-9281-db239fca2a60" class="">其中二相流密度 (Two Phase Density)</p><p id="b13d847e-e334-4904-a07f-b14e3f95edf5" class="">
+</p><p id="17792390-6a35-4299-aa2f-06b76dce2482" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mi>M</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>W</mi><mi>L</mi></msub><mo>+</mo><msub><mi>W</mi><mi>G</mi></msub></mrow><mrow><mfrac><msub><mi>W</mi><mi>L</mi></msub><msub><mi>ρ</mi><mi>L</mi></msub></mfrac><mo>+</mo><mfrac><msub><mi>W</mi><mi>G</mi></msub><msub><mi>ρ</mi><mi>G</mi></msub></mfrac></mrow></mfrac></mrow><annotation encoding="application/x-tex">\rho_M = \frac{W_L + W_G}{\frac{W_L}{\rho_L} + \frac{W_G}{\rho_G}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">ρ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.8460809999999999em;vertical-align:-0.9574449999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8886359999999999em;"><span style="top:-2.45262em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0534em;"><span style="top:-2.6559999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ρ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:0em;margin-right:0.1em;"><span class="pstrut" style="height:2.6833299999999998em;"></span><span class="mord mathnormal mtight">L</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.33853em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.565307142857143em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:-0.13889em;margin-right:0.1em;"><span class="pstrut" style="height:2.6833299999999998em;"></span><span class="mord mathnormal mtight">L</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.33853em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5858071428571429em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0534em;"><span style="top:-2.6559999999999997em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ρ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:0em;margin-right:0.1em;"><span class="pstrut" style="height:2.6833299999999998em;"></span><span class="mord mathnormal mtight">G</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.33853em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.565307142857143em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:-0.13889em;margin-right:0.1em;"><span class="pstrut" style="height:2.6833299999999998em;"></span><span class="mord mathnormal mtight">G</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.33853em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5858071428571429em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.410305em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567071428571427em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">L</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.14329285714285717em;"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567071428571427em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">G</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.14329285714285717em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9574449999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><span>﻿</span></span></p><p id="7580f736-8d42-4331-8555-a043fab5d895" class="">
+</p><p id="2e2c1436-bc0a-48b0-a99a-c454d05cb5ea" class="">及二相流速度 (Two-Phase Velocity)</p><p id="ca1ad3a9-da9b-4c97-bcc4-736cc86f3061" class="">
+</p><p id="ccb3af74-5158-4796-89d5-e33d4f5ac86d" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.2/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mi>M</mi></msub><mo>=</mo><msub><mi>U</mi><mrow><mi>L</mi><mi>S</mi></mrow></msub><mo>+</mo><msub><mi>U</mi><mrow><mi>G</mi><mi>S</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>W</mi><mi>L</mi></msub><mrow><mn>3600</mn><msub><mi>ρ</mi><mi>L</mi></msub><mi>A</mi></mrow></mfrac><mo>+</mo><mfrac><msub><mi>W</mi><mi>G</mi></msub><mrow><mn>3600</mn><msub><mi>ρ</mi><mi>G</mi></msub><mi>A</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">U_M = U_{LS} + U_{GS} = \frac{W_L}{3600 \rho_L A} + \frac{W_G}{3600 \rho_G A}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mord mathnormal mtight" style="margin-right:0.05764em;">S</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.10903em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">GS</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.3697439999999999em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8886359999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3600</span><span class="mord mtight"><span class="mord mathnormal mtight">ρ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567071428571427em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">L</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.14329285714285717em;"><span></span></span></span></span></span></span><span class="mord mathnormal mtight">A</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.410305em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567071428571427em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">L</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.14329285714285717em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.3697439999999999em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8886359999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3600</span><span class="mord mtight"><span class="mord mathnormal mtight">ρ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567071428571427em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">G</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.14329285714285717em;"><span></span></span></span></span></span></span><span class="mord mathnormal mtight">A</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.410305em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3567071428571427em;margin-left:-0.13889em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">G</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.14329285714285717em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><span>﻿</span></span></p><p id="9fc6090f-3dd6-40f9-8b4f-2cffb17241e8" class="">
+</p><p id="ef3d2c56-506a-47d7-9e42-d43c921c8b61" class=""><strong>(2) 避免塊狀流動</strong></p><p id="1c451817-9021-41e4-8cff-d7f4ee4f806e" class="">除了必須保持速度與密度的成績小於某個容許值，還必須使管內的流動保持在適當的流態。</p><p id="b80b5690-48f3-4d14-b3d0-f277f6262a3e" class="">最重要的是避開塊狀流動，因為塊狀流動會造成許多機械及製程上的問題。首先當塊狀流動的流動方向改變時，並會衝擊管線及設備，造成水錘效應。由於沖蝕— 腐蝕將危及設備的結構，而縮短設備的壽命。其次，若進入蒸餾塔的流態為塊狀流動，氣體與塊狀液體輪流進入塔中，造成組成及壓降沿著蒸餾塔長度形成週期性地改變，這種週期性地重覆進入使產品品質及程序控制都會有問題。</p><p id="5c819e84-9788-4b2c-ae98-10d8dae11cb2" class="">如何避免管內產生塊狀流動：</p><p id="f0edad94-e8a9-44fc-9e18-5d10f3c93771" class=""><strong>(a) 改變管徑大小</strong></p><p id="8780c345-5032-46bb-b601-5f9948cbac7e" class=""><strong>(b) 將管子分成平行的支管</strong></p><p id="81063ad9-3ec2-4b42-8b8a-2e1898e2ef03" class=""><strong>(c) 安裝控制閥調整通過的流量</strong></p><p id="c54ab7f7-cee9-4abb-83f5-d899d341ba18" class=""><strong>(d) 適當安排管線組態，例如不要使用袋狀 (Pocketed) 的管線配置</strong></p><p id="9aaeb79c-ca0b-48cf-9d5e-cdf4f2db49bf" class=""><strong>(e) 僅可能使用重力流動 (垂直向下流動) ，因重力流很少發生塊狀流動。將 T 形接頭置於低處能提供有力的紊流，使液體輸送更有效率。</strong></p><p id="5f4e293d-ecf1-494e-ab06-c2f81f1838ef" class=""><strong>(f) 降低管徑並加入噴射氣流 (Gas Injection) 可改變塊狀流動型態，這種方法較昂貴，且製程中常常不允許</strong></p><p id="8aba8d24-52dd-413f-bb83-718a0d525c51" class="">
+</p><p id="6bd932c9-d880-4b57-8ad5-b8c0772562fe" class=""><strong>(3) 如何選擇合適的管徑 ?</strong></p><p id="cd59068b-bb9f-45a3-a28b-00b2985c7b1f" class="">通常選擇合適的管徑，其管徑必須夠小，使流速僅可能最大，且避免沖蝕情形，同時流態又必須避免塊狀流動，最後管中壓降必須小於某容許值才可。前面兩個課題已經討論過，至於如何調整管線的壓力分佈，討論如下：</p><p id="fe4dfa32-3704-4292-ae4a-e6fc2e8ac9a6" class=""><strong>(a) 改變管徑大小</strong></p><p id="82f88b99-3dd4-479c-b2e1-4d60c190ec71" class=""><strong>(b) 設計一段管線以漸進的方式增加或縮小管徑</strong></p><p id="33f6ab47-764b-4c5e-a0fb-a370e45dd5da" class=""><strong>(c) 改變管線端點的能量損失</strong></p><p id="80c1d551-a58f-4319-8910-305e6e104f42" class=""><strong>(d) 調整容器的靜態壓力頭</strong></p><p id="0fc8e8ce-cce4-4c07-8746-1b8279fe71a0" class=""><strong>(e) 改變控制閥或流孔板的限制，以便吸收較大或較小的壓差</strong></p><p id="972db622-c208-4c9c-8d80-9c6c3a725e05" class="">
+</p><h2 id="c9dce8f8-035c-445f-9930-24ffc81ab304" class="">結論</h2><p id="1a48a1a6-af3e-478c-8f3b-fef069456955" class="">由於二相流系統中，氣液相間的分佈隨流速的不同而有很大的差異，也因如此氣液相間的摩擦力造成壓降的變化並非單一模型就能涵蓋所有的情況，故正確的方法是先確定目前操作的流態為何？再選擇適合此流態的物理模型計算相應的流體力學參數。因此由流態判定的過程中了解各參數對流態轉變的影響，有了這些了解厚，使我們能正確避開 <strong>(1) 沖蝕— 腐蝕效應 (2) 塊狀流動</strong>，而選擇合適的管徑。</p><p id="995585ce-5f4c-4cae-9a7f-d218dd9537c9" class="">
+</p><p id="32ea2248-deb3-42b9-9767-8a24b63527af" class="">
+</p></div></article></body></html>

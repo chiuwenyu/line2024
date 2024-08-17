@@ -85,7 +85,7 @@ export default function DataGridSingle(props: any) {
   const gcolor = grey[800];
 
   return (
-    <Box sx={{ minWidth: "702px", height: "600px" }}>
+    <Box sx={{ width: "auto", minWidth: "702px", height: "65vh", ml: 2 }}>
       <Typography
         gutterBottom
         variant="h5"

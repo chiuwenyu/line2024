@@ -69,7 +69,17 @@
         "./examples/thermo-case E-1.tms",
         "./examples/thermo-case E-2.tms",
         "./examples/thermo-case F-1.tms",
-        "./examples/thermo-case G-1.tms"
+        "./examples/thermo-case G-1.tms",
+        "./docs/Two Phase Flow - Horizontal.pdf",
+        "./docs/Two Phase Flow - Vertical Up.pdf",
+        "./docs/Two Phase Flow - Vertical Down.pdf",
+        "./docs/Single Phase Line Sizing reference.html",
+        "./docs/Single Phase Line Sizing reference ea90b22c02ee485daf974b16408794c1/*.*",
+        "./docs/Two Phase Flow Introduction.html",
+        "./docs/Two Phase Flow Introduction 538c190396ce4a438b357b82b4036ef1/*.*",
+        "./docs/THERMOSYPHON CIRCUIT.html",
+        "./docs/THERMOSYPHON CIRCUIT d118b0159f404796bc51c130123174e1/*.*",
+        "./docs/THERMOSYPHON CIRCUIT d118b0159f404796bc51c130123174e1/再沸系統介紹 4cc0bf08ef32428b954512b527fec99d/*.*"
       ],
       "icon": [
         "icons/32x32.png",

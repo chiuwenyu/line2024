@@ -36,7 +36,9 @@ import FileButton from "./FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
 import { CustomTabPanel, a11yProps } from "../utils/utility";
+import { grey } from "@mui/material/colors";
 
+const panelColor = grey[50];
 // Single Phase Line Sizing Component
 export const Single = () => {
   // Program Data
@@ -778,7 +780,10 @@ export const Single = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "12ch" },
+                  "& .MuiTextField-root": {
+                    mt: 2,
+                    width: "auto",
+                  },
                 }}
               >
                 <FormControl>
@@ -787,12 +792,10 @@ export const Single = () => {
                   </FormLabel>
                   <Box
                     height="350px"
-                    boxShadow={1}
                     sx={{
-                      border: "1px solid lightgrey",
                       mt: 1,
                       pl: 2,
-                      width: 300,
+                      width: "300",
                     }}
                   >
                     <RadioGroup
@@ -805,17 +808,17 @@ export const Single = () => {
                         value="1"
                         control={<Radio />}
                         label="all diameters"
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 1 }}
                       />
                       <FormControlLabel
                         value="2"
                         control={<Radio />}
                         label="by Diameter range"
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 1 }}
                       />
                       <Grid>
                         <FormControl
-                          sx={{ ml: 4, mt: 2, width: 100 }}
+                          sx={{ ml: 4, mt: 1, width: 100 }}
                           size="medium"
                           disabled={optValue !== "2"}
                         >
@@ -831,7 +834,7 @@ export const Single = () => {
                           </Select>
                         </FormControl>
                         <FormControl
-                          sx={{ ml: 4, mt: 2, width: 100 }}
+                          sx={{ ml: 4, mt: 1, width: 100 }}
                           size="medium"
                           disabled={optValue !== "2"}
                         >
@@ -858,6 +861,7 @@ export const Single = () => {
                         alignItems="center"
                         display="flex"
                         flexDirection="row"
+                        sx={{ width: "360px" }}
                       >
                         <TextField
                           id="lowpres"
@@ -871,7 +875,7 @@ export const Single = () => {
                           }
                           onChange={(e) => setLowPres(e.target.value)}
                           onBlur={(e) => validateInput("201", e.target.value)}
-                          sx={{ ml: 4, width: 130 }}
+                          sx={{ ml: 4 }}
                           disabled={optValue !== "3"}
                         />
                         <TextField
@@ -886,7 +890,7 @@ export const Single = () => {
                           }
                           onChange={(e) => setHighPres(e.target.value)}
                           onBlur={(e) => validateInput("202", e.target.value)}
-                          sx={{ ml: 4, width: 130 }}
+                          sx={{ ml: 4, mr: 12 }}
                           disabled={optValue !== "3"}
                         />
                       </Grid>
@@ -903,7 +907,7 @@ export const Single = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "45ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "auto" },
                 }}
               >
                 <TextField
@@ -950,7 +954,7 @@ export const Single = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "45ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "auto" },
                 }}
               >
                 <TextField
