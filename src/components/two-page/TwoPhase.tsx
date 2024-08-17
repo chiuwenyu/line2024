@@ -1419,7 +1419,6 @@ const TwoPhase = () => {
         gap={2}
         sx={{
           bgcolor: "background.default",
-          minHeight: "80vh",
           marginLeft: "8px",
         }}
       >
@@ -1624,18 +1623,14 @@ const TwoPhase = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "16ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "auto" },
                 }}
               >
                 <FormControl>
                   <FormLabel id="radio-buttons-group-label">
                     Design Criteria :
                   </FormLabel>
-                  <Box
-                    height="50ch"
-                    boxShadow={1}
-                    sx={{ border: "1px solid lightgrey", mt: 1, pl: 2 }}
-                  >
+                  <Box height="350px" sx={{ mt: 1, pl: 2, width: "300" }}>
                     <RadioGroup
                       aria-labelledby="radio-buttons-group-label"
                       name="radio-buttons-group"
@@ -1652,17 +1647,17 @@ const TwoPhase = () => {
                         value="1"
                         control={<Radio />}
                         label="All Diameters"
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 1 }}
                       />
                       <FormControlLabel
                         value="2"
                         control={<Radio />}
                         label="By Diameter range"
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 1 }}
                       />
                       <Grid>
                         <FormControl
-                          sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                          sx={{ ml: 4, mt: 1, width: 100 }}
                           size="medium"
                           disabled={optValue !== "2"}
                         >
@@ -1678,7 +1673,7 @@ const TwoPhase = () => {
                           </Select>
                         </FormControl>
                         <FormControl
-                          sx={{ ml: 4, mt: 2, minWidth: 130 }}
+                          sx={{ ml: 4, mt: 1, minWidth: 100 }}
                           size="medium"
                           disabled={optValue !== "2"}
                         >
@@ -1705,6 +1700,7 @@ const TwoPhase = () => {
                         alignItems="center"
                         display="flex"
                         flexDirection="row"
+                        sx={{ width: "360px" }}
                       >
                         <TextField
                           id="lowpres"
@@ -1733,7 +1729,7 @@ const TwoPhase = () => {
                           }
                           onChange={(e) => setHighPres(e.target.value)}
                           onBlur={(e) => validateInput("202", e.target.value)}
-                          sx={{ ml: 4 }}
+                          sx={{ ml: 4, mr: 12 }}
                           disabled={optValue !== "3"}
                         />
                       </Grid>
@@ -1756,7 +1752,7 @@ const TwoPhase = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "45ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "auto" },
                 }}
               >
                 <TextField
@@ -1803,7 +1799,7 @@ const TwoPhase = () => {
                 display="flex"
                 flexDirection="column"
                 sx={{
-                  "& .MuiTextField-root": { mt: 2, width: "45ch" },
+                  "& .MuiTextField-root": { mt: 2, width: "auto" },
                 }}
               >
                 <TextField

@@ -234,7 +234,7 @@ export const Steam = (props: any) => {
               steamState === 0 ? undefined : (
                 <Grid sx={{ mt: 2, ml: 0.5 }}>
                   <TextField
-                    id="outlined-basic"
+                    id="temp-textfield"
                     label="Temperature (°C)"
                     variant="outlined"
                     value={temp}
@@ -256,7 +256,7 @@ export const Steam = (props: any) => {
                   sx={{ mt: 2, ml: 0.5 }}
                 >
                   <TextField
-                    id="outlined-basic"
+                    id="pressure-textfield"
                     label="Pressure"
                     variant="outlined"
                     value={pres}
@@ -265,8 +265,8 @@ export const Steam = (props: any) => {
                     onChange={handlePresChange}
                   />
                   <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
+                    labelId="pressure-unit-select-label"
+                    id="pressure-unit-select"
                     value={presUnit}
                     label="Pressure Unit"
                     onChange={handlePresUnitChange}
@@ -300,6 +300,7 @@ export const Steam = (props: any) => {
                 size="medium"
                 disabled={calState ? false : true}
                 onClick={() => {
+                  // 複製計算結果到 localStorage
                   localStorage.setItem("density", res.d.toString());
                   localStorage.setItem(
                     "viscosity",
