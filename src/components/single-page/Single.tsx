@@ -1023,7 +1023,7 @@ export const Single = () => {
             setOptErrOpen={setOptPresErrOpen}
           />
         </Grid>
-        <Grid item xs={4} sx={{ width: "100%" }}>
+        <Grid item xs={4} sm={4} md={4} lg={6} xl={8} sx={{ width: "100%" }}>
           {calState === false && (
             <Grid sx={{ mt: 5, ml: 10 }}>
               <img src={pipelinePNG} alt="pipeline" style={{ width: "45vh" }} />

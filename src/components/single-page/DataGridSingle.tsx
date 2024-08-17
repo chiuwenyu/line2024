@@ -85,7 +85,7 @@ export default function DataGridSingle(props: any) {
   const gcolor = grey[800];
 
   return (
-    <Box sx={{ width: "auto", minWidth: "702px", height: "65vh", ml: 2 }}>
+    <Box sx={{ width: "100%", minWidth: "702px", height: "65vh", ml: 2 }}>
       <Typography
         gutterBottom
         variant="h5"
@@ -102,7 +102,10 @@ export default function DataGridSingle(props: any) {
         localeText={{
           footerRowSelected: () => `Selected pipe size : ${selectId} in`,
         }}
-        columns={columns as GridColDef<SizingData>[]}
+        columns={columns.map((column) => ({
+          ...column,
+          flex: 1, // 設置列的 flex 屬性
+        }))}
         sx={{
           borderRadius: 3,
           "& .MuiDataGrid-footerContainer": {
