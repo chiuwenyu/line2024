@@ -14,7 +14,7 @@ const columns: GridColDef<TwoSizingData>[] = [
   {
     field: "id",
     headerName: "Norm. ID\n     (in)",
-    width: 93,
+    width: 80,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -24,7 +24,7 @@ const columns: GridColDef<TwoSizingData>[] = [
   {
     field: "actID",
     headerName: "Act. ID\n   (in)",
-    width: 90,
+    width: 80,
     editable: false,
     resizable: false,
     sortable: false,
@@ -35,7 +35,7 @@ const columns: GridColDef<TwoSizingData>[] = [
   {
     field: "flow_regime",
     headerName: "Flow Pattern",
-    width: 270,
+    width: 400,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,

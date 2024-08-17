@@ -1039,7 +1039,7 @@ export const Single = () => {
           sm={4}
           md={4}
           lg={6}
-          xl={8}
+          xl={6}
           sx={{ width: "100%", ml: 4 }}
         >
           {calState === false && (
