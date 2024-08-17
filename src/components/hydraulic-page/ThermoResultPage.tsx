@@ -201,7 +201,7 @@ const ThermoResultPage = (props: any) => {
         Check Result :
       </Typography>
       <Grid item xs={4} sm={4} md={4} lg={6} xl={6} sx={{ ml: 1 }}>
-        <Box sx={{ width: "80%" }}>
+        <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={value}
