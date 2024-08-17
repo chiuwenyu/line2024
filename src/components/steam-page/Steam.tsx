@@ -149,7 +149,7 @@ export const Steam = (props: any) => {
       }}
     >
       {/* 輸入條件 */}
-      <Grid item xs={4} sx={{ ml: 1 }}>
+      <Grid item xs={3} sx={{ ml: 1 }}>
         <Card sx={{ maxWidth: 550 }}>
           <CardContent>
             <Typography
@@ -184,7 +184,7 @@ export const Steam = (props: any) => {
               marginTop={2}
               flexDirection="column"
               sx={{
-                "& .MuiTextField-root": { mt: 2, width: "30ch" },
+                "& .MuiTextField-root": { mt: 2, width: "15ch" },
               }}
             >
               <FormControl sx={{ mt: 2 }}>
@@ -267,7 +267,7 @@ export const Steam = (props: any) => {
                     label="Age"
                     onChange={handlePresUnitChange}
                     sx={{
-                      width: "20ch",
+                      width: "15ch",
                       mt: 2,
                       ml: 1,
                       "& .MuiOutlinedInput-notchedOutline": {
@@ -276,8 +276,8 @@ export const Steam = (props: any) => {
                     }}
                   >
                     <MenuItem value={10}>Mpa</MenuItem>
-                    <MenuItem value={20}>Kg/cm² (gauge)</MenuItem>
-                    <MenuItem value={30}>Kg/cm² (abs)</MenuItem>
+                    <MenuItem value={20}>Kg/cm²G</MenuItem>
+                    <MenuItem value={30}>Kg/cm²</MenuItem>
                   </Select>
                 </Grid>
               )}
@@ -363,8 +363,8 @@ export const Steam = (props: any) => {
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
-                        ? " Kg/cm² (gauge)"
-                        : " Kg/cm² (abs)") +
+                        ? " Kg/cm² G"
+                        : " Kg/cm²") +
                       ` :`
                     : undefined}
                   {steamState === 30
@@ -375,8 +375,8 @@ export const Steam = (props: any) => {
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
-                        ? " Kg/cm² (gauge)"
-                        : " Kg/cm² (abs)") +
+                        ? " Kg/cm² G"
+                        : " Kg/cm²") +
                       ` :`
                     : undefined}
                   {steamState === 50
@@ -384,8 +384,8 @@ export const Steam = (props: any) => {
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
-                        ? " Kg/cm² (gauge)"
-                        : " Kg/cm² (abs)") +
+                        ? " Kg/cm² G"
+                        : " Kg/cm²") +
                       ` :`
                     : undefined}
                   {steamState === 60
@@ -393,8 +393,8 @@ export const Steam = (props: any) => {
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
-                        ? " Kg/cm² (gauge)"
-                        : " Kg/cm² (abs)") +
+                        ? " Kg/cm² G"
+                        : " Kg/cm²") +
                       ` :`
                     : undefined}
                   <br />
@@ -404,8 +404,8 @@ export const Steam = (props: any) => {
                       (presUnit === 10
                         ? Conv(res.p, 4) + " MPa"
                         : presUnit === 20
-                        ? Conv(res.p * 10.1972 - 1.0332, 4) + " Kg/cm² (gauge)"
-                        : Conv(res.p * 10.1972, 4) + " Kg/cm² (abs)")
+                        ? Conv(res.p * 10.1972 - 1.0332, 4) + " Kg/cm² G"
+                        : Conv(res.p * 10.1972, 4) + " Kg/cm²")
                     : undefined}
                   {steamState === 20
                     ? `Sat. Temp.,  t = ${Conv(res.t, 4)} °C`
@@ -415,8 +415,8 @@ export const Steam = (props: any) => {
                       (presUnit === 10
                         ? " MPa"
                         : presUnit === 20
-                        ? " Kg/cm² (gauge)"
-                        : " Kg/cm² (abs)") +
+                        ? " Kg/cm² G"
+                        : " Kg/cm²") +
                       ` :`
                     : undefined}
                   {steamState === 40
