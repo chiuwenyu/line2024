@@ -670,7 +670,7 @@ export const Single = () => {
           >
             Single Phase Line Sizing App
           </Typography>
-          <Box sx={{ width: "110%", height: "525px" }}>
+          <Box sx={{ width: "120%", height: "525px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -782,6 +782,7 @@ export const Single = () => {
                 sx={{
                   "& .MuiTextField-root": {
                     mt: 2,
+                    pb: 2,
                     width: "auto",
                   },
                 }}
@@ -802,8 +803,7 @@ export const Single = () => {
                     boxShadow="2"
                     sx={{
                       mt: 1,
-                      pl: 3,
-                      pb: 4,
+                      p: 2,
                       width: "auto",
                       height: "auto",
                     }}
