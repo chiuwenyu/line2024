@@ -79,7 +79,6 @@ export const Steam = (props: any) => {
     setCalState,
   } = props; // 將 state variables (T, P) 放在父元件中，以便子元件存取
 
-  const [error, setError] = useState(false);
   const [presUnit, setPresUnit] = useState(10); // 10: MPa, 20: Kg/cm²G, 30: Kg/cm²
 
   // Error handling for input

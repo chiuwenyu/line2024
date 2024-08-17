@@ -36,9 +36,7 @@ import FileButton from "./FileButton";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { fmt_f64 } from "../utils/utility";
 import { CustomTabPanel, a11yProps } from "../utils/utility";
-import { grey } from "@mui/material/colors";
 
-const panelColor = grey[50];
 // Single Phase Line Sizing Component
 export const Single = () => {
   // Program Data
