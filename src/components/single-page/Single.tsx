@@ -661,7 +661,7 @@ export const Single = () => {
           marginLeft: "8px",
         }}
       >
-        <Grid item xs={3} sx={{ ml: 1 }}>
+        <Grid item xs={3} sm={3} md={3} lg={4} xl={4} sx={{ ml: 1 }}>
           <Typography
             gutterBottom
             variant="h5"
@@ -670,7 +670,7 @@ export const Single = () => {
           >
             Single Phase Line Sizing App
           </Typography>
-          <Box sx={{ width: "120%", height: "525px" }}>
+          <Box sx={{ width: "100%", height: "525px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}
@@ -1033,15 +1033,7 @@ export const Single = () => {
             setOptErrOpen={setOptPresErrOpen}
           />
         </Grid>
-        <Grid
-          item
-          xs={4}
-          sm={4}
-          md={4}
-          lg={6}
-          xl={6}
-          sx={{ width: "100%", ml: 4 }}
-        >
+        <Grid item xs={4} sm={4} md={4} lg={6} xl={6} sx={{ width: "100%" }}>
           {calState === false && (
             <Grid sx={{ mt: 5, ml: 10 }}>
               <img src={pipelinePNG} alt="pipeline" style={{ width: "45vh" }} />

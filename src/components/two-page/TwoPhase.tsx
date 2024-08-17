@@ -1422,7 +1422,7 @@ const TwoPhase = () => {
           marginLeft: "8px",
         }}
       >
-        <Grid item xs={4} sx={{ ml: 1 }}>
+        <Grid item xs={3} sm={3} md={3} lg={4} xl={4} sx={{ ml: 1 }}>
           <Typography
             gutterBottom
             variant="h5"
