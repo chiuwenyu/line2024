@@ -77,12 +77,12 @@ export const Steam = (props: any) => {
     setPres,
     calState,
     setCalState,
-  } = props;
+  } = props; // 將 state variables (T, P) 放在父元件中，以便子元件存取
 
   const [error, setError] = useState(false);
-  const [presUnit, setPresUnit] = useState(10);
+  const [presUnit, setPresUnit] = useState(10); // 10: MPa, 20: Kg/cm²G, 30: Kg/cm²
 
-  const pcolor = grey[800];
+  const pcolor = grey[800]; // 設定輸出 panel 的背景顏色
 
   async function rust_satTemp() {
     await invoke<Result>("invoke_seuif", {
@@ -100,20 +100,22 @@ export const Steam = (props: any) => {
         setCalState(true);
       })
       .catch((e) => {
-        console.error(e);
+        console.error(e.message);
       });
   }
 
   // 處理溫度輸入值驗證
   const handleTempChange = (e: any) => {
     const newValue = e.target.value;
-    setTemp(newValue);
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
     if (!isPositiveFloat.test(newValue)) {
+      // 若輸入值不是正的浮點數，則設定 error 狀態
       setError(true);
     } else {
+      // 若輸入值為正的浮點數，則更新 state 變數
       setError(false);
+      setTemp(newValue);
       setCalState(false);
     }
   };
@@ -127,13 +129,15 @@ export const Steam = (props: any) => {
   // 處理壓力輸入值驗證
   const handlePresChange = (e: any) => {
     const newValue = e.target.value;
-    setPres(newValue);
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
     if (!isPositiveFloat.test(newValue)) {
+      // 若輸入值不是正的浮點數，則設定 error 狀態
       setError(true);
     } else {
+      // 若輸入值為正的浮點數，則更新 state 變數
       setError(false);
+      setPres(newValue);
       setCalState(false);
     }
   };
@@ -144,8 +148,6 @@ export const Steam = (props: any) => {
       gap={6}
       sx={{
         height: "100%",
-        bgcolor: "background.default",
-        minHeight: "10vh",
       }}
     >
       {/* 輸入條件 */}
@@ -175,7 +177,7 @@ export const Steam = (props: any) => {
                 IAPWS-IF97?
               </Link>
             </Box>
-            <Box marginTop={1}>
+            <Box marginTop={2}>
               <Divider variant="fullWidth" />
             </Box>
             <Box
@@ -216,7 +218,7 @@ export const Steam = (props: any) => {
                     }
                     setCalState(false);
                   }}
-                  sx={{ width: "30ch" }}
+                  sx={{ mb: 2, width: "30ch" }}
                 >
                   <MenuItem value={0}>-- Select a State --</MenuItem>
                   <MenuItem value={10}>Saturated Steam by T</MenuItem>
@@ -264,10 +266,10 @@ export const Steam = (props: any) => {
                     labelId="demo-select-small-label"
                     id="demo-select-small"
                     value={presUnit}
-                    label="Age"
+                    label="Pressure Unit"
                     onChange={handlePresUnitChange}
                     sx={{
-                      width: "15ch",
+                      width: "16ch",
                       mt: 2,
                       ml: 1,
                       "& .MuiOutlinedInput-notchedOutline": {

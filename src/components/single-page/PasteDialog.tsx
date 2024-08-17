@@ -37,6 +37,7 @@ export default function PasteDialog(props: any) {
       <Button
         variant="text"
         color="primary"
+        style={{ marginLeft: "auto", marginRight: "20px" }}
         onClick={handleClickOpen}
         sx={{ ml: 10 }}
       >
