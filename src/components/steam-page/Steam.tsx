@@ -232,15 +232,17 @@ export const Steam = (props: any) => {
               {steamState === 20 ||
               steamState === 40 ||
               steamState === 0 ? undefined : (
-                <TextField
-                  id="outlined-basic"
-                  label="Temperature (°C)"
-                  variant="outlined"
-                  value={temp}
-                  error={error}
-                  helperText={error ? "Please input correct number" : ""}
-                  onChange={handleTempChange}
-                />
+                <Grid sx={{ mt: 2, ml: 0.5 }}>
+                  <TextField
+                    id="outlined-basic"
+                    label="Temperature (°C)"
+                    variant="outlined"
+                    value={temp}
+                    error={error}
+                    helperText={error ? "Please input correct number" : ""}
+                    onChange={handleTempChange}
+                  />
+                </Grid>
               )}
               {steamState === 10 ||
               steamState === 30 ||
