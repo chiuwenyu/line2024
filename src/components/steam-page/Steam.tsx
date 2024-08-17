@@ -82,6 +82,10 @@ export const Steam = (props: any) => {
   const [error, setError] = useState(false);
   const [presUnit, setPresUnit] = useState(10); // 10: MPa, 20: Kg/cm²G, 30: Kg/cm²
 
+  // Error handling for input
+  const [error101, setError101] = useState(false);
+  const [error102, setError102] = useState(false);
+
   const pcolor = grey[800]; // 設定輸出 panel 的背景顏色
 
   async function rust_satTemp() {
@@ -104,42 +108,25 @@ export const Steam = (props: any) => {
       });
   }
 
-  // 處理溫度輸入值驗證
-  const handleTempChange = (e: any) => {
-    const newValue = e.target.value;
+  const validateInput = (id: string, value: any) => {
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
-    if (!isPositiveFloat.test(newValue)) {
-      // 若輸入值不是正的浮點數，則設定 error 狀態
-      setError(true);
-    } else {
-      // 若輸入值為正的浮點數，則更新 state 變數
-      setError(false);
-      setTemp(newValue);
-      setCalState(false);
-    }
+    // 101 is temperature data input validation
+    // 102 is pressure data input validation
+    id === "101" && !isPositiveFloat.test(value) && value !== ""
+      ? setError101(true)
+      : setError101(false);
+    id === "102" && !isPositiveFloat.test(value) && value !== ""
+      ? setError102(true)
+      : setError102(false);
+
+    setCalState(false);
   };
 
   // 處理壓力單位變換
   const handlePresUnitChange = (e: any) => {
     setPresUnit(e.target.value);
     setCalState(false);
-  };
-
-  // 處理壓力輸入值驗證
-  const handlePresChange = (e: any) => {
-    const newValue = e.target.value;
-    // 驗證輸入值是否為正的浮點數
-    const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
-    if (!isPositiveFloat.test(newValue)) {
-      // 若輸入值不是正的浮點數，則設定 error 狀態
-      setError(true);
-    } else {
-      // 若輸入值為正的浮點數，則更新 state 變數
-      setError(false);
-      setPres(newValue);
-      setCalState(false);
-    }
   };
 
   return (
@@ -238,9 +225,10 @@ export const Steam = (props: any) => {
                     label="Temperature (°C)"
                     variant="outlined"
                     value={temp}
-                    error={error}
-                    helperText={error ? "Please input correct number" : ""}
-                    onChange={handleTempChange}
+                    error={error101}
+                    helperText={error101 ? "Please input correct number" : ""}
+                    onChange={(e) => setTemp(e.target.value)}
+                    onBlur={(e) => validateInput("101", e.target.value)}
                   />
                 </Grid>
               )}
@@ -260,9 +248,10 @@ export const Steam = (props: any) => {
                     label="Pressure"
                     variant="outlined"
                     value={pres}
-                    error={error}
-                    helperText={error ? "Please input correct number" : ""}
-                    onChange={handlePresChange}
+                    error={error102}
+                    helperText={error102 ? "Please input correct number" : ""}
+                    onChange={(e) => setPres(e.target.value)}
+                    onBlur={(e) => validateInput("102", e.target.value)}
                   />
                   <Select
                     labelId="pressure-unit-select-label"
