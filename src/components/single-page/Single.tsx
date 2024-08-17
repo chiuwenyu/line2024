@@ -788,14 +788,24 @@ export const Single = () => {
               >
                 <FormControl>
                   <FormLabel id="radio-buttons-group-label">
-                    Design Criteria :
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{ fontWeight: "medium" }}
+                    >
+                      Design Criteria :
+                    </Typography>
                   </FormLabel>
                   <Box
                     height="350px"
+                    boxShadow="2"
                     sx={{
                       mt: 1,
-                      pl: 2,
-                      width: "300",
+                      pl: 3,
+                      pb: 4,
+                      width: "auto",
+                      height: "auto",
                     }}
                   >
                     <RadioGroup
@@ -1023,7 +1033,15 @@ export const Single = () => {
             setOptErrOpen={setOptPresErrOpen}
           />
         </Grid>
-        <Grid item xs={4} sm={4} md={4} lg={6} xl={8} sx={{ width: "100%" }}>
+        <Grid
+          item
+          xs={4}
+          sm={4}
+          md={4}
+          lg={6}
+          xl={8}
+          sx={{ width: "100%", ml: 4 }}
+        >
           {calState === false && (
             <Grid sx={{ mt: 5, ml: 10 }}>
               <img src={pipelinePNG} alt="pipeline" style={{ width: "45vh" }} />

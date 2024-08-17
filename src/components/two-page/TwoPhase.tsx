@@ -1630,7 +1630,11 @@ const TwoPhase = () => {
                   <FormLabel id="radio-buttons-group-label">
                     Design Criteria :
                   </FormLabel>
-                  <Box height="350px" sx={{ mt: 1, pl: 2, width: "300" }}>
+                  <Box
+                    height="350px"
+                    boxShadow="2"
+                    sx={{ mt: 1, pl: 3, pb: 4, width: "auto", height: "auto" }}
+                  >
                     <RadioGroup
                       aria-labelledby="radio-buttons-group-label"
                       name="radio-buttons-group"
