@@ -63,3 +63,9 @@ export function parseFloatWithErrorHandling(input: string): number {
     return -999;
   }
 }
+
+import { message } from "@tauri-apps/api/dialog";
+
+export function showMessage(msg: string) {
+  message(msg, { title: "Message Box", type: "info" });
+}

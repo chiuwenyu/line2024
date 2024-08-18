@@ -22,6 +22,7 @@ import steamPNG from "../../assets/steam.png";
 import seuif97 from "../../assets/SEUIF97.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { parseFloatWithErrorHandling } from "../utils/utility";
+import { showMessage } from "../utils/utility";
 
 // declare the result type
 type Result = {
@@ -99,6 +100,16 @@ export const Steam = (props: any) => {
       mode: steamState,
     })
       .then((result) => {
+        if (steamState === 50 && result.x === 0.0) {
+          showMessage(
+            "Superheated Steam is not available at this (T, P) point."
+          );
+          return;
+        }
+        if (steamState === 60 && result.x === 1.0) {
+          showMessage("Subcool Water is not available at this (T, P) point.");
+          return;
+        }
         res = result as Result;
         setCalState(true);
       })
