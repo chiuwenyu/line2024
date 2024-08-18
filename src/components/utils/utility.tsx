@@ -50,6 +50,7 @@ export function a11yProps(index: number) {
   };
 }
 
+// handle parseFloat validation
 export function parseFloatWithErrorHandling(input: string): number {
   try {
     const result = parseFloat(input);
@@ -64,8 +65,11 @@ export function parseFloatWithErrorHandling(input: string): number {
   }
 }
 
+// handle error message box
 import { message } from "@tauri-apps/api/dialog";
 
-export function showMessage(msg: string) {
-  message(msg, { title: "Message Box", type: "info" });
+export async function showMessage(msg: string, msgTitle: string) {
+  await message(msg, { title: msgTitle, type: "error" }).then((result) => {
+    console.log("Message result:", result);
+  });
 }

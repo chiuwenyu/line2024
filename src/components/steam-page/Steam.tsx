@@ -102,12 +102,16 @@ export const Steam = (props: any) => {
       .then((result) => {
         if (steamState === 50 && result.x === 0.0) {
           showMessage(
-            "Superheated Steam is not available at this (T, P) point."
+            "Superheated Steam is not available at this (T, P) point.",
+            "Warning"
           );
           return;
         }
         if (steamState === 60 && result.x === 1.0) {
-          showMessage("Subcool Water is not available at this (T, P) point.");
+          showMessage(
+            "Subcool Water is not available at this (T, P) point.",
+            "Warning"
+          );
           return;
         }
         res = result as Result;
