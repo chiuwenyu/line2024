@@ -15,6 +15,7 @@ import {
   MenuItem,
   FormControl,
   Link,
+  Tooltip,
 } from "@mui/material";
 import { useState } from "react";
 import { grey } from "@mui/material/colors";
@@ -22,7 +23,9 @@ import steamPNG from "../../assets/steam.png";
 import seuif97 from "../../assets/SEUIF97.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { parseFloatWithErrorHandling } from "../utils/utility";
-import { showMessage } from "../utils/utility";
+import { showErrorMessage } from "../utils/utility";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 // declare the result type
 type Result = {
@@ -101,14 +104,14 @@ export const Steam = (props: any) => {
     })
       .then((result) => {
         if (steamState === 50 && result.x === 0.0) {
-          showMessage(
+          showErrorMessage(
             "Superheated Steam is not available at this (T, P) point.",
             "Warning"
           );
           return;
         }
         if (steamState === 60 && result.x === 1.0) {
-          showMessage(
+          showErrorMessage(
             "Subcool Water is not available at this (T, P) point.",
             "Warning"
           );
@@ -153,23 +156,36 @@ export const Steam = (props: any) => {
     >
       {/* 輸入條件 */}
       <Grid item xs={3} sx={{ ml: 1 }}>
-        <Card sx={{ maxWidth: 550 }}>
+        <Card elevation={2} sx={{ maxWidth: 550 }}>
           <CardContent>
             <Typography
               gutterBottom
               variant="h5"
               component="div"
-              sx={{ fontWeight: "medium" }}
+              sx={{
+                fontWeight: "medium",
+                textDecoration: "underline",
+                textDecorationThickness: "2px",
+                textDecorationColor: "black",
+                textUnderlineOffset: "0.2em", // 調整下劃線的位置
+              }}
             >
               Steam Property Calculator
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
               This is the program implementation of the high-speed IAPWS-IF97
               package seuif97. The IAPWS-IF97, known as the "IAPWS Industrial
               Formulation 1997 for the Thermodynamic Properties of Water and
               Steam".
             </Typography>
-            <Box sx={{ mt: 2, fontSize: 12 }}>
+            <Box
+              sx={{
+                mr: 3,
+                fontSize: 12,
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
               <Link
                 href="http://www.iapws.org/relguide/IF97-Rev.html"
                 target="_blank"
@@ -273,8 +289,8 @@ export const Steam = (props: any) => {
                     value={presUnit}
                     label="Pressure Unit"
                     onChange={handlePresUnitChange}
+                    autoWidth
                     sx={{
-                      width: "16ch",
                       mt: 2,
                       ml: 1,
                       "& .MuiOutlinedInput-notchedOutline": {
@@ -292,27 +308,46 @@ export const Steam = (props: any) => {
           </CardContent>
           <CardActions sx={{ ml: 1, mt: 4, mb: 1 }}>
             {steamState != 0 && (
-              <Button size="medium" onClick={rust_satTemp}>
+              <Button
+                onClick={rust_satTemp}
+                startIcon={<PlayCircleOutlineIcon />}
+              >
                 Calculate
               </Button>
             )}
 
             {steamState != 0 && (
-              <Button
-                style={{ marginLeft: "auto", marginRight: "20px" }}
-                size="medium"
-                disabled={calState ? false : true}
-                onClick={() => {
-                  // 複製計算結果到 localStorage
-                  localStorage.setItem("density", res.d.toString());
-                  localStorage.setItem(
-                    "viscosity",
-                    (res.dv * 1000.0).toString()
-                  );
+              <Tooltip
+                title="Copy density and Visc to SinglePhase App"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -14],
+                        },
+                      },
+                    ],
+                  },
                 }}
               >
-                Copy params
-              </Button>
+                <Button
+                  style={{ marginLeft: "auto", marginRight: "20px" }}
+                  disabled={calState ? false : true}
+                  startIcon={<ContentCopyIcon />}
+                  onClick={() => {
+                    // 複製計算結果到 localStorage
+                    localStorage.setItem("density", res.d.toString());
+                    localStorage.setItem(
+                      "viscosity",
+                      (res.dv * 1000.0).toString()
+                    );
+                  }}
+                >
+                  Copy params
+                </Button>
+              </Tooltip>
             )}
           </CardActions>
         </Card>

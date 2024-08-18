@@ -68,7 +68,7 @@ export function parseFloatWithErrorHandling(input: string): number {
 // handle error message box
 import { message } from "@tauri-apps/api/dialog";
 
-export async function showMessage(msg: string, msgTitle: string) {
+export async function showErrorMessage(msg: string, msgTitle: string) {
   await message(msg, { title: msgTitle, type: "error" }).then((result) => {
     console.log("Message result:", result);
   });
