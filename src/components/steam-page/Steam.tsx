@@ -156,7 +156,7 @@ export const Steam = (props: any) => {
     >
       {/* 輸入條件 */}
       <Grid item xs={3} sx={{ ml: 1 }}>
-        <Card elevation={2} sx={{ maxWidth: 550 }}>
+        <Card elevation={2} sx={{ maxWidth: 550, p: 2 }}>
           <CardContent>
             <Typography
               gutterBottom
@@ -355,7 +355,7 @@ export const Steam = (props: any) => {
 
       {/* 輸出結果 */}
       {calState === false && (
-        <Grid sx={{ mt: 5, ml: 4 }}>
+        <Grid sx={{ mt: 5, ml: 1 }}>
           <img src={seuif97} alt="seuif97" style={{ width: "50vh" }} />
         </Grid>
       )}

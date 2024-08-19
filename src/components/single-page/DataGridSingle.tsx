@@ -146,8 +146,7 @@ export default function DataGridSingle(props: any) {
         component="div"
         sx={{ mt: 1 }}
       >
-        Note: Please click the pipe size will be choiced and displayed in the
-        footer.
+        Note: Click the pipe size will be choiced and displayed in the footer.
       </Typography>
     </Box>
   );
