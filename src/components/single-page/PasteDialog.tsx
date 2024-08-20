@@ -5,6 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import ContentPasteOffIcon from "@mui/icons-material/ContentPasteOff";
 
 export default function PasteDialog(props: any) {
   const { setDensity, setViscosity } = props;
@@ -35,10 +36,9 @@ export default function PasteDialog(props: any) {
   return (
     <React.Fragment>
       <Button
-        variant="text"
-        color="primary"
+        startIcon={<ContentPasteOffIcon />}
         onClick={handleClickOpen}
-        sx={{ ml: 2 }}
+        sx={{ ml: 6 }}
       >
         Paste props
       </Button>

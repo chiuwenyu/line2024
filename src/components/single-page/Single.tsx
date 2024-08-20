@@ -13,6 +13,7 @@ import { dialog } from "@tauri-apps/api";
 import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import pipelinePNG from "../../assets/pipeline sizing.png";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 import {
   Button,
@@ -1012,11 +1013,9 @@ export const Single = () => {
           </Box>
           <Grid display={"flex"} flexDirection={"row"}>
             <Button
-              size="large"
-              variant="contained"
               color="primary"
+              startIcon={<PlayCircleOutlineIcon />}
               onClick={handleExecuteButtonClick}
-              sx={{ borderRadius: "20px" }}
             >
               {" "}
               Execute{" "}

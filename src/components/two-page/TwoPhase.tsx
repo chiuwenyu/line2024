@@ -9,6 +9,8 @@ import workID from "../../assets/PipeWork.json";
 import { dialog } from "@tauri-apps/api";
 import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 import {
   Button,
@@ -1853,9 +1855,7 @@ const TwoPhase = () => {
             </CustomTabPanel>
           </Box>
           <Button
-            variant="contained"
-            size="large"
-            color="primary"
+            startIcon={<PlayCircleOutlineIcon />}
             onClick={() => setCalState(true)}
             sx={{ borderRadius: "20px", mt: 2 }}
           >
@@ -1863,14 +1863,12 @@ const TwoPhase = () => {
             Execute{" "}
           </Button>
           <Button
-            variant="contained"
-            size="large"
-            color="primary"
+            startIcon={<HighlightOffIcon />}
             onClick={() => {
               setCalState(false);
               setIdSelState(false);
             }}
-            sx={{ borderRadius: "20px", mt: 2, ml: 4 }}
+            sx={{ borderRadius: "20px", mt: 2, ml: 5 }}
           >
             {" "}
             Clear All{" "}
