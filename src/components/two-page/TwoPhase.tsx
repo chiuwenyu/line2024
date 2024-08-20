@@ -1891,7 +1891,7 @@ const TwoPhase = () => {
             sx={{ borderRadius: "20px", mt: 2, ml: 5 }}
           >
             {" "}
-            Clear All{" "}
+            Clear Output{" "}
           </Button>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}

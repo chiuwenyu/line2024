@@ -14,6 +14,7 @@ import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import pipelinePNG from "../../assets/pipeline sizing.png";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 import {
   Button,
@@ -132,6 +133,10 @@ export const Single = () => {
   };
 
   const handleExecuteButtonClick = async () => {
+    if (!ifDataInput()) {
+      setCalState(false);
+      return;
+    }
     if (optValue === "1") {
       // implement by all dia.
       const newResData: SizingData[] = [];
@@ -629,6 +634,18 @@ export const Single = () => {
     window.open(pdfDataUrl);
   };
 
+  const ifDataInput = () => {
+    if (
+      massFlowRate !== "" &&
+      density !== "" &&
+      viscosity !== "" &&
+      roughness !== ""
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
@@ -1021,6 +1038,15 @@ export const Single = () => {
               Execute{" "}
             </Button>
             <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
+            <Button
+              color="primary"
+              startIcon={<HighlightOffIcon />}
+              onClick={() => setCalState(false)}
+              sx={{ ml: 5 }}
+            >
+              {" "}
+              Clear Output{" "}
+            </Button>
           </Grid>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}
