@@ -1896,7 +1896,7 @@ const Thermo = () => {
       id: "1",
       item: "REBOILER TYPE",
       unit: "(--)",
-      value: "HORIZONTAL J",
+      value: "HORI. J",
     });
     conRes.push({
       id: "2",
