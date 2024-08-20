@@ -1012,10 +1012,11 @@ export const Single = () => {
           </Box>
           <Grid display={"flex"} flexDirection={"row"}>
             <Button
+              size="large"
               variant="contained"
               color="primary"
               onClick={handleExecuteButtonClick}
-              sx={{ borderRadius: "20px", width: "120px", minWidth: "120px" }}
+              sx={{ borderRadius: "20px" }}
             >
               {" "}
               Execute{" "}

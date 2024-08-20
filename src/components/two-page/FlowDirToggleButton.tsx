@@ -1,22 +1,18 @@
-import {
-  Box,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
-import { styled } from "@mui/system";
+import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { border, styled } from "@mui/system";
 import UploadIcon from "@mui/icons-material/Upload";
 import ForwardIcon from "@mui/icons-material/Forward";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+  border: "none",
   "&.Mui-selected": {
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
     color: "white",
   },
 
   "&.Mui-selected:hover": {
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.primary.light,
     color: "white",
   },
 }));
@@ -26,16 +22,7 @@ const FlowDirToggleButton = (props: any) => {
 
   return (
     <>
-      <Typography
-        gutterBottom
-        variant="body1"
-        component="div"
-        sx={{ mb: 1, ml: 0.5, fontWeight: "medium" }}
-      >
-        Flow Direction :{" "}
-      </Typography>
       <ToggleButtonGroup
-        color="secondary"
         value={direct}
         exclusive
         onChange={handleDirectChange}

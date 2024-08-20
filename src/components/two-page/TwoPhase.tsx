@@ -11,6 +11,7 @@ import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 
 import {
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -1851,12 +1852,29 @@ const TwoPhase = () => {
               </Box>
             </CustomTabPanel>
           </Box>
-
-          <FlowDirToggleButton
-            direct={direct}
-            handleDirectChange={handleDirectChange}
-          />
-
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            onClick={() => setCalState(true)}
+            sx={{ borderRadius: "20px", mt: 2 }}
+          >
+            {" "}
+            Execute{" "}
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            onClick={() => {
+              setCalState(false);
+              setIdSelState(false);
+            }}
+            sx={{ borderRadius: "20px", mt: 2, ml: 4 }}
+          >
+            {" "}
+            Clear All{" "}
+          </Button>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}
             setOptErrOpen={setOptDiaErrOpen}
@@ -1866,14 +1884,21 @@ const TwoPhase = () => {
             setOptErrOpen={setOptPresErrOpen}
           />
         </Grid>
+
         <Grid item xs={4} sm={4} md={4} lg={6} xl={7} sx={{ width: "100%" }}>
           {calState && (
-            <DataGridTwo
-              rows={resData}
-              setSelectId={setSelectId}
-              setIdSelState={setIdSelState}
-              direct={direct}
-            />
+            <Box>
+              <FlowDirToggleButton
+                direct={direct}
+                handleDirectChange={handleDirectChange}
+              />
+              <DataGridTwo
+                rows={resData}
+                setSelectId={setSelectId}
+                setIdSelState={setIdSelState}
+                direct={direct}
+              />
+            </Box>
           )}
           {idSelState && direct.includes("up") && (
             <DataListVU vuData={vuData} />

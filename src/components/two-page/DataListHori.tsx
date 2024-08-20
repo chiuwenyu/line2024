@@ -9,7 +9,7 @@ const DataListHori = (props: any) => {
 
   return (
     <>
-      <Box sx={{ width: "auto", minWidth: "730px", height: "ˇ360px", mt: 8 }}>
+      <Box sx={{ width: "auto", minWidth: "730px", height: "ˇ360px", mt: 2 }}>
         <Typography
           gutterBottom
           variant="h5"

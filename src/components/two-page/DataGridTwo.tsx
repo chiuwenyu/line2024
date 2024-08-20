@@ -1,6 +1,7 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Stack, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import { blue, grey } from "@mui/material/colors";
 
 export interface TwoSizingData {
   id: string;
@@ -67,6 +68,10 @@ const columns: GridColDef<TwoSizingData>[] = [
   },
 ];
 
+const gucolor = blue[900];
+const ghcolor = blue[800];
+const gdcolor = blue[700];
+
 export default function DataGridTwo(props: any) {
   const { rows, setSelectId, setIdSelState, direct } = props;
   let StrTitle = direct.includes("up")
@@ -78,31 +83,16 @@ export default function DataGridTwo(props: any) {
     : "";
   StrTitle = StrTitle + " Line Sizing Result :";
   let directColor = direct.includes("up")
-    ? "success.main"
+    ? gucolor
     : direct.includes("down")
-    ? "error.main"
+    ? gdcolor
     : direct.includes("horizontal")
-    ? "warning.main"
+    ? ghcolor
     : "";
 
   return (
     direct != "" && (
       <Box sx={{ width: "100%", minWidth: "750px", height: "370px" }}>
-        <Stack display={"flex"} justifyContent={"flex-end"}>
-          <span>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="span"
-              sx={{
-                fontWeight: "medium",
-              }}
-            >
-              {StrTitle}
-            </Typography>
-            <Box sx={{ float: "right" }}></Box>
-          </span>
-        </Stack>
         <DataGrid
           rows={rows}
           autoHeight={false}
