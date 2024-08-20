@@ -119,7 +119,7 @@ const TwoPhase = () => {
   const [vaporViscosity, setVaporViscosity] = useState("");
   const [liquidViscosity, setLiquidViscosity] = useState("");
   const [surfaceTension, setSurfaceTension] = useState("");
-  const [slope, setSlope] = useState("");
+  const [slope, setSlope] = useState("0");
   const [roughness, setRoughness] = useState("");
   const [safeFactor, setSafeFactor] = useState("1.2");
 
@@ -1394,6 +1394,22 @@ const TwoPhase = () => {
     window.open(pdfDataUrl);
   };
 
+  const ifDataInput = () => {
+    if (
+      liquidFlowRate !== "" &&
+      vaporFlowRate !== "" &&
+      liquidDensity !== "" &&
+      vaporDensity !== "" &&
+      liquidViscosity !== "" &&
+      vaporViscosity !== "" &&
+      surfaceTension !== "" &&
+      roughness !== ""
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <Stack direction="row" spacing={1.5} marginBottom={"20px"}>
@@ -1856,7 +1872,11 @@ const TwoPhase = () => {
           </Box>
           <Button
             startIcon={<PlayCircleOutlineIcon />}
-            onClick={() => setCalState(true)}
+            onClick={() => {
+              if (ifDataInput()) {
+                setCalState(true);
+              }
+            }}
             sx={{ borderRadius: "20px", mt: 2 }}
           >
             {" "}
