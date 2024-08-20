@@ -73,7 +73,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "main",
     headerName: "MAIN",
-    width: 90,
+    width: 125,
     resizable: false,
     sortable: false,
     disableColumnMenu: true,
@@ -84,7 +84,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "manifold",
     headerName: "MANIFOLD",
-    width: 90,
+    width: 125,
     resizable: false,
     editable: false,
     sortable: false,
@@ -95,7 +95,7 @@ const columns: GridColDef<DownAndRiserData>[] = [
   {
     field: "lead",
     headerName: "LEAD",
-    width: 90,
+    width: 125,
     resizable: false,
     editable: false,
     sortable: false,
@@ -201,7 +201,7 @@ const ThermoResultPage = (props: any) => {
         Check Result :
       </Typography>
       <Grid item xs={4} sm={4} md={4} lg={6} xl={6} sx={{ ml: 1 }}>
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: "80%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={value}
