@@ -1888,10 +1888,10 @@ const TwoPhase = () => {
               setCalState(false);
               setIdSelState(false);
             }}
-            sx={{ borderRadius: "20px", mt: 2, ml: 5 }}
+            sx={{ borderRadius: "20px", mt: 2, ml: 2 }}
           >
             {" "}
-            Clear Output{" "}
+            Clear
           </Button>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}

@@ -1,7 +1,6 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Stack, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { blue, grey } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 
 export interface TwoSizingData {
   id: string;

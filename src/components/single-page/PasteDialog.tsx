@@ -38,9 +38,9 @@ export default function PasteDialog(props: any) {
       <Button
         startIcon={<ContentPasteOffIcon />}
         onClick={handleClickOpen}
-        sx={{ ml: 6 }}
+        sx={{ ml: 2 }}
       >
-        Paste props
+        Paste
       </Button>
       <Dialog
         open={open}

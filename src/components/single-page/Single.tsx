@@ -1042,10 +1042,10 @@ export const Single = () => {
               color="primary"
               startIcon={<HighlightOffIcon />}
               onClick={() => setCalState(false)}
-              sx={{ ml: 5 }}
+              sx={{ ml: 2 }}
             >
               {" "}
-              Clear Output{" "}
+              Clear
             </Button>
           </Grid>
           <OptDiaErrorDialog
