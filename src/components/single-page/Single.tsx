@@ -31,6 +31,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
 import PasteDialog from "./PasteDialog";
 import { OptDiaErrorDialog, OptPresErrorDialog } from "./OptErrorDialog";
 import { SingleData, Result } from "./SingleDataType";
@@ -1038,15 +1039,17 @@ export const Single = () => {
               Execute{" "}
             </Button>
             <PasteDialog setDensity={setDensity} setViscosity={setViscosity} />
-            <Button
-              color="primary"
-              startIcon={<HighlightOffIcon />}
-              onClick={() => setCalState(false)}
-              sx={{ ml: 2 }}
-            >
-              {" "}
-              Clear
-            </Button>
+            <Tooltip title="Clear Output">
+              <Button
+                color="primary"
+                startIcon={<HighlightOffIcon />}
+                onClick={() => setCalState(false)}
+                sx={{ ml: 2 }}
+              >
+                {" "}
+                Clear
+              </Button>
+            </Tooltip>
           </Grid>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}

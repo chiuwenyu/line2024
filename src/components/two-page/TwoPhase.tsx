@@ -28,6 +28,7 @@ import {
   Typography,
 } from "@mui/material";
 import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
 
 import {
   OptDiaErrorDialog,
@@ -1882,17 +1883,19 @@ const TwoPhase = () => {
             {" "}
             Execute{" "}
           </Button>
-          <Button
-            startIcon={<HighlightOffIcon />}
-            onClick={() => {
-              setCalState(false);
-              setIdSelState(false);
-            }}
-            sx={{ borderRadius: "20px", mt: 2, ml: 2 }}
-          >
-            {" "}
-            Clear
-          </Button>
+          <Tooltip title="Clear Output">
+            <Button
+              startIcon={<HighlightOffIcon />}
+              onClick={() => {
+                setCalState(false);
+                setIdSelState(false);
+              }}
+              sx={{ borderRadius: "20px", mt: 2, ml: 2 }}
+            >
+              {" "}
+              Clear
+            </Button>
+          </Tooltip>
           <OptDiaErrorDialog
             optErrOpen={optDiaErrOpen}
             setOptErrOpen={setOptDiaErrOpen}

@@ -6,6 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ContentPasteOffIcon from "@mui/icons-material/ContentPasteOff";
+import { Tooltip } from "@mui/material";
 
 export default function PasteDialog(props: any) {
   const { setDensity, setViscosity } = props;
@@ -35,13 +36,15 @@ export default function PasteDialog(props: any) {
 
   return (
     <React.Fragment>
-      <Button
-        startIcon={<ContentPasteOffIcon />}
-        onClick={handleClickOpen}
-        sx={{ ml: 2 }}
-      >
-        Paste
-      </Button>
+      <Tooltip title="Paste props from STEAM APP">
+        <Button
+          startIcon={<ContentPasteOffIcon />}
+          onClick={handleClickOpen}
+          sx={{ ml: 2 }}
+        >
+          Paste
+        </Button>
+      </Tooltip>
       <Dialog
         open={open}
         onClose={handleClose}
