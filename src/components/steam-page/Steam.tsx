@@ -155,7 +155,7 @@ export const Steam = (props: any) => {
       }}
     >
       {/* 輸入條件 */}
-      <Grid item xs={3} sx={{ ml: 1 }}>
+      <Grid item xs={3} sm={3} md={3} lg={4} xl={4} sx={{ ml: 1 }}>
         <Card elevation={2} sx={{ maxWidth: 550, p: 2 }}>
           <CardContent>
             <Typography
