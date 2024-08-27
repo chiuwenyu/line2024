@@ -36,7 +36,7 @@ const columns: GridColDef<SizingData>[] = [
   },
   {
     field: "vel",
-    headerName: "VelocityID\n    (m/s)",
+    headerName: "Velocity\n  (m/s)",
     width: 100,
     resizable: false,
     sortable: false,
@@ -47,7 +47,7 @@ const columns: GridColDef<SizingData>[] = [
   },
   {
     field: "presDrop",
-    headerName: "  Pres. DropID\n(kg/cm^2/100m)",
+    headerName: "     Pres. Drop\n(kg/cm^2/100m)",
     width: 140,
     resizable: false,
     editable: false,
@@ -58,7 +58,7 @@ const columns: GridColDef<SizingData>[] = [
   },
   {
     field: "vh",
-    headerName: " 1.0 V.HID\n(kg/m/s^2)",
+    headerName: "   1.0 V.H\n(kg/m/s^2)",
     width: 140,
     resizable: false,
     editable: false,
