@@ -12,6 +12,7 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import VUAnnular from "../../assets/VU-Annular.png";
+import VUDB from "../../assets/VU-DB.png";
 
 import {
   Button,
@@ -1937,6 +1938,10 @@ const TwoPhase = () => {
                 {(vuData as VUDataType).flow_regime ===
                   "Vertical Up Annular Flow" && (
                   <img src={VUAnnular} alt="VUAnnular" />
+                )}
+                {(vuData as VUDataType).flow_regime ===
+                  "Vertical Up Finely Dispersed Bubble Flow" && (
+                  <img src={VUDB} alt="VUDispersedBibble" />
                 )}
               </Grid>
             </Grid>
