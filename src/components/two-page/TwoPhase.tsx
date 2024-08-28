@@ -13,6 +13,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import VUAnnular from "../../assets/VU-Annular.png";
 import VUDB from "../../assets/VU-DB.png";
+import VUBubble from "../../assets/VU-Bubble.png";
 
 import {
   Button,
@@ -1942,6 +1943,10 @@ const TwoPhase = () => {
                 {(vuData as VUDataType).flow_regime ===
                   "Vertical Up Finely Dispersed Bubble Flow" && (
                   <img src={VUDB} alt="VUDispersedBibble" />
+                )}
+                {(vuData as VUDataType).flow_regime ===
+                  "Vertical Up Bubble Flow" && (
+                  <img src={VUBubble} alt="VUBibble" />
                 )}
               </Grid>
             </Grid>
