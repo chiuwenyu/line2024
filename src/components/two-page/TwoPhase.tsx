@@ -11,6 +11,7 @@ import { writeTextFile, readTextFile, BaseDirectory } from "@tauri-apps/api/fs";
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import VUAnnular from "../../assets/VU-Annular.png";
 
 import {
   Button,
@@ -1922,7 +1923,23 @@ const TwoPhase = () => {
             </Box>
           )}
           {idSelState && direct.includes("up") && (
-            <DataListVU vuData={vuData} />
+            <Grid sx={{ display: "flex", flexDirection: "row" }}>
+              <DataListVU vuData={vuData} />
+              <Grid
+                item
+                xs={1}
+                sm={1}
+                md={1}
+                lg={2}
+                xl={2}
+                sx={{ mt: 10, ml: 10 }}
+              >
+                {(vuData as VUDataType).flow_regime ===
+                  "Vertical Up Annular Flow" && (
+                  <img src={VUAnnular} alt="VUAnnular" />
+                )}
+              </Grid>
+            </Grid>
           )}
           {idSelState && direct.includes("horizontal") && (
             <DataListHori horiData={horiData} />
