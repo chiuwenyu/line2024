@@ -14,6 +14,10 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import VUAnnular from "../../assets/VU-Annular.png";
 import VUDB from "../../assets/VU-DB.png";
 import VUBubble from "../../assets/VU-Bubble.png";
+import VUSlugChurn from "../../assets/VU-Slug_and_Churn.png";
+import VDAnnular from "../../assets/VD-Annular.png";
+import VDSlug from "../../assets/VD-Slug.png";
+import VDDB from "../../assets/VD-DB.png";
 
 import {
   Button,
@@ -1934,7 +1938,7 @@ const TwoPhase = () => {
                 md={1}
                 lg={2}
                 xl={2}
-                sx={{ mt: 10, ml: 10 }}
+                sx={{ mt: 10, ml: 6 }}
               >
                 {(vuData as VUDataType).flow_regime ===
                   "Vertical Up Annular Flow" && (
@@ -1948,6 +1952,10 @@ const TwoPhase = () => {
                   "Vertical Up Bubble Flow" && (
                   <img src={VUBubble} alt="VUBibble" />
                 )}
+                {(vuData as VUDataType).flow_regime ===
+                  "Vertical Up Slug and Churn Flow" && (
+                  <img src={VUSlugChurn} alt="VUSlugChurn" />
+                )}
               </Grid>
             </Grid>
           )}
@@ -1955,7 +1963,31 @@ const TwoPhase = () => {
             <DataListHori horiData={horiData} />
           )}
           {idSelState && direct.includes("down") && (
-            <DataListVD vdData={vdData} />
+            <Grid sx={{ display: "flex", flexDirection: "row" }}>
+              <DataListVD vdData={vdData} />
+              <Grid
+                item
+                xs={1}
+                sm={1}
+                md={1}
+                lg={2}
+                xl={2}
+                sx={{ mt: 10, ml: 6 }}
+              >
+                {(vdData as VDDataType).flow_regime ===
+                  "Vertical Down Annular Flow" && (
+                  <img src={VDAnnular} alt="VDAnnular" />
+                )}
+                {(vdData as VDDataType).flow_regime ===
+                  "Vertical Down Slug Flow" && (
+                  <img src={VDSlug} alt="VDSlug" />
+                )}
+                {(vdData as VDDataType).flow_regime ===
+                  "Vertical Down Dispersed-Bubble Flow" && (
+                  <img src={VDDB} alt="VDDispersedBubble" />
+                )}
+              </Grid>
+            </Grid>
           )}
         </Grid>
       </Grid>
