@@ -18,6 +18,12 @@ import VUSlugChurn from "../../assets/VU-Slug_and_Churn.png";
 import VDAnnular from "../../assets/VD-Annular.png";
 import VDSlug from "../../assets/VD-Slug.png";
 import VDDB from "../../assets/VD-DB.png";
+import HoriSS from "../../assets/HORI-SS.png";
+import HoriSW from "../../assets/HORI-SW.png";
+import HoriAnnularDispersed from "../../assets/HORI-AnnularDispersed.png";
+import HoriDispersedBubble from "../../assets/HORI-DispersedBubble.png";
+import HoriElongatedBubble from "../../assets/HORI-ElongatedBubble.png";
+import HoriIntermittentSlug from "../../assets/HORI-IntermittentSlug.png";
 
 import {
   Button,
@@ -1960,7 +1966,43 @@ const TwoPhase = () => {
             </Grid>
           )}
           {idSelState && direct.includes("horizontal") && (
-            <DataListHori horiData={horiData} />
+            <Grid sx={{ display: "flex", flexDirection: "row" }}>
+              <DataListHori horiData={horiData} />
+              <Grid
+                item
+                xs={1}
+                sm={1}
+                md={1}
+                lg={2}
+                xl={2}
+                sx={{ mt: 10, ml: 3 }}
+              >
+                {(horiData as HORIDataType).flow_regime ===
+                  "Hori Stratified Smooth Flow" && (
+                  <img src={HoriSS} alt="HoriStratifiedSmooth" />
+                )}
+                {(horiData as HORIDataType).flow_regime ===
+                  "Hori Stratified Wavy Flow" && (
+                  <img src={HoriSW} alt="HoriStratifiedWavy" />
+                )}
+                {(horiData as HORIDataType).flow_regime ===
+                  "Hori Annular-Dispersed Flow" && (
+                  <img src={HoriAnnularDispersed} alt="HoriAnnularDispedsed" />
+                )}
+                {(horiData as HORIDataType).flow_regime ===
+                  "Hori Dispersed Bubble Flow" && (
+                  <img src={HoriDispersedBubble} alt="HoriDispersedBubble" />
+                )}
+                {(horiData as HORIDataType).flow_regime ===
+                  "Hori Elongated Bubble Flow" && (
+                  <img src={HoriElongatedBubble} alt="HoriElongatedBubble" />
+                )}
+                {(horiData as HORIDataType).flow_regime ===
+                  "Hori Intermittent-Slug Flow" && (
+                  <img src={HoriIntermittentSlug} alt="HoriIntermittentSlug" />
+                )}
+              </Grid>
+            </Grid>
           )}
           {idSelState && direct.includes("down") && (
             <Grid sx={{ display: "flex", flexDirection: "row" }}>
