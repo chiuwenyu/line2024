@@ -9,7 +9,7 @@ const DataListVD = (props: any) => {
 
   return (
     <>
-      <Box sx={{ width: "auto", minWidth: "730px", height: "ˇ360px", mt: 2 }}>
+      <Box sx={{ width: "auto", minWidth: "60%", height: "ˇ360px", mt: 2 }}>
         <Typography
           gutterBottom
           variant="h5"
