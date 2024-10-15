@@ -110,7 +110,7 @@ const RiserK = (props: any) => {
 
         <TextField
           id="riser-pipe-diameter-main"
-          label="Pipe Diameter - Main (m)"
+          label="Pipe Diameter - Main (in)"
           variant="outlined"
           value={riserIDMain}
           color="secondary"
